@@ -72,7 +72,7 @@ export function Logo({ className = "" }: { className?: string }) {
             viewBox="0 0 500 500"
             initial="initial"
             animate="animate"
-            className="h-full w-full p-16"
+            className="h-full w-full p-2"
             preserveAspectRatio="xMidYMid meet"
          >
             {/* Grid Background */}
