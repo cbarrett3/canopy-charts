@@ -49,6 +49,9 @@ export default {
           foreground: "hsl(var(--popover-foreground))",
         },
       },
+      fontFamily: {
+        sans: ['var(--font-space-grotesk)'],
+      },
     },
   },
   plugins: [],
