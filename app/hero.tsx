@@ -46,7 +46,7 @@ export function Hero() {
                mounted ? "animate-in fade-in-50 duration-1000" : "opacity-0"
             )}>
                <h1 className="mb-2">
-                  <span className="block text-3xl font-bold text-green-500 sm:text-4xl md:text-5xl lg:text-6xl">
+                  <span className="block text-3xl font-bold bg-[linear-gradient(90deg,#15803d,#22c55e,#4ade80,#22c55e,#15803d)] inline-block text-transparent bg-clip-text animate-shine sm:text-4xl md:text-5xl lg:text-6xl">
                      Canopy Charts
                   </span>
                   <span className="mt-2 block text-2xl font-bold text-gray-200 sm:text-3xl md:text-4xl lg:mt-4 lg:text-5xl">
