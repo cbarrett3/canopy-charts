@@ -1,16 +1,7 @@
-import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
-import "./globals.css";
+import { Inter } from "next/font/google"
+import "./globals.css"
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-});
-
-export const metadata: Metadata = {
-  title: "EcoViz - Environmental Data Visualization",
-  description: "Create stunning, interactive environmental data visualizations with ease",
-};
+const inter = Inter({ subsets: ["latin"] })
 
 export default function RootLayout({
   children,
@@ -18,8 +9,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={spaceGrotesk.variable}>
-      <body className={spaceGrotesk.className}>{children}</body>
+    <html lang="en" className="dark">
+      <body className={inter.className}>{children}</body>
     </html>
-  );
+  )
 }
+
