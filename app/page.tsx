@@ -1,12 +1,18 @@
-import Image from "next/image";
-import NatureVizApp from "./components/NatureVizApp";
+import { Navbar } from "@/components/navbar"
+import { Hero } from "@/components/hero"
+import { Features } from "@/components/features"
+import { Footer } from "@/components/footer"
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <NatureVizApp />
+    <div className="min-h-screen bg-[#1B1B1B]">
+      <Navbar />
+      <main>
+        <Hero />
+        <Features />
       </main>
+      <Footer />
     </div>
-  );
+  )
 }
+
