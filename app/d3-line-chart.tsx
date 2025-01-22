@@ -1,8 +1,8 @@
 "use client"
 
-// components/D3LineChart.tsx
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
+import { defaultThemeColor } from './utils/colors';
 
 // Define the props interface
 interface DataPoint {
@@ -21,6 +21,7 @@ interface D3LineChartProps {
    labelColor?: string;
    xAxisTitle?: string;
    yAxisTitle?: string;
+   themeColor?: string;
 }
 
 const D3LineChart: React.FC<D3LineChartProps> = ({
@@ -38,6 +39,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
    labelColor = 'rgba(105, 105, 105, 0.8)',
    xAxisTitle,
    yAxisTitle,
+   themeColor = defaultThemeColor
 }) => {
    const svgRef = useRef<SVGSVGElement | null>(null);
    const containerRef = useRef<HTMLDivElement | null>(
@@ -176,9 +178,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
                .attr('fill', 'none')
                .attr(
                   'stroke',
-                  lineColors[
-                  index % lineColors.length
-                  ],
+                  themeColor,
                )
                .attr('stroke-width', 2)
                .attr('d', line)
@@ -243,9 +243,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
                .attr('r', 5)
                .attr(
                   'fill',
-                  lineColors[
-                  index % lineColors.length
-                  ],
+                  themeColor,
                )
                .attr('cursor', 'pointer')
                .on('mouseover', function (event, d) {
@@ -288,10 +286,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
                      .attr('r', 5)
                      .attr(
                         'fill',
-                        lineColors[
-                        index %
-                        lineColors.length
-                        ],
+                        themeColor,
                      );
                });
             console.log(points)
@@ -319,7 +314,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
          return () =>
             resizeObserver.unobserve(container);
       }
-   }, [data, datasets, lineColors]);
+   }, [data, datasets, lineColors, themeColor]);
 
    return (
       <div
