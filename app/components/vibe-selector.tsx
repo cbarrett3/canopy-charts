@@ -4,59 +4,73 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 const vibes = [
   {
-    id: 'modern',
-    name: 'Modern',
-    description: 'Clean, minimal, with subtle animations',
-    properties: {
-      padding: 20,
-      borderRadius: 8,
-      transitionDuration: 300,
-      interactivityLevel: 'subtle'
-    }
+    id: 'evergreen',
+    name: 'Evergreen',
+    description: 'Sharp, structured charts with clear hierarchy - like the strong vertical lines of a pine tree',
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3L20 15H4L12 3Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M12 8L18 17H6L12 8Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M11 21H13V17H11V21Z" stroke="currentColor" strokeWidth="1.5"/>
+      </svg>
+    )
   },
   {
-    id: 'crafty',
-    name: 'Crafty',
-    description: 'Organic, textured, handcrafted feel',
-    properties: {
-      padding: 24,
-      borderRadius: 12,
-      transitionDuration: 400,
-      interactivityLevel: 'playful'
-    }
+    id: 'palm',
+    name: 'Palm Tree',
+    description: 'Flowing and dynamic with graceful curves - inspired by swaying palm fronds in the breeze',
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3C8 3 4 8 8 12C4 12 3 16 6 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M12 3C16 3 20 8 16 12C20 12 21 16 18 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M12 3V21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    )
   },
   {
-    id: 'friendly',
-    name: 'Friendly',
-    description: 'Rounded corners, bouncy animations',
-    properties: {
-      padding: 16,
-      borderRadius: 16,
-      transitionDuration: 500,
-      interactivityLevel: 'engaging'
-    }
+    id: 'bamboo',
+    name: 'Bamboo',
+    description: 'Clean and minimal with balanced spacing - reflecting the elegant segments of bamboo stalks',
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3V21" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M8 6H16M8 10H16M8 14H16M8 18H16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    )
   },
   {
-    id: 'sharp',
-    name: 'Sharp',
-    description: 'Bold angles, quick transitions',
-    properties: {
-      padding: 12,
-      borderRadius: 4,
-      transitionDuration: 200,
-      interactivityLevel: 'precise'
-    }
+    id: 'willow',
+    name: 'Willow',
+    description: 'Gentle and organic with soft transitions - like willow branches cascading downward',
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M12 8C16 8 20 12 16 16M12 8C8 8 4 12 8 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M12 21V16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    )
   },
   {
-    id: 'elegant',
-    name: 'Elegant',
-    description: 'Refined spacing, smooth transitions',
-    properties: {
-      padding: 28,
-      borderRadius: 6,
-      transitionDuration: 600,
-      interactivityLevel: 'graceful'
-    }
+    id: 'succulent',
+    name: 'Succulent',
+    description: 'Compact and modern with circular patterns - inspired by the geometric forms of succulents',
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z" stroke="currentColor" strokeWidth="1.5"/>
+        <path d="M12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7Z" stroke="currentColor" strokeWidth="1.5"/>
+      </svg>
+    )
+  },
+  {
+    id: 'vine',
+    name: 'Vine',
+    description: 'Interconnected and flowing with organic connections - like climbing vines linking elements together',
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 17C8 17 8 7 12 7C16 7 16 17 21 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M3 12C8 12 16 12 21 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      </svg>
+    )
   }
 ]
 
@@ -72,21 +86,18 @@ export function VibeSelector({ currentVibe, onVibeChange }: VibeSelectorProps) {
         <div className="flex items-center gap-2 mb-4">
           <div className="h-3 w-3">
             <svg viewBox="0 0 15 15" className="h-full w-full text-gray-400">
-              <path
-                d="M7.5 0.875C3.86 0.875 0.875 3.86 0.875 7.5C0.875 11.14 3.86 14.125 7.5 14.125C11.14 14.125 14.125 11.14 14.125 7.5C14.125 3.86 11.14 0.875 7.5 0.875ZM7.5 13.125C4.42 13.125 1.875 10.58 1.875 7.5C1.875 4.42 4.42 1.875 7.5 1.875C10.58 1.875 13.125 4.42 13.125 7.5C13.125 10.58 10.58 13.125 7.5 13.125Z"
-                fill="currentColor"
-              />
+              <path d="M7.5 3C9.5 3 11 4 11 6C11 8 9.5 9 7.5 9C5.5 9 4 8 4 6C4 4 5.5 3 7.5 3ZM7.5 1C4.5 1 2 3 2 6C2 9 4.5 11 7.5 11C10.5 11 13 9 13 6C13 3 10.5 1 7.5 1Z" fill="currentColor"/>
             </svg>
           </div>
-          <h3 className="text-sm font-medium text-gray-200">Chart Vibe</h3>
+          <h3 className="text-sm font-medium text-gray-200">Chart Style</h3>
         </div>
-        <div className="grid grid-cols-3 gap-2 flex-1">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 flex-1">
           <TooltipProvider>
             {vibes.map((vibe) => (
               <Tooltip key={vibe.id} delayDuration={200}>
                 <TooltipTrigger asChild>
                   <button
-                    className={`group relative h-12 w-full overflow-hidden rounded-md bg-white/5 transition-all duration-200 
+                    className={`group relative h-16 w-full overflow-hidden rounded-md bg-white/5 transition-all duration-200 
                       ${currentVibe === vibe.id ? 'ring-2 ring-white/20' : 'hover:ring-1 hover:ring-white/10'}`}
                     onClick={() => onVibeChange(vibe.id)}
                   >
@@ -94,7 +105,10 @@ export function VibeSelector({ currentVibe, onVibeChange }: VibeSelectorProps) {
                       ${currentVibe === vibe.id ? 'opacity-100' : ''}`}>
                       <div className="h-full w-full bg-gradient-to-br from-white/10 to-transparent" />
                     </div>
-                    <span className="relative text-xs font-medium text-gray-200">{vibe.name}</span>
+                    <div className="relative flex flex-col items-center justify-center gap-1">
+                      <span className="text-gray-400">{vibe.icon}</span>
+                      <span className="text-xs font-medium text-gray-200">{vibe.name}</span>
+                    </div>
                   </button>
                 </TooltipTrigger>
                 <TooltipContent 
