@@ -36,6 +36,12 @@ const chartStyles: Record<ChartStyle, {
       glowColor?: string;
       glowRadius?: number;
    };
+   legend: {
+      shape: 'rect' | 'roundedRect' | 'pill' | 'leaf' | 'diamond' | 'hexagon';
+      fontSize: number;
+      padding: number;
+      itemSpacing: number;
+   };
 }> = {
    modern: {
       shapes: { cornerRadius: 6 },
@@ -48,6 +54,12 @@ const chartStyles: Record<ChartStyle, {
          hoverDuration: 200,
          hoverEffect: 'scale',
          activeScale: 1.1
+      },
+      legend: {
+         shape: 'rect',
+         fontSize: 12,
+         padding: 4,
+         itemSpacing: 12
       }
    },
    evergreen: {
@@ -63,6 +75,12 @@ const chartStyles: Record<ChartStyle, {
          activeScale: 1.0,
          glowColor: '#4CAF50',
          glowRadius: 4
+      },
+      legend: {
+         shape: 'roundedRect',
+         fontSize: 12,
+         padding: 4,
+         itemSpacing: 10
       }
    },
    palm: {
@@ -76,6 +94,12 @@ const chartStyles: Record<ChartStyle, {
          hoverDuration: 400,
          hoverEffect: 'sway',
          activeScale: 1.0
+      },
+      legend: {
+         shape: 'pill',
+         fontSize: 13,
+         padding: 5,
+         itemSpacing: 14
       }
    },
    bamboo: {
@@ -89,6 +113,12 @@ const chartStyles: Record<ChartStyle, {
          hoverDuration: 300,
          hoverEffect: 'bounce',
          activeScale: 1.15
+      },
+      legend: {
+         shape: 'rect',
+         fontSize: 11,
+         padding: 3,
+         itemSpacing: 8
       }
    },
    willow: {
@@ -99,9 +129,16 @@ const chartStyles: Record<ChartStyle, {
          type: 'cascade'
       },
       interactivity: {
-         hoverDuration: 600,
+         hoverDuration: 1200,
          hoverEffect: 'pulse',
-         activeScale: 1.05
+         activeScale: 1.05,
+         glowRadius: 3
+      },
+      legend: {
+         shape: 'leaf',
+         fontSize: 13,
+         padding: 6,
+         itemSpacing: 16
       }
    },
    succulent: {
@@ -112,9 +149,16 @@ const chartStyles: Record<ChartStyle, {
          type: 'spiral'
       },
       interactivity: {
-         hoverDuration: 500,
+         hoverDuration: 800,
          hoverEffect: 'twist',
-         activeScale: 1.08
+         activeScale: 1.05,
+         glowRadius: 2
+      },
+      legend: {
+         shape: 'hexagon',
+         fontSize: 12,
+         padding: 5,
+         itemSpacing: 14
       }
    }
 };
@@ -150,7 +194,7 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
       const xScale = d3
          .scaleBand()
          .domain(data.map(d => d.label))
-         .range([0, innerWidth])
+         .range([0, innerWidth - 120]) // Reserve space for legend
          .padding(0.3);
 
       const yScale = d3
@@ -358,8 +402,31 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
          const config = chartStyles[vibe] || chartStyles.modern;
          const bar = d3.select(this);
          
-         // Remove any existing filters
-         bar.attr('filter', null);
+         // Remove any existing filters and transforms
+         bar.attr('filter', null)
+            .attr('transform', null);
+         
+         // Create a glow filter if it doesn't exist
+         const filterId = 'glow-filter';
+         if (!svg.select(`#${filterId}`).size()) {
+            const filter = svg.append('defs')
+               .append('filter')
+               .attr('id', filterId)
+               .attr('x', '-50%')
+               .attr('y', '-50%')
+               .attr('width', '200%')
+               .attr('height', '200%');
+            
+            filter.append('feGaussianBlur')
+               .attr('stdDeviation', config.interactivity.glowRadius || 4)
+               .attr('result', 'coloredBlur');
+            
+            const feMerge = filter.append('feMerge');
+            feMerge.append('feMergeNode')
+               .attr('in', 'coloredBlur');
+            feMerge.append('feMergeNode')
+               .attr('in', 'SourceGraphic');
+         }
          
          switch (config.interactivity.hoverEffect) {
             case 'scale':
@@ -369,28 +436,6 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
                break;
             
             case 'glow':
-               // Create a glow filter if it doesn't exist
-               const filterId = 'glow-filter';
-               if (!svg.select(`#${filterId}`).size()) {
-                  const filter = svg.append('defs')
-                     .append('filter')
-                     .attr('id', filterId)
-                     .attr('x', '-50%')
-                     .attr('y', '-50%')
-                     .attr('width', '200%')
-                     .attr('height', '200%');
-                  
-                  filter.append('feGaussianBlur')
-                     .attr('stdDeviation', config.interactivity.glowRadius || 4)
-                     .attr('result', 'coloredBlur');
-                  
-                  const feMerge = filter.append('feMerge');
-                  feMerge.append('feMergeNode')
-                     .attr('in', 'coloredBlur');
-                  feMerge.append('feMergeNode')
-                     .attr('in', 'SourceGraphic');
-               }
-               
                bar.transition()
                   .duration(config.interactivity.hoverDuration)
                   .attr('filter', `url(#${filterId})`);
@@ -407,32 +452,45 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
             
             case 'sway':
                bar.transition()
-                  .duration(config.interactivity.hoverDuration)
+                  .duration(config.interactivity.hoverDuration / 3)
                   .attr('transform', 'rotate(5)')
                   .transition()
-                  .duration(config.interactivity.hoverDuration)
+                  .duration(config.interactivity.hoverDuration / 3)
                   .attr('transform', 'rotate(-5)')
                   .transition()
-                  .duration(config.interactivity.hoverDuration)
+                  .duration(config.interactivity.hoverDuration / 3)
                   .attr('transform', 'rotate(0)');
                break;
             
             case 'pulse':
+               const centerX = xScale(d.label)! + xScale.bandwidth() / 2;
+               const centerY = calculateBarY(d) + calculateBarHeight(d) / 2;
+               
                bar.transition()
-                  .duration(config.interactivity.hoverDuration / 2)
-                  .attr('opacity', 0.7)
+                  .duration(config.interactivity.hoverDuration / 4)
+                  .attr('transform', `translate(${centerX}, ${centerY}) scale(1.05) translate(${-centerX}, ${-centerY})`)
+                  .attr('filter', `url(#${filterId})`)
                   .transition()
-                  .duration(config.interactivity.hoverDuration / 2)
-                  .attr('opacity', 1);
+                  .duration(config.interactivity.hoverDuration / 4)
+                  .attr('transform', `translate(${centerX}, ${centerY}) scale(0.95) translate(${-centerX}, ${-centerY})`)
+                  .transition()
+                  .duration(config.interactivity.hoverDuration / 4)
+                  .attr('transform', `translate(${centerX}, ${centerY}) scale(1.02) translate(${-centerX}, ${-centerY})`)
+                  .transition()
+                  .duration(config.interactivity.hoverDuration / 4)
+                  .attr('transform', `translate(${centerX}, ${centerY}) scale(1) translate(${-centerX}, ${-centerY})`);
                break;
             
             case 'twist':
+               const x = xScale(d.label)! + xScale.bandwidth() / 2;
+               const y = calculateBarY(d) + calculateBarHeight(d) / 2;
+               
                bar.transition()
-                  .duration(config.interactivity.hoverDuration)
-                  .attr('transform', 'rotate(180)')
+                  .duration(config.interactivity.hoverDuration / 2)
+                  .attr('transform', `translate(${x}, ${y}) scale(1.05) rotate(15) translate(${-x}, ${-y})`)
                   .transition()
-                  .duration(config.interactivity.hoverDuration)
-                  .attr('transform', 'rotate(0)');
+                  .duration(config.interactivity.hoverDuration / 2)
+                  .attr('transform', `translate(${x}, ${y}) scale(1) rotate(0) translate(${-x}, ${-y})`);
                break;
          }
          
@@ -463,11 +521,154 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
       // Add title if provided
       if (title) {
          svg.append('text')
+            .attr('class', 'title')
             .attr('x', width / 2)
             .attr('y', margin.top / 2)
             .attr('text-anchor', 'middle')
-            .attr('fill', 'white')
+            .attr('fill', '#666')
+            .style('font-size', '16px')
             .text(title);
+      }
+
+      // Add legend with improved positioning
+      const legendConfig = chartStyles[vibe]?.legend || chartStyles.modern.legend;
+      const legendItemHeight = legendConfig.fontSize + legendConfig.itemSpacing;
+      const legendTotalHeight = data.length * legendItemHeight;
+      
+      // Position legend on the right side of the chart
+      const legendGroup = svg.append('g')
+         .attr('class', 'legend')
+         .attr('transform', `translate(${width - margin.right - 100}, ${margin.top + 5})`);
+
+      const legendItems = legendGroup.selectAll('.legend-item')
+         .data(data)
+         .join('g')
+         .attr('class', 'legend-item')
+         .attr('transform', (_, i) => `translate(0, ${i * legendItemHeight})`);
+
+      // Add legend shapes based on vibe with improved sizing
+      legendItems.each(function(d, i) {
+         const item = d3.select(this);
+         const shapeSize = legendConfig.fontSize * 0.9;
+         
+         // Add subtle hover effect to legend items
+         item.style('cursor', 'pointer')
+            .on('mouseover', function() {
+               d3.select(this).style('opacity', 0.7);
+               // Highlight corresponding bar
+               bars.filter(b => b.label === d.label)
+                  .style('opacity', 0.7);
+            })
+            .on('mouseout', function() {
+               d3.select(this).style('opacity', 1);
+               // Reset bar opacity
+               bars.filter(b => b.label === d.label)
+                  .style('opacity', 1);
+            });
+
+         switch (legendConfig.shape) {
+            case 'rect':
+               item.append('rect')
+                  .attr('width', shapeSize)
+                  .attr('height', shapeSize)
+                  .attr('fill', themeColor)
+                  .attr('rx', chartStyles[vibe]?.shapes.cornerRadius || 0);
+               break;
+               
+            case 'roundedRect':
+               item.append('rect')
+                  .attr('width', shapeSize)
+                  .attr('height', shapeSize)
+                  .attr('fill', themeColor)
+                  .attr('rx', shapeSize / 4);
+               break;
+               
+            case 'pill':
+               item.append('rect')
+                  .attr('width', shapeSize * 1.2) // Slightly wider for pill shape
+                  .attr('height', shapeSize * 0.8) // Slightly shorter for pill shape
+                  .attr('fill', themeColor)
+                  .attr('rx', shapeSize / 2)
+                  .attr('transform', `translate(0, ${shapeSize * 0.1})`); // Center vertically
+               break;
+               
+            case 'leaf':
+               const leafPath = `M${shapeSize/2},0 
+                  C${shapeSize},0 ${shapeSize},${shapeSize} ${shapeSize/2},${shapeSize} 
+                  C0,${shapeSize} 0,0 ${shapeSize/2},0`;
+               item.append('path')
+                  .attr('d', leafPath)
+                  .attr('fill', themeColor)
+                  .attr('transform', `scale(0.9)`); // Slightly smaller leaf
+               break;
+               
+            case 'diamond':
+               const diamondSize = shapeSize * 0.9;
+               item.append('path')
+                  .attr('d', `M${diamondSize/2},0 L${diamondSize},${diamondSize/2} L${diamondSize/2},${diamondSize} L0,${diamondSize/2} Z`)
+                  .attr('fill', themeColor)
+                  .attr('transform', `translate(${shapeSize * 0.05}, 0)`); // Slight horizontal adjustment
+               break;
+               
+            case 'hexagon':
+               const hexSize = shapeSize * 0.9;
+               const hexPoints = [
+                  [hexSize/2, 0],
+                  [hexSize, hexSize/4],
+                  [hexSize, hexSize*3/4],
+                  [hexSize/2, hexSize],
+                  [0, hexSize*3/4],
+                  [0, hexSize/4]
+               ];
+               item.append('polygon')
+                  .attr('points', hexPoints.map(p => p.join(',')).join(' '))
+                  .attr('fill', themeColor)
+                  .attr('transform', `translate(${shapeSize * 0.05}, 0)`); // Slight horizontal adjustment
+               break;
+         }
+
+         // Add text label with improved positioning
+         item.append('text')
+            .attr('x', shapeSize * 1.4 + legendConfig.padding)
+            .attr('y', legendConfig.fontSize * 0.75)
+            .attr('fill', '#666')
+            .style('font-size', `${legendConfig.fontSize}px`)
+            .style('font-weight', '500')
+            .text(d.label);
+      });
+
+      // Calculate and add background with improved styling
+      const legendBBox = legendGroup.node()?.getBBox();
+      if (legendBBox) {
+         // Add refined background with gradient
+         const gradientId = 'legend-gradient';
+         const gradient = svg.append('defs')
+            .append('linearGradient')
+            .attr('id', gradientId)
+            .attr('x1', '0%')
+            .attr('y1', '0%')
+            .attr('x2', '100%')
+            .attr('y2', '100%');
+
+         const baseColor = d3.color(themeColor)!;
+         gradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', baseColor.copy({opacity: 0.05}));
+         gradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', baseColor.copy({opacity: 0.1}));
+
+         legendGroup.insert('rect', ':first-child')
+            .attr('class', 'legend-bg')
+            .attr('x', -legendConfig.padding)
+            .attr('y', -legendConfig.padding)
+            .attr('width', legendBBox.width + legendConfig.padding * 2)
+            .attr('height', legendBBox.height + legendConfig.padding * 2)
+            .attr('fill', `url(#${gradientId})`)
+            .attr('rx', legendConfig.padding * 1.5)
+            .attr('stroke', d3.color(themeColor)?.darker(0.2))
+            .attr('stroke-opacity', 0.2)
+            .attr('stroke-width', 1);
       }
    }, [data, width, height, title, themeColor, vibe]);
 

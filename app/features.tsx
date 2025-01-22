@@ -12,6 +12,7 @@ import StreamChart from "./d3-stream-chart"
 import StackedBarChart from "./d3-stacked-bar-chart"
 import DonutChart from "./d3-donut-chart"
 import { AiChartSuggest } from "./components/ai-chart-suggest"
+import { ChartControls } from "./components/chart-controls"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -20,6 +21,8 @@ import { Input } from "@/components/ui/input"
 import { Slider } from "@/components/ui/slider"
 import { Command } from 'lucide-react'
 import * as d3 from 'd3'
+import { Switch } from "@/components/ui/switch"
+import { Label } from "@/components/ui/label"
 
 function CustomColorPicker({ currentColor, onChange }: { currentColor: string, onChange: (color: string) => void }) {
   const hsl = d3.hsl(currentColor)
@@ -155,6 +158,52 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
   )
 }
 
+function ChartOptions({ className }: { className?: string }) {
+  const [options, setOptions] = useState({
+    legends: true,
+    tooltips: true,
+    gridlines: true,
+    annotations: false,
+    titles: true,
+    subtitles: true,
+  });
+
+  return (
+    <div className="bg-[#1F1F1F]/50 backdrop-blur-sm border border-[#2A2A2A] rounded-lg p-4 h-full">
+      <div className="flex flex-col h-full">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="h-3 w-3 rounded-sm bg-gray-400" />
+          <h3 className="text-sm font-medium text-gray-200">Chart Elements</h3>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          {Object.entries(options).map(([key, value]) => (
+            <div
+              key={key}
+              className={`flex items-center justify-between p-2 rounded-md transition-all duration-200
+                ${value ? 'bg-[#2A2A2A]/50' : 'bg-transparent hover:bg-[#2A2A2A]/30'}`}
+            >
+              <Label
+                htmlFor={key}
+                className="text-xs font-medium capitalize text-gray-400"
+              >
+                {key}
+              </Label>
+              <Switch
+                id={key}
+                checked={value}
+                onCheckedChange={(checked) =>
+                  setOptions((prev) => ({ ...prev, [key]: checked }))
+                }
+                className="data-[state=checked]:bg-gray-400"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const features = [
   {
     component: TreeMap,
@@ -228,18 +277,13 @@ export function Features() {
 
   return (
     <section className="w-full py-8 sm:py-16">
-      <div className="px-4 mb-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="h-full">
-            <ThemeSelector currentTheme={currentTheme} onThemeChange={setCurrentTheme} />
-          </div>
-          <div className="h-full">
-            <VibeSelector currentVibe={currentVibe} onVibeChange={setCurrentVibe} />
-          </div>
-          <div className="h-full">
-            <AiChartSuggest />
-          </div>
-        </div>
+      <div className="px-4 mb-16">
+        <ChartControls
+          currentTheme={currentTheme}
+          currentVibe={currentVibe}
+          onThemeChange={setCurrentTheme}
+          onVibeChange={setCurrentVibe}
+        />
       </div>
       <div className="grid grid-cols-1 gap-8 px-4 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
