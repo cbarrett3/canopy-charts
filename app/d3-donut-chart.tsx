@@ -1,8 +1,7 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import { applyChartStyle, getTransitionConfig, getShapeConfig } from './styles/chart-styles';
 import { defaultThemeColor, generateColorVariations } from './utils/colors';
 
 interface DataPoint {
@@ -16,7 +15,6 @@ interface D3DonutChartProps {
    data?: DataPoint[];
    title?: string;
    themeColor?: string;
-   chartStyle?: string;
 }
 
 const D3DonutChart: React.FC<D3DonutChartProps> = ({
@@ -30,11 +28,9 @@ const D3DonutChart: React.FC<D3DonutChartProps> = ({
       { label: 'E', value: 10 },
    ],
    title,
-   themeColor = defaultThemeColor,
-   chartStyle = 'evergreen'
+   themeColor = defaultThemeColor
 }) => {
    const svgRef = useRef<SVGSVGElement | null>(null);
-   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
    useEffect(() => {
       if (!svgRef.current) return;
@@ -58,82 +54,51 @@ const D3DonutChart: React.FC<D3DonutChartProps> = ({
       const colors = generateColorVariations(themeColor, data.length);
       const color = d3.scaleOrdinal(colors);
 
-      const arc = d3
-         .arc<d3.PieArcDatum<DataPoint>>()
-         .innerRadius(radius * 0.6) // Donut hole size
-         .outerRadius(radius * 0.9)
-         .cornerRadius(getShapeConfig(chartStyle).cornerRadius);
-
       const pie = d3
          .pie<DataPoint>()
          .value(d => d.value)
          .sort(null);
 
-      const arcs = pie(data);
+      const arc = d3
+         .arc<d3.PieArcDatum<DataPoint>>()
+         .innerRadius(radius * 0.6) // Donut hole size
+         .outerRadius(radius * 0.9);
 
-      // Create or update chart group
-      const chartGroup = g.selectAll('g.chart-group').data([null]);
-      const chartGroupEnter = chartGroup.enter().append('g').attr('class', 'chart-group');
-      const chartGroupMerge = chartGroup.merge(chartGroupEnter);
+      const outerArc = d3
+         .arc<d3.PieArcDatum<DataPoint>>()
+         .innerRadius(radius * 0.9)
+         .outerRadius(radius * 0.9);
 
-      // Create or update paths
-      const paths = chartGroupMerge.selectAll('path')
-         .data(arcs, (d: any) => d.data.label);
-
-      // Enter new paths
-      const pathsEnter = paths.enter().append('path')
-         .attr('fill', (d: any, i) => color(d.data.label))
-         .attr('d', arc as any)
-         .style('opacity', 0)
-         .on('mouseenter', function(event, d) {
-            const index = arcs.indexOf(d);
-            setHoveredIndex(index);
-
-            // Apply hover style
-            applyChartStyle(d3.select(this), chartStyle, { 
-               isHovered: true,
-               animate: true 
-            });
+      // Add the arcs
+      const path = g
+         .selectAll('path')
+         .data(pie(data))
+         .enter()
+         .append('path')
+         .attr('d', arc)
+         .attr('fill', d => color(d.data.label))
+         .attr('stroke', 'white')
+         .attr('stroke-width', 2)
+         .attr('opacity', 0.8)
+         .on('mouseover', function() {
+            d3.select(this)
+               .transition()
+               .duration(200)
+               .attr('opacity', 1)
+               .attr('outerRadius', radius * 0.95);
          })
-         .on('mouseleave', function(event, d) {
-            setHoveredIndex(null);
-
-            // Remove hover style
-            applyChartStyle(d3.select(this), chartStyle, { 
-               isHovered: false,
-               animate: true 
-            });
+         .on('mouseout', function() {
+            d3.select(this)
+               .transition()
+               .duration(200)
+               .attr('opacity', 0.8)
+               .attr('outerRadius', radius * 0.9);
          });
-
-      // Update existing paths
-      const { duration, ease } = getTransitionConfig(chartStyle);
-      
-      const pathsMerge = paths.merge(pathsEnter)
-         .transition()
-         .duration(duration)
-         .ease(ease)
-         .attr('d', arc as any)
-         .style('opacity', 1);
-
-      // Apply base style to all paths
-      pathsMerge.each(function() {
-         applyChartStyle(d3.select(this), chartStyle, { 
-            animate: false 
-         });
-      });
-
-      // Exit paths
-      paths.exit()
-         .transition()
-         .duration(duration)
-         .ease(ease)
-         .style('opacity', 0)
-         .remove();
 
       // Add labels
       const label = g
          .selectAll('text')
-         .data(arcs)
+         .data(pie(data))
          .enter()
          .append('text')
          .attr('dy', '.35em');
@@ -162,7 +127,7 @@ const D3DonutChart: React.FC<D3DonutChartProps> = ({
 
       label
          .attr('transform', d => {
-            const pos = arc.centroid(d);
+            const pos = outerArc.centroid(d);
             pos[0] = radius * (midAngle(d) < Math.PI ? 1 : -1);
             return `translate(${pos})`;
          })
@@ -172,13 +137,13 @@ const D3DonutChart: React.FC<D3DonutChartProps> = ({
 
       // Add connecting lines
       g.selectAll('polyline')
-         .data(arcs)
+         .data(pie(data))
          .enter()
          .append('polyline')
          .attr('points', d => {
-            const pos = arc.centroid(d);
+            const pos = outerArc.centroid(d);
             pos[0] = radius * 0.95 * (midAngle(d) < Math.PI ? 1 : -1);
-            const points = [arc.centroid(d), arc.centroid(d), pos];
+            const points = [arc.centroid(d), outerArc.centroid(d), pos];
             return points.map(p => p.join(',')).join(' ');
          })
          .attr('stroke', 'white')
@@ -195,7 +160,7 @@ const D3DonutChart: React.FC<D3DonutChartProps> = ({
             .text(title);
       }
 
-   }, [data, width, height, title, themeColor, chartStyle]);
+   }, [data, width, height, title, themeColor]);
 
    return (
       <div style={{ width: '100%', height: '100%' }}>

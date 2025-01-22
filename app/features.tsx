@@ -224,7 +224,7 @@ const features = [
 
 export function Features() {
   const [currentTheme, setCurrentTheme] = useState('#22C55E') // Default forest green theme
-  const [currentVibe, setCurrentVibe] = useState('evergreen') // Default evergreen style
+  const [currentVibe, setCurrentVibe] = useState('modern') // Default modern vibe
 
   return (
     <section className="w-full py-8 sm:py-16">
@@ -246,7 +246,7 @@ export function Features() {
           <div key={feature.title} className="rounded-lg bg-[#1F1F1F] p-6 hover:bg-[#252525]">
             {feature.component ? (
               <div className="relative mb-4 h-[200px] w-full overflow-hidden">
-                <feature.component themeColor={currentTheme} chartStyle={currentVibe} />
+                <feature.component themeColor={currentTheme} vibe={currentVibe} />
               </div>
             ) : (
               <feature.icon className="mb-4 h-8 w-8 text-gray-400" />
