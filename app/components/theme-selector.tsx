@@ -42,8 +42,7 @@ function ColorSpectrum({ value, onChange }: { value: number, onChange: (value: n
         max={359}
         step={1}
         onValueChange={([v]) => onChange(v)}
-        className="absolute inset-0"
-        thumbClassName="h-full w-2 rounded-sm border-2 border-white/50 bg-transparent hover:border-white"
+        className="absolute inset-0 [&>[role=slider]]:h-full [&>[role=slider]]:w-2 [&>[role=slider]]:rounded-sm [&>[role=slider]]:border-2 [&>[role=slider]]:border-white/50 [&>[role=slider]]:bg-transparent [&>[role=slider]]:hover:border-white"
       />
     </div>
   )
