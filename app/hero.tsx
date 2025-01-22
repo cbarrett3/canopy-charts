@@ -56,7 +56,7 @@ export function Hero() {
                   </span>
                </h1>
                <p className="mb-8 mt-6 text-base text-gray-400 sm:text-lg md:text-xl lg:text-2xl">
-                  Transform your data into beautiful, interactive visualizations
+                  Beautiful and customizable D3.js components for React. Take creative control of your data.
                </p>
                <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
                   <Button
