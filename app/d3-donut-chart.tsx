@@ -143,7 +143,8 @@ const D3DonutChart: React.FC<D3DonutChartProps> = ({
          .attr('points', d => {
             const pos = outerArc.centroid(d);
             pos[0] = radius * 0.95 * (midAngle(d) < Math.PI ? 1 : -1);
-            return [arc.centroid(d), outerArc.centroid(d), pos];
+            const points = [arc.centroid(d), outerArc.centroid(d), pos];
+            return points.map(p => p.join(',')).join(' ');
          })
          .attr('stroke', 'white')
          .attr('fill', 'none')

@@ -6,6 +6,8 @@ import TreeMap  from "./d3-tree-map"
 import BarChart  from "./d3-bar-chart"
 import LineChart from "./d3-line-chart"
 import DonutChart from "./d3-donut-chart"
+import StreamChart from "./d3-stream-chart"
+import StackedBarChart from "./d3-stacked-bar-chart"
 
 const features = [
   {
@@ -38,6 +40,22 @@ const features = [
     description:
       "Beautiful donut charts with interactive segments, customizable colors, and smooth transitions.",
     link: "View Donut Chart docs",
+    href: "#",
+  },
+  {
+    component: StreamChart,
+    title: "Stream Chart",
+    description:
+      "Elegant streamgraph visualization for displaying temporal data with smooth flowing curves and transitions. Perfect for showing evolving trends.",
+    link: "View Stream Chart docs",
+    href: "#",
+  },
+  {
+    component: StackedBarChart,
+    title: "Stacked Bar Chart",
+    description:
+      "Horizontal stacked bar charts with smooth animations and customizable colors. Ideal for comparing parts of a whole across categories.",
+    link: "View Stacked Bar Chart docs",
     href: "#",
   },
   {
