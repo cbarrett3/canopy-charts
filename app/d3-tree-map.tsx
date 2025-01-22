@@ -1,6 +1,5 @@
 "use client"
 
-// components/D3TreeMap.tsx
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
@@ -15,7 +14,7 @@ interface D3TreeMapProps {
    height?: number;
    data?: DataPoint;
    title?: string;
-   colorScheme?: readonly string[];
+   themeColor?: string;
    tooltipBackgroundColor?: string;
    tooltipTextColor?: string;
 }
@@ -28,6 +27,20 @@ interface ExtendedHierarchyRectangularNode
    y0: number;
    y1: number;
 }
+
+const generateColorScheme = (baseColor: string, count: number): string[] => {
+   const hsl = d3.hsl(baseColor);
+   const colors: string[] = [];
+
+   // Generate variations by adjusting lightness and saturation
+   for (let i = 0; i < count; i++) {
+      const saturation = Math.min(1, hsl.s + (i * 0.1));
+      const lightness = Math.max(0.2, Math.min(0.8, hsl.l + (i * 0.1 - 0.3)));
+      colors.push(d3.hsl(hsl.h, saturation, lightness).toString());
+   }
+
+   return colors;
+};
 
 const D3TreeMap: React.FC<D3TreeMapProps> = ({
    width = 500,
@@ -50,14 +63,12 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
       ],
    },
    title,
-   colorScheme = d3.schemeCategory10,
-   tooltipBackgroundColor = '#1A458E',
-   tooltipTextColor = 'white',
+   themeColor = '#22C55E', // Default green color
+   tooltipBackgroundColor = '#1B1B1B',
+   tooltipTextColor = '#ffffff',
 }) => {
    const svgRef = useRef<SVGSVGElement | null>(null);
-   const containerRef = useRef<HTMLDivElement | null>(
-      null,
-   );
+   const containerRef = useRef<HTMLDivElement | null>(null);
 
    useEffect(() => {
       if (svgRef.current) {
@@ -67,10 +78,7 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
          const root = d3
             .hierarchy(data)
             .sum((d) => d.value ?? 0)
-            .sort(
-               (a, b) =>
-                  (b.value ?? 0) - (a.value ?? 0),
-            );
+            .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
 
          const treemapLayout = d3
             .treemap<DataPoint>()
@@ -79,6 +87,9 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
 
          treemapLayout(root);
 
+         // Generate theme-based color scheme
+         const leafCount = root.leaves().length;
+         const colorScheme = generateColorScheme(themeColor, leafCount);
          const color = d3.scaleOrdinal(colorScheme);
 
          const tooltip = d3
@@ -99,99 +110,80 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
             .style('opacity', 0)
             .style('transition', 'opacity 0.3s');
 
-         const nodes = svg
-            .selectAll('rect')
-            .data(
-               root.leaves() as ExtendedHierarchyRectangularNode[],
-            )
-            .enter()
-            .append('rect')
-            .attr('x', (d) => d.x0)
-            .attr('y', (d) => d.y1) // Start from the bottom
-            .attr('width', (d) => d.x1 - d.x0)
-            .attr('height', 0) // Start with height 0
-            .attr('fill', (d) => color(d.data.name))
-            .attr('stroke', '#fff')
-            .attr('stroke-width', 1)
-            .on('mouseover', function (event, d) {
-               d3.select(this).attr('fill', 'orange');
-               tooltip
+         // Create cells
+         const cell = svg
+            .selectAll('g')
+            .data(root.leaves())
+            .join('g')
+            .attr('transform', (d: any) => `translate(${d.x0},${d.y0})`);
+
+         // Add rectangles to cells
+         cell.append('rect')
+            .attr('width', (d: any) => d.x1 - d.x0)
+            .attr('height', (d: any) => d.y1 - d.y0)
+            .attr('fill', (d: any) => color(d.data.name))
+            .attr('opacity', 0.85)
+            .attr('rx', 4) // Rounded corners
+            .on('mouseover', function (event: MouseEvent, d: any) {
+               d3.select(this)
                   .transition()
                   .duration(200)
-                  .style('opacity', 0.9);
+                  .attr('opacity', 1);
+
                tooltip
+                  .style('opacity', 1)
                   .html(
-                     `<div class="tooltip-content">${d.data.name}: <span class="tooltip-value">${d.value}</span></div>`,
+                     `${d.data.name}<br/>${d.value}`,
                   )
-                  .style(
-                     'left',
-                     event.pageX + 5 + 'px',
-                  )
-                  .style(
-                     'top',
-                     event.pageY - 28 + 'px',
-                  );
+                  .style('left', event.pageX + 'px')
+                  .style('top', event.pageY - 28 + 'px');
             })
-            .on('mousemove', function (event) {
-               tooltip
-                  .style(
-                     'left',
-                     event.pageX + 5 + 'px',
-                  )
-                  .style(
-                     'top',
-                     event.pageY - 28 + 'px',
-                  );
-            })
-            .on('mouseout', function (event, d) {
-               d3.select(this).attr(
-                  'fill',
-                  color(d.data.name),
-               );
-               tooltip
+            .on('mouseout', function () {
+               d3.select(this)
                   .transition()
-                  .duration(500)
-                  .style('opacity', 0);
+                  .duration(200)
+                  .attr('opacity', 0.85);
+
+               tooltip.style('opacity', 0);
             });
 
-         nodes
-            .transition()
-            .duration(1000)
-            .ease(d3.easeBounceOut)
-            .attr('y', (d) => d.y0) // Transition to the correct position
-            .attr('height', (d) => d.y1 - d.y0); // Transition to the correct height
-
-         svg.selectAll('text')
-            .data(
-               root.leaves() as ExtendedHierarchyRectangularNode[],
-            )
-            .enter()
-            .append('text')
-            .attr('x', (d) => d.x0 + 5)
-            .attr('y', (d) => d.y0 + 20)
-            .text((d) => d.data.name)
-            .attr('font-size', '15px')
-            .attr('fill', 'white');
+         // Add text labels
+         cell.append('text')
+            .attr('x', 4)
+            .attr('y', 14)
+            .attr('fill', 'white')
+            .attr('font-size', '12px')
+            .text((d: any) => d.data.name)
+            .each(function(this: SVGTextElement, d: any) {
+               const rectWidth = d.x1 - d.x0;
+               const textWidth = (this as SVGTextElement).getComputedTextLength();
+               if (textWidth > rectWidth - 8) {
+                  d3.select(this).remove();
+               }
+            });
       }
-   }, [
-      data,
-      width,
-      height,
-      colorScheme,
-      tooltipBackgroundColor,
-      tooltipTextColor,
-   ]);
+
+      return () => {
+         // Cleanup tooltip
+         d3.select('body').selectAll('div.tooltip').remove();
+      };
+   }, [data, width, height, title, themeColor, tooltipBackgroundColor, tooltipTextColor]);
 
    return (
       <div
          ref={containerRef}
-         style={{ width: '100%', height: '100%' }}
+         style={{
+            width: '100%',
+            height: '100%',
+            position: 'relative'
+         }}
       >
          {title && (
             <h2
                style={{
                   textAlign: 'center',
                   margin: '10px 0',
+                  color: 'white'
                }}
             >
                {title}
@@ -201,10 +193,11 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
             ref={svgRef}
             style={{
                width: '100%',
-               height: 'calc(100% - 40px)',
+               height: title ? 'calc(100% - 40px)' : '100%'
             }}
             viewBox={`0 0 ${width} ${height}`}
-         ></svg>
+            preserveAspectRatio="xMidYMid meet"
+         />
       </div>
    );
 };

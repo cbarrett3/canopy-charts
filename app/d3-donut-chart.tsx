@@ -1,11 +1,11 @@
 "use client"
 
-// components/D3DonutChart.tsx
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import { defaultThemeColor, generateColorVariations } from './utils/colors';
 
 interface DataPoint {
-   name: string;
+   label: string;
    value: number;
 }
 
@@ -14,173 +14,161 @@ interface D3DonutChartProps {
    height?: number;
    data?: DataPoint[];
    title?: string;
-   colorScheme?: readonly string[];
-   tooltipBackgroundColor?: string;
-   tooltipTextColor?: string;
+   themeColor?: string;
 }
 
 const D3DonutChart: React.FC<D3DonutChartProps> = ({
    width = 500,
    height = 275,
    data = [
-      { name: 'Category 1', value: 30 },
-      { name: 'Category 2', value: 70 },
-      { name: 'Category 3', value: 45 },
-      { name: 'Category 4', value: 60 },
-      { name: 'Category 5', value: 20 },
+      { label: 'A', value: 30 },
+      { label: 'B', value: 20 },
+      { label: 'C', value: 25 },
+      { label: 'D', value: 15 },
+      { label: 'E', value: 10 },
    ],
    title,
-   colorScheme = d3.schemeCategory10,
-   tooltipBackgroundColor = '#1A458E',
-   tooltipTextColor = 'white',
+   themeColor = defaultThemeColor
 }) => {
    const svgRef = useRef<SVGSVGElement | null>(null);
-   const containerRef = useRef<HTMLDivElement | null>(
-      null,
-   );
 
    useEffect(() => {
-      if (svgRef.current) {
-         const svg = d3.select(svgRef.current);
-         svg.selectAll('*').remove(); // Clear any previous content
+      if (!svgRef.current) return;
 
-         const radius = Math.min(width, height) / 2;
+      const svg = d3.select(svgRef.current);
+      svg.selectAll('*').remove();
 
-         const arc = d3
-            .arc<d3.PieArcDatum<DataPoint>>()
-            .innerRadius(radius * 0.5)
-            .outerRadius(radius - 1);
+      const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      const radius = Math.min(innerWidth, innerHeight) / 2;
 
-         const pie = d3
-            .pie<DataPoint>()
-            .sort(null)
-            .value((d) => d.value);
+      const g = svg
+         .append('g')
+         .attr(
+            'transform',
+            `translate(${width / 2},${height / 2})`
+         );
 
-         const color = d3.scaleOrdinal(colorScheme);
+      // Generate theme-based colors
+      const colors = generateColorVariations(themeColor, data.length);
+      const color = d3.scaleOrdinal(colors);
 
-         const g = svg
-            .append('g')
-            .attr(
-               'transform',
-               `translate(${width / 2},${height / 2})`,
-            );
+      const pie = d3
+         .pie<DataPoint>()
+         .value(d => d.value)
+         .sort(null);
 
-         const tooltip = d3
-            .select('body')
-            .append('div')
-            .attr('class', 'tooltip')
-            .style('position', 'absolute')
-            .style('text-align', 'center')
-            .style('width', 'auto')
-            .style('height', 'auto')
-            .style('padding', '10px')
-            .style('font', '14px sans-serif')
-            .style('background', tooltipBackgroundColor)
-            .style('color', tooltipTextColor)
-            .style('border', '0px')
-            .style('border-radius', '8px')
-            .style('pointer-events', 'none')
-            .style('opacity', 0)
-            .style('transition', 'opacity 0.3s');
+      const arc = d3
+         .arc<d3.PieArcDatum<DataPoint>>()
+         .innerRadius(radius * 0.6) // Donut hole size
+         .outerRadius(radius * 0.9);
 
-         const arcs = g
-            .selectAll('.arc')
-            .data(pie(data))
-            .enter()
-            .append('g')
-            .attr('class', 'arc');
+      const outerArc = d3
+         .arc<d3.PieArcDatum<DataPoint>>()
+         .innerRadius(radius * 0.9)
+         .outerRadius(radius * 0.9);
 
-         arcs.append('path')
-            .attr('fill', (d) => color(d.data.name))
-            .transition()
-            .duration(1000)
-            .attrTween('d', function (d) {
-               const interpolate = d3.interpolate(
-                  { startAngle: 0, endAngle: 0 },
-                  d,
-               );
-               return (t) => arc(interpolate(t))!;
-            });
-
-         arcs.on('mouseover', function (event, d) {
+      // Add the arcs
+      const path = g
+         .selectAll('path')
+         .data(pie(data))
+         .enter()
+         .append('path')
+         .attr('d', arc)
+         .attr('fill', d => color(d.data.label))
+         .attr('stroke', 'white')
+         .attr('stroke-width', 2)
+         .attr('opacity', 0.8)
+         .on('mouseover', function() {
             d3.select(this)
-               .select('path')
-               .attr('fill', 'orange');
-            tooltip
                .transition()
                .duration(200)
-               .style('opacity', 0.9);
-            tooltip
-               .html(
-                  `<div class="tooltip-content">${d.data.name}: <span class="tooltip-value">${d.data.value}</span></div>`,
-               )
-               .style('left', event.pageX + 5 + 'px')
-               .style('top', event.pageY - 28 + 'px');
+               .attr('opacity', 1)
+               .attr('outerRadius', radius * 0.95);
          })
-            .on('mousemove', function (event) {
-               tooltip
-                  .style(
-                     'left',
-                     event.pageX + 5 + 'px',
-                  )
-                  .style(
-                     'top',
-                     event.pageY - 28 + 'px',
-                  );
-            })
-            .on('mouseout', function (event, d) {
-               d3.select(this)
-                  .select('path')
-                  .attr('fill', color(d.data.name));
-               tooltip
-                  .transition()
-                  .duration(500)
-                  .style('opacity', 0);
-            });
+         .on('mouseout', function() {
+            d3.select(this)
+               .transition()
+               .duration(200)
+               .attr('opacity', 0.8)
+               .attr('outerRadius', radius * 0.9);
+         });
 
-         arcs.append('text')
-            .attr(
-               'transform',
-               (d) => `translate(${arc.centroid(d)})`,
-            )
-            .attr('dy', '0.35em')
-            .attr('text-anchor', 'middle')
-            .text((d) => d.data.name)
-            .attr('font-size', '12px')
-            .attr('fill', 'white');
+      // Add labels
+      const label = g
+         .selectAll('text')
+         .data(pie(data))
+         .enter()
+         .append('text')
+         .attr('dy', '.35em');
+
+      label
+         .append('tspan')
+         .attr('x', 0)
+         .attr('y', '-0.7em')
+         .text(d => d.data.label)
+         .attr('fill', 'white')
+         .attr('text-anchor', 'middle')
+         .style('font-size', '12px');
+
+      label
+         .append('tspan')
+         .attr('x', 0)
+         .attr('y', '0.7em')
+         .text(d => d.data.value)
+         .attr('fill', 'white')
+         .attr('text-anchor', 'middle')
+         .style('font-size', '12px');
+
+      function midAngle(d: d3.PieArcDatum<DataPoint>) {
+         return d.startAngle + (d.endAngle - d.startAngle) / 2;
       }
-   }, [
-      data,
-      width,
-      height,
-      colorScheme,
-      tooltipBackgroundColor,
-      tooltipTextColor,
-   ]);
+
+      label
+         .attr('transform', d => {
+            const pos = outerArc.centroid(d);
+            pos[0] = radius * (midAngle(d) < Math.PI ? 1 : -1);
+            return `translate(${pos})`;
+         })
+         .attr('text-anchor', d =>
+            midAngle(d) < Math.PI ? 'start' : 'end'
+         );
+
+      // Add connecting lines
+      g.selectAll('polyline')
+         .data(pie(data))
+         .enter()
+         .append('polyline')
+         .attr('points', d => {
+            const pos = outerArc.centroid(d);
+            pos[0] = radius * 0.95 * (midAngle(d) < Math.PI ? 1 : -1);
+            return [arc.centroid(d), outerArc.centroid(d), pos];
+         })
+         .attr('stroke', 'white')
+         .attr('fill', 'none')
+         .attr('opacity', 0.3);
+
+      // Add title if provided
+      if (title) {
+         svg.append('text')
+            .attr('x', width / 2)
+            .attr('y', margin.top)
+            .attr('text-anchor', 'middle')
+            .attr('fill', 'white')
+            .text(title);
+      }
+
+   }, [data, width, height, title, themeColor]);
 
    return (
-      <div
-         ref={containerRef}
-         style={{ width: '100%', height: '100%' }}
-      >
-         {title && (
-            <h2
-               style={{
-                  textAlign: 'center',
-                  margin: '10px 0',
-               }}
-            >
-               {title}
-            </h2>
-         )}
+      <div style={{ width: '100%', height: '100%' }}>
          <svg
             ref={svgRef}
-            style={{
-               width: '100%',
-               height: 'calc(100% - 40px)',
-            }}
+            style={{ width: '100%', height: '100%' }}
             viewBox={`0 0 ${width} ${height}`}
-         ></svg>
+            preserveAspectRatio="xMidYMid meet"
+         />
       </div>
    );
 };
