@@ -1,71 +1,70 @@
-import { motion } from "framer-motion";
+"use client"
 
-export function Logo({ className = "" }: { className?: string }) {
-   const pathVariants = {
-      initial: {
-         pathLength: 0,
-         rotate: 0,
-         opacity: 0
-      },
-      animate: {
-         pathLength: [0, 1, 1],
-         rotate: [0, 0, -180],
-         opacity: 1,
-         transition: {
-            pathLength: {
-               duration: 1.5,
-               ease: "easeInOut",
-               times: [0, 0.6, 1]
-            },
-            rotate: {
-               duration: 1.5,
-               ease: "easeInOut",
-               times: [0, 0.6, 1]
-            },
-            opacity: {
-               duration: 0.3,
-               ease: "easeOut"
-            }
-         }
-      }
-   };
+import { motion } from "framer-motion"
 
-   const glowVariants = {
-      initial: {
-         opacity: 0,
-         rotate: 0
-      },
-      animate: {
-         opacity: [0, 0.5, 0.5],
-         rotate: [0, 0, -180],
-         transition: {
-            opacity: {
-               duration: 1.5,
-               ease: "easeInOut",
-               times: [0, 0.6, 1]
-            },
-            rotate: {
-               duration: 1.5,
-               ease: "easeInOut",
-               times: [0, 0.6, 1]
-            }
-         }
-      }
-   };
-
-   const gridVariants = {
-      initial: { opacity: 0.1 },
-      animate: {
-         opacity: [0.1, 0.25, 0.1],
-         transition: {
-            duration: 3,
+const pathVariants = {
+   initial: {
+      pathLength: 0,
+      rotate: 0,
+      opacity: 0,
+   },
+   animate: {
+      pathLength: [0, 1, 1],
+      rotate: [0, 0, -180],
+      opacity: 1,
+      transition: {
+         pathLength: {
+            duration: 1.5,
             ease: "easeInOut",
-            repeat: Infinity,
-            repeatType: "reverse" as const
-         }
-      }
-   };
+         },
+         rotate: {
+            duration: 1.5,
+            ease: "easeInOut",
+            delay: 0.5,
+         },
+         opacity: {
+            duration: 0.01,
+         },
+      },
+   },
+}
 
+const glowVariants = {
+   initial: {
+      opacity: 0,
+      rotate: 0,
+   },
+   animate: {
+      opacity: [0, 0.5, 0.5],
+      rotate: [0, 0, -180],
+      transition: {
+         opacity: {
+            duration: 1.5,
+            ease: "easeInOut",
+         },
+         rotate: {
+            duration: 1.5,
+            ease: "easeInOut",
+            delay: 0.5,
+         },
+      },
+   },
+}
+
+const gridVariants = {
+   initial: {
+      opacity: 0,
+   },
+   animate: {
+      opacity: 1,
+      transition: {
+         duration: 1,
+         ease: "easeOut",
+      },
+   },
+}
+
+export function Logo({ className }: { className?: string }) {
    return (
       <div className={`relative h-full w-full ${className}`}>
          <motion.svg
@@ -76,55 +75,83 @@ export function Logo({ className = "" }: { className?: string }) {
             preserveAspectRatio="xMidYMid meet"
          >
             {/* Grid Background */}
-            <pattern 
-               id="grid" 
-               width="30" 
-               height="30" 
-               patternUnits="userSpaceOnUse"
-               patternTransform="rotate(0)"
-            >
-               <path
-                  d="M 30 0 L 0 0 0 30"
-                  fill="none"
-                  stroke="rgba(128, 128, 128, 0.3)"
-                  strokeWidth="1"
-                  strokeDasharray="3 3"
-               />
-            </pattern>
-
-            <motion.rect
-               width="500"
-               height="500"
-               fill="url(#grid)"
-               variants={gridVariants}
-            />
+            <g>
+               <motion.g variants={gridVariants}>
+                  {/* Horizontal lines */}
+                  {Array.from({ length: 20 }).map((_, i) => (
+                     <motion.line
+                        key={`h-${i}`}
+                        x1="0"
+                        y1={25 * i}
+                        x2="500"
+                        y2={25 * i}
+                        stroke="#2c2c2c"
+                        strokeWidth="1"
+                     />
+                  ))}
+                  {/* Vertical lines */}
+                  {Array.from({ length: 20 }).map((_, i) => (
+                     <motion.line
+                        key={`v-${i}`}
+                        x1={25 * i}
+                        y1="0"
+                        x2={25 * i}
+                        y2="500"
+                        stroke="#2c2c2c"
+                        strokeWidth="1"
+                     />
+                  ))}
+                  
+                  {/* Animated data points */}
+                  {Array.from({ length: 10 }).map((_, i) => (
+                     <motion.circle
+                        key={`point-${i}`}
+                        cx={50 + i * 40}
+                        cy={250 + Math.sin(i * 0.5) * 50}
+                        r="3"
+                        fill="#22c55e"
+                        initial={{ opacity: 0 }}
+                        animate={{
+                           opacity: [0, 1, 0],
+                           scale: [0, 1, 0],
+                        }}
+                        transition={{
+                           duration: 2,
+                           repeat: Infinity,
+                           delay: i * 0.2,
+                        }}
+                     />
+                  ))}
+               </motion.g>
+            </g>
 
             <defs>
-               <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{ stopColor: "#047857" }} />
-                  <stop offset="100%" style={{ stopColor: "#10b981" }} />
-               </linearGradient>
-
                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="4.5" result="blur" />
-                  <feComposite in="blur" in2="SourceGraphic" operator="over" />
+                  <feGaussianBlur stdDeviation="15" result="blur" />
+                  <feColorMatrix
+                     in="blur"
+                     type="matrix"
+                     values="0 0 0 0 0.133333 0 0 0 0 0.772549 0 0 0 0 0.372549 0 0 0 1 0"
+                  />
                </filter>
-
                <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="4" />
-                  <feOffset dx="2" dy="2" />
-                  <feComposite in2="SourceGraphic" operator="in" />
-                  <feComposite in2="SourceGraphic" operator="over" />
+                  <feDropShadow dx="0" dy="0" stdDeviation="8" floodColor="#22c55e" />
                </filter>
+               <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#22c55e" />
+                  <stop offset="50%" stopColor="#4ade80" />
+                  <stop offset="100%" stopColor="#22c55e" />
+               </linearGradient>
             </defs>
 
+            {/* Logo Group - centered */}
             <g transform="translate(250, 250)">
                {/* Glow effect */}
                <motion.path
                   d="M -150 0 A 100 100 0 1 1 100 0 A 50 50 0 1 1 -100 0"
                   variants={glowVariants}
                   stroke="#10b981"
-                  strokeWidth="48"
+                  strokeWidth="35"
                   strokeLinecap="round"
                   fill="none"
                   filter="url(#glow)"
@@ -137,7 +164,7 @@ export function Logo({ className = "" }: { className?: string }) {
                   d="M -150 0 A 100 100 0 1 1 100 0 A 50 50 0 1 1 -100 0"
                   variants={pathVariants}
                   stroke="url(#greenGradient)"
-                  strokeWidth="45"
+                  strokeWidth="32"
                   strokeLinecap="round"
                   fill="none"
                   filter="url(#shadow)"
@@ -146,5 +173,5 @@ export function Logo({ className = "" }: { className?: string }) {
             </g>
          </motion.svg>
       </div>
-   );
+   )
 }
