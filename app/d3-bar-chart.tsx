@@ -24,68 +24,97 @@ const chartStyles: Record<ChartStyle, {
    shapes: {
       cornerRadius: number;
    };
-   interactivity: {
-      hoverDuration: number;
-      activeScale: number;
-   };
    animation: {
       duration: number;
       delay: (d: any, i: number) => number;
-      type: string;
+      type: 'fromBottom' | 'wave' | 'segments' | 'cascade' | 'spiral';
+   };
+   interactivity: {
+      hoverDuration: number;
+      hoverEffect: 'scale' | 'glow' | 'bounce' | 'sway' | 'pulse' | 'twist';
+      activeScale: number;
+      glowColor?: string;
+      glowRadius?: number;
    };
 }> = {
    modern: {
-      shapes: { cornerRadius: 8 },
-      interactivity: { hoverDuration: 200, activeScale: 1.1 },
+      shapes: { cornerRadius: 6 },
       animation: {
-         duration: 750,
-         delay: (_, i) => i * 50,
+         duration: 1000,
+         delay: (_, i) => i * 100,
          type: 'fromBottom'
+      },
+      interactivity: {
+         hoverDuration: 200,
+         hoverEffect: 'scale',
+         activeScale: 1.1
       }
    },
    evergreen: {
       shapes: { cornerRadius: 4 },
-      interactivity: { hoverDuration: 200, activeScale: 1.1 },
       animation: {
-         duration: 750,
-         delay: (_, i) => i * 50,
+         duration: 1000,
+         delay: (_, i) => i * 100,
          type: 'fromBottom'
+      },
+      interactivity: {
+         hoverDuration: 150,
+         hoverEffect: 'glow',
+         activeScale: 1.0,
+         glowColor: '#4CAF50',
+         glowRadius: 4
       }
    },
    palm: {
       shapes: { cornerRadius: 8 },
-      interactivity: { hoverDuration: 300, activeScale: 1.15 },
       animation: {
-         duration: 1000,
-         delay: (_, i) => i * 100,
+         duration: 1200,
+         delay: (_, i) => i * 120,
          type: 'wave'
+      },
+      interactivity: {
+         hoverDuration: 400,
+         hoverEffect: 'sway',
+         activeScale: 1.0
       }
    },
    bamboo: {
       shapes: { cornerRadius: 0 },
-      interactivity: { hoverDuration: 150, activeScale: 1.05 },
       animation: {
-         duration: 600,
-         delay: (_, i) => i * 30,
+         duration: 1500,
+         delay: (_, i) => i * 150,
          type: 'segments'
+      },
+      interactivity: {
+         hoverDuration: 300,
+         hoverEffect: 'bounce',
+         activeScale: 1.15
       }
    },
    willow: {
       shapes: { cornerRadius: 12 },
-      interactivity: { hoverDuration: 400, activeScale: 1.2 },
       animation: {
-         duration: 1200,
-         delay: (_, i) => i * 150,
+         duration: 2000,
+         delay: (_, i) => i * 200,
          type: 'cascade'
+      },
+      interactivity: {
+         hoverDuration: 600,
+         hoverEffect: 'pulse',
+         activeScale: 1.05
       }
    },
    succulent: {
       shapes: { cornerRadius: 20 },
-      interactivity: { hoverDuration: 250, activeScale: 1.08 },
       animation: {
-         duration: 800,
-         delay: (_, i) => Math.pow(i, 2) * 20,
+         duration: 1800,
+         delay: (_, i) => i * 180,
          type: 'spiral'
+      },
+      interactivity: {
+         hoverDuration: 500,
+         hoverEffect: 'twist',
+         activeScale: 1.08
       }
    }
 };
@@ -113,7 +142,7 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
       const svg = d3.select(svgRef.current);
       svg.selectAll('*').remove();
 
-      const margin = { top: 20, right: 20, bottom: 30, left: 40 };
+      const margin = { top: 20, right: 20, bottom: 40, left: 60 };  
       const innerWidth = width - margin.left - margin.right;
       const innerHeight = height - margin.top - margin.bottom;
 
@@ -126,7 +155,7 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
 
       const yScale = d3
          .scaleLinear()
-         .domain([0, d3.max(data, d => d.value)!])
+         .domain([0, d3.max(data, d => d.value)! * 1.1])
          .range([innerHeight, 0]);
 
       const g = svg
@@ -155,8 +184,33 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
          .attr('offset', '100%')
          .attr('stop-color', color.copy({ opacity: 0.8 }).toString());
 
+      // Add axes first (before bars) to ensure proper layering
+      const xAxis = d3.axisBottom(xScale);
+      const yAxis = d3.axisLeft(yScale);
+
+      g.append('g')
+         .attr('class', 'x-axis')
+         .attr('transform', `translate(0,${innerHeight})`)
+         .call(xAxis);
+
+      g.append('g')
+         .attr('class', 'y-axis')
+         .call(yAxis);
+
+      // Function to calculate bar height correctly
+      const calculateBarHeight = (d: DataPoint) => {
+         const y = yScale(d.value);
+         return y != null ? innerHeight - y : 0;
+      };
+
+      // Function to calculate bar y position correctly
+      const calculateBarY = (d: DataPoint) => {
+         const y = yScale(d.value);
+         return y ?? innerHeight;
+      };
+
       // Add bars with style-specific animations
-      const bars = svg.selectAll('rect')
+      const bars = g.selectAll('rect')
          .data(data)
          .join('rect')
          .attr('x', (d: DataPoint) => xScale(d.label) ?? 0)
@@ -169,33 +223,27 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
       switch (style.animation.type) {
          case 'fromBottom':
             // Evergreen: Sharp upward growth
-            bars.attr('y', height - margin.bottom)
+            bars.attr('y', innerHeight)
                .attr('height', 0)
                .transition()
                .duration(style.animation.duration)
                .delay(style.animation.delay)
                .ease(d3.easeExpOut)
-               .attr('y', (d: DataPoint) => yScale(d.value) ?? height - margin.bottom)
-               .attr('height', (d: DataPoint) => {
-                  const y = yScale(d.value);
-                  return y != null ? height - margin.bottom - y : 0;
-               });
+               .attr('y', calculateBarY)
+               .attr('height', calculateBarHeight);
             break;
 
          case 'wave':
             // Palm: Flowing wave motion
-            bars.attr('y', height)
+            bars.attr('y', innerHeight)
                .attr('height', 0)
                .attr('transform', 'skewX(45)')
                .transition()
                .duration(style.animation.duration)
                .delay(style.animation.delay)
                .ease(d3.easeBounceOut)
-               .attr('y', (d: DataPoint) => yScale(d.value) ?? height - margin.bottom)
-               .attr('height', (d: DataPoint) => {
-                  const y = yScale(d.value);
-                  return y != null ? height - margin.bottom - y : 0;
-               })
+               .attr('y', calculateBarY)
+               .attr('height', calculateBarHeight)
                .attr('transform', 'skewX(0)');
             break;
 
@@ -203,39 +251,35 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
             // Bamboo: Segment by segment growth
             const segmentCount = 5;
             const segmentDuration = style.animation.duration / segmentCount;
-            let transition = bars
-               .attr('y', height - margin.bottom)
+            let selection = bars
+               .attr('y', innerHeight)
                .attr('height', 0)
-               .style('opacity', 0.3);
+               .style('opacity', 0.3) as d3.Selection<SVGRectElement, DataPoint, SVGSVGElement, unknown>;
             
             for (let i = 0; i < segmentCount; i++) {
                const progress = (i + 1) / segmentCount;
-               transition = transition
+               selection = selection
                   .transition()
                   .duration(segmentDuration)
-                  .delay((_, index) => style.animation.delay(_, index) + (i * 50))
+                  .delay((_, index) => style.animation.delay(_, index) + (i * 50)) as unknown as d3.Selection<SVGRectElement, DataPoint, SVGSVGElement, unknown>;
+               selection
                   .style('opacity', 0.3 + (0.7 * progress))
                   .attr('y', (d: DataPoint) => {
-                     const targetY = yScale(d.value) ?? height - margin.bottom;
-                     const currentHeight = height - margin.bottom - targetY;
-                     return height - margin.bottom - (currentHeight * progress);
+                     const targetY = calculateBarY(d);
+                     const currentHeight = calculateBarHeight(d);
+                     return innerHeight - (currentHeight * progress);
                   })
                   .attr('height', (d: DataPoint) => {
-                     const y = yScale(d.value);
-                     const fullHeight = y != null ? height - margin.bottom - y : 0;
-                     return fullHeight * progress;
+                     return calculateBarHeight(d) * progress;
                   });
             }
             break;
 
          case 'cascade':
             // Willow: Gentle cascade with swaying
-            bars.attr('y', (d: DataPoint) => yScale(d.value) ?? height - margin.bottom)
-               .attr('height', (d: DataPoint) => {
-                  const y = yScale(d.value);
-                  return y != null ? height - margin.bottom - y : 0;
-               })
-               .attr('transform', 'scale(0.5, 0) translate(0, 100) rotate(10)')
+            bars.attr('y', calculateBarY)
+               .attr('height', calculateBarHeight)
+               .attr('transform', (_, i) => `scale(0.5, 0) translate(0, ${innerHeight/2}) rotate(10)`)
                .style('opacity', 0)
                .transition()
                .duration(style.animation.duration)
@@ -247,11 +291,8 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
 
          case 'spiral':
             // Succulent: Spiral unfold with scale
-            bars.attr('y', (d: DataPoint) => yScale(d.value) ?? height - margin.bottom)
-               .attr('height', (d: DataPoint) => {
-                  const y = yScale(d.value);
-                  return y != null ? height - margin.bottom - y : 0;
-               })
+            bars.attr('y', calculateBarY)
+               .attr('height', calculateBarHeight)
                .attr('transform', (_, i) => `scale(0) rotate(${180 + (i * 45)})`)
                .style('opacity', 0)
                .transition()
@@ -264,7 +305,7 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
       }
 
       // Add labels with matching animations
-      const labels = svg.selectAll('.value-label')
+      const labels = g.selectAll('.value-label')
          .data(data)
          .join('text')
          .attr('class', 'value-label')
@@ -278,22 +319,22 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
       switch (style.animation.type) {
          case 'fromBottom':
          case 'wave':
-            labels.attr('y', height - margin.bottom)
+            labels.attr('y', innerHeight)
                .transition()
                .duration(style.animation.duration / 2)
                .delay((_, i) => style.animation.delay(_, i) + style.animation.duration)
-               .attr('y', d => (yScale(d.value) ?? height - margin.bottom) - 5)
+               .attr('y', d => (calculateBarY(d)) - 5)
                .style('opacity', 1);
             break;
          case 'segments':
-            labels.attr('y', d => (yScale(d.value) ?? height - margin.bottom) - 5)
+            labels.attr('y', d => (calculateBarY(d)) - 5)
                .transition()
                .duration(style.animation.duration)
                .delay((_, i) => style.animation.delay(_, i) + (style.animation.duration / 2))
                .style('opacity', 1);
             break;
          case 'cascade':
-            labels.attr('y', d => (yScale(d.value) ?? height - margin.bottom) - 5)
+            labels.attr('y', d => (calculateBarY(d)) - 5)
                .attr('transform', 'translate(0, 20) scale(0.8)')
                .transition()
                .duration(style.animation.duration / 2)
@@ -302,7 +343,7 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
                .style('opacity', 1);
             break;
          case 'spiral':
-            labels.attr('y', d => (yScale(d.value) ?? height - margin.bottom) - 5)
+            labels.attr('y', d => (calculateBarY(d)) - 5)
                .attr('transform', 'scale(0) rotate(180)')
                .transition()
                .duration(style.animation.duration / 2)
@@ -315,11 +356,85 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
       // Add hover effects
       bars.on('mouseover', function(event, d) {
          const config = chartStyles[vibe] || chartStyles.modern;
-         d3.select(this)
-            .transition()
-            .duration(config.interactivity.hoverDuration)
-            .attr('opacity', 0.8)
-            .attr('transform', `scale(1, ${config.interactivity.activeScale})`);
+         const bar = d3.select(this);
+         
+         // Remove any existing filters
+         bar.attr('filter', null);
+         
+         switch (config.interactivity.hoverEffect) {
+            case 'scale':
+               bar.transition()
+                  .duration(config.interactivity.hoverDuration)
+                  .attr('transform', `scale(1, ${config.interactivity.activeScale})`);
+               break;
+            
+            case 'glow':
+               // Create a glow filter if it doesn't exist
+               const filterId = 'glow-filter';
+               if (!svg.select(`#${filterId}`).size()) {
+                  const filter = svg.append('defs')
+                     .append('filter')
+                     .attr('id', filterId)
+                     .attr('x', '-50%')
+                     .attr('y', '-50%')
+                     .attr('width', '200%')
+                     .attr('height', '200%');
+                  
+                  filter.append('feGaussianBlur')
+                     .attr('stdDeviation', config.interactivity.glowRadius || 4)
+                     .attr('result', 'coloredBlur');
+                  
+                  const feMerge = filter.append('feMerge');
+                  feMerge.append('feMergeNode')
+                     .attr('in', 'coloredBlur');
+                  feMerge.append('feMergeNode')
+                     .attr('in', 'SourceGraphic');
+               }
+               
+               bar.transition()
+                  .duration(config.interactivity.hoverDuration)
+                  .attr('filter', `url(#${filterId})`);
+               break;
+            
+            case 'bounce':
+               bar.transition()
+                  .duration(config.interactivity.hoverDuration / 2)
+                  .attr('transform', `translate(0, -10)`)
+                  .transition()
+                  .duration(config.interactivity.hoverDuration / 2)
+                  .attr('transform', `translate(0, 0)`);
+               break;
+            
+            case 'sway':
+               bar.transition()
+                  .duration(config.interactivity.hoverDuration)
+                  .attr('transform', 'rotate(5)')
+                  .transition()
+                  .duration(config.interactivity.hoverDuration)
+                  .attr('transform', 'rotate(-5)')
+                  .transition()
+                  .duration(config.interactivity.hoverDuration)
+                  .attr('transform', 'rotate(0)');
+               break;
+            
+            case 'pulse':
+               bar.transition()
+                  .duration(config.interactivity.hoverDuration / 2)
+                  .attr('opacity', 0.7)
+                  .transition()
+                  .duration(config.interactivity.hoverDuration / 2)
+                  .attr('opacity', 1);
+               break;
+            
+            case 'twist':
+               bar.transition()
+                  .duration(config.interactivity.hoverDuration)
+                  .attr('transform', 'rotate(180)')
+                  .transition()
+                  .duration(config.interactivity.hoverDuration)
+                  .attr('transform', 'rotate(0)');
+               break;
+         }
          
          tooltip.current && d3.select(tooltip.current)
             .style('visibility', 'visible')
@@ -332,32 +447,18 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
       })
       .on('mouseout', function() {
          const config = chartStyles[vibe] || chartStyles.modern;
-         d3.select(this)
-            .transition()
+         const bar = d3.select(this);
+         
+         // Reset all transformations and effects
+         bar.transition()
             .duration(config.interactivity.hoverDuration)
+            .attr('transform', 'translate(0, 0) rotate(0) scale(1, 1)')
             .attr('opacity', 1)
-            .attr('transform', 'scale(1, 1)');
+            .attr('filter', null);
          
          tooltip.current && d3.select(tooltip.current)
             .style('visibility', 'hidden');
       });
-
-      // Add axes
-      const xAxis = d3.axisBottom(xScale);
-      const yAxis = d3.axisLeft(yScale);
-
-      g.append('g')
-         .attr('transform', `translate(0,${innerHeight})`)
-         .attr('class', 'x-axis')
-         .call(xAxis)
-         .attr('color', 'white')
-         .attr('opacity', 0.5);
-
-      g.append('g')
-         .attr('class', 'y-axis')
-         .call(yAxis)
-         .attr('color', 'white')
-         .attr('opacity', 0.5);
 
       // Add title if provided
       if (title) {
