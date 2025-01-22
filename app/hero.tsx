@@ -52,11 +52,12 @@ export function Hero() {
                   <span className="mt-2 block text-2xl font-bold text-gray-200 sm:text-3xl md:text-4xl lg:mt-4 lg:text-5xl">
                      Data Visualization
                      <br />
-                     Made Simple
+                     Reimagined
+                     <br />
                   </span>
                </h1>
                <p className="mb-8 mt-6 text-base text-gray-400 sm:text-lg md:text-xl lg:text-2xl">
-                  Beautiful and customizable D3.js components for React. Take creative control of your data.
+                  Beautiful and customizable D3.js visuals for React. Accessible. Lightweight. Copy, paste, customize.
                </p>
                <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
                   <Button
