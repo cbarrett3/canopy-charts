@@ -128,7 +128,7 @@ const D3StackedBarChart = ({
 
                     // Highlight related segments
                     layers.selectAll("rect")
-                        .filter(rect => rect.data.category === d.data.category)
+                        .filter((rect: any) => (rect as any).data.category === d.data.category)
                         .transition()
                         .duration(200)
                         .attr("opacity", 1)
