@@ -3,32 +3,23 @@
 import { useState } from "react"
 import { Globe, TreesIcon as Tree, Wand2, PlugIcon as Plugin, Wrench, Triangle } from "lucide-react"
 import Link from "next/link"
+import { ThemeSelector } from "./components/theme-selector"
+import { VibeSelector } from "./components/vibe-selector"
 import TreeMap  from "./d3-tree-map"
 import BarChart  from "./d3-bar-chart"
 import LineChart from "./d3-line-chart"
-import DonutChart from "./d3-donut-chart"
 import StreamChart from "./d3-stream-chart"
 import StackedBarChart from "./d3-stacked-bar-chart"
+import DonutChart from "./d3-donut-chart"
 import { AiChartSuggest } from "./components/ai-chart-suggest"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
 import { Slider } from "@/components/ui/slider"
 import { Command } from 'lucide-react'
 import * as d3 from 'd3'
-
-const themes = [
-  { name: 'Ocean', color: '#0EA5E9', description: 'Deep and calming blue' },
-  { name: 'Forest', color: '#22C55E', description: 'Fresh and natural green' },
-  { name: 'Sunset', color: '#F97316', description: 'Warm orange glow' },
-  { name: 'Royal', color: '#8B5CF6', description: 'Rich purple' },
-  { name: 'Ruby', color: '#EF4444', description: 'Bold red' },
-  { name: 'Gold', color: '#F59E0B', description: 'Warm yellow' },
-  { name: 'Rose', color: '#EC4899', description: 'Playful pink' },
-  { name: 'Slate', color: '#64748B', description: 'Classic neutral' }
-]
 
 function CustomColorPicker({ currentColor, onChange }: { currentColor: string, onChange: (color: string) => void }) {
   const hsl = d3.hsl(currentColor)
@@ -164,71 +155,6 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
   )
 }
 
-function ThemeSelector({ currentTheme, onThemeChange }: { currentTheme: string, onThemeChange: (color: string) => void }) {
-  return (
-    <div className="bg-[#1F1F1F]/50 backdrop-blur-sm border border-[#2A2A2A] rounded-lg p-3">
-      <div className="space-y-2.5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: currentTheme }} />
-            <h3 className="text-sm font-medium text-gray-200">Theme Color</h3>
-          </div>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                className="h-7 px-2 text-xs text-gray-400 hover:text-gray-200"
-              >
-                Custom
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent 
-              className="w-auto p-0 bg-[#1F1F1F] border-[#2A2A2A]"
-              align="end"
-            >
-              <CustomColorPicker currentColor={currentTheme} onChange={onThemeChange} />
-            </PopoverContent>
-          </Popover>
-        </div>
-        <div className="grid grid-cols-4 gap-1.5">
-          <TooltipProvider>
-            {themes.map((theme) => (
-              <Tooltip key={theme.name} delayDuration={200}>
-                <TooltipTrigger asChild>
-                  <button
-                    className={`group relative h-10 w-full overflow-hidden rounded-md transition-all duration-200 
-                      ${currentTheme === theme.color ? 'ring-1 ring-white/20' : 'hover:ring-1 hover:ring-white/10'}`}
-                    onClick={() => onThemeChange(theme.color)}
-                  >
-                    <div 
-                      className="absolute inset-0 transition-transform duration-200"
-                      style={{ 
-                        background: `linear-gradient(45deg, ${theme.color}dd, ${theme.color})`
-                      }}
-                    />
-                    <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200
-                      ${currentTheme === theme.color ? 'opacity-100' : ''}`}>
-                      <div className="h-full w-full bg-gradient-to-br from-white/10 to-transparent" />
-                    </div>
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent 
-                  side="right" 
-                  className="bg-[#1F1F1F] border-[#2A2A2A]"
-                >
-                  <p className="font-medium text-gray-200">{theme.name}</p>
-                  <p className="text-xs text-gray-400">{theme.description}</p>
-                </TooltipContent>
-              </Tooltip>
-            ))}
-          </TooltipProvider>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 const features = [
   {
     component: TreeMap,
@@ -298,15 +224,19 @@ const features = [
 
 export function Features() {
   const [currentTheme, setCurrentTheme] = useState('#22C55E') // Default forest green theme
+  const [currentVibe, setCurrentVibe] = useState('modern') // Default modern vibe
 
   return (
-    <section className="w-full py-16">
+    <section className="w-full py-8 sm:py-16">
       <div className="px-4 mb-12">
-        <div className="flex flex-col sm:flex-row gap-4 max-w-full">
-          <div className="w-full sm:w-[280px] flex-shrink-0">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="h-full">
             <ThemeSelector currentTheme={currentTheme} onThemeChange={setCurrentTheme} />
           </div>
-          <div className="flex-1 min-w-0">
+          <div className="h-full">
+            <VibeSelector currentVibe={currentVibe} onVibeChange={setCurrentVibe} />
+          </div>
+          <div className="h-full">
             <AiChartSuggest />
           </div>
         </div>
@@ -316,7 +246,7 @@ export function Features() {
           <div key={feature.title} className="rounded-lg bg-[#1F1F1F] p-6 hover:bg-[#252525]">
             {feature.component ? (
               <div className="relative mb-4 h-[200px] w-full overflow-hidden">
-                <feature.component themeColor={currentTheme} />
+                <feature.component themeColor={currentTheme} vibe={currentVibe} />
               </div>
             ) : (
               <feature.icon className="mb-4 h-8 w-8 text-gray-400" />
