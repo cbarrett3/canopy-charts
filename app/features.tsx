@@ -253,22 +253,22 @@ const features = [
     link: "View Stacked Bar Chart docs",
     href: "#",
   },
-  {
-    icon: Wrench,
-    title: "Handles your special needs",
-    description:
-      "Rollup is not opinionated. Many configuration options and a rich plugin interface make it the ideal bundler for special build flows and higher level tooling.",
-    link: "See all options",
-    href: "#",
-  },
-  {
-    icon: Triangle,
-    title: "The bundler behind Vite",
-    description:
-      "Developing for the web? Vite pre-configures Rollup for you with sensible defaults and powerful plugins while giving you an insanely fast development server.",
-    link: "Check out Vite",
-    href: "#",
-  },
+  // {
+  //   icon: Wrench,
+  //   title: "Handles your special needs",
+  //   description:
+  //     "Rollup is not opinionated. Many configuration options and a rich plugin interface make it the ideal bundler for special build flows and higher level tooling.",
+  //   link: "See all options",
+  //   href: "#",
+  // },
+  // {
+  //   icon: Triangle,
+  //   title: "The bundler behind Vite",
+  //   description:
+  //     "Developing for the web? Vite pre-configures Rollup for you with sensible defaults and powerful plugins while giving you an insanely fast development server.",
+  //   link: "Check out Vite",
+  //   href: "#",
+  // },
 ]
 
 export function Features() {
