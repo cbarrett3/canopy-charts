@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Globe, TreesIcon as Tree, Wand2, PlugIcon as Plugin, Wrench, Triangle } from "lucide-react"
 import Link from "next/link"
 import TreeMap  from "./d3-tree-map"
@@ -8,6 +9,7 @@ import LineChart from "./d3-line-chart"
 import DonutChart from "./d3-donut-chart"
 import StreamChart from "./d3-stream-chart"
 import StackedBarChart from "./d3-stacked-bar-chart"
+import { ThemeSelector } from "./components/theme-selector"
 
 const features = [
   {
@@ -77,24 +79,33 @@ const features = [
 ]
 
 export function Features() {
+  const [currentTheme, setCurrentTheme] = useState('#22C55E') // Default forest green theme
+
   return (
-    <div className="grid grid-cols-1 gap-6 px-4 py-16 md:grid-cols-2 lg:grid-cols-3">
-      {features.map((feature) => (
-        <div key={feature.title} className="rounded-lg bg-[#1F1F1F] p-6 hover:bg-[#252525]">
-          {feature.component ? (
-            <div className="mb-4 h-[200px] w-full">
-              <feature.component />
-            </div>
-          ) : (
-            <feature.icon className="mb-4 h-8 w-8 text-gray-400" />
-          )}
-          <h3 className="mb-2 text-xl font-semibold text-gray-200">{feature.title}</h3>
-          <p className="mb-4 text-gray-400">{feature.description}</p>
-          <Link href={feature.href} className="text-[#4169E1] hover:text-[#3154b3]">
-            {feature.link} →
-          </Link>
+    <div className="space-y-8">
+      <div className="px-4 mb-6">
+        <div className="max-w-[300px]">
+          <ThemeSelector currentTheme={currentTheme} onThemeChange={setCurrentTheme} />
         </div>
-      ))}
+      </div>
+      <div className="grid grid-cols-1 gap-6 px-4 md:grid-cols-2 lg:grid-cols-3">
+        {features.map((feature) => (
+          <div key={feature.title} className="rounded-lg bg-[#1F1F1F] p-6 hover:bg-[#252525]">
+            {feature.component ? (
+              <div className="mb-4 h-[200px] w-full">
+                <feature.component themeColor={currentTheme} />
+              </div>
+            ) : (
+              <feature.icon className="mb-4 h-8 w-8 text-gray-400" />
+            )}
+            <h3 className="mb-2 text-xl font-semibold text-gray-200">{feature.title}</h3>
+            <p className="mb-4 text-gray-400">{feature.description}</p>
+            <Link href={feature.href} className="text-[#4169E1] hover:text-[#3154b3]">
+              {feature.link} →
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
