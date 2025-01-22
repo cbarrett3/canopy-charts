@@ -166,11 +166,11 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
 
 function ThemeSelector({ currentTheme, onThemeChange }: { currentTheme: string, onThemeChange: (color: string) => void }) {
   return (
-    <div className="bg-[#1F1F1F]/50 backdrop-blur-sm border border-[#2A2A2A] rounded-lg p-4">
-      <div className="space-y-3">
+    <div className="bg-[#1F1F1F]/50 backdrop-blur-sm border border-[#2A2A2A] rounded-lg p-3">
+      <div className="space-y-2.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: currentTheme }} />
+            <div className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: currentTheme }} />
             <h3 className="text-sm font-medium text-gray-200">Theme Color</h3>
           </div>
           <Popover>
@@ -178,9 +178,9 @@ function ThemeSelector({ currentTheme, onThemeChange }: { currentTheme: string, 
               <Button 
                 variant="ghost" 
                 size="sm"
-                className="h-8 px-2 text-xs text-gray-400 hover:text-gray-200"
+                className="h-7 px-2 text-xs text-gray-400 hover:text-gray-200"
               >
-                Custom Color
+                Custom
               </Button>
             </PopoverTrigger>
             <PopoverContent 
@@ -191,13 +191,13 @@ function ThemeSelector({ currentTheme, onThemeChange }: { currentTheme: string, 
             </PopoverContent>
           </Popover>
         </div>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-4 gap-1.5">
           <TooltipProvider>
             {themes.map((theme) => (
               <Tooltip key={theme.name} delayDuration={200}>
                 <TooltipTrigger asChild>
                   <button
-                    className={`group relative h-12 w-full overflow-hidden rounded-md transition-all duration-200 
+                    className={`group relative h-10 w-full overflow-hidden rounded-md transition-all duration-200 
                       ${currentTheme === theme.color ? 'ring-1 ring-white/20' : 'hover:ring-1 hover:ring-white/10'}`}
                     onClick={() => onThemeChange(theme.color)}
                   >
@@ -300,20 +300,22 @@ export function Features() {
   const [currentTheme, setCurrentTheme] = useState('#22C55E') // Default forest green theme
 
   return (
-    <div className="space-y-8">
-      <div className="px-4 mb-6">
-        <div className="flex gap-4">
-          <div className="w-[300px]">
+    <section className="w-full py-16">
+      <div className="px-4 mb-12">
+        <div className="flex flex-col sm:flex-row gap-4 max-w-full">
+          <div className="w-full sm:w-[280px] flex-shrink-0">
             <ThemeSelector currentTheme={currentTheme} onThemeChange={setCurrentTheme} />
           </div>
-          <AiChartSuggest />
+          <div className="flex-1 min-w-0">
+            <AiChartSuggest />
+          </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-6 px-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 px-4 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
           <div key={feature.title} className="rounded-lg bg-[#1F1F1F] p-6 hover:bg-[#252525]">
             {feature.component ? (
-              <div className="mb-4 h-[200px] w-full">
+              <div className="relative mb-4 h-[200px] w-full overflow-hidden">
                 <feature.component themeColor={currentTheme} />
               </div>
             ) : (
@@ -327,6 +329,6 @@ export function Features() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   )
 }
