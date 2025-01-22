@@ -1,37 +1,43 @@
+"use client"
+
 import { Globe, TreesIcon as Tree, Wand2, PlugIcon as Plugin, Wrench, Triangle } from "lucide-react"
 import Link from "next/link"
+import TreeMap  from "./d3-tree-map"
+import BarChart  from "./d3-bar-chart"
+import LineChart from "./d3-line-chart"
+import DonutChart from "./d3-donut-chart"
 
 const features = [
   {
-    icon: Globe,
-    title: "The Web, Node ...",
+    component: TreeMap,
+    title: "TreeMap",
     description:
-      "Rollup supports many output formats: ES modules, CommonJS, UMD, SystemJS and more. Bundle not only for the web but for many other platforms as well.",
-    link: "See all formats",
+      "Hierarchical data visualization that uses nested rectangles to represent data structure and values.",
+    link: "View TreeMap docs",
     href: "#",
   },
   {
-    icon: Tree,
-    title: "Tree-shaking",
+    component: BarChart,
+    title: "Bar Chart",
     description:
-      "Superior dead code elimination based on deep execution path analysis with the tool that brought tree-shaking to the JavaScript world.",
-    link: "Learn about tree-shaking",
+      "Versatile bar charts with customizable animations, colors, and layouts. Perfect for comparing values across categories.",
+    link: "View Bar Chart docs",
     href: "#",
   },
   {
-    icon: Wand2,
-    title: "Code-splitting without overhead",
+    component: LineChart,
+    title: "Line Chart",
     description:
-      "Split code based on different entry points and dynamic imports by just using the import mechanism of the output format instead of customer loader code.",
-    link: "How to use code-splitting",
+      "Smooth, interactive line charts with customizable curves, points, and animations. Ideal for time series data.",
+    link: "View Line Chart docs",
     href: "#",
   },
   {
-    icon: Plugin,
-    title: "Powerful plugins",
+    component: DonutChart,
+    title: "Donut Chart",
     description:
-      "An easy to learn plugin API that allows you to implement powerful code injections and transformations with little code. Adopted by Vite and WMR.",
-    link: "Learn how to write plugins",
+      "Beautiful donut charts with interactive segments, customizable colors, and smooth transitions.",
+    link: "View Donut Chart docs",
     href: "#",
   },
   {
@@ -57,7 +63,13 @@ export function Features() {
     <div className="grid grid-cols-1 gap-6 px-4 py-16 md:grid-cols-2 lg:grid-cols-3">
       {features.map((feature) => (
         <div key={feature.title} className="rounded-lg bg-[#1F1F1F] p-6 hover:bg-[#252525]">
-          <feature.icon className="mb-4 h-8 w-8 text-gray-400" />
+          {feature.component ? (
+            <div className="mb-4 h-[200px] w-full">
+              <feature.component />
+            </div>
+          ) : (
+            <feature.icon className="mb-4 h-8 w-8 text-gray-400" />
+          )}
           <h3 className="mb-2 text-xl font-semibold text-gray-200">{feature.title}</h3>
           <p className="mb-4 text-gray-400">{feature.description}</p>
           <Link href={feature.href} className="text-[#4169E1] hover:text-[#3154b3]">
@@ -68,4 +80,3 @@ export function Features() {
     </div>
   )
 }
-
