@@ -52,7 +52,10 @@ const D3StreamChart = ({
 
             const svg = d3.select(svgRef.current)
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                .attr("viewBox", [0, 0, width, height])
+                .style("overflow", "visible")
+                .style("display", "block");
 
             const g = svg.append("g")
                 .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -211,8 +214,8 @@ const D3StreamChart = ({
     }, [data, themeColor]);
 
     return (
-        <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'relative' }}>
-            <svg ref={svgRef} style={{ width: '100%', height: '100%' }} />
+        <div ref={containerRef} className="relative w-full h-full overflow-hidden">
+            <svg ref={svgRef} className="absolute inset-0" />
             <div ref={tooltipRef} />
         </div>
     );
