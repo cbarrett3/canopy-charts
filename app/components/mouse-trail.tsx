@@ -38,7 +38,7 @@ export function MouseTrail() {
             points.current.push({
                x: mousePos.current.x,
                y: mousePos.current.y,
-               alpha: 0.4
+               alpha: 0.35
             })
          }
 
@@ -54,15 +54,15 @@ export function MouseTrail() {
             ctx.beginPath()
             const gradient = ctx.createRadialGradient(
                point.x, point.y, 0,
-               point.x, point.y, 15
+               point.x, point.y, 12
             )
             const isDarkMode = theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
-            const alpha = isDarkMode ? point.alpha : point.alpha * 6
-            const color = isDarkMode ? '34, 197, 94' : '0, 63, 31'
+            const alpha = isDarkMode ? point.alpha : point.alpha * 3
+            const color = '34, 197, 94' // Same vibrant green for both modes
             gradient.addColorStop(0, `rgba(${color}, ${alpha})`)
             gradient.addColorStop(1, `rgba(${color}, 0)`)
             ctx.fillStyle = gradient
-            ctx.arc(point.x, point.y, 15, 0, Math.PI * 2)
+            ctx.arc(point.x, point.y, 12, 0, Math.PI * 2)
             ctx.fill()
          })
 
