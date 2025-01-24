@@ -30,7 +30,7 @@ export function Hero() {
             {/* Logo Container - Moved above text for mobile */}
             <div className={cn(
                "relative mb-0 flex w-full items-end justify-center overflow-visible px-4 lg:mb-0 lg:w-1/2 lg:items-center",
-               mounted ? "animate-in fade-in-50 duration-1000 lg:slide-in-from-right-20" : "opacity-0"
+               mounted ? "animate-in fade-in-50 duration-&lsqb;1000ms&rsqb; lg:slide-in-from-right-20" : "opacity-0"
             )}>
                <div className="relative aspect-square w-[200px] sm:w-[250px] md:w-[300px] lg:w-[95%] lg:max-w-[600px]">
                   {/* Glow effect */}
@@ -43,10 +43,10 @@ export function Hero() {
             {/* Text Content */}
             <div className={cn(
                "relative z-10 flex flex-col justify-start px-2 text-center sm:px-6 lg:w-1/2 lg:justify-center lg:px-8 lg:text-left xl:px-12",
-               mounted ? "animate-in fade-in-50 duration-1000" : "opacity-0"
+               mounted ? "animate-in fade-in-50 duration-&lsqb;1000ms&rsqb;" : "opacity-0"
             )}>
                <h1 className="mb-2">
-                  <span className="block text-3xl font-bold bg-[linear-gradient(90deg,#15803d,#22c55e,#4ade80,#22c55e,#15803d)] inline-block text-transparent bg-clip-text animate-shine sm:text-4xl md:text-5xl lg:text-6xl">
+                  <span className="block text-3xl font-bold bg-&lsqb;linear-gradient(90deg,#15803d,#22c55e,#4ade80,#22c55e,#15803d)&rsqb; inline-block text-transparent bg-clip-text animate-shine sm:text-4xl md:text-5xl lg:text-6xl">
                      Canopy Charts
                   </span>
                   <span className="mt-2 block text-2xl font-bold text-gray-200 sm:text-3xl md:text-4xl lg:mt-4 lg:text-5xl">

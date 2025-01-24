@@ -52,7 +52,6 @@ const D3StackedBarChart = ({
             const svg = d3.select(svgRef.current)
                 .attr("width", width)
                 .attr("height", height)
-                .attr("viewBox", [0, 0, width, height])
                 .style("overflow", "visible")
                 .style("display", "block");
 
@@ -108,9 +107,13 @@ const D3StackedBarChart = ({
                 .attr("x", d => xScale(d[0]))
                 .attr("width", 0)
                 .attr("cursor", "pointer")
-                .on("mouseover", function(event, d) {
-                    const layer = d3.select(this.parentNode);
-                    const key = layer.datum().key;
+                .on("mouseover", function(event: MouseEvent, d: d3.SeriesPoint<any>) {
+                    // Safely handle element selection
+                    const element = this as Element;
+                    const layer = element.parentElement 
+                        ? d3.select(element.parentElement)
+                        : d3.select(element);
+                    const key = (layer.datum() as any).key;
                     const value = d[1] - d[0];
 
                     d3.select(this)
@@ -236,7 +239,11 @@ const D3StackedBarChart = ({
 
     return (
         <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'relative' }}>
-            <svg ref={svgRef} style={{ width: '100%', height: '100%', viewBox: '0 0 500 200', overflow: 'visible', display: 'block' }} />
+            <svg 
+                ref={svgRef} 
+                style={{ width: '100%', height: '100%', overflow: 'visible', display: 'block' }}
+                viewBox="0 0 500 200"
+            />
             <div ref={tooltipRef} />
         </div>
     );

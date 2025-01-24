@@ -653,10 +653,10 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
          const baseColor = d3.color(themeColor)!;
          gradient.append('stop')
             .attr('offset', '0%')
-            .attr('stop-color', baseColor.copy({opacity: 0.05}));
+            .attr('stop-color', baseColor.copy({opacity: 0.05}).toString());
          gradient.append('stop')
             .attr('offset', '100%')
-            .attr('stop-color', baseColor.copy({opacity: 0.1}));
+            .attr('stop-color', baseColor.copy({opacity: 0.1}).toString());
 
          legendGroup.insert('rect', ':first-child')
             .attr('class', 'legend-bg')
@@ -666,7 +666,7 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
             .attr('height', legendBBox.height + legendConfig.padding * 2)
             .attr('fill', `url(#${gradientId})`)
             .attr('rx', legendConfig.padding * 1.5)
-            .attr('stroke', d3.color(themeColor)?.darker(0.2))
+            .attr('stroke', d3.color(themeColor)?.darker(0.2)?.toString() || themeColor)
             .attr('stroke-opacity', 0.2)
             .attr('stroke-width', 1);
       }
