@@ -77,27 +77,27 @@ export function ChartControls({ currentTheme, currentVibe, onThemeChange, onVibe
           bg-background/80 dark:bg-[#1B1B1B]/80 backdrop-blur-md backdrop-saturate-150 
           border-2 border-border/50 shadow-[0_2px_10px] shadow-black/5
           rounded-t-lg px-8 py-3 font-medium
-          transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]
+          transition-all duration-700 ease-out
           hover:shadow-[0_2px_15px] hover:shadow-black/10
           ${isExpanded ? 'hover:bg-muted/30' : 'hover:bg-background dark:hover:bg-[#1B1B1B]'}`}
       >
         <div className="flex items-center gap-2">
           <span className="text-base font-medium">Customize Charts</span>
           {isExpanded ? (
-            <ChevronUp className="h-5 w-5 transition-transform duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]" />
+            <ChevronUp className="h-5 w-5 transition-transform duration-700 ease-out" />
           ) : (
-            <ChevronDown className="h-5 w-5 transition-transform duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]" />
+            <ChevronDown className="h-5 w-5 transition-transform duration-700 ease-out" />
           )}
         </div>
       </Button>
       
       <div 
-        className={`grid transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]
+        className={`grid transition-all duration-700 ease-out
           ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
         <div className="overflow-hidden">
           <div className={`bg-white/40 dark:bg-background/40 backdrop-blur-md border border-border/40 shadow-sm rounded-lg p-6
-            transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]
+            transition-all duration-700 ease-out
             ${isExpanded ? 'translate-y-0' : 'translate-y-8'}`}
           >
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
