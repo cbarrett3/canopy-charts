@@ -296,17 +296,17 @@ export function Features() {
          </div>
          <div className="grid grid-cols-1 gap-8 px-4 md:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
-               <div key={feature.title} className="rounded-lg bg-[#1F1F1F] p-6 hover:bg-[#252525]">
+               <div key={feature.title} className="rounded-lg bg-card hover:bg-muted p-6">
                   {feature.component ? (
                      <div className="relative mb-4 h-[200px] w-full overflow-hidden">
                         <feature.component themeColor={currentTheme} vibe={currentVibe} />
                      </div>
                   ) : feature.icon ? (
-                     <feature.icon className="mb-4 h-8 w-8 text-gray-400" />
+                     <feature.icon className="mb-4 h-8 w-8 text-muted-foreground" />
                   ) : null}
-                  <h3 className="mb-2 text-xl font-semibold text-gray-200">{feature.title}</h3>
-                  <p className="mb-4 text-gray-400">{feature.description}</p>
-                  <Link href={feature.href} className="text-[#4169E1] hover:text-[#3154b3]">
+                  <h3 className="mb-2 text-xl font-semibold text-foreground">{feature.title}</h3>
+                  <p className="mb-4 text-muted-foreground">{feature.description}</p>
+                  <Link href={feature.href} className="text-primary hover:text-primary/80">
                      {feature.link} →
                   </Link>
                </div>

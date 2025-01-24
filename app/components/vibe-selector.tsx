@@ -81,15 +81,15 @@ interface VibeSelectorProps {
 
 export function VibeSelector({ currentVibe, onVibeChange }: VibeSelectorProps) {
   return (
-    <div className="bg-[#1F1F1F]/50 backdrop-blur-sm border border-[#2A2A2A] rounded-lg p-4 h-full">
+    <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-4 h-full">
       <div className="flex flex-col h-full">
         <div className="flex items-center gap-2 mb-4">
           <div className="h-3 w-3">
-            <svg viewBox="0 0 15 15" className="h-full w-full text-gray-400">
+            <svg viewBox="0 0 15 15" className="h-full w-full text-muted-foreground">
               <path d="M7.5 3C9.5 3 11 4 11 6C11 8 9.5 9 7.5 9C5.5 9 4 8 4 6C4 4 5.5 3 7.5 3ZM7.5 1C4.5 1 2 3 2 6C2 9 4.5 11 7.5 11C10.5 11 13 9 13 6C13 3 10.5 1 7.5 1Z" fill="currentColor"/>
             </svg>
           </div>
-          <h3 className="text-sm font-medium text-gray-200">Chart Style</h3>
+          <h3 className="text-sm font-medium text-foreground">Chart Style</h3>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 flex-1">
           <TooltipProvider>
@@ -97,26 +97,26 @@ export function VibeSelector({ currentVibe, onVibeChange }: VibeSelectorProps) {
               <Tooltip key={vibe.id} delayDuration={200}>
                 <TooltipTrigger asChild>
                   <button
-                    className={`group relative h-16 w-full overflow-hidden rounded-md bg-white/5 transition-all duration-200 
-                      ${currentVibe === vibe.id ? 'ring-2 ring-white/20' : 'hover:ring-1 hover:ring-white/10'}`}
+                    className={`group relative h-16 w-full overflow-hidden rounded-md bg-foreground/5 transition-all duration-200 
+                      ${currentVibe === vibe.id ? 'ring-2 ring-foreground/20' : 'hover:ring-1 hover:ring-foreground/10'}`}
                     onClick={() => onVibeChange(vibe.id)}
                   >
                     <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200
                       ${currentVibe === vibe.id ? 'opacity-100' : ''}`}>
-                      <div className="h-full w-full bg-gradient-to-br from-white/10 to-transparent" />
+                      <div className="h-full w-full bg-gradient-to-br from-foreground/10 to-transparent" />
                     </div>
                     <div className="relative flex flex-col items-center justify-center gap-1">
-                      <span className="text-gray-400">{vibe.icon}</span>
-                      <span className="text-xs font-medium text-gray-200">{vibe.name}</span>
+                      <span className="text-muted-foreground">{vibe.icon}</span>
+                      <span className="text-xs font-medium text-foreground">{vibe.name}</span>
                     </div>
                   </button>
                 </TooltipTrigger>
                 <TooltipContent 
                   side="bottom" 
-                  className="bg-[#1F1F1F] border-[#2A2A2A]"
+                  className="bg-card border-border"
                 >
-                  <p className="font-medium text-gray-200">{vibe.name}</p>
-                  <p className="text-xs text-gray-400">{vibe.description}</p>
+                  <p className="font-medium text-foreground">{vibe.name}</p>
+                  <p className="text-xs text-muted-foreground">{vibe.description}</p>
                 </TooltipContent>
               </Tooltip>
             ))}
