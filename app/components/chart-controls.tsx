@@ -94,8 +94,8 @@ export function ChartControls({ currentTheme, currentVibe, onThemeChange, onVibe
         variant="ghost"
         size="sm"
         onClick={() => setIsExpanded(!isExpanded)}
-        className={`absolute -bottom-8 left-1/2 -translate-x-1/2 text-gray-400 hover:text-gray-200 
-          bg-[#1F1F1F]/50 backdrop-blur-sm border border-[#2A2A2A] rounded-b-lg px-8
+        className={`absolute -top-8 left-1/2 -translate-x-1/2 text-gray-400 hover:text-gray-200 
+          bg-[#1F1F1F]/50 backdrop-blur-sm border border-[#2A2A2A] rounded-t-lg px-8
           transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]
           ${isExpanded ? 'hover:bg-[#2A2A2A]/50' : 'hover:bg-[#1F1F1F]/80'}`}
       >
@@ -112,7 +112,7 @@ export function ChartControls({ currentTheme, currentVibe, onThemeChange, onVibe
       >
         <div className="overflow-hidden">
           <div className={`transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]
-            ${isExpanded ? 'translate-y-0' : '-translate-y-8'}`}
+            ${isExpanded ? 'translate-y-0' : 'translate-y-8'}`}
           >
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="h-full">

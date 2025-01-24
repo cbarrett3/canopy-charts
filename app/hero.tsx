@@ -23,6 +23,31 @@ export function Hero() {
         .animate-floating {
           animation: floating 6s ease-in-out infinite;
         }
+        @keyframes shine {
+          to {
+            background-position: 200% center;
+          }
+        }
+        .chrome-gradient {
+          background: linear-gradient(
+            to right,
+            #064e3b,
+            #059669,
+            #10b981,
+            #34d399,
+            #6ee7b7,
+            #34d399,
+            #10b981,
+            #059669,
+            #064e3b
+          );
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          background-size: 200% auto;
+          animation: shine 8s linear infinite;
+          text-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+        }
       `}</style>
 
          {/* Main Container */}
@@ -45,11 +70,11 @@ export function Hero() {
                "relative z-10 flex flex-col justify-start px-2 text-center sm:px-6 lg:w-1/2 lg:justify-center lg:px-8 lg:text-left xl:px-12",
                mounted ? "animate-in fade-in-50 duration-&lsqb;1000ms&rsqb;" : "opacity-0"
             )}>
-               <h1 className="mb-2">
-                  <span className="block text-3xl font-bold bg-&lsqb;linear-gradient(90deg,#15803d,#22c55e,#4ade80,#22c55e,#15803d)&rsqb; inline-block text-transparent bg-clip-text animate-shine sm:text-4xl md:text-5xl lg:text-6xl">
+               <h1 className="mb-2 relative">
+                  <span className="chrome-gradient block text-4xl font-extrabold tracking-tight leading-relaxed pb-4 sm:text-5xl md:text-6xl lg:text-7xl">
                      Canopy Charts
                   </span>
-                  <span className="mt-2 block text-2xl font-bold text-gray-200 sm:text-3xl md:text-4xl lg:mt-4 lg:text-5xl">
+                  <span className="mt-6 block text-2xl font-bold text-gray-200 sm:text-3xl md:text-4xl lg:mt-8 lg:text-5xl">
                      Data Visualization
                      <br />
                      Reimagined
