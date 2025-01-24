@@ -74,8 +74,19 @@ export function Logo({ className }: { className?: string }) {
             className="h-full w-full p-2"
             preserveAspectRatio="xMidYMid meet"
          >
+            {/* Radial fade mask */}
+            <defs>
+               <radialGradient id="fade-mask" cx="50%" cy="50%" r="50%">
+                  <stop offset="80%" stopColor="white" stopOpacity="1" />
+                  <stop offset="100%" stopColor="white" stopOpacity="0" />
+               </radialGradient>
+               <mask id="fade">
+                  <circle cx="250" cy="250" r="250" fill="url(#fade-mask)" />
+               </mask>
+            </defs>
+
             {/* Grid Background */}
-            <g>
+            <g mask="url(#fade)">
                <motion.g variants={gridVariants}>
                   {/* Horizontal lines */}
                   {Array.from({ length: 20 }).map((_, i) => (
@@ -85,7 +96,8 @@ export function Logo({ className }: { className?: string }) {
                         y1={25 * i}
                         x2="500"
                         y2={25 * i}
-                        stroke="#2c2c2c"
+                        stroke="currentColor"
+                        className="text-muted-foreground/70 dark:text-muted-foreground/90"
                         strokeWidth="1"
                      />
                   ))}
@@ -97,7 +109,8 @@ export function Logo({ className }: { className?: string }) {
                         y1="0"
                         x2={25 * i}
                         y2="500"
-                        stroke="#2c2c2c"
+                        stroke="currentColor"
+                        className="text-muted-foreground/70 dark:text-muted-foreground/90"
                         strokeWidth="1"
                      />
                   ))}
