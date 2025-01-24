@@ -55,7 +55,7 @@ export function Hero() {
             {/* Logo Container - Moved above text for mobile */}
             <div className={cn(
                "relative mb-0 flex w-full items-end justify-center overflow-visible px-4 lg:mb-0 lg:w-1/2 lg:items-center",
-               mounted ? "animate-in fade-in-50 duration-[1000ms] lg:slide-in-from-right-20" : "opacity-0"
+               mounted ? "animate-in fade-in-50 duration-1000 lg:slide-in-from-right-20" : "opacity-0"
             )}>
                <div className="relative aspect-square w-[200px] sm:w-[250px] md:w-[300px] lg:w-[95%] lg:max-w-[600px]">
                   {/* Glow effect */}
@@ -68,7 +68,7 @@ export function Hero() {
             {/* Text Content */}
             <div className={cn(
                "relative z-10 flex flex-col justify-start px-2 text-center sm:px-6 lg:w-1/2 lg:justify-center lg:px-8 lg:text-left xl:px-12",
-               mounted ? "animate-in fade-in-50 duration-[1000ms]" : "opacity-0"
+               mounted ? "animate-in fade-in-50 duration-1000" : "opacity-0"
             )}>
                <h1 className="mb-2 relative">
                   <span className="chrome-gradient block text-4xl font-extrabold tracking-tight leading-relaxed pb-4 sm:text-5xl md:text-6xl lg:text-7xl">
