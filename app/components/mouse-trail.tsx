@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { useTheme } from "next-themes"
 
 interface Point {
    x: number
@@ -13,6 +14,7 @@ export function MouseTrail() {
    const points = useRef<Point[]>([])
    const mousePos = useRef<{ x: number; y: number; disabled: boolean }>({ x: 0, y: 0, disabled: false })
    const animationFrameId = useRef<number>()
+   const { theme, systemTheme } = useTheme()
 
    useEffect(() => {
       const canvas = canvasRef.current
@@ -36,7 +38,7 @@ export function MouseTrail() {
             points.current.push({
                x: mousePos.current.x,
                y: mousePos.current.y,
-               alpha: 0.3
+               alpha: 0.4
             })
          }
 
@@ -44,7 +46,7 @@ export function MouseTrail() {
          points.current = points.current
             .map(point => ({
                ...point,
-               alpha: point.alpha * 0.95
+               alpha: point.alpha * 0.92
             }))
             .filter(point => point.alpha > 0.01)
 
@@ -52,12 +54,15 @@ export function MouseTrail() {
             ctx.beginPath()
             const gradient = ctx.createRadialGradient(
                point.x, point.y, 0,
-               point.x, point.y, 10
+               point.x, point.y, 15
             )
-            gradient.addColorStop(0, `rgba(34, 197, 94, ${point.alpha})`)
-            gradient.addColorStop(1, 'rgba(34, 197, 94, 0)')
+            const isDarkMode = theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
+            const alpha = isDarkMode ? point.alpha : point.alpha * 6
+            const color = isDarkMode ? '34, 197, 94' : '0, 63, 31'
+            gradient.addColorStop(0, `rgba(${color}, ${alpha})`)
+            gradient.addColorStop(1, `rgba(${color}, 0)`)
             ctx.fillStyle = gradient
-            ctx.arc(point.x, point.y, 10, 0, Math.PI * 2)
+            ctx.arc(point.x, point.y, 15, 0, Math.PI * 2)
             ctx.fill()
          })
 
@@ -159,8 +164,8 @@ export function MouseTrail() {
    return (
       <canvas
          ref={canvasRef}
-         className="fixed inset-0 pointer-events-none z-50"
-         style={{ mixBlendMode: 'screen' }}
+         className="fixed inset-0 pointer-events-none z-[100]"
+         style={{ mixBlendMode: 'normal' }}
       />
    )
 }
