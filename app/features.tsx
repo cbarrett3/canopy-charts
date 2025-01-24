@@ -285,8 +285,13 @@ export function Features() {
    const [currentVibe, setCurrentVibe] = useState('modern') // Default modern vibe
 
    return (
-      <section className="w-full py-8 sm:py-16">
-         <div className="px-4 mb-16">
+      <section className="relative w-full py-8 sm:py-16 bg-background dark:bg-[#161616]">
+         {/* Gradient fade effect */}
+         <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-transparent dark:from-[#161616] dark:via-[#161616] dark:to-[#141414] opacity-90" />
+         </div>
+         
+         <div className="relative px-4 mb-16">
             <ChartControls
                currentTheme={currentTheme}
                currentVibe={currentVibe}
@@ -294,19 +299,22 @@ export function Features() {
                onVibeChange={setCurrentVibe}
             />
          </div>
-         <div className="grid grid-cols-1 gap-8 px-4 md:grid-cols-2 lg:grid-cols-3">
+         <div className="relative grid grid-cols-1 gap-8 px-4 md:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
-               <div key={feature.title} className="rounded-lg bg-card hover:bg-muted p-6">
+               <div 
+                  key={feature.title} 
+                  className="group rounded-lg bg-background/20 dark:bg-[#181818]/50 hover:bg-muted/50 dark:hover:bg-[#1A1A1A]/50 p-6 backdrop-blur-sm border border-border/50 transition-all duration-300"
+               >
                   {feature.component ? (
-                     <div className="relative mb-4 h-[200px] w-full overflow-hidden">
+                     <div className="relative mb-4 h-[200px] w-full overflow-hidden rounded-md bg-gradient-to-b from-background/50 to-transparent dark:from-[#161616]/50">
                         <feature.component themeColor={currentTheme} vibe={currentVibe} />
                      </div>
                   ) : feature.icon ? (
-                     <feature.icon className="mb-4 h-8 w-8 text-muted-foreground" />
+                     <feature.icon className="mb-4 h-8 w-8 text-muted-foreground group-hover:text-foreground transition-colors" />
                   ) : null}
                   <h3 className="mb-2 text-xl font-semibold text-foreground">{feature.title}</h3>
                   <p className="mb-4 text-muted-foreground">{feature.description}</p>
-                  <Link href={feature.href} className="text-primary hover:text-primary/80">
+                  <Link href={feature.href} className="text-primary hover:text-primary/80 transition-colors">
                      {feature.link} →
                   </Link>
                </div>
