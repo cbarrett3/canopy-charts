@@ -285,10 +285,10 @@ export function Features() {
    const [currentVibe, setCurrentVibe] = useState('modern') // Default modern vibe
 
    return (
-      <section className="relative w-full py-8 sm:py-16 bg-background dark:bg-[#141414]">
+      <section className="relative w-full py-8 sm:py-16 bg-background dark:bg-[#1B1B1B]">
          {/* Gradient fade effect */}
          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-transparent dark:from-[#141414] dark:via-[#141414] dark:to-[#131313] opacity-90" />
+            <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-transparent dark:from-[#1B1B1B] dark:via-[#1B1B1B] dark:to-[#1A1A1A] opacity-90" />
          </div>
          
          <div className="relative px-4 mb-16">
