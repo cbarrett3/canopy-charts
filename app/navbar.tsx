@@ -15,67 +15,41 @@ import { ThemeToggle } from "@/components/theme-toggle"
 
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 bg-background/80 dark:bg-[#161616]/80 backdrop-blur-md backdrop-saturate-150 border-b border-border/50">
-      <div className="flex items-center gap-4">
-        <Link href="/" className="flex items-center gap-2 mr-8">
-          <div className="relative h-12 w-12 flex-shrink-0 overflow-visible">
-            <Logo className="w-full h-full" />
+    <div className="sticky top-0 z-50 mx-4 sm:mx-6 lg:mx-8">
+      <nav className="flex items-center justify-between px-4 py-3 bg-background/80 dark:bg-[#141414]/80 backdrop-blur-md backdrop-saturate-150 border border-border/50 rounded-lg shadow-sm">
+        <div className="flex items-center gap-4">
+          <Link href="/" className="flex items-center gap-2 mr-8">
+            <div className="relative h-12 w-12 flex-shrink-0 overflow-visible">
+              <Logo className="w-full h-full" />
+            </div>
+            <span className="text-xl font-semibold tracking-tight text-foreground">Canopy</span>
+          </Link>
+          <div className="hidden md:flex items-center gap-6">
+            <Link href="/docs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Documentation
+            </Link>
+            <Link href="/examples" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Examples
+            </Link>
+            <Link href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Blog
+            </Link>
           </div>
-          <span className="text-xl font-semibold tracking-tight text-foreground">Canopy</span>
-        </Link>
-        <div className="hidden md:flex items-center gap-6">
-          <Link href="/docs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-            Documentation
-          </Link>
-          <Link href="/examples" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-            Examples
-          </Link>
         </div>
-      </div>
-      <div className="flex items-center gap-4">
-        <ThemeToggle />
-        <Link href="/guide" className="text-gray-300 text-sm hover:text-white">
-          guide
-        </Link>
-        <Link href="/repl" className="text-gray-300 text-sm hover:text-white">
-          repl
-        </Link>
-        <div className="flex items-center gap-1">
-          <Link href="/chat" className="text-gray-300 text-sm hover:text-white">
-            chat
-          </Link>
-          <MessageSquare className="h-4 w-4 text-gray-500" />
-        </div>
-        <Link href="/opencollective" className="text-gray-300 text-sm hover:text-white">
-          opencollective
-        </Link>
 
-        {/* Language Dropdown */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="text-gray-300">
-              EN <ChevronDown className="ml-1 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => {}}>
-              English
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => {}}>
-              Español
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => {}}>
-              中文
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <Link href="https://github.com/cbarrett3/canopy-charts" target="_blank">
-          <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-            <Github className="h-5 w-5" />
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" asChild>
+            <Link href="https://github.com/cbarrett3/canopy-charts" target="_blank" rel="noopener noreferrer">
+              <Github className="h-5 w-5" />
+              <span className="sr-only">GitHub</span>
+            </Link>
           </Button>
-        </Link>
-      </div>
-    </nav>
+          <ThemeToggle />
+          <Button variant="default" className="hidden sm:flex">
+            Get Started
+          </Button>
+        </div>
+      </nav>
+    </div>
   )
 }
