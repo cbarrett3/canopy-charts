@@ -13,7 +13,7 @@ export function Hero() {
    }, [])
 
    return (
-      <div className="relative min-h-screen w-full overflow-hidden bg-[#1B1B1B]">
+      <div className="relative min-h-screen w-full overflow-hidden bg-background dark:bg-[#1B1B1B]">
          <style jsx>{`
         @keyframes floating {
           0% { transform: translateY(0px); }
@@ -55,7 +55,7 @@ export function Hero() {
             {/* Logo Container - Moved above text for mobile */}
             <div className={cn(
                "relative mb-0 flex w-full items-end justify-center overflow-visible px-4 lg:mb-0 lg:w-1/2 lg:items-center",
-               mounted ? "animate-in fade-in-50 duration-&lsqb;1000ms&rsqb; lg:slide-in-from-right-20" : "opacity-0"
+               mounted ? "animate-in fade-in-50 duration-[1000ms] lg:slide-in-from-right-20" : "opacity-0"
             )}>
                <div className="relative aspect-square w-[200px] sm:w-[250px] md:w-[300px] lg:w-[95%] lg:max-w-[600px]">
                   {/* Glow effect */}
@@ -68,13 +68,13 @@ export function Hero() {
             {/* Text Content */}
             <div className={cn(
                "relative z-10 flex flex-col justify-start px-2 text-center sm:px-6 lg:w-1/2 lg:justify-center lg:px-8 lg:text-left xl:px-12",
-               mounted ? "animate-in fade-in-50 duration-&lsqb;1000ms&rsqb;" : "opacity-0"
+               mounted ? "animate-in fade-in-50 duration-[1000ms]" : "opacity-0"
             )}>
                <h1 className="mb-2 relative">
                   <span className="chrome-gradient block text-4xl font-extrabold tracking-tight leading-relaxed pb-4 sm:text-5xl md:text-6xl lg:text-7xl">
                      Canopy Charts
                   </span>
-                  <span className="mt-6 block text-2xl font-bold text-gray-200 sm:text-3xl md:text-4xl lg:mt-8 lg:text-5xl">
+                  <span className="mt-6 block text-2xl font-bold text-foreground dark:text-gray-200 sm:text-3xl md:text-4xl lg:mt-8 lg:text-5xl">
                      Data Visualization
                      <br />
                      Reimagined

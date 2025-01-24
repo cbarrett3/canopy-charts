@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Search, Github, MessageSquare, ChevronDown, Moon, Sun } from "lucide-react"
+import { Search, Github, MessageSquare, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/app/logo"
 import {
@@ -10,11 +10,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useTheme } from "next-themes"
+import { ThemeToggle } from "@/components/theme-toggle"
+
 
 export function Navbar() {
-  const { setTheme, theme } = useTheme()
-
   return (
     <nav className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 bg-[#1B1B1B]/80 backdrop-blur-md backdrop-saturate-150 border-b border-gray-800/50">
       <div className="flex items-center gap-4">
@@ -22,21 +21,19 @@ export function Navbar() {
           <div className="relative h-12 w-12 flex-shrink-0 overflow-visible">
             <Logo className="w-full h-full" />
           </div>
-          <span className="text-xl font-semibold text-gray-200">Canopy</span>
+          <span className="text-xl font-semibold tracking-tight">Canopy</span>
         </Link>
-        <div className="relative">
-          <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
-          <input
-            type="search"
-            placeholder="Search"
-            className="h-8 w-48 rounded-md bg-[#2A2A2A] pl-8 pr-4 text-sm text-gray-300 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
+        <div className="hidden md:flex items-center gap-6">
+          <Link href="/docs" className="text-sm text-gray-400 hover:text-white transition-colors">
+            Documentation
+          </Link>
+          <Link href="/examples" className="text-sm text-gray-400 hover:text-white transition-colors">
+            Examples
+          </Link>
         </div>
-        <Button variant="ghost" className="text-gray-300 text-sm">
-          Ctrl K
-        </Button>
       </div>
       <div className="flex items-center gap-4">
+        <ThemeToggle />
         <Link href="/guide" className="text-gray-300 text-sm hover:text-white">
           guide
         </Link>
@@ -73,23 +70,11 @@ export function Navbar() {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* Theme Toggle */}
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-gray-300"
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        >
-          {theme === "dark" ? (
-            <Sun className="h-5 w-5" />
-          ) : (
-            <Moon className="h-5 w-5" />
-          )}
-        </Button>
-
-        <Button variant="ghost" className="text-gray-300">
-          <Github className="h-5 w-5" />
-        </Button>
+        <Link href="https://github.com/cbarrett3/canopy-charts" target="_blank">
+          <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
+            <Github className="h-5 w-5" />
+          </Button>
+        </Link>
       </div>
     </nav>
   )

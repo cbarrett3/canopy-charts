@@ -1,5 +1,7 @@
 import { Space_Grotesk } from "next/font/google"
 import "./globals.css"
+import { ThemeProvider } from "@/components/theme-provider"
+import { Navbar } from "./navbar"
 
 const spaceGrotesk = Space_Grotesk({
    subsets: ["latin"],
@@ -13,8 +15,18 @@ export default function RootLayout({
    children: React.ReactNode
 }) {
    return (
-      <html lang="en" className={`dark ${spaceGrotesk.variable}`}>
-         <body className={spaceGrotesk.className}>{children}</body>
+      <html lang="en" suppressHydrationWarning>
+         <body className={`${spaceGrotesk.className} ${spaceGrotesk.variable} min-h-screen bg-background font-sans antialiased`}>
+            <ThemeProvider
+               attribute="class"
+               defaultTheme="system"
+               enableSystem
+               disableTransitionOnChange
+            >
+               <Navbar />
+               {children}
+            </ThemeProvider>
+         </body>
       </html>
    )
 }
