@@ -8,6 +8,7 @@ import { AiChartSuggest } from "./ai-chart-suggest"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox"
 
 interface ChartControlsProps {
   currentTheme: string
@@ -27,56 +28,34 @@ function ChartOptions({ className }: { className?: string }) {
   });
 
   return (
-    <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-4 h-full">
+    <div className="bg-background/80 dark:bg-[#1B1B1B]/80 backdrop-blur-md backdrop-saturate-150 border border-border/50 shadow-[0_2px_10px] shadow-black/5 rounded-lg p-2 sm:p-3 md:p-4 h-full">
       <div className="flex flex-col h-full">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="h-3 w-3 rounded-sm bg-muted-foreground" />
-          <h3 className="text-sm font-medium text-foreground">Chart Elements</h3>
+        <div className="flex items-center gap-2 mb-2 sm:mb-3 md:mb-4">
+          <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 md:h-3 md:w-3 rounded-sm bg-primary/80" />
+          <h3 className="text-[0.65rem] sm:text-xs md:text-sm font-medium text-foreground">Chart Elements</h3>
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-1.5 sm:gap-2 md:gap-3 flex-1">
           {Object.entries(options).map(([key, value]) => (
             <div
               key={key}
-              className={`flex items-center justify-between p-2 rounded-md transition-all duration-300 ease-out
-                ${value ? 'bg-muted/50' : 'bg-transparent hover:bg-muted/30'}`}
+              className="group flex items-center gap-1.5 sm:gap-2 md:gap-2.5 p-1 sm:p-1.5 md:p-2 rounded-md hover:bg-foreground/[0.03] transition-colors"
             >
-              <Label
-                htmlFor={key}
-                className="text-xs font-medium capitalize text-muted-foreground"
-              >
-                {key}
-              </Label>
-              <Switch
+              <Checkbox
                 id={key}
                 checked={value}
                 onCheckedChange={(checked) =>
-                  setOptions((prev) => ({ ...prev, [key]: checked }))
+                  setOptions((prev) => ({ ...prev, [key]: checked === true }))
                 }
-                className="group relative data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-muted-foreground/50 data-[state=checked]:to-muted-foreground/30
-                  data-[state=unchecked]:bg-muted/50
-                  [&_span]:data-[state=checked]:translate-x-5 
-                  [&_span]:data-[state=unchecked]:translate-x-0
-                  [&_span]:transition-all [&_span]:duration-[850ms] [&_span]:ease-[cubic-bezier(0.22,1,0.36,1)]
-                  [&_span]:data-[state=checked]:bg-gradient-to-br [&_span]:data-[state=checked]:from-foreground [&_span]:data-[state=checked]:to-foreground/80
-                  [&_span]:data-[state=unchecked]:bg-gradient-to-br [&_span]:data-[state=unchecked]:from-muted-foreground [&_span]:data-[state=unchecked]:to-muted-foreground/80
-                  [&_span]:w-4 [&_span]:h-4 [&_span]:rounded-full [&_span]:shadow-sm
-                  [&_span]:after:content-[''] [&_span]:after:absolute [&_span]:after:inset-0
-                  [&_span]:after:rounded-full [&_span]:after:opacity-0
-                  [&_span]:after:transition-all [&_span]:after:duration-500 [&_span]:after:ease-out
-                  [&_span]:data-[state=checked]:after:bg-gradient-to-br [&_span]:data-[state=checked]:from-foreground/40 [&_span]:data-[state=checked]:to-transparent
-                  [&_span]:data-[state=checked]:after:opacity-100
-                  [&_span]:data-[state=checked]:rotate-180 [&_span]:data-[state=unchecked]:rotate-0
-                  h-5 w-10 p-0.5 rounded-full overflow-hidden
-                  before:content-[''] before:absolute before:inset-0 
-                  before:rounded-full before:transition-all before:duration-[850ms] before:ease-[cubic-bezier(0.22,1,0.36,1)]
-                  before:bg-gradient-to-r before:from-foreground/0 before:via-foreground/40 before:to-foreground/0
-                  before:data-[state=checked]:opacity-100 before:data-[state=unchecked]:opacity-0
-                  before:data-[state=checked]:translate-x-0 before:data-[state=unchecked]:-translate-x-full
-                  hover:[&_span]:scale-105 hover:[&_span]:shadow-md hover:before:opacity-80
-                  [&_span]:origin-center
-                  focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/50
-                  transition-all duration-[850ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+                className="h-3 w-3 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4 rounded-[4px] border border-border/50 bg-background/50 
+                  data-[state=checked]:border-[#22c55e]/40 data-[state=checked]:bg-[#22c55e]/10
+                  data-[state=checked]:text-[#22c55e] group-hover:border-[#22c55e]/30 transition-colors flex-shrink-0"
               />
+              <Label
+                htmlFor={key}
+                className="text-[0.65rem] sm:text-[0.7rem] md:text-sm font-medium capitalize text-muted-foreground group-hover:text-foreground transition-colors cursor-pointer select-none truncate"
+              >
+                {key}
+              </Label>
             </div>
           ))}
         </div>
@@ -92,18 +71,24 @@ export function ChartControls({ currentTheme, currentVibe, onThemeChange, onVibe
     <div className="relative">
       <Button
         variant="ghost"
-        size="sm"
+        size="lg"
         onClick={() => setIsExpanded(!isExpanded)}
-        className={`absolute -top-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-foreground 
-          bg-card/50 backdrop-blur-sm border border-border rounded-t-lg px-8
+        className={`absolute -top-12 left-1/2 -translate-x-1/2 text-foreground
+          bg-background/80 dark:bg-[#1B1B1B]/80 backdrop-blur-md backdrop-saturate-150 
+          border-2 border-border/50 shadow-[0_2px_10px] shadow-black/5
+          rounded-t-lg px-8 py-3 font-medium
           transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]
-          ${isExpanded ? 'hover:bg-muted/50' : 'hover:bg-card/80'}`}
+          hover:shadow-[0_2px_15px] hover:shadow-black/10
+          ${isExpanded ? 'hover:bg-muted/30' : 'hover:bg-background dark:hover:bg-[#1B1B1B]'}`}
       >
-        {isExpanded ? (
-          <ChevronUp className="h-4 w-4 transition-transform duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]" />
-        ) : (
-          <ChevronDown className="h-4 w-4 transition-transform duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]" />
-        )}
+        <div className="flex items-center gap-2">
+          <span className="text-base font-medium">Customize Charts</span>
+          {isExpanded ? (
+            <ChevronUp className="h-5 w-5 transition-transform duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]" />
+          ) : (
+            <ChevronDown className="h-5 w-5 transition-transform duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]" />
+          )}
+        </div>
       </Button>
       
       <div 
@@ -111,10 +96,11 @@ export function ChartControls({ currentTheme, currentVibe, onThemeChange, onVibe
           ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
         <div className="overflow-hidden">
-          <div className={`transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]
+          <div className={`bg-white/40 dark:bg-background/40 backdrop-blur-md border border-border/40 shadow-sm rounded-lg p-6
+            transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]
             ${isExpanded ? 'translate-y-0' : 'translate-y-8'}`}
           >
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="h-full">
                 <ThemeSelector currentTheme={currentTheme} onThemeChange={onThemeChange} />
               </div>

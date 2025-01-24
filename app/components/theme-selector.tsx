@@ -171,65 +171,61 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
 
 export function ThemeSelector({ currentTheme, onThemeChange }: ThemeSelectorProps) {
   return (
-    <div className="bg-card/50 backdrop-blur-sm border border-border rounded-lg p-4 h-full">
-      <div className="flex flex-col h-full">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: currentTheme }} />
-            <h3 className="text-sm font-medium text-foreground">Theme Color</h3>
-          </div>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                className="h-8 px-2 text-xs text-muted-foreground hover:text-foreground"
-              >
-                Custom Color
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent 
-              className="w-auto p-0 bg-card border-border"
-              align="end"
-            >
-              <CustomColorPicker currentColor={currentTheme} onChange={onThemeChange} />
-            </PopoverContent>
-          </Popover>
-        </div>
-        <div className="grid grid-cols-4 gap-2 flex-1">
-          <TooltipProvider>
-            {themes.map((theme) => (
-              <Tooltip key={theme.name} delayDuration={200}>
-                <TooltipTrigger asChild>
-                  <button
-                    className={`group relative h-12 w-full overflow-hidden rounded-md transition-all duration-200 
-                      ${currentTheme === theme.color ? 'ring-1 ring-foreground/20' : 'hover:ring-1 hover:ring-foreground/10'}`}
-                    onClick={() => onThemeChange(theme.color)}
-                  >
-                    <div 
-                      className="absolute inset-0 transition-transform duration-200"
-                      style={{ 
-                        background: `linear-gradient(45deg, ${theme.color}dd, ${theme.color})`
-                      }}
-                    />
-                    <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200
-                      ${currentTheme === theme.color ? 'opacity-100' : ''}`}>
-                      <div className="h-full w-full bg-gradient-to-br from-foreground/10 to-transparent" />
-                    </div>
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent 
-                  side="right" 
-                  className="bg-card border-border"
-                >
-                  <p className="font-medium text-foreground">{theme.name}</p>
-                  <p className="text-xs text-muted-foreground">{theme.description}</p>
-                </TooltipContent>
-              </Tooltip>
-            ))}
-          </TooltipProvider>
-        </div>
+    <div className="bg-background/80 dark:bg-[#1B1B1B]/80 backdrop-blur-md backdrop-saturate-150 border border-border/50 shadow-[0_2px_10px] shadow-black/5 rounded-lg p-4 h-full">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="h-3 w-3 rounded-sm bg-primary/80" />
+        <h3 className="text-sm font-medium text-foreground">Theme Color</h3>
       </div>
+      <div className="grid grid-cols-4 gap-2 flex-1">
+        <TooltipProvider>
+          {themes.map((theme) => (
+            <Tooltip key={theme.name} delayDuration={200}>
+              <TooltipTrigger asChild>
+                <button
+                  className={`group relative h-12 w-full overflow-hidden rounded-md transition-all duration-200 
+                    ${currentTheme === theme.color ? 'ring-1 ring-foreground/20' : 'hover:ring-1 hover:ring-foreground/10'}`}
+                  onClick={() => onThemeChange(theme.color)}
+                >
+                  <div 
+                    className="absolute inset-0 transition-transform duration-200"
+                    style={{ 
+                      background: `linear-gradient(45deg, ${theme.color}dd, ${theme.color})`
+                    }}
+                  />
+                  <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200
+                    ${currentTheme === theme.color ? 'opacity-100' : ''}`}>
+                    <div className="h-full w-full bg-gradient-to-br from-foreground/10 to-transparent" />
+                  </div>
+                </button>
+              </TooltipTrigger>
+              <TooltipContent 
+                side="right" 
+                className="bg-card border-border"
+              >
+                <p className="font-medium text-foreground">{theme.name}</p>
+                <p className="text-xs text-muted-foreground">{theme.description}</p>
+              </TooltipContent>
+            </Tooltip>
+          ))}
+        </TooltipProvider>
+      </div>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button 
+            variant="ghost" 
+            size="sm"
+            className="h-8 px-2 text-xs text-muted-foreground hover:text-foreground"
+          >
+            Custom Color
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent 
+          className="w-auto p-0 bg-card border-border"
+          align="end"
+        >
+          <CustomColorPicker currentColor={currentTheme} onChange={onThemeChange} />
+        </PopoverContent>
+      </Popover>
     </div>
   )
 }
