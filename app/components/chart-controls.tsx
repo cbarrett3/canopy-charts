@@ -92,11 +92,11 @@ export function ChartControls({ currentTheme, currentVibe, onThemeChange, onVibe
       </Button>
       
       <div 
-        className={`grid transition-all duration-700 ease-out
+        className={`grid transition-all duration-700 ease-out p-6
           ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
         <div className="overflow-hidden">
-          <div className={`bg-white/40 dark:bg-background/40 backdrop-blur-md border border-border/40 shadow-sm rounded-lg p-6
+          <div className={`bg-background/80 dark:bg-[#1B1B1B]/80 backdrop-blur-md border border-border/40 shadow-sm rounded-lg p-6
             transition-all duration-700 ease-out
             ${isExpanded ? 'translate-y-0' : 'translate-y-8'}`}
           >
