@@ -12,7 +12,12 @@ interface Point {
 export function MouseTrail() {
    const canvasRef = useRef<HTMLCanvasElement>(null)
    const points = useRef<Point[]>([])
-   const mousePos = useRef<{ x: number; y: number; disabled: boolean }>({ x: 0, y: 0, disabled: false })
+   const mousePos = useRef<{ x: number; y: number; disabled: boolean; lastUpdate: number }>({ 
+      x: 0, 
+      y: 0, 
+      disabled: false,
+      lastUpdate: 0
+   })
    const animationFrameId = useRef<number>()
    const { theme, systemTheme } = useTheme()
 
@@ -33,13 +38,15 @@ export function MouseTrail() {
       const draw = () => {
          ctx.clearRect(0, 0, canvas.width, canvas.height)
          
-         // Only add new point if not disabled
-         if (!mousePos.current.disabled) {
+         const now = Date.now()
+         // Only add new point if not disabled and enough time has passed (16ms delay)
+         if (!mousePos.current.disabled && now - mousePos.current.lastUpdate >= 16) {
             points.current.push({
                x: mousePos.current.x,
                y: mousePos.current.y,
                alpha: 0.35
             })
+            mousePos.current.lastUpdate = now
          }
 
          // Update and draw points
@@ -54,7 +61,7 @@ export function MouseTrail() {
             ctx.beginPath()
             const gradient = ctx.createRadialGradient(
                point.x, point.y, 0,
-               point.x, point.y, 12
+               point.x, point.y, 8
             )
             const isDarkMode = theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
             const alpha = isDarkMode ? point.alpha : point.alpha * 3
@@ -62,7 +69,7 @@ export function MouseTrail() {
             gradient.addColorStop(0, `rgba(${color}, ${alpha})`)
             gradient.addColorStop(1, `rgba(${color}, 0)`)
             ctx.fillStyle = gradient
-            ctx.arc(point.x, point.y, 12, 0, Math.PI * 2)
+            ctx.arc(point.x, point.y, 8, 0, Math.PI * 2)
             ctx.fill()
          })
 
@@ -143,6 +150,7 @@ export function MouseTrail() {
       const handleMouseMove = (e: MouseEvent) => {
          const target = e.target as Element
          mousePos.current = { 
+            ...mousePos.current,
             x: e.clientX, 
             y: e.clientY,
             disabled: isInteractiveElement(target)
