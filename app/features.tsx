@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Globe, TreesIcon as Tree, Wand2, PlugIcon as Plugin, Wrench, Triangle } from "lucide-react"
 import Link from "next/link"
-import { ThemeSelector } from "./components/theme-selector"
+import { ColorSelector } from "./components/color-selector"
 import { VibeSelector } from "./components/vibe-selector"
 import TreeMap from "./d3-tree-map"
 import BarChart from "./d3-bar-chart"
@@ -311,11 +311,11 @@ export function Features() {
                     dark:hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.07)]
                     hover:translate-y-[-2px] hover:scale-[1.02]
                     after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 
-                    after:transition-opacity after:duration-300 hover:after:opacity-50 after:opacity-0
+                    after:transition-opacity after:duration-300 hover:after:opacity-50 after:opacity-0 after:-z-10
                     before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-b 
                     before:from-white/5 before:to-transparent before:opacity-0 hover:before:opacity-100 
-                    before:transition-opacity before:duration-300"
-               >
+                    before:transition-opacity before:duration-300 before:-z-10
+                    relative">
                   {feature.component ? (
                      <div className="relative mb-4 h-[200px] w-full overflow-hidden rounded-md 
                         bg-gradient-to-b from-background/50 to-transparent dark:from-[#161616]/50
