@@ -10,6 +10,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Slider } from "@/components/ui/slider"
 import * as d3 from 'd3'
 import { useThemeColor } from './theme-context'
+import { useTranslations } from 'next-intl'
 
 const themes = [
   { name: 'Forest', color: '#22C55E', gradient: ['#22C55E', '#16A34A', '#15803D'], description: 'Fresh and natural green' },
@@ -51,6 +52,7 @@ function ColorSpectrum({ value, onChange }: { value: number, onChange: (value: n
 }
 
 function CustomColorPicker({ currentColor, onChange }: { currentColor: string, onChange: (color: string) => void }) {
+  const t = useTranslations('chart.colorSelector.custom')
   const hsl = d3.hsl(currentColor)
   const [hue, setHue] = useState(hsl.h)
   const [saturation, setSaturation] = useState(hsl.s * 100)
@@ -110,7 +112,7 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
       <div className="space-y-3">
         <div className="grid grid-cols-2 gap-2">
           <div className="space-y-1">
-            <label className="text-xs font-medium text-muted-foreground">HEX</label>
+            <label className="text-xs font-medium text-muted-foreground">{t('hex')}</label>
             <Input
               value={hexValue}
               onChange={(e) => handleHexChange(e.target.value)}
@@ -119,7 +121,7 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
             />
           </div>
           <div className="space-y-1">
-            <label className="text-xs font-medium text-muted-foreground">RGB</label>
+            <label className="text-xs font-medium text-muted-foreground">{t('rgb')}</label>
             <Input
               value={rgbValue}
               onChange={(e) => handleRgbChange(e.target.value)}
@@ -130,7 +132,7 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
         </div>
       </div>
       <div className="space-y-1.5">
-        <label className="text-xs font-medium text-foreground">Hue</label>
+        <label className="text-xs font-medium text-foreground">{t('hue')}</label>
         <ColorSpectrum 
           value={hue} 
           onChange={(h) => {
@@ -141,7 +143,7 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
       </div>
       <div className="space-y-1.5">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-medium text-foreground">Saturation</label>
+          <label className="text-xs font-medium text-foreground">{t('saturation')}</label>
           <span className="text-xs text-muted-foreground font-mono">{Math.round(saturation)}%</span>
         </div>
         <Slider
@@ -158,7 +160,7 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
       </div>
       <div className="space-y-1.5">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-medium text-foreground">Lightness</label>
+          <label className="text-xs font-medium text-foreground">{t('lightness')}</label>
           <span className="text-xs text-muted-foreground font-mono">{Math.round(lightness)}%</span>
         </div>
         <Slider
@@ -189,6 +191,7 @@ interface ColorSelectorProps {
 }
 
 export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: ColorSelectorProps) {
+  const t = useTranslations('chart.colorSelector')
   const { setThemeColor } = useThemeColor()
   
   // Set default color and propagate to theme context
@@ -213,9 +216,9 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
       rounded-lg p-4 h-full">
       <div className="space-y-3">
         <div className="flex items-center gap-2 mb-2">
-        <div className="h-2 w-2 rounded-sm" style={{ backgroundColor: currentTheme }} />
-        <h3 className="text-sm font-medium text-foreground">Color Selector</h3>
-      </div>
+          <div className="h-2 w-2 rounded-sm" style={{ backgroundColor: currentTheme }} />
+          <h3 className="text-sm font-medium text-foreground">{t('title')}</h3>
+        </div>
         <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-4 gap-2">
           <TooltipProvider>
             {themes.map((theme) => {
@@ -231,7 +234,7 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
                         "hover:scale-105 active:scale-95",
                         isSelected && "scale-105"
                       )}
-                      aria-label={`Select ${theme.name} theme`}
+                      aria-label={`Select ${t(`themes.${theme.name.toLowerCase()}.name`)} theme`}
                       aria-current={isSelected}
                     >
                       <div 
@@ -293,8 +296,8 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
                       after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 after:pointer-events-none after:-z-10"
                   >
                     <div className="flex flex-col gap-1">
-                      <p className="font-medium text-sm text-foreground">{theme.name}</p>
-                      <p className="text-xs text-muted-foreground">{theme.description}</p>
+                      <p className="font-medium text-sm text-foreground">{t(`themes.${theme.name.toLowerCase()}.name`)}</p>
+                      <p className="text-xs text-muted-foreground">{t(`themes.${theme.name.toLowerCase()}.description`)}</p>
                     </div>
                   </TooltipContent>
                 </Tooltip>
@@ -310,7 +313,7 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
               className="w-full justify-start text-left font-normal bg-background/40 dark:bg-[#1B1B1B]/30"
             >
               <div className="w-4 h-4 rounded-full mr-2" style={{ background: currentTheme }} />
-              Custom Color
+              {t('custom.title')}
             </Button>
           </PopoverTrigger>
           <PopoverContent 

@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
 import clsx from "clsx"
 import { useThemeColor } from "./theme-context"
+import { useTranslations } from 'next-intl'
 
 interface ChartControlsProps {
   currentTheme: string
@@ -34,6 +35,7 @@ interface ChartControlsProps {
 }
 
 export function ChartControls() {
+  const t = useTranslations('chart')
   const [isExpanded, setIsExpanded] = useState(true)
   const [currentTheme, setCurrentTheme] = useState('#22C55E')  // Forest theme
   const [currentVibe, setCurrentVibe] = useState('palm')
@@ -91,7 +93,7 @@ export function ChartControls() {
           )}
         >
           <div className="flex items-center justify-between w-full gap-4">
-            <span>Customize Charts</span>
+            <span>{t('customize')}</span>
             <ChevronUp
               className={clsx(
                 "h-5 w-5 transition-transform duration-200",
