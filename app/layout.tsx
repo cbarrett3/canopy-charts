@@ -18,24 +18,5 @@ export default function RootLayout({
 }: {
    children: React.ReactNode
 }) {
-   const [themeColor, setThemeColor] = useState('#6366f1')
-
-   return (
-      <html lang="en" suppressHydrationWarning>
-         <head />
-         <body className={`${spaceGrotesk.className} ${spaceGrotesk.variable} min-h-screen bg-background dark:bg-[#1B1B1B] font-sans antialiased`}>
-            <ThemeContext.Provider value={{ themeColor, setThemeColor }}>
-               <ThemeProvider
-                  attribute="class"
-                  defaultTheme="system"
-                  enableSystem
-                  disableTransitionOnChange
-               >
-                  <Navbar />
-                  {children}
-               </ThemeProvider>
-            </ThemeContext.Provider>
-         </body>
-      </html>
-   )
+   return children;
 }

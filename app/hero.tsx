@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 import { Logo } from "@/app/logo"
+import { useTranslations } from 'next-intl'
 
 export function Hero() {
    const [mounted, setMounted] = useState(false)
+   const t = useTranslations('hero')
 
    useEffect(() => {
       setMounted(true)
@@ -72,31 +74,31 @@ export function Hero() {
             )}>
                <h1 className="mb-2 relative">
                   <span className="chrome-gradient block text-4xl font-extrabold tracking-tight leading-relaxed pb-4 sm:text-5xl md:text-6xl lg:text-7xl">
-                     Canopy Charts
+                     {t('title')}
                   </span>
                   <span className="mt-6 block text-2xl font-bold text-foreground dark:text-gray-200 sm:text-3xl md:text-4xl lg:mt-8 lg:text-5xl">
-                     Data Visualization
+                     {t('subtitle.line1')}
                      <br />
-                     Reimagined
+                     {t('subtitle.line2')}
                      <br />
                   </span>
                </h1>
                <p className="mb-8 mt-6 text-base text-gray-400 sm:text-lg md:text-xl lg:text-2xl">
-                  Beautiful and customizable D3.js visuals for React. Accessible. Lightweight. Copy, paste, customize.
+                  {t('description')}
                </p>
                <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
                   <Button
                      size="lg"
                      className="bg-green-600 text-base sm:text-lg hover:bg-green-700"
                   >
-                     Get Started
+                     {t('buttons.getStarted')}
                   </Button>
                   <Button
                      size="lg"
                      variant="secondary"
                      className="bg-[#2A2A2A] text-base sm:text-lg text-gray-300 hover:bg-[#353535]"
                   >
-                     View on GitHub
+                     {t('buttons.github')}
                   </Button>
                </div>
             </div>
