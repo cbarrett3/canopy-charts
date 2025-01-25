@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { clsx } from 'clsx'
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,17 +13,17 @@ import * as d3 from 'd3'
 const themes = [
   { name: 'Ocean', color: '#0EA5E9', description: 'Deep and calming blue' },
   { name: 'Forest', color: '#22C55E', description: 'Fresh and natural green' },
-  { name: 'Sunset', color: '#F97316', description: 'Warm orange glow' },
-  { name: 'Royal', color: '#8B5CF6', description: 'Rich purple' },
-  { name: 'Ruby', color: '#EF4444', description: 'Bold red' },
-  { name: 'Gold', color: '#F59E0B', description: 'Warm yellow' },
-  { name: 'Rose', color: '#EC4899', description: 'Playful pink' },
-  { name: 'Slate', color: '#64748B', description: 'Classic neutral' }
+  { name: 'Sunset', color: '#F97316', description: 'Warm and energetic orange' },
+  { name: 'Berry', color: '#EC4899', description: 'Vibrant and playful pink' },
+  { name: 'Lavender', color: '#A855F7', description: 'Elegant and soothing purple' },
+  { name: 'Ruby', color: '#EF4444', description: 'Bold and passionate red' },
+  { name: 'Gold', color: '#EAB308', description: 'Rich and luxurious yellow' },
+  { name: 'Slate', color: '#64748B', description: 'Professional and neutral gray' }
 ]
 
-interface ThemeSelectorProps {
-  currentTheme: string;
-  onThemeChange: (color: string) => void;
+interface ColorPickerProps {
+  color: string
+  onChange: (color: string) => void
 }
 
 function ColorSpectrum({ value, onChange }: { value: number, onChange: (value: number) => void }) {
@@ -169,7 +170,12 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
   )
 }
 
-export function ThemeSelector({ currentTheme, onThemeChange }: ThemeSelectorProps) {
+interface ColorSelectorProps {
+  currentTheme: string
+  onThemeChange: (color: string) => void
+}
+
+export function ColorSelector({ currentTheme, onThemeChange }: ColorSelectorProps) {
   return (
     <div className="bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 
       shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
@@ -178,10 +184,10 @@ export function ThemeSelector({ currentTheme, onThemeChange }: ThemeSelectorProp
       dark:hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.07)]
       rounded-lg p-4 h-full transition-all duration-300
       after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 
-      after:transition-opacity after:duration-300 hover:after:opacity-50 after:opacity-0
+      after:transition-opacity after:duration-300 hover:after:opacity-50 after:opacity-0 after:-z-10
       before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-b 
       before:from-white/5 before:to-transparent before:opacity-0 hover:before:opacity-100 
-      before:transition-opacity before:duration-300
+      before:transition-opacity before:duration-300 before:-z-10
       relative group">
       <div className="flex items-center gap-2 mb-4">
         <div className="h-3 w-3 rounded-sm bg-primary/80" />
@@ -189,35 +195,82 @@ export function ThemeSelector({ currentTheme, onThemeChange }: ThemeSelectorProp
       </div>
       <div className="grid grid-cols-4 gap-2 flex-1">
         <TooltipProvider>
-          {themes.map((theme) => (
-            <Tooltip key={theme.name} delayDuration={200}>
-              <TooltipTrigger asChild>
-                <button
-                  className={`group relative h-12 w-full overflow-hidden rounded-md transition-all duration-200 
-                    ${currentTheme === theme.color ? 'ring-1 ring-foreground/20' : 'hover:ring-1 hover:ring-foreground/10'}`}
-                  onClick={() => onThemeChange(theme.color)}
+          {themes.map((theme) => {
+            const isSelected = currentTheme === theme.color;
+            return (
+              <Tooltip key={theme.name} delayDuration={200}>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => onThemeChange(theme.color)}
+                    className={clsx(
+                      "group relative aspect-square rounded-md transition-all duration-300",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                      "aria-[current=true]:scale-105"
+                    )}
+                    aria-label={`Select ${theme.name} theme`}
+                    aria-current={isSelected}
+                  >
+                    <div 
+                      className={clsx(
+                        "absolute inset-0 rounded-md transition-all duration-300",
+                        "bg-gradient-to-br opacity-20",
+                        "group-hover:opacity-30",
+                        "group-active:opacity-40"
+                      )}
+                      style={{ 
+                        background: `linear-gradient(135deg, ${theme.color}40, ${theme.color}80)`
+                      }}
+                    />
+                    <div
+                      className={clsx(
+                        "absolute inset-[2px] rounded-[4px] transition-all duration-300",
+                        "group-hover:inset-[1px] group-hover:rounded-md",
+                        "group-active:inset-[3px]",
+                        isSelected && "animate-pulse-subtle"
+                      )}
+                      style={{ backgroundColor: theme.color }}
+                    />
+                    {isSelected && (
+                      <>
+                        <div 
+                          className={clsx(
+                            "absolute inset-[-2px] rounded-lg transition-all duration-300",
+                            "opacity-20 blur-sm animate-pulse-slow"
+                          )}
+                          style={{ 
+                            background: `linear-gradient(135deg, ${theme.color}, ${theme.color}cc)`
+                          }}
+                        />
+                        <div className="absolute inset-0 rounded-md ring-2 ring-white/20 transition-all duration-300" />
+                        <svg 
+                          className={clsx(
+                            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6",
+                            "text-white/90 drop-shadow-md transition-all duration-300",
+                            "animate-in zoom-in-50 duration-300"
+                          )} 
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={3}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </>
+                    )}
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent 
+                  side="right" 
+                  className="bg-card border-border"
                 >
-                  <div 
-                    className="absolute inset-0 transition-transform duration-200"
-                    style={{ 
-                      background: `linear-gradient(45deg, ${theme.color}dd, ${theme.color})`
-                    }}
-                  />
-                  <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200
-                    ${currentTheme === theme.color ? 'opacity-100' : ''}`}>
-                    <div className="h-full w-full bg-gradient-to-br from-foreground/10 to-transparent" />
-                  </div>
-                </button>
-              </TooltipTrigger>
-              <TooltipContent 
-                side="right" 
-                className="bg-card border-border"
-              >
-                <p className="font-medium text-foreground">{theme.name}</p>
-                <p className="text-xs text-muted-foreground">{theme.description}</p>
-              </TooltipContent>
-            </Tooltip>
-          ))}
+                  <p className="font-medium text-foreground">{theme.name}</p>
+                  <p className="text-xs text-muted-foreground">{theme.description}</p>
+                </TooltipContent>
+              </Tooltip>
+            );
+          })}
         </TooltipProvider>
       </div>
       <Popover>
