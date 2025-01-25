@@ -184,143 +184,136 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
 }
 
 interface ColorSelectorProps {
-  currentTheme: string
-  onThemeChange: (color: string) => void
+  currentTheme?: string;
+  onThemeChange: (color: string) => void;
 }
 
-export function ColorSelector({ currentTheme, onThemeChange }: ColorSelectorProps) {
+export function ColorSelector({ currentTheme = '#22c55e', onThemeChange }: ColorSelectorProps) {
   const { setThemeColor } = useThemeColor()
 
   useEffect(() => {
-    setThemeColor(currentTheme)
-  }, [currentTheme, setThemeColor])
+    if (!currentTheme || currentTheme === '') {
+      onThemeChange('#22c55e')  // Default green
+    }
+  }, [])
 
   return (
     <div className="bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 
       shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
-      hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)] 
-      dark:shadow-[0_8px_16px_-6px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] 
-      dark:hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.07)]
-      rounded-lg p-3 h-full transition-all duration-300
-      after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 
-      after:transition-opacity after:duration-300 hover:after:opacity-50 after:opacity-0 after:-z-10
-      before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-b 
-      before:from-white/5 before:to-transparent before:opacity-0 hover:before:opacity-100 
-      before:transition-opacity before:duration-300 before:-z-10
-      relative group">
-      <div className="flex items-center gap-2 mb-2">
-        <div className="h-2 w-2 rounded-sm" style={{ backgroundColor: currentTheme }} />
-        <h3 className="text-sm font-medium text-foreground">Theme Color</h3>
-      </div>
-      <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-4 gap-1.5 flex-1">
-        <TooltipProvider>
-          {themes.map((theme) => {
-            const isSelected = currentTheme === theme.color;
-            return (
-              <Tooltip key={theme.name} delayDuration={200}>
-                <TooltipTrigger asChild>
-                  <button
-                    onClick={() => onThemeChange(theme.color)}
-                    className={clsx(
-                      "group relative aspect-square rounded-md transition-all duration-300",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                      "hover:scale-105 active:scale-95",
-                      isSelected && "scale-105"
-                    )}
-                    aria-label={`Select ${theme.name} theme`}
-                    aria-current={isSelected}
+      rounded-lg p-4 h-full">
+      <div className="space-y-3">
+        <label className="text-sm font-medium text-foreground/90">Theme Color</label>
+        <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-4 gap-2">
+          <TooltipProvider>
+            {themes.map((theme) => {
+              const isSelected = currentTheme === theme.color;
+              return (
+                <Tooltip key={theme.name} delayDuration={200}>
+                  <TooltipTrigger asChild>
+                    <button
+                      onClick={() => onThemeChange(theme.color)}
+                      className={clsx(
+                        "group relative aspect-square rounded-md transition-all duration-300",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                        "hover:scale-105 active:scale-95",
+                        isSelected && "scale-105"
+                      )}
+                      aria-label={`Select ${theme.name} theme`}
+                      aria-current={isSelected}
+                    >
+                      <div 
+                        className={clsx(
+                          "absolute inset-0 rounded-md transition-all duration-300",
+                          "opacity-20 group-hover:opacity-30 group-active:opacity-40"
+                        )}
+                        style={{ 
+                          background: `linear-gradient(135deg, ${theme.gradient[0]}40, ${theme.gradient[2]}80)`
+                        }}
+                      />
+                      <div
+                        className={clsx(
+                          "absolute inset-[2px] rounded-[4px] transition-all duration-300",
+                          "group-hover:inset-[1px] group-hover:rounded-md",
+                          "group-active:inset-[3px]",
+                          isSelected && "animate-pulse-subtle"
+                        )}
+                        style={{ 
+                          background: `linear-gradient(135deg, ${theme.gradient[0]}, ${theme.gradient[1]}, ${theme.gradient[2]})`
+                        }}
+                      />
+                      {isSelected && (
+                        <>
+                          <div 
+                            className={clsx(
+                              "absolute inset-[-2px] rounded-lg transition-all duration-300",
+                              "opacity-20 blur-sm animate-pulse-slow"
+                            )}
+                            style={{ 
+                              background: `linear-gradient(135deg, ${theme.gradient[0]}, ${theme.gradient[2]}cc)`
+                            }}
+                          />
+                          <div className="absolute inset-0 rounded-md ring-2 ring-white/20 transition-all duration-300" />
+                          <svg 
+                            className={clsx(
+                              "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4",
+                              "text-white/90 drop-shadow-md transition-all duration-300",
+                              "animate-in zoom-in-50 duration-300"
+                            )} 
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={3}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        </>
+                      )}
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent 
+                    side="right" 
+                    align="center"
+                    className="bg-background/95 dark:bg-[#1B1B1B]/95 backdrop-blur-[12px] backdrop-saturate-[180%] 
+                      border border-border/40 shadow-lg rounded-lg z-50
+                      after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 after:pointer-events-none after:-z-10"
                   >
-                    <div 
-                      className={clsx(
-                        "absolute inset-0 rounded-md transition-all duration-300",
-                        "opacity-20 group-hover:opacity-30 group-active:opacity-40"
-                      )}
-                      style={{ 
-                        background: `linear-gradient(135deg, ${theme.gradient[0]}40, ${theme.gradient[2]}80)`
-                      }}
-                    />
-                    <div
-                      className={clsx(
-                        "absolute inset-[2px] rounded-[4px] transition-all duration-300",
-                        "group-hover:inset-[1px] group-hover:rounded-md",
-                        "group-active:inset-[3px]",
-                        isSelected && "animate-pulse-subtle"
-                      )}
-                      style={{ 
-                        background: `linear-gradient(135deg, ${theme.gradient[0]}, ${theme.gradient[1]}, ${theme.gradient[2]})`
-                      }}
-                    />
-                    {isSelected && (
-                      <>
-                        <div 
-                          className={clsx(
-                            "absolute inset-[-2px] rounded-lg transition-all duration-300",
-                            "opacity-20 blur-sm animate-pulse-slow"
-                          )}
-                          style={{ 
-                            background: `linear-gradient(135deg, ${theme.gradient[0]}, ${theme.gradient[2]}cc)`
-                          }}
-                        />
-                        <div className="absolute inset-0 rounded-md ring-2 ring-white/20 transition-all duration-300" />
-                        <svg 
-                          className={clsx(
-                            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4",
-                            "text-white/90 drop-shadow-md transition-all duration-300",
-                            "animate-in zoom-in-50 duration-300"
-                          )} 
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth={3}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                      </>
-                    )}
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent 
-                  side="right" 
-                  align="center"
-                  className="bg-background/95 dark:bg-[#1B1B1B]/95 backdrop-blur-[12px] backdrop-saturate-[180%] 
-                    border border-border/40 shadow-lg rounded-lg
-                    after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10"
-                >
-                  <div className="flex flex-col gap-1">
-                    <p className="font-medium text-sm text-foreground">{theme.name}</p>
-                    <p className="text-xs text-muted-foreground">{theme.description}</p>
-                  </div>
-                </TooltipContent>
-              </Tooltip>
-            );
-          })}
-        </TooltipProvider>
-      </div>
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button 
-            variant="ghost" 
-            size="sm"
-            className="mt-2 h-7 px-2 text-xs text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                    <div className="flex flex-col gap-1">
+                      <p className="font-medium text-sm text-foreground">{theme.name}</p>
+                      <p className="text-xs text-muted-foreground">{theme.description}</p>
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              );
+            })}
+          </TooltipProvider>
+        </div>
+
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className="w-full justify-start text-left font-normal bg-background/40 dark:bg-[#1B1B1B]/30"
+            >
+              <div className="w-4 h-4 rounded-full mr-2" style={{ background: currentTheme }} />
+              Custom Color
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent 
+            className="w-[280px] p-4 relative bg-background/95 dark:bg-[#1B1B1B]/95 backdrop-blur-[12px] backdrop-saturate-[180%] 
+              border border-border/40 shadow-lg rounded-lg z-50
+              after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 after:pointer-events-none after:-z-10"
+            side="right"
+            align="center"
+            sideOffset={5}
           >
-            Custom Color
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent 
-          className="w-[280px] p-4 relative bg-background/95 dark:bg-[#1B1B1B]/95 backdrop-blur-[12px] backdrop-saturate-[180%] 
-            border border-border/40 shadow-lg rounded-lg z-50
-            after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 after:pointer-events-none after:-z-10"
-          side="right"
-          align="center"
-          sideOffset={5}
-        >
-          <div className="relative z-50">
-            <CustomColorPicker currentColor={currentTheme} onChange={onThemeChange} />
-          </div>
-        </PopoverContent>
-      </Popover>
+            <div className="relative z-50">
+              <CustomColorPicker currentColor={currentTheme} onChange={onThemeChange} />
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
     </div>
   )
 }

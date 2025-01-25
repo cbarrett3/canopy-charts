@@ -198,16 +198,16 @@ const vibes = [
 ]
 
 interface VibeSelectorProps {
-  currentVibe: string;
+  currentVibe?: string;
   onVibeChange: (vibe: string) => void;
 }
 
 export function VibeSelector({ currentVibe = 'palm', onVibeChange }: VibeSelectorProps) {
   const { themeColor } = useThemeColor()
   
-  // Set default vibe on mount if none selected
+  // Set default vibe on mount
   useEffect(() => {
-    if (!currentVibe) {
+    if (!currentVibe || currentVibe === '') {
       onVibeChange('palm')
     }
   }, [])
