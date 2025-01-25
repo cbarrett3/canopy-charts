@@ -107,12 +107,13 @@ export function ChartControls({
           )}
         >
           <div className="flex items-center gap-2">
-            <span className="text-base font-medium">Customize Charts</span>
-            {isExpanded ? (
-              <ChevronDown className="h-4 w-4" />
-            ) : (
-              <ChevronUp className="h-4 w-4" />
-            )}
+            <span className="text-base font-medium">Customize Chart</span>
+            <ChevronUp
+              className={clsx(
+                "h-4 w-4 transition-transform duration-200",
+                isExpanded ? "rotate-0" : "rotate-180"
+              )}
+            />
           </div>
         </Button>
       </div>

@@ -9,6 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Slider } from "@/components/ui/slider"
 import * as d3 from 'd3'
+import { useThemeColor } from './theme-context'
 
 const themes = [
   { name: 'Ocean', color: '#0EA5E9', gradient: ['#0EA5E9', '#0284C7', '#0369A1'], description: 'Deep and calming blue' },
@@ -188,6 +189,12 @@ interface ColorSelectorProps {
 }
 
 export function ColorSelector({ currentTheme, onThemeChange }: ColorSelectorProps) {
+  const { setThemeColor } = useThemeColor()
+
+  useEffect(() => {
+    setThemeColor(currentTheme)
+  }, [currentTheme, setThemeColor])
+
   return (
     <div className="bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 
       shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
@@ -202,7 +209,7 @@ export function ColorSelector({ currentTheme, onThemeChange }: ColorSelectorProp
       before:transition-opacity before:duration-300 before:-z-10
       relative group">
       <div className="flex items-center gap-2 mb-2">
-        <div className="h-2 w-2 rounded-sm bg-primary/80" />
+        <div className="h-2 w-2 rounded-sm" style={{ backgroundColor: currentTheme }} />
         <h3 className="text-sm font-medium text-foreground">Theme Color</h3>
       </div>
       <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-4 gap-1.5 flex-1">
@@ -276,10 +283,15 @@ export function ColorSelector({ currentTheme, onThemeChange }: ColorSelectorProp
                 </TooltipTrigger>
                 <TooltipContent 
                   side="right" 
-                  className="bg-card border-border"
+                  align="center"
+                  className="bg-background/95 dark:bg-[#1B1B1B]/95 backdrop-blur-[12px] backdrop-saturate-[180%] 
+                    border border-border/40 shadow-lg rounded-lg
+                    after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10"
                 >
-                  <p className="font-medium text-foreground">{theme.name}</p>
-                  <p className="text-xs text-muted-foreground">{theme.description}</p>
+                  <div className="flex flex-col gap-1">
+                    <p className="font-medium text-sm text-foreground">{theme.name}</p>
+                    <p className="text-xs text-muted-foreground">{theme.description}</p>
+                  </div>
                 </TooltipContent>
               </Tooltip>
             );
