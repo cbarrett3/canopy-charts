@@ -17,16 +17,10 @@
       "github": "Ver en GitHub"
     }
   },
+  "Index": {
+    "title": "Bienvenido a Canopy Charts"
+  },
   "chart": {
-    "customize": "Personalizar Gráficos",
-    "elements": {
-      "title": "Selector de Elementos",
-      "axes": "Ejes",
-      "grid": "Cuadrícula",
-      "labels": "Etiquetas",
-      "legend": "Leyenda",
-      "tooltips": "Tooltips"
-    },
     "colorSelector": {
       "title": "Selector de Color",
       "themes": {
@@ -72,8 +66,41 @@
         "lightness": "Luminosidad"
       }
     },
-    "vibeSelector": {
-      "title": "Selector de Estilo"
+    "customize": "Personalizar Gráficos",
+    "elements": {
+      "title": "Elementos",
+      "labels": "Etiquetas",
+      "legend": "Leyenda",
+      "grid": "Cuadrícula",
+      "axis": "Ejes"
+    },
+    "colors": {
+      "title": "Colores",
+      "theme": "Tema",
+      "custom": "Personalizado",
+      "presets": "Preestablecidos",
+      "hue": "Tono",
+      "saturation": "Saturación",
+      "lightness": "Luminosidad"
+    }
+  },
+  "VibeSelector": {
+    "title": "Selector de Ambiente",
+    "vibes": {
+      "rainforest": "Selva",
+      "savanna": "Sabana",
+      "tundra": "Tundra",
+      "coral": "Arrecife de Coral",
+      "volcanic": "Volcánico",
+      "dunes": "Dunas"
+    },
+    "descriptions": {
+      "rainforest": "Ecosistema exuberante y vibrante",
+      "savanna": "Pastizales salvajes y abiertos",
+      "tundra": "Naturaleza fría y prístina",
+      "coral": "Mundo submarino colorido",
+      "volcanic": "Paisaje audaz y poderoso",
+      "dunes": "Desierto suave y sereno"
     }
   }
 }

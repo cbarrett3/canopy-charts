@@ -5,17 +5,17 @@ import * as d3 from 'd3';
 
 interface DataPoint {
    name: string;
-   value?: number;
+   value: number;
    children?: DataPoint[];
 }
 
-type VibeType = 'evergreen' | 'palm' | 'bamboo' | 'willow' | 'succulent' | 'vine';
+type VibeType = 'rainforest' | 'savanna' | 'tundra' | 'coral' | 'volcanic' | 'dunes';
 
 interface D3TreeMapProps {
    width?: number;
    height?: number;
-   data?: DataPoint;
-   title?: string;
+   data: DataPoint;
+   padding?: number;
    themeColor?: string;
    tooltipBackgroundColor?: string;
    tooltipTextColor?: string;
@@ -23,12 +23,10 @@ interface D3TreeMapProps {
    showLegend?: boolean;
 }
 
-// Vibe-specific configurations
 const vibeConfigs: Record<VibeType, {
    animation: {
       duration: number;
       ease: any;
-      type: 'scale' | 'fade' | 'slide' | 'ripple' | 'unfold' | 'wave' | 'segments';
       delay: (d: any, i: number) => number;
    };
    style: {
@@ -36,473 +34,479 @@ const vibeConfigs: Record<VibeType, {
       opacity: number;
       hoverOpacity: number;
       padding: number;
-      hoverEffect: 'scale' | 'glow' | 'bounce' | 'sway' | 'pulse' | 'wave';
-      hoverDuration: number;
       hoverScale: number;
       glowColor?: string;
       glowRadius?: number;
    };
 }> = {
-   evergreen: {
+   rainforest: {
       animation: {
          duration: 800,
          ease: d3.easeCubicInOut,
-         type: 'segments',
          delay: (_, i) => i * 100,
       },
       style: {
-         cornerRadius: 2,
+         cornerRadius: 4,
          opacity: 0.9,
          hoverOpacity: 1,
          padding: 1,
-         hoverEffect: 'scale',
-         hoverDuration: 150,
          hoverScale: 1.02,
          glowColor: 'rgba(255,255,255,0.2)',
       }
    },
-   palm: {
+   savanna: {
       animation: {
          duration: 1200,
          ease: d3.easeElasticOut.amplitude(1),
-         type: 'wave',
-         delay: (_, i) => i * 120,
+         delay: (_, i) => i * 50,
       },
       style: {
          cornerRadius: 8,
          opacity: 0.85,
-         hoverOpacity: 1,
+         hoverOpacity: 0.95,
          padding: 2,
-         hoverEffect: 'wave',
-         hoverDuration: 1200,
-         hoverScale: 1.03,
+         hoverScale: 1.01,
+         glowColor: 'rgba(255,255,255,0.1)',
+         glowRadius: 4
       }
    },
-   bamboo: {
+   tundra: {
       animation: {
          duration: 600,
          ease: d3.easeCubicInOut,
-         type: 'slide',
-         delay: (_, i) => i * 50,
+         delay: (_, i) => i * 30,
       },
       style: {
          cornerRadius: 0,
-         opacity: 0.8,
-         hoverOpacity: 0.95,
+         opacity: 0.95,
+         hoverOpacity: 1,
          padding: 1,
-         hoverEffect: 'scale',
-         hoverDuration: 300,
-         hoverScale: 1.01,
+         hoverScale: 1.03,
       }
    },
-   willow: {
+   coral: {
       animation: {
          duration: 1500,
          ease: d3.easeQuadInOut,
-         type: 'ripple',
-         delay: (_, i) => i * 150,
+         delay: (_, i) => i * 80,
       },
       style: {
-         cornerRadius: 6,
-         opacity: 0.75,
+         cornerRadius: 16,
+         opacity: 0.8,
          hoverOpacity: 0.9,
-         padding: 1.5,
-         hoverEffect: 'sway',
-         hoverDuration: 1500,
-         hoverScale: 1.02,
+         padding: 2,
+         hoverScale: 1.04,
+         glowColor: 'rgba(255,255,255,0.15)',
+         glowRadius: 8
       }
    },
-   succulent: {
+   volcanic: {
       animation: {
          duration: 800,
          ease: d3.easeCircleInOut,
-         type: 'unfold',
-         delay: (_, i) => i * 80,
+         delay: (_, i) => i * 40,
+      },
+      style: {
+         cornerRadius: 2,
+         opacity: 0.95,
+         hoverOpacity: 1,
+         padding: 1,
+         hoverScale: 1.05,
+         glowColor: 'rgba(255,0,0,0.1)',
+         glowRadius: 6
+      }
+   },
+   dunes: {
+      animation: {
+         duration: 1000,
+         ease: d3.easeSinInOut,
+         delay: (_, i) => i * 60,
       },
       style: {
          cornerRadius: 12,
          opacity: 0.85,
-         hoverOpacity: 1,
-         padding: 2,
-         hoverEffect: 'pulse',
-         hoverDuration: 800,
-         hoverScale: 1.03,
-         glowColor: 'rgba(255,255,255,0.25)',
-         glowRadius: 6
-      }
-   },
-   vine: {
-      animation: {
-         duration: 1000,
-         ease: d3.easeSinInOut,
-         type: 'wave',
-         delay: (_, i) => i * 100 + Math.random() * 200,
-      },
-      style: {
-         cornerRadius: 4,
-         opacity: 0.8,
          hoverOpacity: 0.95,
-         padding: 1.5,
-         hoverEffect: 'wave',
-         hoverDuration: 1000,
+         padding: 2,
          hoverScale: 1.02,
+         glowColor: 'rgba(255,255,255,0.1)',
+         glowRadius: 4
       }
    }
 };
 
-const generateColorScheme = (baseColor: string, count: number): string[] => {
-   const hsl = d3.hsl(baseColor);
-   const colors: string[] = [];
-
-   // Generate variations by adjusting lightness and saturation
-   for (let i = 0; i < count; i++) {
-      const saturation = Math.min(1, hsl.s + (i * 0.1));
-      const lightness = Math.max(0.2, Math.min(0.8, hsl.l + (i * 0.1 - 0.3)));
-      colors.push(d3.hsl(hsl.h, saturation, lightness).toString());
+const getVibeStyles = (vibe: string) => {
+   switch (vibe) {
+      case 'rainforest':
+         return {
+            rect: {
+               rx: 4,
+               ry: 4,
+               transition: 300,
+               hover: {
+                  transform: 'translate(-2px, -2px) scale(1.02)',
+                  filter: 'brightness(1.1) saturate(1.2)',
+               }
+            },
+            text: {
+               transition: 200,
+               hover: {
+                  transform: 'translate(0, -1px) scale(1.05)',
+                  filter: 'brightness(1.2)'
+               }
+            }
+         }
+      case 'savanna':
+         return {
+            rect: {
+               rx: 8,
+               ry: 8,
+               transition: 400,
+               hover: {
+                  transform: 'translate(0, -1px) scale(1.01)',
+                  filter: 'brightness(1.05)'
+               }
+            },
+            text: {
+               transition: 300,
+               hover: {
+                  transform: 'translate(0, -1px) scale(1.02)',
+                  filter: 'brightness(1.1)'
+               }
+            }
+         }
+      case 'tundra':
+         return {
+            rect: {
+               rx: 0,
+               ry: 0,
+               transition: 200,
+               hover: {
+                  transform: 'translate(0, -2px) scale(1.03)',
+                  filter: 'brightness(1.15) contrast(1.1)'
+               }
+            },
+            text: {
+               transition: 150,
+               hover: {
+                  transform: 'translate(0, -1px) scale(1.04)',
+                  filter: 'brightness(1.2)'
+               }
+            }
+         }
+      case 'coral':
+         return {
+            rect: {
+               rx: 16,
+               ry: 16,
+               transition: 500,
+               hover: {
+                  transform: 'translate(-2px, -2px) scale(1.04)',
+                  filter: 'brightness(1.1) saturate(1.1)'
+               }
+            },
+            text: {
+               transition: 400,
+               hover: {
+                  transform: 'translate(0, -2px) scale(1.06)',
+                  filter: 'brightness(1.15)'
+               }
+            }
+         }
+      case 'volcanic':
+         return {
+            rect: {
+               rx: 2,
+               ry: 2,
+               transition: 300,
+               hover: {
+                  transform: 'translate(-3px, -3px) scale(1.05)',
+                  filter: 'brightness(1.2) contrast(1.15)'
+               }
+            },
+            text: {
+               transition: 250,
+               hover: {
+                  transform: 'translate(0, -2px) scale(1.08)',
+                  filter: 'brightness(1.3)'
+               }
+            }
+         }
+      case 'dunes':
+         return {
+            rect: {
+               rx: 12,
+               ry: 12,
+               transition: 700,
+               hover: {
+                  transform: 'translate(0, -1px) scale(1.02)',
+                  filter: 'brightness(1.05) saturate(1.05)'
+               }
+            },
+            text: {
+               transition: 500,
+               hover: {
+                  transform: 'translate(0, -1px) scale(1.03)',
+                  filter: 'brightness(1.1)'
+               }
+            }
+         }
+      default:
+         return {
+            rect: {
+               rx: 4,
+               ry: 4,
+               transition: 400,
+               hover: {
+                  transform: 'translate(0, -1px) scale(1.02)',
+                  filter: 'brightness(1.1)'
+               }
+            },
+            text: {
+               transition: 300,
+               hover: {
+                  transform: 'translate(0, -1px) scale(1.05)',
+                  filter: 'brightness(1.15)'
+               }
+            }
+         }
    }
-
-   return colors;
-};
-
-const applyVibeAnimation = (selection: any, vibe: VibeType, isEntering = true) => {
-   const config = vibeConfigs[vibe];
-   
-   switch (config.animation.type) {
-      case 'segments':
-         selection
-            .style('opacity', isEntering ? 0 : config.style.opacity)
-            .style('transform', isEntering ? 'scaleY(0)' : 'scaleY(1)')
-            .style('transform-origin', 'bottom')
-            .transition()
-            .duration(config.animation.duration)
-            .delay(config.animation.delay)
-            .ease(config.animation.ease)
-            .style('opacity', isEntering ? config.style.opacity : 0)
-            .style('transform', isEntering ? 'scaleY(1)' : 'scaleY(0)');
-         break;
-      case 'wave':
-         selection
-            .style('opacity', isEntering ? 0 : config.style.opacity)
-            .style('transform', isEntering ? 'scale(0.8) translateY(10px)' : 'scale(1) translateY(0)')
-            .transition()
-            .duration(config.animation.duration)
-            .delay(config.animation.delay)
-            .ease(config.animation.ease)
-            .style('opacity', isEntering ? config.style.opacity : 0)
-            .style('transform', isEntering ? 'scale(1) translateY(0)' : 'scale(0.8) translateY(10px)');
-         break;
-      case 'slide':
-         selection
-            .style('opacity', isEntering ? 0 : config.style.opacity)
-            .style('transform', isEntering ? 'translateX(-20px)' : 'translateX(0)')
-            .transition()
-            .duration(config.animation.duration)
-            .delay(config.animation.delay)
-            .ease(config.animation.ease)
-            .style('opacity', isEntering ? config.style.opacity : 0)
-            .style('transform', isEntering ? 'translateX(0)' : 'translateX(-20px)');
-         break;
-      case 'ripple':
-         selection
-            .style('opacity', isEntering ? 0 : config.style.opacity)
-            .style('transform', isEntering ? 'scale(1.1) rotate(2deg)' : 'scale(1) rotate(0)')
-            .transition()
-            .duration(config.animation.duration)
-            .delay(config.animation.delay)
-            .ease(config.animation.ease)
-            .style('opacity', isEntering ? config.style.opacity : 0)
-            .style('transform', isEntering ? 'scale(1) rotate(0)' : 'scale(1.1) rotate(2deg)');
-         break;
-      case 'unfold':
-         selection
-            .style('opacity', isEntering ? 0 : config.style.opacity)
-            .style('transform', isEntering ? 'scale(0.9) rotate(-5deg)' : 'scale(1) rotate(0)')
-            .transition()
-            .duration(config.animation.duration)
-            .delay(config.animation.delay)
-            .ease(config.animation.ease)
-            .style('opacity', isEntering ? config.style.opacity : 0)
-            .style('transform', isEntering ? 'scale(1) rotate(0)' : 'scale(0.9) rotate(-5deg)');
-         break;
-   }
-};
-
-const applyVibeHoverEffect = (selection: any, vibe: VibeType, isHovering: boolean) => {
-   const config = vibeConfigs[vibe];
-   
-   selection.transition()
-      .duration(config.style.hoverDuration)
-      .ease(config.animation.ease);
-
-   switch (config.style.hoverEffect) {
-      case 'scale':
-         selection.style('transform', isHovering ? `scale(${config.style.hoverScale})` : 'scale(1)');
-         break;
-      case 'glow':
-         if (isHovering) {
-            selection
-               .style('filter', `drop-shadow(0 0 ${config.style.glowRadius}px ${config.style.glowColor})`);
-         } else {
-            selection.style('filter', 'none');
-         }
-         break;
-      case 'wave':
-         if (isHovering) {
-            selection
-               .transition()
-               .duration(config.style.hoverDuration / 3)
-               .style('transform', 'translateY(-3px) scale(1.01)')
-               .transition()
-               .duration(config.style.hoverDuration / 3)
-               .style('transform', 'translateY(2px) scale(1.01)')
-               .transition()
-               .duration(config.style.hoverDuration / 3)
-               .style('transform', 'translateY(0) scale(1)');
-         }
-         break;
-      case 'sway':
-         if (isHovering) {
-            selection
-               .transition()
-               .duration(config.style.hoverDuration / 3)
-               .style('transform', 'rotate(2deg)')
-               .transition()
-               .duration(config.style.hoverDuration / 3)
-               .style('transform', 'rotate(-2deg)')
-               .transition()
-               .duration(config.style.hoverDuration / 3)
-               .style('transform', 'rotate(0)');
-         }
-         break;
-      case 'pulse':
-         if (isHovering) {
-            selection
-               .transition()
-               .duration(config.style.hoverDuration / 2)
-               .style('transform', `scale(${config.style.hoverScale})`)
-               .style('opacity', config.style.hoverOpacity)
-               .transition()
-               .duration(config.style.hoverDuration / 2)
-               .style('transform', 'scale(1)')
-               .style('opacity', config.style.opacity);
-         }
-         break;
-   }
-};
+}
 
 const D3TreeMap: React.FC<D3TreeMapProps> = ({
    width = 500,
    height = 275,
    data = {
       name: 'root',
+      value: 0,
       children: [
-         { name: 'Category 1', value: 100 },
-         { name: 'Category 2', value: 200 },
-         { name: 'Category 3', value: 300 },
-      ],
+         { name: 'Sample 1', value: 100 },
+         { name: 'Sample 2', value: 200 },
+         { name: 'Sample 3', value: 300 },
+      ]
    },
-   title,
+   padding = 1,
    themeColor = '#22C55E',
    tooltipBackgroundColor = '#1B1B1B',
    tooltipTextColor = '#ffffff',
-   vibe = 'evergreen',
+   vibe = 'rainforest',
    showLegend = true,
 }) => {
    const svgRef = useRef<SVGSVGElement | null>(null);
-   const containerRef = useRef<HTMLDivElement | null>(null);
+   const tooltipRef = useRef<HTMLDivElement | null>(null);
    const [legendVisible, setLegendVisible] = useState(showLegend);
    
    // Ensure vibe is a valid value
-   const currentVibe = (vibeConfigs[vibe as VibeType] ? vibe : 'evergreen') as VibeType;
+   const currentVibe = (vibeConfigs[vibe as VibeType] ? vibe : 'rainforest') as VibeType;
    
    useEffect(() => {
-      if (svgRef.current) {
+      if (!svgRef.current || !data) return;
+
+      try {
          const svg = d3.select(svgRef.current);
          svg.selectAll('*').remove();
 
-         const margin = { top: 10, right: legendVisible ? 120 : 10, bottom: 10, left: 10 };
-         const innerWidth = width - margin.left - margin.right;
-         const innerHeight = height - margin.top - margin.bottom;
-
-         const root = d3
-            .hierarchy(data)
-            .sum((d) => d.value ?? 0)
-            .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
-
-         const treemapLayout = d3
-            .treemap<DataPoint>()
-            .size([innerWidth, innerHeight])
-            .padding(vibeConfigs[currentVibe].style.padding);
-
-         treemapLayout(root);
-
-         const mainGroup = svg
-            .append('g')
-            .attr('transform', `translate(${margin.left},${margin.top})`);
-
-         // Generate theme-based color scheme
-         const leafCount = root.leaves().length;
-         const colorScheme = generateColorScheme(themeColor, leafCount);
-         const color = d3.scaleOrdinal(colorScheme);
-
-         const tooltip = d3
-            .select('body')
-            .append('div')
-            .attr('class', 'tooltip')
+         const tooltip = d3.select(tooltipRef.current)
             .style('position', 'absolute')
-            .style('text-align', 'center')
-            .style('width', 'auto')
-            .style('height', 'auto')
-            .style('padding', '10px')
-            .style('font', '14px sans-serif')
-            .style('background', tooltipBackgroundColor)
+            .style('visibility', 'hidden')
+            .style('background-color', tooltipBackgroundColor)
             .style('color', tooltipTextColor)
-            .style('border', '0px')
-            .style('border-radius', '8px')
+            .style('padding', '8px')
+            .style('border-radius', '4px')
+            .style('font-size', '12px')
             .style('pointer-events', 'none')
+            .style('z-index', '100')
+            .style('box-shadow', '0 2px 4px rgba(0,0,0,0.1)')
             .style('opacity', 0)
-            .style('transition', `opacity ${vibeConfigs[currentVibe].animation.duration}ms ${vibeConfigs[currentVibe].animation.ease}`);
+            .style('transition', 'opacity 0.2s ease-in-out');
+
+         const mainGroup = svg.append('g');
+
+         // Validate data structure
+         if (!data.name || !Array.isArray(data.children)) {
+            console.error('Invalid data structure for treemap');
+            return;
+         }
+
+         const root = d3.hierarchy(data)
+            .sum(d => (d as any).value || 0)
+            .sort((a, b) => (b.value || 0) - (a.value || 0));
+
+         if (!root.children || root.children.length === 0) {
+            console.error('No valid children in data');
+            return;
+         }
+
+         const treemap = d3.treemap()
+            .size([width, height])
+            .padding(padding)
+            .round(true);
+
+         treemap(root);
+
+         const vibeStyle = getVibeStyles(currentVibe);
+         const config = vibeConfigs[currentVibe];
 
          // Create cells
-         const cell = mainGroup
-            .selectAll('g')
+         const cells = mainGroup.selectAll('g')
             .data(root.leaves())
-            .join('g')
-            .attr('transform', (d: any) => `translate(${d.x0},${d.y0})`);
+            .enter()
+            .append('g')
+            .attr('transform', d => `translate(${d.x0},${d.y0})`);
 
-         // Add rectangles to cells with vibe-specific animations
-         const rects = cell.append('rect')
-            .attr('width', (d: any) => d.x1 - d.x0)
-            .attr('height', (d: any) => d.y1 - d.y0)
-            .attr('fill', (d: any) => color(d.data.name))
-            .attr('rx', vibeConfigs[currentVibe].style.cornerRadius)
-            .style('transform-origin', 'center');
-
-         // Apply initial animations
-         applyVibeAnimation(rects, currentVibe, true);
+         // Add rectangles
+         const rects = cells.append('rect')
+            .attr('width', d => d.x1 - d.x0)
+            .attr('height', d => d.y1 - d.y0)
+            .attr('rx', vibeStyle.rect.rx)
+            .attr('ry', vibeStyle.rect.ry)
+            .style('fill', themeColor)
+            .style('opacity', config.style.opacity)
+            .style('cursor', 'pointer')
+            .style('transition', `all ${vibeStyle.rect.transition}ms ease-in-out`);
 
          // Add hover effects
-         rects.on('mouseover', function (event: MouseEvent, d: any) {
-            const rect = d3.select(this);
-            applyVibeHoverEffect(rect, currentVibe, true);
+         rects
+            .on('mouseover', function(event, d) {
+               const rect = d3.select(this);
+               rect.transition()
+                  .duration(vibeStyle.rect.transition)
+                  .style('transform', vibeStyle.rect.hover.transform)
+                  .style('filter', vibeStyle.rect.hover.filter);
 
-            tooltip
-               .style('opacity', 1)
-               .html(`${d.data.name}<br/>${d.value}`)
-               .style('left', event.pageX + 'px')
-               .style('top', event.pageY - 28 + 'px');
-         })
-         .on('mouseout', function () {
-            const rect = d3.select(this);
-            applyVibeHoverEffect(rect, currentVibe, false);
-            tooltip.style('opacity', 0);
-         });
+               const text = d3.select(this.parentNode).select('text');
+               text.transition()
+                  .duration(vibeStyle.text.transition)
+                  .style('transform', vibeStyle.text.hover.transform)
+                  .style('filter', vibeStyle.text.hover.filter);
+
+               tooltip
+                  .html(`${d.data.name}<br/>${d.value}`)
+                  .style('visibility', 'visible')
+                  .style('opacity', 1)
+                  .style('left', `${event.pageX + 10}px`)
+                  .style('top', `${event.pageY - 10}px`);
+            })
+            .on('mousemove', function(event) {
+               tooltip
+                  .style('left', `${event.pageX + 10}px`)
+                  .style('top', `${event.pageY - 10}px`);
+            })
+            .on('mouseout', function() {
+               const rect = d3.select(this);
+               rect.transition()
+                  .duration(vibeStyle.rect.transition)
+                  .style('transform', 'translate(0, 0) scale(1)')
+                  .style('filter', 'none');
+
+               const text = d3.select(this.parentNode).select('text');
+               text.transition()
+                  .duration(vibeStyle.text.transition)
+                  .style('transform', 'translate(0, 0) scale(1)')
+                  .style('filter', 'none');
+
+               tooltip
+                  .style('visibility', 'hidden')
+                  .style('opacity', 0);
+            });
 
          // Add text labels
-         cell.append('text')
+         cells.append('text')
             .attr('x', 4)
             .attr('y', 14)
             .attr('fill', 'white')
             .attr('font-size', '12px')
-            .text((d: any) => d.data.name)
-            .each(function(this: SVGTextElement, d: any) {
-               const rectWidth = d.x1 - d.x0;
+            .style('pointer-events', 'none')
+            .style('transition', `all ${vibeStyle.text.transition}ms ease-in-out`)
+            .text(d => d.data.name)
+            .each(function(this: SVGTextElement) {
                const textWidth = (this as SVGTextElement).getComputedTextLength();
+               const rectWidth = parseFloat(d3.select(this.parentNode as any).select('rect').attr('width'));
                if (textWidth > rectWidth - 8) {
                   d3.select(this).remove();
                }
             });
 
          // Add legend if visible
-         if (legendVisible) {
-            const legendGroup = svg
+         if (legendVisible && showLegend) {
+            const legendData = root.leaves().map(d => ({
+               name: d.data.name,
+               value: d.value
+            }));
+
+            const legendGroup = svg.append('g')
+               .attr('transform', `translate(${width + 20}, 10)`);
+
+            const legendItems = legendGroup.selectAll('g')
+               .data(legendData)
+               .enter()
                .append('g')
-               .attr('class', 'legend')
-               .attr('transform', `translate(${width - margin.right + 20},${margin.top})`);
+               .attr('transform', (_, i) => `translate(0, ${i * 25})`);
 
-            const legendItems = legendGroup
-               .selectAll('.legend-item')
-               .data(root.leaves())
-               .join('g')
-               .attr('class', 'legend-item')
-               .attr('transform', (_, i) => `translate(0,${i * 25})`);
-
-            const legendRects = legendItems
-               .append('rect')
+            const legendRects = legendItems.append('rect')
                .attr('width', 15)
                .attr('height', 15)
-               .attr('rx', vibeConfigs[currentVibe].style.cornerRadius)
-               .attr('fill', d => color(d.data.name))
-               .style('transform-origin', 'center');
+               .attr('rx', vibeStyle.rect.rx)
+               .attr('ry', vibeStyle.rect.ry)
+               .style('fill', themeColor)
+               .style('opacity', config.style.opacity)
+               .style('cursor', 'pointer')
+               .style('transition', `all ${vibeStyle.rect.transition}ms ease-in-out`);
 
-            // Apply initial animations to legend
-            applyVibeAnimation(legendRects, currentVibe, true);
-
-            // Add hover effects to legend items
             legendRects
                .on('mouseover', function(event, d) {
                   const rect = d3.select(this);
-                  applyVibeHoverEffect(rect, currentVibe, true);
+                  const vibeStyles = getVibeStyles(currentVibe);
+                  rect.transition()
+                     .duration(vibeStyles.rect.transition)
+                     .style('transform', vibeStyles.rect.hover.transform)
+                     .style('filter', vibeStyles.rect.hover.filter);
 
                   // Highlight corresponding treemap cell
                   const cell = mainGroup.selectAll('rect')
-                     .filter((dd: any) => dd.data.name === d.data.name);
-                  applyVibeHoverEffect(cell, currentVibe, true);
+                     .filter((cellData: any) => cellData.data.name === d.name);
+                  cell.transition()
+                     .duration(vibeStyles.rect.transition)
+                     .style('transform', vibeStyles.rect.hover.transform)
+                     .style('filter', vibeStyles.rect.hover.filter);
                })
                .on('mouseout', function(event, d) {
                   const rect = d3.select(this);
-                  applyVibeHoverEffect(rect, currentVibe, false);
+                  const vibeStyles = getVibeStyles(currentVibe);
+                  rect.transition()
+                     .duration(vibeStyles.rect.transition)
+                     .style('transform', 'translate(0, 0) scale(1)')
+                     .style('filter', 'none');
 
                   // Reset corresponding treemap cell
                   const cell = mainGroup.selectAll('rect')
-                     .filter((dd: any) => dd.data.name === d.data.name);
-                  applyVibeHoverEffect(cell, currentVibe, false);
+                     .filter((cellData: any) => cellData.data.name === d.name);
+                  cell.transition()
+                     .duration(vibeStyles.rect.transition)
+                     .style('transform', 'translate(0, 0) scale(1)')
+                     .style('filter', 'none');
                });
 
-            legendItems
-               .append('text')
-               .attr('x', 20)
+            legendItems.append('text')
+               .attr('x', 25)
                .attr('y', 12)
                .style('font-size', '12px')
-               .style('fill', '#fff')
-               .text(d => d.data.name);
+               .style('fill', 'currentColor')
+               .text(d => `${d.name} (${d.value})`);
          }
+      } catch (error) {
+         console.error('Error rendering treemap:', error);
       }
-
-      return () => {
-         d3.select('body').selectAll('div.tooltip').remove();
-      };
-   }, [data, width, height, title, themeColor, tooltipBackgroundColor, tooltipTextColor, currentVibe, legendVisible]);
+   }, [width, height, data, padding, themeColor, currentVibe, legendVisible, showLegend]);
 
    return (
-      <div
-         ref={containerRef}
-         style={{
-            width: '100%',
-            height: '100%',
-            position: 'relative'
-         }}
-      >
-         {title && (
-            <h2
-               style={{
-                  textAlign: 'center',
-                  margin: '10px 0',
-                  color: 'white'
-               }}
-            >
-               {title}
-            </h2>
-         )}
+      <div className="relative">
          <svg
             ref={svgRef}
-            style={{
-               width: '100%',
-               height: title ? 'calc(100% - 40px)' : '100%'
-            }}
-            viewBox={`0 0 ${width} ${height}`}
-            preserveAspectRatio="xMidYMid meet"
+            width={width + (showLegend ? 200 : 0)}
+            height={height}
+            className="overflow-visible"
          />
+         <div ref={tooltipRef} />
       </div>
    );
 };
