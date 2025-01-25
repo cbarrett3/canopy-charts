@@ -303,10 +303,16 @@ export function Features() {
             {features.map((feature) => (
                <div 
                   key={feature.title} 
-                  className="group rounded-lg bg-background/20 dark:bg-[#181818]/50 hover:bg-muted/50 dark:hover:bg-[#1A1A1A]/50 p-6 backdrop-blur-sm border border-border/50 transition-all duration-300"
+                  className="group relative rounded-lg bg-background/20 dark:bg-[#181818]/50 hover:bg-muted/30 dark:hover:bg-[#1A1A1A]/30 p-6 backdrop-blur-sm border border-border/50 transition-all duration-300
+                    shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1)] hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2)]
+                    dark:shadow-[0_8px_16px_-6px_rgba(0,0,0,0.4)] dark:hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.5)]
+                    hover:translate-y-[-2px] hover:scale-[1.02]
+                    after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 after:transition-opacity after:duration-300
+                    hover:after:opacity-50 after:opacity-0"
                >
                   {feature.component ? (
-                     <div className="relative mb-4 h-[200px] w-full overflow-hidden rounded-md bg-gradient-to-b from-background/50 to-transparent dark:from-[#161616]/50">
+                     <div className="relative mb-4 h-[200px] w-full overflow-hidden rounded-md bg-gradient-to-b from-background/50 to-transparent dark:from-[#161616]/50
+                        ring-1 ring-white/10 shadow-inner">
                         <feature.component themeColor={currentTheme} vibe={currentVibe} />
                      </div>
                   ) : feature.icon ? (
