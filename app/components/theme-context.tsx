@@ -1,25 +1,27 @@
 'use client'
 
-import { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 
-interface ThemeContextType {
+interface ThemeColorContextType {
   themeColor: string
   setThemeColor: (color: string) => void
 }
 
-export const ThemeContext = createContext<ThemeContextType>({
-  themeColor: '#6366f1',
+const ThemeColorContext = createContext<ThemeColorContextType>({
+  themeColor: '#22C55E',  // Forest green as default
   setThemeColor: () => {},
 })
 
-export const useThemeColor = () => useContext(ThemeContext)
-
 export function ThemeColorProvider({ children }: { children: React.ReactNode }) {
-  const [themeColor, setThemeColor] = useState('#6366f1')
+  const [themeColor, setThemeColor] = useState('#22C55E')  // Forest green as default
 
   return (
-    <ThemeContext.Provider value={{ themeColor, setThemeColor }}>
+    <ThemeColorContext.Provider value={{ themeColor, setThemeColor }}>
       {children}
-    </ThemeContext.Provider>
+    </ThemeColorContext.Provider>
   )
+}
+
+export function useThemeColor() {
+  return useContext(ThemeColorContext)
 }

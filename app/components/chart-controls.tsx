@@ -35,7 +35,7 @@ interface ChartControlsProps {
 
 export function ChartControls() {
   const [isExpanded, setIsExpanded] = useState(true)
-  const [currentTheme, setCurrentTheme] = useState('#0EA5E9')  // Ocean theme
+  const [currentTheme, setCurrentTheme] = useState('#22C55E')  // Forest theme
   const [currentVibe, setCurrentVibe] = useState('palm')
   const [showAxes, setShowAxes] = useState(true)
   const [showGrid, setShowGrid] = useState(true)
@@ -49,7 +49,7 @@ export function ChartControls() {
 
   // Initialize defaults on mount
   useEffect(() => {
-    setThemeColor('#0EA5E9')  // Set Ocean theme
+    setThemeColor('#22C55E')  // Set Forest theme
     if (!currentVibe || currentVibe === '') {
       setCurrentVibe('palm')
     }

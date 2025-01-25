@@ -12,8 +12,8 @@ import * as d3 from 'd3'
 import { useThemeColor } from './theme-context'
 
 const themes = [
-  { name: 'Ocean', color: '#0EA5E9', gradient: ['#0EA5E9', '#0284C7', '#0369A1'], description: 'Deep and calming blue' },
   { name: 'Forest', color: '#22C55E', gradient: ['#22C55E', '#16A34A', '#15803D'], description: 'Fresh and natural green' },
+  { name: 'Ocean', color: '#0EA5E9', gradient: ['#0EA5E9', '#0284C7', '#0369A1'], description: 'Deep and calming blue' },
   { name: 'Sunset', color: '#F97316', gradient: ['#F97316', '#EA580C', '#C2410C'], description: 'Warm and energetic orange' },
   { name: 'Berry', color: '#EC4899', gradient: ['#EC4899', '#DB2777', '#BE185D'], description: 'Vibrant and playful pink' },
   { name: 'Lavender', color: '#A855F7', gradient: ['#A855F7', '#9333EA', '#7E22CE'], description: 'Elegant and soothing purple' },
@@ -188,12 +188,12 @@ interface ColorSelectorProps {
   onThemeChange: (color: string) => void;
 }
 
-export function ColorSelector({ currentTheme = '#0EA5E9', onThemeChange }: ColorSelectorProps) {
+export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: ColorSelectorProps) {
   const { setThemeColor } = useThemeColor()
   
   // Set default color and propagate to theme context
   useEffect(() => {
-    const defaultColor = '#0EA5E9'  // Ocean theme
+    const defaultColor = '#22C55E'  // Forest theme
     if (!currentTheme || currentTheme === '') {
       onThemeChange(defaultColor)
     }
