@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ChevronUp, ChevronDown } from "lucide-react"
 import { ColorSelector } from "./color-selector"
 import { VibeSelector } from "./vibe-selector"
@@ -22,6 +22,12 @@ interface ChartControlsProps {
   onGridChange: (value: boolean) => void
   showLabels: boolean
   onLabelsChange: (value: boolean) => void
+  showTitle: boolean
+  onTitleChange: (value: boolean) => void
+  showLegend: boolean
+  onLegendChange: (value: boolean) => void
+  showTooltips: boolean
+  onTooltipsChange: (value: boolean) => void
   labelSize: number
   onLabelSizeChange: (value: number) => void
 }
@@ -29,18 +35,29 @@ interface ChartControlsProps {
 export function ChartControls({
   currentTheme,
   onThemeChange,
-  currentVibe,
+  currentVibe = 'palm',
   onVibeChange,
-  showAxes,
+  showAxes = true,
   onAxesChange,
-  showGrid,
+  showGrid = true,
   onGridChange,
-  showLabels,
+  showLabels = true,
   onLabelsChange,
-  labelSize,
+  showTitle = true,
+  onTitleChange,
+  showLegend = true,
+  onLegendChange,
+  showTooltips = true,
+  onTooltipsChange,
+  labelSize = 12,
   onLabelSizeChange,
 }: ChartControlsProps) {
   const [isExpanded, setIsExpanded] = useState(true)
+
+  useEffect(() => {
+    if (!currentVibe) onVibeChange('palm')
+    if (!currentTheme) onThemeChange('#6366f1')
+  }, [])
 
   return (
     <div className="w-full space-y-3">
@@ -107,6 +124,12 @@ export function ChartControls({
                   onGridChange={onGridChange}
                   showLabels={showLabels}
                   onLabelsChange={onLabelsChange}
+                  showTitle={showTitle}
+                  onTitleChange={onTitleChange}
+                  showLegend={showLegend}
+                  onLegendChange={onLegendChange}
+                  showTooltips={showTooltips}
+                  onTooltipsChange={onTooltipsChange}
                   labelSize={labelSize}
                   onLabelSizeChange={onLabelSizeChange}
                 />
