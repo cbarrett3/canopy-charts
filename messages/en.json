@@ -73,7 +73,55 @@
       }
     },
     "vibeSelector": {
-      "title": "Style Selector"
+      "title": "Style Selector",
+      "vibes": {
+        "rainforest": {
+          "name": "Rainforest",
+          "description": "Dense, vibrant, and layered"
+        },
+        "savanna": {
+          "name": "Savanna",
+          "description": "Open, structured, and calm"
+        },
+        "tundra": {
+          "name": "Tundra",
+          "description": "Stark, angular, and crisp"
+        },
+        "coral": {
+          "name": "Coral Reef",
+          "description": "Playful, fluid, and detailed"
+        },
+        "volcanic": {
+          "name": "Volcanic",
+          "description": "Bold, explosive, and striking"
+        },
+        "dunes": {
+          "name": "Dunes",
+          "description": "Smooth, flowing, and soft"
+        }
+      }
+    }
+  },
+  "Index": {
+    "title": "Welcome to Canopy Charts"
+  },
+  "VibeSelector": {
+    "title": "Vibe Selector",
+    "vibes": {
+      "rainforest": "Rainforest",
+      "savanna": "Savanna",
+      "tundra": "Tundra",
+      "coral": "Coral Reef",
+      "volcanic": "Volcanic",
+      "dunes": "Dunes"
+    },
+    "descriptions": {
+      "rainforest": "Lush and vibrant ecosystem",
+      "savanna": "Wild and open grasslands",
+      "tundra": "Cold and pristine wilderness",
+      "coral": "Colorful underwater world",
+      "volcanic": "Bold and powerful landscape",
+      "dunes": "Smooth and serene desert"
     }
   }
 }

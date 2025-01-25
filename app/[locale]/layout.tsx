@@ -1,13 +1,13 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
-import { Space_Grotesk } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
-import { ThemeColorProvider } from '@/app/components/theme-context'
-import { locales } from '@/config/i18n'
+import { Space_Grotesk } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeColorProvider } from '@/app/components/theme-context';
+import { locales } from '@/config/i18n';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  display: 'swap',
+  display: "swap",
   variable: '--space-grotesk',
 })
 
@@ -22,9 +22,11 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  if (!locales.includes(locale as any)) notFound();
+
   let messages;
   try {
-    messages = (await import(`@/messages/${locale}.json`)).default;
+    messages = (await import(`../../messages/${locale}.json`)).default;
   } catch (error) {
     notFound();
   }
