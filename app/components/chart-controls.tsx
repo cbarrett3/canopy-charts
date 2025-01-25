@@ -32,31 +32,23 @@ interface ChartControlsProps {
   onLabelSizeChange: (value: number) => void
 }
 
-export function ChartControls({
-  currentTheme,
-  onThemeChange,
-  currentVibe = 'palm',
-  onVibeChange,
-  showAxes = true,
-  onAxesChange,
-  showGrid = true,
-  onGridChange,
-  showLabels = true,
-  onLabelsChange,
-  showTitle = true,
-  onTitleChange,
-  showLegend = true,
-  onLegendChange,
-  showTooltips = true,
-  onTooltipsChange,
-  labelSize = 12,
-  onLabelSizeChange,
-}: ChartControlsProps) {
+export function ChartControls() {
   const [isExpanded, setIsExpanded] = useState(true)
+  const [currentTheme, setCurrentTheme] = useState('#6366f1')
+  const [currentVibe, setCurrentVibe] = useState('palm')
+  const [showAxes, setShowAxes] = useState(true)
+  const [showGrid, setShowGrid] = useState(true)
+  const [showLabels, setShowLabels] = useState(true)
+  const [showTitle, setShowTitle] = useState(true)
+  const [showLegend, setShowLegend] = useState(true)
+  const [showTooltips, setShowTooltips] = useState(true)
+  const [labelSize, setLabelSize] = useState(12)
 
+  // Initialize defaults on mount
   useEffect(() => {
-    if (!currentVibe) onVibeChange('palm')
-    if (!currentTheme) onThemeChange('#6366f1')
+    if (!currentVibe || currentVibe === '') {
+      setCurrentVibe('palm')
+    }
   }, [])
 
   return (
@@ -111,27 +103,27 @@ export function ChartControls({
           )}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="h-full group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
-                <ColorSelector currentTheme={currentTheme} onThemeChange={onThemeChange} />
+                <ColorSelector currentTheme={currentTheme} onThemeChange={setCurrentTheme} />
               </div>
               <div className="h-full group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
-                <VibeSelector currentVibe={currentVibe} onVibeChange={onVibeChange} />
+                <VibeSelector currentVibe={currentVibe} onVibeChange={setCurrentVibe} />
               </div>
               <div className="h-full group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
                 <ChartElements
                   showAxes={showAxes}
-                  onAxesChange={onAxesChange}
+                  onAxesChange={setShowAxes}
                   showGrid={showGrid}
-                  onGridChange={onGridChange}
+                  onGridChange={setShowGrid}
                   showLabels={showLabels}
-                  onLabelsChange={onLabelsChange}
+                  onLabelsChange={setShowLabels}
                   showTitle={showTitle}
-                  onTitleChange={onTitleChange}
+                  onTitleChange={setShowTitle}
                   showLegend={showLegend}
-                  onLegendChange={onLegendChange}
+                  onLegendChange={setShowLegend}
                   showTooltips={showTooltips}
-                  onTooltipsChange={onTooltipsChange}
+                  onTooltipsChange={setShowTooltips}
                   labelSize={labelSize}
-                  onLabelSizeChange={onLabelSizeChange}
+                  onLabelSizeChange={setLabelSize}
                 />
               </div>
             </div>
