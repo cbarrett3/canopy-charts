@@ -188,21 +188,34 @@ interface ColorSelectorProps {
   onThemeChange: (color: string) => void;
 }
 
-export function ColorSelector({ currentTheme = '#22c55e', onThemeChange }: ColorSelectorProps) {
+export function ColorSelector({ currentTheme = '#0EA5E9', onThemeChange }: ColorSelectorProps) {
   const { setThemeColor } = useThemeColor()
-
+  
+  // Set default color and propagate to theme context
   useEffect(() => {
+    const defaultColor = '#0EA5E9'  // Ocean theme
     if (!currentTheme || currentTheme === '') {
-      onThemeChange('#22c55e')  // Default green
+      onThemeChange(defaultColor)
     }
+    setThemeColor(currentTheme || defaultColor)
   }, [])
+
+  // Keep theme context in sync
+  useEffect(() => {
+    if (currentTheme) {
+      setThemeColor(currentTheme)
+    }
+  }, [currentTheme, setThemeColor])
 
   return (
     <div className="bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 
       shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
       rounded-lg p-4 h-full">
       <div className="space-y-3">
-        <label className="text-sm font-medium text-foreground/90">Theme Color</label>
+        <div className="flex items-center gap-2 mb-2">
+        <div className="h-2 w-2 rounded-sm" style={{ backgroundColor: currentTheme }} />
+        <h3 className="text-sm font-medium text-foreground">Color Selector</h3>
+      </div>
         <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-4 gap-2">
           <TooltipProvider>
             {themes.map((theme) => {

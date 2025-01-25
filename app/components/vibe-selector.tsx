@@ -227,7 +227,7 @@ export function VibeSelector({ currentVibe = 'palm', onVibeChange }: VibeSelecto
       relative group">
       <div className="flex items-center gap-2 mb-2">
         <div className="h-2 w-2 rounded-sm" style={{ backgroundColor: themeColor }} />
-        <h3 className="text-sm font-medium text-foreground">Chart Style</h3>
+        <h3 className="text-sm font-medium text-foreground">Vibe Selector</h3>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 gap-1.5">
         <TooltipProvider>

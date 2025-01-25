@@ -23,6 +23,7 @@ import { Command } from 'lucide-react'
 import * as d3 from 'd3'
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
+import { useThemeColor } from "./components/theme-context"
 
 type Feature = {
    title: string;
@@ -281,8 +282,8 @@ const features: Feature[] = [
 ]
 
 export function Features() {
-   const [currentTheme, setCurrentTheme] = useState('#22C55E') // Default forest green theme
-   const [currentVibe, setCurrentVibe] = useState('modern') // Default modern vibe
+   const { themeColor, setThemeColor } = useThemeColor()
+   const [currentVibe, setCurrentVibe] = useState('palm') // Default palm vibe
    const [showAxes, setShowAxes] = useState(true)
    const [showGrid, setShowGrid] = useState(true)
    const [showLabels, setShowLabels] = useState(true)
@@ -297,9 +298,9 @@ export function Features() {
          
          <div className="relative px-4 mb-16 max-w-7xl mx-auto">
             <ChartControls
-               currentTheme={currentTheme}
+               currentTheme={themeColor}
                currentVibe={currentVibe}
-               onThemeChange={setCurrentTheme}
+               onThemeChange={setThemeColor}
                onVibeChange={setCurrentVibe}
                showAxes={showAxes}
                onAxesChange={setShowAxes}
@@ -333,7 +334,7 @@ export function Features() {
                         bg-gradient-to-b from-background/50 to-transparent dark:from-[#161616]/50
                         ring-1 ring-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]
                         before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/5 before:to-transparent">
-                        <feature.component themeColor={currentTheme} vibe={currentVibe} showAxes={showAxes} showGrid={showGrid} showLabels={showLabels} labelSize={labelSize} />
+                        <feature.component themeColor={themeColor} vibe={currentVibe} showAxes={showAxes} showGrid={showGrid} showLabels={showLabels} labelSize={labelSize} />
                      </div>
                   ) : feature.icon ? (
                      <feature.icon className="mb-4 h-8 w-8 text-muted-foreground group-hover:text-foreground transition-colors" />

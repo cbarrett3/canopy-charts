@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
 import clsx from "clsx"
+import { useThemeColor } from "./theme-context"
 
 interface ChartControlsProps {
   currentTheme: string
@@ -34,7 +35,7 @@ interface ChartControlsProps {
 
 export function ChartControls() {
   const [isExpanded, setIsExpanded] = useState(true)
-  const [currentTheme, setCurrentTheme] = useState('#6366f1')
+  const [currentTheme, setCurrentTheme] = useState('#0EA5E9')  // Ocean theme
   const [currentVibe, setCurrentVibe] = useState('palm')
   const [showAxes, setShowAxes] = useState(true)
   const [showGrid, setShowGrid] = useState(true)
@@ -44,43 +45,60 @@ export function ChartControls() {
   const [showTooltips, setShowTooltips] = useState(true)
   const [labelSize, setLabelSize] = useState(12)
 
+  const { setThemeColor } = useThemeColor()
+
   // Initialize defaults on mount
   useEffect(() => {
+    setThemeColor('#0EA5E9')  // Set Ocean theme
     if (!currentVibe || currentVibe === '') {
       setCurrentVibe('palm')
     }
   }, [])
 
+  // Keep theme context in sync
+  useEffect(() => {
+    if (currentTheme) {
+      setThemeColor(currentTheme)
+    }
+  }, [currentTheme, setThemeColor])
+
   return (
     <div className="w-full space-y-3">
-      <Button
-        variant="ghost"
-        size="lg"
-        onClick={() => setIsExpanded(!isExpanded)}
-        className={clsx(
-          "w-full text-foreground",
-          "bg-background/60 dark:bg-[#1B1B1B]/50 backdrop-blur-[12px] backdrop-saturate-[180%]",
-          "border border-border/40",
-          "rounded-lg",
-          "shadow-[0_4px_12px_-4px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.1)]",
-          "hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.3),inset_0_2px_2px_rgba(255,255,255,0.15)]",
-          "dark:shadow-[0_4px_12px_-4px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)]",
-          "dark:hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.6),inset_0_2px_2px_rgba(255,255,255,0.07)]",
-          "px-8 py-3 font-medium",
-          "transition-all duration-300",
-          isExpanded ? "hover:bg-muted/20" : "hover:bg-background/20 dark:hover:bg-[#1B1B1B]/20"
-        )}
-      >
-        <div className="flex items-center justify-between w-full">
-          <span className="text-base font-medium">Customize Chart</span>
-          <ChevronUp
-            className={clsx(
-              "h-4 w-4 transition-transform duration-200",
-              isExpanded ? "rotate-0" : "rotate-180"
-            )}
-          />
-        </div>
-      </Button>
+      <div className="relative flex items-center justify-center w-full gap-4 my-4">
+        <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-foreground/30 to-transparent dark:via-foreground/40" />
+        <Button
+          size="lg"
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={clsx(
+            "relative min-w-[300px] max-w-[400px] text-foreground",
+            "bg-card dark:bg-card/90 backdrop-blur-[12px] backdrop-saturate-[180%]",
+            "border-2 border-border dark:border-border/50",
+            "rounded-xl",
+            "shadow-[0_8px_24px_-6px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.25)]",
+            "hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.3),inset_0_2px_3px_rgba(255,255,255,0.3)]",
+            "dark:shadow-[0_8px_24px_-6px_rgba(0,0,0,0.6),inset_0_1px_2px_rgba(255,255,255,0.08)]",
+            "dark:hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.12)]",
+            "px-8 py-4 font-semibold text-lg",
+            "transition-all duration-300",
+            "hover:scale-[1.02] active:scale-[0.98]",
+            isExpanded 
+              ? "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/80" 
+              : "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/80",
+            "after:absolute after:inset-0 after:rounded-xl after:ring-1 after:ring-border/50 after:dark:ring-border/30"
+          )}
+        >
+          <div className="flex items-center justify-between w-full gap-4">
+            <span>Customize Charts</span>
+            <ChevronUp
+              className={clsx(
+                "h-5 w-5 transition-transform duration-200",
+                isExpanded ? "rotate-0" : "rotate-180"
+              )}
+            />
+          </div>
+        </Button>
+        <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-foreground/30 to-transparent dark:via-foreground/40" />
+      </div>
 
       <div
         className={clsx(

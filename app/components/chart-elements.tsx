@@ -48,8 +48,11 @@ export function ChartElements({
       shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
       rounded-lg p-4 h-full">
       <div className="space-y-4">
-        <Label className="text-sm font-medium text-foreground/90">Chart Elements</Label>
-        
+        {/* <Label className="text-sm font-medium text-foreground/90">Chart Elements</Label> */}
+        <div className="flex items-center gap-2 mb-2">
+        <div className="h-2 w-2 rounded-sm" style={{ backgroundColor: themeColor }} />
+        <h3 className="text-sm font-medium text-foreground">Element Selector</h3>
+      </div>
         <div className="grid grid-cols-2 gap-x-4 gap-y-3">
           <div className="flex items-center justify-between space-x-2">
             <Label htmlFor="show-axes" className="text-sm">Axes</Label>
