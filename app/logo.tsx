@@ -54,12 +54,15 @@ const glowVariants = {
 const gridVariants = {
    initial: {
       opacity: 0,
+      scale: 1.2,
    },
    animate: {
-      opacity: 1,
+      opacity: [0, 1],
+      scale: [1.2, 1],
       transition: {
-         duration: 1,
-         ease: "easeOut",
+         duration: 0.8,
+         ease: [0.4, 0, 0.2, 1],
+         delay: 1.5,
       },
    },
 }
@@ -87,7 +90,10 @@ export function Logo({ className }: { className?: string }) {
 
             {/* Grid Background */}
             <g mask="url(#fade)">
-               <motion.g variants={gridVariants}>
+               <motion.g 
+                  variants={gridVariants}
+                  className="origin-center"
+               >
                   {/* Horizontal lines */}
                   {Array.from({ length: 20 }).map((_, i) => (
                      <motion.line
