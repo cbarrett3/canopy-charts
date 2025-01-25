@@ -28,7 +28,49 @@
       "tooltips": "Tooltips"
     },
     "colorSelector": {
-      "title": "Color Selector"
+      "title": "Color Selector",
+      "themes": {
+        "forest": {
+          "name": "Forest",
+          "description": "Fresh and natural green"
+        },
+        "ocean": {
+          "name": "Ocean",
+          "description": "Deep and calming blue"
+        },
+        "sunset": {
+          "name": "Sunset",
+          "description": "Warm and energetic orange"
+        },
+        "berry": {
+          "name": "Berry",
+          "description": "Vibrant and playful pink"
+        },
+        "lavender": {
+          "name": "Lavender",
+          "description": "Elegant and soothing purple"
+        },
+        "ruby": {
+          "name": "Ruby",
+          "description": "Bold and passionate red"
+        },
+        "gold": {
+          "name": "Gold",
+          "description": "Rich and luxurious yellow"
+        },
+        "slate": {
+          "name": "Slate",
+          "description": "Professional and neutral gray"
+        }
+      },
+      "custom": {
+        "title": "Custom Color",
+        "hex": "HEX",
+        "rgb": "RGB",
+        "hue": "Hue",
+        "saturation": "Saturation",
+        "lightness": "Lightness"
+      }
     },
     "vibeSelector": {
       "title": "Style Selector"
