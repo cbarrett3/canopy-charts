@@ -11,9 +11,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/theme-toggle"
+import LanguageSelector from "@/components/language-selector"
+import { useTranslations } from 'next-intl'
 import clsx from "clsx"
 
 export function Navbar() {
+  const t = useTranslations('navigation')
+  
   return (
     <div className="sticky top-4 z-50 mx-4 sm:mx-6 lg:mx-8">
       <nav className={clsx(
@@ -38,13 +42,13 @@ export function Navbar() {
           </Link>
           <div className="hidden md:flex items-center gap-8">
             <Link href="/docs" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Documentation
+              {t('docs')}
             </Link>
             <Link href="/examples" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Examples
+              {t('examples')}
             </Link>
             <Link href="/blog" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Blog
+              {t('blog')}
             </Link>
           </div>
         </div>
@@ -57,8 +61,9 @@ export function Navbar() {
             </Link>
           </Button>
           <ThemeToggle />
+          <LanguageSelector />
           <Button variant="default" className="hidden sm:flex px-6 shadow-md hover:shadow-lg transition-shadow">
-            Get Started
+            {t('getStarted')}
           </Button>
         </div>
       </nav>

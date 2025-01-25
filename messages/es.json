@@ -1,0 +1,37 @@
+{
+  "navigation": {
+    "docs": "Documentación",
+    "examples": "Ejemplos",
+    "blog": "Blog",
+    "getStarted": "Comenzar"
+  },
+  "hero": {
+    "title": "Canopy Charts",
+    "subtitle": {
+      "line1": "Visualización de Datos",
+      "line2": "Reinventada"
+    },
+    "description": "Visuales D3.js hermosos y personalizables para React. Accesible. Ligero. Copia, pega, personaliza.",
+    "buttons": {
+      "getStarted": "Comenzar",
+      "github": "Ver en GitHub"
+    }
+  },
+  "chart": {
+    "customize": "Personalizar Gráficos",
+    "elements": {
+      "title": "Selector de Elementos",
+      "axes": "Ejes",
+      "grid": "Cuadrícula",
+      "labels": "Etiquetas",
+      "legend": "Leyenda",
+      "tooltips": "Tooltips"
+    },
+    "colorSelector": {
+      "title": "Selector de Color"
+    },
+    "vibeSelector": {
+      "title": "Selector de Estilo"
+    }
+  }
+}
