@@ -28,13 +28,18 @@ function ChartOptions({ className }: { className?: string }) {
   });
 
   return (
-    <div className="bg-background/80 dark:bg-[#1B1B1B]/80 backdrop-blur-md backdrop-saturate-150 border border-border/50 
-      shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1)] hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2)]
-      dark:shadow-[0_8px_16px_-6px_rgba(0,0,0,0.4)] dark:hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.5)]
+    <div className="bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 
+      shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
+      hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)] 
+      dark:shadow-[0_8px_16px_-6px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] 
+      dark:hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.07)]
       hover:translate-y-[-1px] hover:scale-[1.01]
       rounded-lg p-2 sm:p-3 md:p-4 h-full transition-all duration-300
       after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 
       after:transition-opacity after:duration-300 hover:after:opacity-50 after:opacity-0
+      before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-b 
+      before:from-white/5 before:to-transparent before:opacity-0 hover:before:opacity-100 
+      before:transition-opacity before:duration-300
       relative group">
       <div className="flex flex-col h-full">
         <div className="flex items-center gap-2 mb-2 sm:mb-3 md:mb-4">
@@ -81,15 +86,20 @@ export function ChartControls({ currentTheme, currentVibe, onThemeChange, onVibe
         size="lg"
         onClick={() => setIsExpanded(!isExpanded)}
         className={`absolute -top-12 left-1/2 -translate-x-1/2 text-foreground
-          bg-background/80 dark:bg-[#1B1B1B]/80 backdrop-blur-md backdrop-saturate-150 
-          border border-border/50 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.2)] 
-          hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.3)]
-          dark:shadow-[0_4px_12px_-4px_rgba(0,0,0,0.4)] 
-          dark:hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.6)]
+          bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%]
+          border border-border/40 
+          shadow-[0_4px_12px_-4px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.1)] 
+          hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.3),inset_0_2px_2px_rgba(255,255,255,0.15)]
+          dark:shadow-[0_4px_12px_-4px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] 
+          dark:hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.6),inset_0_2px_2px_rgba(255,255,255,0.07)]
           hover:translate-y-[-1px]
           rounded-t-lg px-8 py-3 font-medium
           transition-all duration-300
-          ${isExpanded ? 'hover:bg-muted/30' : 'hover:bg-background dark:hover:bg-[#1B1B1B]'}`}
+          before:absolute before:inset-0 before:rounded-t-lg before:bg-gradient-to-b 
+          before:from-white/5 before:to-transparent before:opacity-0 hover:before:opacity-100 
+          before:transition-opacity before:duration-300
+          relative
+          ${isExpanded ? 'hover:bg-muted/20' : 'hover:bg-background/20 dark:hover:bg-[#1B1B1B]/20'}`}
       >
         <div className="flex items-center gap-2">
           <span className="text-base font-medium">Customize Charts</span>
@@ -106,11 +116,18 @@ export function ChartControls({ currentTheme, currentVibe, onThemeChange, onVibe
           ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
       >
         <div className="overflow-hidden">
-          <div className={`bg-background/80 dark:bg-[#1B1B1B]/80 backdrop-blur-md border border-border/40 
-            shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1)] 
-            dark:shadow-[0_8px_16px_-6px_rgba(0,0,0,0.4)]
+          <div className={`bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] 
+            border border-border/40 
+            shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
+            dark:shadow-[0_8px_16px_-6px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)]
+            hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)]
+            dark:hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.07)]
             rounded-lg p-6
             transition-all duration-700 ease-out
+            before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-b 
+            before:from-white/5 before:to-transparent before:opacity-0 hover:before:opacity-100 
+            before:transition-opacity before:duration-300
+            relative
             ${isExpanded ? 'translate-y-0' : 'translate-y-8'}`}
           >
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
