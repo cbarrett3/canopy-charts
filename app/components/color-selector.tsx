@@ -11,14 +11,14 @@ import { Slider } from "@/components/ui/slider"
 import * as d3 from 'd3'
 
 const themes = [
-  { name: 'Ocean', color: '#0EA5E9', description: 'Deep and calming blue' },
-  { name: 'Forest', color: '#22C55E', description: 'Fresh and natural green' },
-  { name: 'Sunset', color: '#F97316', description: 'Warm and energetic orange' },
-  { name: 'Berry', color: '#EC4899', description: 'Vibrant and playful pink' },
-  { name: 'Lavender', color: '#A855F7', description: 'Elegant and soothing purple' },
-  { name: 'Ruby', color: '#EF4444', description: 'Bold and passionate red' },
-  { name: 'Gold', color: '#EAB308', description: 'Rich and luxurious yellow' },
-  { name: 'Slate', color: '#64748B', description: 'Professional and neutral gray' }
+  { name: 'Ocean', color: '#0EA5E9', gradient: ['#0EA5E9', '#0284C7', '#0369A1'], description: 'Deep and calming blue' },
+  { name: 'Forest', color: '#22C55E', gradient: ['#22C55E', '#16A34A', '#15803D'], description: 'Fresh and natural green' },
+  { name: 'Sunset', color: '#F97316', gradient: ['#F97316', '#EA580C', '#C2410C'], description: 'Warm and energetic orange' },
+  { name: 'Berry', color: '#EC4899', gradient: ['#EC4899', '#DB2777', '#BE185D'], description: 'Vibrant and playful pink' },
+  { name: 'Lavender', color: '#A855F7', gradient: ['#A855F7', '#9333EA', '#7E22CE'], description: 'Elegant and soothing purple' },
+  { name: 'Ruby', color: '#EF4444', gradient: ['#EF4444', '#DC2626', '#B91C1C'], description: 'Bold and passionate red' },
+  { name: 'Gold', color: '#EAB308', gradient: ['#EAB308', '#CA8A04', '#A16207'], description: 'Rich and luxurious yellow' },
+  { name: 'Slate', color: '#64748B', gradient: ['#64748B', '#475569', '#334155'], description: 'Professional and neutral gray' }
 ]
 
 interface ColorPickerProps {
@@ -105,31 +105,31 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
   }
 
   return (
-    <div className="space-y-6 p-4 w-[300px]">
-      <div className="space-y-4">
+    <div className="space-y-4 p-4 w-[260px]">
+      <div className="space-y-3">
         <div className="grid grid-cols-2 gap-2">
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium text-gray-400">HEX</label>
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-muted-foreground">HEX</label>
             <Input
               value={hexValue}
               onChange={(e) => handleHexChange(e.target.value)}
-              className="h-8 bg-[#2A2A2A] border-[#3A3A3A] text-sm font-mono"
+              className="h-7 bg-background/40 dark:bg-[#1B1B1B]/40 border-border/40 text-sm font-mono"
               placeholder="#000000"
             />
           </div>
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium text-gray-400">RGB</label>
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-muted-foreground">RGB</label>
             <Input
               value={rgbValue}
               onChange={(e) => handleRgbChange(e.target.value)}
-              className="h-8 bg-[#2A2A2A] border-[#3A3A3A] text-sm font-mono"
+              className="h-7 bg-background/40 dark:bg-[#1B1B1B]/40 border-border/40 text-sm font-mono"
               placeholder="0, 0, 0"
             />
           </div>
         </div>
       </div>
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-200">Hue</label>
+      <div className="space-y-1.5">
+        <label className="text-xs font-medium text-foreground">Hue</label>
         <ColorSpectrum 
           value={hue} 
           onChange={(h) => {
@@ -138,8 +138,11 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
           }} 
         />
       </div>
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-200">Saturation</label>
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between">
+          <label className="text-xs font-medium text-foreground">Saturation</label>
+          <span className="text-xs text-muted-foreground font-mono">{Math.round(saturation)}%</span>
+        </div>
         <Slider
           value={[saturation]}
           min={0}
@@ -149,11 +152,14 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
             setSaturation(s)
             updateFromHSL(hue, s, lightness)
           }}
-          className="py-2"
+          className="py-1.5"
         />
       </div>
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-200">Lightness</label>
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between">
+          <label className="text-xs font-medium text-foreground">Lightness</label>
+          <span className="text-xs text-muted-foreground font-mono">{Math.round(lightness)}%</span>
+        </div>
         <Slider
           value={[lightness]}
           min={0}
@@ -163,9 +169,15 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
             setLightness(l)
             updateFromHSL(hue, saturation, l)
           }}
-          className="py-2"
+          className="py-1.5"
         />
       </div>
+      <div 
+        className="h-8 rounded-md transition-all duration-300"
+        style={{ 
+          background: `linear-gradient(to right, ${d3.hsl(hue, saturation/100, 0.2).formatHex()}, ${d3.hsl(hue, saturation/100, 0.5).formatHex()}, ${d3.hsl(hue, saturation/100, 0.8).formatHex()})`
+        }}
+      />
     </div>
   )
 }
@@ -182,18 +194,18 @@ export function ColorSelector({ currentTheme, onThemeChange }: ColorSelectorProp
       hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)] 
       dark:shadow-[0_8px_16px_-6px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] 
       dark:hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.07)]
-      rounded-lg p-4 h-full transition-all duration-300
+      rounded-lg p-3 h-full transition-all duration-300
       after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 
       after:transition-opacity after:duration-300 hover:after:opacity-50 after:opacity-0 after:-z-10
       before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-b 
       before:from-white/5 before:to-transparent before:opacity-0 hover:before:opacity-100 
       before:transition-opacity before:duration-300 before:-z-10
       relative group">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="h-3 w-3 rounded-sm bg-primary/80" />
+      <div className="flex items-center gap-2 mb-2">
+        <div className="h-2 w-2 rounded-sm bg-primary/80" />
         <h3 className="text-sm font-medium text-foreground">Theme Color</h3>
       </div>
-      <div className="grid grid-cols-4 gap-2 flex-1">
+      <div className="grid grid-cols-4 sm:grid-cols-8 md:grid-cols-4 gap-1.5 flex-1">
         <TooltipProvider>
           {themes.map((theme) => {
             const isSelected = currentTheme === theme.color;
@@ -205,7 +217,8 @@ export function ColorSelector({ currentTheme, onThemeChange }: ColorSelectorProp
                     className={clsx(
                       "group relative aspect-square rounded-md transition-all duration-300",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                      "aria-[current=true]:scale-105"
+                      "hover:scale-105 active:scale-95",
+                      isSelected && "scale-105"
                     )}
                     aria-label={`Select ${theme.name} theme`}
                     aria-current={isSelected}
@@ -213,12 +226,10 @@ export function ColorSelector({ currentTheme, onThemeChange }: ColorSelectorProp
                     <div 
                       className={clsx(
                         "absolute inset-0 rounded-md transition-all duration-300",
-                        "bg-gradient-to-br opacity-20",
-                        "group-hover:opacity-30",
-                        "group-active:opacity-40"
+                        "opacity-20 group-hover:opacity-30 group-active:opacity-40"
                       )}
                       style={{ 
-                        background: `linear-gradient(135deg, ${theme.color}40, ${theme.color}80)`
+                        background: `linear-gradient(135deg, ${theme.gradient[0]}40, ${theme.gradient[2]}80)`
                       }}
                     />
                     <div
@@ -228,7 +239,9 @@ export function ColorSelector({ currentTheme, onThemeChange }: ColorSelectorProp
                         "group-active:inset-[3px]",
                         isSelected && "animate-pulse-subtle"
                       )}
-                      style={{ backgroundColor: theme.color }}
+                      style={{ 
+                        background: `linear-gradient(135deg, ${theme.gradient[0]}, ${theme.gradient[1]}, ${theme.gradient[2]})`
+                      }}
                     />
                     {isSelected && (
                       <>
@@ -238,13 +251,13 @@ export function ColorSelector({ currentTheme, onThemeChange }: ColorSelectorProp
                             "opacity-20 blur-sm animate-pulse-slow"
                           )}
                           style={{ 
-                            background: `linear-gradient(135deg, ${theme.color}, ${theme.color}cc)`
+                            background: `linear-gradient(135deg, ${theme.gradient[0]}, ${theme.gradient[2]}cc)`
                           }}
                         />
                         <div className="absolute inset-0 rounded-md ring-2 ring-white/20 transition-all duration-300" />
                         <svg 
                           className={clsx(
-                            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6",
+                            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4",
                             "text-white/90 drop-shadow-md transition-all duration-300",
                             "animate-in zoom-in-50 duration-300"
                           )} 
@@ -278,14 +291,18 @@ export function ColorSelector({ currentTheme, onThemeChange }: ColorSelectorProp
           <Button 
             variant="ghost" 
             size="sm"
-            className="h-8 px-2 text-xs text-muted-foreground hover:text-foreground"
+            className="mt-2 h-7 px-2 text-xs text-muted-foreground hover:text-foreground hover:bg-foreground/5"
           >
             Custom Color
           </Button>
         </PopoverTrigger>
         <PopoverContent 
-          className="w-auto p-0 bg-card border-border"
-          align="end"
+          className="w-auto p-0 bg-background/95 dark:bg-[#1B1B1B]/95 backdrop-blur-[12px] backdrop-saturate-[180%] 
+            border border-border/40 shadow-lg rounded-lg z-50
+            after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10"
+          align="center"
+          side="right"
+          sideOffset={5}
         >
           <CustomColorPicker currentColor={currentTheme} onChange={onThemeChange} />
         </PopoverContent>

@@ -12,8 +12,7 @@ export function Footer() {
           <div className="col-span-1 lg:col-span-2">
             <h3 className="text-lg font-semibold text-foreground">Canopy Charts</h3>
             <p className="mt-2 text-sm text-muted-foreground max-w-md">
-              A modern data visualization library built with D3.js and React. Designed for developers who value clean code, performance, and accessibility.
-            </p>
+            Fully customizable, low-level visualizations. Powered by D3, styled with Tailwind, nothing more.            </p>
             <div className="mt-4 flex space-x-4">
               <Link 
                 href="https://github.com/cbarrett3/canopy-charts" 

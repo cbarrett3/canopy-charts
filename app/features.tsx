@@ -283,6 +283,10 @@ const features: Feature[] = [
 export function Features() {
    const [currentTheme, setCurrentTheme] = useState('#22C55E') // Default forest green theme
    const [currentVibe, setCurrentVibe] = useState('modern') // Default modern vibe
+   const [showAxes, setShowAxes] = useState(true)
+   const [showGrid, setShowGrid] = useState(true)
+   const [showLabels, setShowLabels] = useState(true)
+   const [labelSize, setLabelSize] = useState(12)
 
    return (
       <section className="relative w-full py-8 sm:py-16 bg-background dark:bg-[#1B1B1B]">
@@ -291,15 +295,23 @@ export function Features() {
             <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-transparent dark:from-[#1B1B1B] dark:via-[#1B1B1B] dark:to-[#1A1A1A] opacity-90" />
          </div>
          
-         <div className="relative px-4 mb-16">
+         <div className="relative px-4 mb-16 max-w-7xl mx-auto">
             <ChartControls
                currentTheme={currentTheme}
                currentVibe={currentVibe}
                onThemeChange={setCurrentTheme}
                onVibeChange={setCurrentVibe}
+               showAxes={showAxes}
+               onAxesChange={setShowAxes}
+               showGrid={showGrid}
+               onGridChange={setShowGrid}
+               showLabels={showLabels}
+               onLabelsChange={setShowLabels}
+               labelSize={labelSize}
+               onLabelSizeChange={setLabelSize}
             />
          </div>
-         <div className="relative grid grid-cols-1 gap-8 px-4 md:grid-cols-2 lg:grid-cols-3">
+         <div className="relative grid grid-cols-1 gap-8 px-4 max-w-7xl mx-auto md:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
                <div 
                   key={feature.title} 
@@ -321,7 +333,7 @@ export function Features() {
                         bg-gradient-to-b from-background/50 to-transparent dark:from-[#161616]/50
                         ring-1 ring-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]
                         before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/5 before:to-transparent">
-                        <feature.component themeColor={currentTheme} vibe={currentVibe} />
+                        <feature.component themeColor={currentTheme} vibe={currentVibe} showAxes={showAxes} showGrid={showGrid} showLabels={showLabels} labelSize={labelSize} />
                      </div>
                   ) : feature.icon ? (
                      <feature.icon className="mb-4 h-8 w-8 text-muted-foreground group-hover:text-foreground transition-colors" />
