@@ -309,14 +309,16 @@ export function ColorSelector({ currentTheme, onThemeChange }: ColorSelectorProp
           </Button>
         </PopoverTrigger>
         <PopoverContent 
-          className="w-auto p-0 bg-background/95 dark:bg-[#1B1B1B]/95 backdrop-blur-[12px] backdrop-saturate-[180%] 
+          className="w-[280px] p-4 relative bg-background/95 dark:bg-[#1B1B1B]/95 backdrop-blur-[12px] backdrop-saturate-[180%] 
             border border-border/40 shadow-lg rounded-lg z-50
-            after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10"
-          align="center"
+            after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 after:pointer-events-none after:-z-10"
           side="right"
+          align="center"
           sideOffset={5}
         >
-          <CustomColorPicker currentColor={currentTheme} onChange={onThemeChange} />
+          <div className="relative z-50">
+            <CustomColorPicker currentColor={currentTheme} onChange={onThemeChange} />
+          </div>
         </PopoverContent>
       </Popover>
     </div>

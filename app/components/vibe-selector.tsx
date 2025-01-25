@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from "react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { motion } from "framer-motion"
 import clsx from "clsx"
@@ -201,8 +202,16 @@ interface VibeSelectorProps {
   onVibeChange: (vibe: string) => void;
 }
 
-export function VibeSelector({ currentVibe, onVibeChange }: VibeSelectorProps) {
+export function VibeSelector({ currentVibe = 'palm', onVibeChange }: VibeSelectorProps) {
   const { themeColor } = useThemeColor()
+  
+  // Set default vibe on mount if none selected
+  useEffect(() => {
+    if (!currentVibe) {
+      onVibeChange('palm')
+    }
+  }, [])
+
   return (
     <div className="bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 
       shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
