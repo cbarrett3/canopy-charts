@@ -1,19 +1,23 @@
 "use client"
 
 import Link from "next/link"
-import { Search, Github, MessageSquare, ChevronDown } from "lucide-react"
+import { Github } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/app/logo"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "@/components/theme-toggle"
 import LanguageSelector from "@/components/language-selector"
 import { useTranslations } from 'next-intl'
 import clsx from "clsx"
+
+const NavLink = ({ href, children }: { href: string, children: React.ReactNode }) => (
+  <Link 
+    href={href} 
+    className="relative text-sm font-medium text-muted-foreground hover:text-green-500 transition-colors group"
+  >
+    <div className="absolute inset-0 rounded-md -z-10 bg-green-500/0 group-hover:bg-green-500/10 transition-all duration-300 blur-sm" />
+    {children}
+  </Link>
+)
 
 export function Navbar() {
   const t = useTranslations('navigation')
@@ -38,33 +42,30 @@ export function Navbar() {
             <div className="relative h-12 w-12 flex-shrink-0 overflow-visible transition-transform duration-300 group-hover:scale-[1.02]">
               <Logo className="w-full h-full" />
             </div>
-            <span className="text-xl font-semibold tracking-tight text-foreground transition-colors group-hover:text-foreground/90">Canopy</span>
+            <span className="text-xl font-semibold tracking-tight text-foreground transition-all duration-300 group-hover:text-green-500">Canopy</span>
           </Link>
           <div className="hidden md:flex items-center gap-8">
-            <Link href="/docs" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              {t('docs')}
-            </Link>
-            <Link href="/examples" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              {t('examples')}
-            </Link>
-            <Link href="/blog" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              {t('blog')}
-            </Link>
+            <NavLink href="/docs">{t('docs')}</NavLink>
+            <NavLink href="/examples">{t('examples')}</NavLink>
+            <NavLink href="/blog">{t('blog')}</NavLink>
           </div>
         </div>
 
         <div className="relative flex items-center gap-4">
-          <Button variant="ghost" size="icon" className="hover:bg-background/80 dark:hover:bg-[#1B1B1B]/80" asChild>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="relative hover:bg-transparent group"
+            asChild
+          >
             <Link href="https://github.com/cbarrett3/canopy-charts" target="_blank" rel="noopener noreferrer">
-              <Github className="h-5 w-5" />
+              <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
+              <Github className="h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
               <span className="sr-only">GitHub</span>
             </Link>
           </Button>
           <ThemeToggle />
           <LanguageSelector />
-          <Button variant="default" className="hidden sm:flex px-6 shadow-md hover:shadow-lg transition-shadow">
-            {t('getStarted')}
-          </Button>
         </div>
       </nav>
     </div>
