@@ -57,107 +57,80 @@ export default function DocsLayout({
     <div className="relative flex min-h-screen">
       {/* Fixed Sidebar */}
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-30",
-        "transition-all duration-300",
-        "bg-background/80 dark:bg-[#1B1B1B]/80",
-        "backdrop-blur-[8px] backdrop-saturate-[140%]",
-        "border-r border-border/20 dark:border-border/10",
-        "dark:shadow-[1px_0_16px_-4px_rgba(34,197,94,0.1)]",
+        "fixed top-0 z-40 flex h-screen flex-col border-r border-border/40 bg-sidebar transition-all duration-300",
         isOpen ? "w-72" : "w-16"
       )}>
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between px-4 py-2 border-b border-border/10">
-            {isOpen && (
-              <div className="flex items-center gap-3 flex-1">
-                <Search className="h-4 w-4 text-muted-foreground/70" />
-                <Input
-                  type="search"
-                  placeholder="Search documentation..."
-                  className={cn(
-                    "h-8 bg-transparent w-full",
-                    "placeholder:text-muted-foreground/50",
-                    "focus-visible:ring-green-500/20",
-                    "border-none text-sm"
-                  )}
-                />
-              </div>
-            )}
-            <Button 
-              variant="ghost" 
+          <div className={cn(
+            "sticky top-4 z-50 flex items-center gap-2 px-4 bg-[#1B1B1B]",
+            "rounded-none border-b border-border/40",
+            "h-[52px] pt-1"  // matches navbar height (py-2.5 * 2 + content height)
+          )}>
+            <div className={cn(
+              "relative flex-1",
+              !isOpen && "hidden" // Hide search when collapsed
+            )}>
+              <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                placeholder={t('search')}
+                className={cn(
+                  "w-full pl-9 h-10 bg-[#2A2A2A]",
+                  "border-border/40",
+                  "focus-visible:ring-1 focus-visible:ring-green-500/20",
+                  "placeholder:text-muted-foreground/50"
+                )}
+              />
+            </div>
+            <Button
+              variant="ghost"
               size="icon"
               className={cn(
-                "text-muted-foreground/70 hover:text-green-500",
-                "hover:bg-green-500/10",
-                !isOpen && "w-full mx-auto"
+                "h-10 w-10 relative group hover:bg-transparent",
+                "after:absolute after:inset-0 after:rounded-full after:bg-green-500/0 hover:after:bg-green-500/20 after:transition-all after:duration-300 after:blur-lg",
+                !isOpen && "mx-auto" // Center the button when collapsed
               )}
-              onClick={() => setIsExpanded(!isOpen)}
+              onClick={() => setIsExpanded(!isExpanded)}
             >
-              {!isOpen ? (
-                <PanelLeft className="h-4 w-4" />
+              {isExpanded ? (
+                <PanelLeftClose className="relative z-10 text-foreground group-hover:text-green-500 transition-colors duration-300" />
               ) : (
-                <PanelLeftClose className="h-4 w-4" />
+                <PanelLeft className="relative z-10 text-foreground group-hover:text-green-500 transition-colors duration-300" />
               )}
             </Button>
           </div>
-          <div className={cn(
-            "flex-1 px-3 py-6",
-            !isOpen && "px-2"
-          )}>
-            <nav>
-              {isOpen && sections.map((section, i) => (
-                <div key={section.title} className={cn(
-                  "relative group transition-all duration-300",
-                  i > 0 && "mt-8"
+          <div className="overflow-y-auto flex-1 pt-6">
+            {sections.map((section, i) => (
+              <div key={i} className="py-4">
+                <h2 className={cn(
+                  "px-4 text-sm font-semibold text-foreground/70",
+                  !isOpen && "hidden" // Hide section title when collapsed
                 )}>
-                  <div className="px-3 mb-2 text-sm font-medium text-muted-foreground/70">
-                    {section.title}
-                  </div>
-                  <div>
-                    {section.items.map((item) => (
-                      <div key={item.href}>
-                        <Link
-                          href={item.href}
-                          className={cn(
-                            "group/item relative w-full px-3 py-2 text-[0.9rem] block",
-                            "text-muted-foreground hover:text-green-500",
-                            "transition-all duration-300 rounded-lg",
-                            "hover:bg-green-500/5 dark:hover:bg-green-500/10",
-                            "focus-visible:outline-none focus-visible:ring-2",
-                            "focus-visible:ring-green-500/30"
-                          )}
-                        >
-                          <span className="relative flex items-center gap-2">
-                            <ChevronRight className="h-3 w-3 text-muted-foreground/40 group-hover/item:text-green-500 transition-colors duration-300" />
-                            {item.title}
-                          </span>
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-              {!isOpen && sections.map((section) => (
-                <div key={section.title} className="mb-4">
-                  {section.items.map((item) => (
-                    <div key={item.href}>
-                      <Link
-                        href={item.href}
-                        className={cn(
-                          "flex justify-center w-full p-2 text-[0.9rem] block",
-                          "text-muted-foreground hover:text-green-500",
-                          "transition-all duration-300 rounded-lg",
-                          "hover:bg-green-500/5 dark:hover:bg-green-500/10",
-                          "focus-visible:outline-none focus-visible:ring-2",
-                          "focus-visible:ring-green-500/30"
-                        )}
-                      >
-                        <ChevronRight className="h-4 w-4" />
-                      </Link>
-                    </div>
+                  {section.title}
+                </h2>
+                <div className="mt-2">
+                  {section.items.map((item, j) => (
+                    <Link
+                      key={j}
+                      href={item.href}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-1.5 text-sm text-muted-foreground hover:text-green-500 transition-colors",
+                        !isOpen && "justify-center" // Center items when collapsed
+                      )}
+                    >
+                      <ChevronRight className={cn(
+                        "h-3 w-3",
+                        !isOpen && "hidden" // Hide chevron when collapsed
+                      )} />
+                      <span className={cn(
+                        !isOpen && "hidden" // Hide text when collapsed
+                      )}>
+                        {item.title}
+                      </span>
+                    </Link>
                   ))}
                 </div>
-              ))}
-            </nav>
+              </div>
+            ))}
           </div>
         </div>
       </aside>
