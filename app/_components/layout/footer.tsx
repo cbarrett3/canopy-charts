@@ -1,18 +1,42 @@
+'use client';
+
 import * as Icons from "lucide-react"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
+import { useSidebar } from "../layout/sidebar-context"
+import { usePathname } from 'next/navigation'
 
 export function Footer() {
+  const { isExpanded } = useSidebar();
+  const pathname = usePathname()
+  const isDocsPage = pathname.startsWith('/docs')
+
   return (
-    <footer className="relative mt-16 border-t border-border/40">
+    <footer className={cn(
+      "relative mt-16 border-t border-border/40",
+      "transition-all duration-300",
+      isDocsPage 
+        ? isExpanded 
+          ? "ml-72" 
+          : "ml-16"
+        : ""
+    )}>
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/80 dark:from-[#1B1B1B] dark:via-[#1B1B1B] dark:to-[#161616]" />
       
-      <div className="relative mx-auto max-w-7xl px-4 py-12">
+      <div className={cn(
+        "relative",
+        isDocsPage 
+          ? "px-6" 
+          : "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+        "py-12"
+      )}>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-4">
           {/* Main Info */}
           <div className="col-span-1 lg:col-span-2">
             <h3 className="text-lg font-semibold text-foreground">Canopy Charts</h3>
             <p className="mt-2 text-sm text-muted-foreground max-w-md">
-            Fully customizable, low-level visualizations. Powered by D3, styled with Tailwind, nothing more.            </p>
+              Fully customizable, low-level visualizations. Powered by D3, styled with Tailwind, nothing more.
+            </p>
             <div className="mt-4 flex space-x-4">
               <Link 
                 href="https://github.com/cbarrett3/canopy-charts" 
@@ -49,50 +73,54 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-foreground">Documentation</h4>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
-                <Link href="/docs/getting-started" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/docs" className="text-muted-foreground hover:text-green-500 transition-colors">
                   Getting Started
                 </Link>
               </li>
               <li>
-                <Link href="/docs/components" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Components
+                <Link href="/docs/installation" className="text-muted-foreground hover:text-green-500 transition-colors">
+                  Installation
                 </Link>
               </li>
               <li>
-                <Link href="/docs/examples" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/docs/examples" className="text-muted-foreground hover:text-green-500 transition-colors">
                   Examples
                 </Link>
               </li>
               <li>
-                <Link href="/docs/api" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/docs/api" className="text-muted-foreground hover:text-green-500 transition-colors">
                   API Reference
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Resources */}
+          {/* Community */}
           <div>
-            <h4 className="text-sm font-semibold text-foreground">Resources</h4>
+            <h4 className="text-sm font-semibold text-foreground">Community</h4>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
-                <Link href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link 
+                  href="https://github.com/cbarrett3/canopy-charts" 
+                  className="text-muted-foreground hover:text-green-500 transition-colors"
+                >
+                  GitHub
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="https://twitter.com/canopycharts" 
+                  className="text-muted-foreground hover:text-green-500 transition-colors"
+                >
+                  Twitter
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/blog" 
+                  className="text-muted-foreground hover:text-green-500 transition-colors"
+                >
                   Blog
-                </Link>
-              </li>
-              <li>
-                <Link href="/showcase" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Showcase
-                </Link>
-              </li>
-              <li>
-                <Link href="/roadmap" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Roadmap
-                </Link>
-              </li>
-              <li>
-                <Link href="https://github.com/cbarrett3/canopy-charts/releases" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Releases
                 </Link>
               </li>
             </ul>
@@ -122,5 +150,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
