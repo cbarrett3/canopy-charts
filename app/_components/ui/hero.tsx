@@ -3,9 +3,10 @@
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
-import { Logo } from "@/app/_components/ui/logo"
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
+import { motion } from "framer-motion"
+import { Logo } from "@/app/_components/ui/logo"
 
 export function Hero() {
    const [mounted, setMounted] = useState(false)
@@ -80,16 +81,52 @@ export function Hero() {
                mounted ? "animate-in fade-in-50 duration-1000" : "opacity-0"
             )}>
                <h1 className="mb-2 relative">
-                  <span className="chrome-gradient block text-4xl font-extrabold tracking-tight leading-relaxed pb-4 sm:text-5xl md:text-6xl lg:text-7xl">
-                     {t('title')}
-                  </span>
-                  <span className="mt-6 block text-2xl font-bold text-foreground dark:text-gray-200 sm:text-3xl md:text-4xl lg:mt-8 lg:text-5xl">
-                     {t('subtitle.line1')}
-                     <br />
-                     {t('subtitle.line2')}
-                     <br />
-                  </span>
-               </h1>
+                  <motion.span
+                    className={cn(
+                      "block text-4xl font-extrabold tracking-tight leading-relaxed pb-4 sm:text-5xl md:text-6xl lg:text-7xl",
+                      "bg-clip-text text-transparent relative z-10"
+                    )}
+                    style={{
+                      WebkitBackgroundClip: "text",
+                      backgroundImage: "linear-gradient(to right, #22c55e, #4ade80, #86efac, #4ade80, #22c55e)",
+                      backgroundSize: "200% auto"
+                    }}
+                    animate={{
+                      backgroundPosition: ["0% center", "200% center"]
+                    }}
+                    transition={{
+                      duration: 8,
+                      ease: "linear",
+                      repeat: Infinity
+                    }}
+                  >
+                    {t('title')}
+                  </motion.span>
+                  <motion.span 
+                    className={cn(
+                      "mt-6 block text-2xl font-bold sm:text-3xl md:text-4xl lg:mt-8 lg:text-5xl",
+                      "bg-clip-text text-transparent relative z-10"
+                    )}
+                    style={{
+                      WebkitBackgroundClip: "text",
+                      backgroundImage: "linear-gradient(to right, hsl(var(--foreground)), hsl(var(--muted-foreground)), hsl(var(--foreground)))",
+                      backgroundSize: "200% auto",
+                      filter: "drop-shadow(0 0 2px rgba(255,255,255,0.1))"
+                    }}
+                    animate={{
+                      backgroundPosition: ["0% center", "200% center"]
+                    }}
+                    transition={{
+                      duration: 12,
+                      ease: "linear",
+                      repeat: Infinity
+                    }}
+                  >
+                    {t('subtitle.line1')}
+                    <br />
+                    {t('subtitle.line2')}
+                  </motion.span>
+                </h1>
                <p className="mb-4 mt-4 text-base text-gray-400 sm:text-lg md:text-xl lg:text-2xl">
                   {t('description')}
                </p>

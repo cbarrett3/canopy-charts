@@ -8,14 +8,8 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 const localeNames = {
-  en: {
-    name: 'English',
-    flag: '🇺🇸'
-  },
-  es: {
-    name: 'Español',
-    flag: '🇪🇸'
-  }
+  en: 'English',
+  es: 'Español'
 }
 
 export default function LanguageSelector() {
@@ -39,23 +33,31 @@ export default function LanguageSelector() {
         <GlobeIcon className="h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
       </Button>
       
-      <div className="absolute right-0 mt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-background/80 dark:bg-[#1B1B1B]/80 backdrop-blur-[8px] backdrop-saturate-[140%] rounded-xl border border-border/40 dark:border-border/30 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2)]">
-        <div className="py-1">
-          {Object.entries(localeNames).map(([code, { name, flag }]) => (
-            <button
-              key={code}
-              onClick={() => handleLocaleChange(code)}
-              className={cn(
-                "w-full px-4 py-2 text-sm flex items-center gap-3",
-                "hover:bg-green-500/10 dark:hover:bg-green-500/20",
-                "transition-colors duration-200",
-                code === locale ? "text-green-500" : "text-foreground"
-              )}
-            >
-              <span className="text-base">{flag}</span>
-              <span>{name}</span>
-            </button>
-          ))}
+      <div className="absolute right-1/2 translate-x-1/2 mt-2 w-32 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+        <div className="bg-background/60 dark:bg-[#1B1B1B]/60 backdrop-blur-[8px] backdrop-saturate-[140%] rounded-2xl border border-border/30 overflow-hidden">
+          <div className="py-2">
+            {Object.entries(localeNames).map(([code, name]) => (
+              <button
+                key={code}
+                onClick={() => handleLocaleChange(code)}
+                className={cn(
+                  "w-full px-4 py-2 text-sm",
+                  "relative transition-all duration-300",
+                  code === locale ? "text-green-500" : "text-foreground"
+                )}
+              >
+                <div className="relative flex items-center justify-center">
+                  <span className={cn(
+                    "transition-all duration-300",
+                    "relative after:absolute after:inset-0 after:bg-green-500/0 hover:after:bg-green-500/20 after:blur-lg after:transition-all after:duration-300",
+                    code === locale ? "text-green-500" : "hover:text-green-500"
+                  )}>
+                    {name}
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
