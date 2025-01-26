@@ -9,6 +9,15 @@
     "blog": "Blog",
     "getStarted": "Get Started"
   },
+  "Navbar": {
+    "docs": "Documentation",
+    "examples": "Examples",
+    "github": "GitHub",
+    "theme": "Toggle theme",
+    "language": "Change language",
+    "blog": "Blog",
+    "getStarted": "Get Started"
+  },
   "hero": {
     "title": "Canopy Charts",
     "subtitle": {
