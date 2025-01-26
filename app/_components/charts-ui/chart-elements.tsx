@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
-import { useThemeColor } from "./theme-context"
+import { useThemeColor } from '@/app/_components/providers/theme-context'
 import clsx from 'clsx';
 
 interface ChartElementsProps {

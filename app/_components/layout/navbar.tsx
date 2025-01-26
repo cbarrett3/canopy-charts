@@ -3,9 +3,9 @@
 import Link from "next/link"
 import { Github } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Logo } from "@/app/logo"
-import { ThemeToggle } from "@/components/theme-toggle"
-import LanguageSelector from "@/components/language-selector"
+import { Logo } from "@/app/_components/ui/logo"
+import { ThemeToggle } from "@/app/_components/ui/theme-toggle"
+import LanguageSelector from "@/app/_components/ui/language-selector"
 import { useTranslations } from 'next-intl'
 import clsx from "clsx"
 

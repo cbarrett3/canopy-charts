@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Slider } from "@/components/ui/slider"
 import * as d3 from 'd3'
-import { useThemeColor } from './theme-context'
+import { useThemeColor } from '@/app/_components/providers/theme-context'
 import { useTranslations } from 'next-intl'
 
 const themes = [

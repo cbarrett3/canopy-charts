@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
-import { defaultThemeColor } from './utils/colors';
+import { defaultThemeColor } from '@/app/_components/charts/utils/colors';
 
 // Define the props interface
 interface DataPoint {

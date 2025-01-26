@@ -1,6 +1,6 @@
 "use client"
 
-import { useThemeColor } from "../components/theme-context"
+import { useThemeColor } from "@/app/_components/providers/theme-context"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"

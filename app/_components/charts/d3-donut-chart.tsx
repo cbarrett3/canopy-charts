@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import { defaultThemeColor, generateColorVariations } from './utils/colors';
+import { defaultThemeColor, generateColorVariations } from '@/app/_components/charts/utils/colors';
 
 interface DataPoint {
    label: string;

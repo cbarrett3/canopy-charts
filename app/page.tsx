@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
-import { Hero } from "@/app/hero"
-import { Features } from "@/app/features"
-import { Footer } from "@/app/footer"
-import { MouseTrail } from "@/app/components/mouse-trail"
+import { Hero } from "@/app/_components/ui/hero"
+import { Features } from "@/app/_components/ui/features"
+import { Footer } from "@/app/_components/layout/footer"
+import { MouseTrail } from "@/app/_components/effects/mouse-trail"
 
 export default function RootPage() {
   redirect('/en');
