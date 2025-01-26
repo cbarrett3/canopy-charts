@@ -12,12 +12,13 @@ import { Slider } from "@/components/ui/slider"
 import clsx from "clsx"
 import { useThemeColor } from '@/app/_components/providers/theme-context'
 import { useTranslations } from 'next-intl'
+import { VibeType } from '../charts/d3-tree-map'
 
 interface ChartControlsProps {
   currentTheme: string
   onThemeChange: (color: string) => void
-  currentVibe: string
-  onVibeChange: (vibe: string) => void
+  currentVibe: VibeType
+  onVibeChange: (vibe: VibeType) => void
   showAxes: boolean
   onAxesChange: (show: boolean) => void
   showGrid: boolean

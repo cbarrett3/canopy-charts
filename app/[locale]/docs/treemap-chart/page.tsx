@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import D3TreeMapChart from '@/app/_components/charts/d3-tree-map';
-import type { VibeType } from '@/app/_components/charts/d3-tree-map';
+import D3TreeMapChart, { VibeType } from '@/app/_components/charts/d3-tree-map';
 import { ChartControls } from "@/app/_components/charts-ui/chart-controls";
 import { useThemeColor } from "@/app/_components/providers/theme-context";
 import { Card } from "@/components/ui/card";
@@ -117,7 +116,7 @@ export default function TreeMapChartPage() {
             currentTheme={themeColor}
             currentVibe={currentVibe}
             onThemeChange={setThemeColor}
-            onVibeChange={setCurrentVibe}
+            onVibeChange={(vibe: VibeType) => setCurrentVibe(vibe)}
             showAxes={showAxes}
             onAxesChange={setShowAxes}
             showGrid={showGrid}

@@ -272,8 +272,6 @@ export default function MyBarChart() {
                   ]}
                   datasets={['dataset1']}
                   lineColors={['#1A458E']}
-                  width={600}
-                  height={400}
                 />
               </div>
 
@@ -293,8 +291,6 @@ export default function MyLineChart() {
       data={data}
       datasets={['dataset1']}
       lineColors={['#1A458E']}
-      width={600}
-      height={400}
     />
   );
 }`}</code>
