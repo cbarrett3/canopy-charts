@@ -1,6 +1,6 @@
 "use client"
 
-import { ThemeToggle } from "./theme-toggle"
+import { ThemeToggle } from "@/app/_components/ui/theme-toggle"
 
 export function Header() {
   return (

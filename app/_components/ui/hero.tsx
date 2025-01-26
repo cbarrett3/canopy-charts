@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
-import { Logo } from "@/app/logo"
+import { Logo } from "@/app/_components/ui/logo"
 import { useTranslations } from 'next-intl'
 
 export function Hero() {

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { motion, AnimatePresence } from "framer-motion"
 import clsx from "clsx"
-import { useThemeColor } from './theme-context'
+import { useThemeColor } from '@/app/_components/providers/theme-context'
 import { useTranslations } from 'next-intl'
 import { 
   TreePine, 
@@ -149,7 +149,7 @@ export const VibeSelector = ({ selectedVibe, onVibeChange }: VibeSelectorProps) 
                 <Tooltip key={vibe.id} delayDuration={200}>
                   <TooltipTrigger asChild>
                     <motion.button
-                      initial={{ opacity: 0, ...vibe.loadAnimation }}
+                      initial={vibe.loadAnimation as any}
                       animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }}
                       transition={{ 
                         delay: index * 0.1, 

@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from "react"
 import { ChevronUp, ChevronDown } from "lucide-react"
-import { ColorSelector } from "./color-selector"
-import { VibeSelector } from "./vibe-selector"
-import { ChartElements } from "./chart-elements"
+import { ColorSelector } from "@/app/_components/charts-ui/color-selector"
+import { VibeSelector } from "@/app/_components/charts-ui/vibe-selector"
+import { ChartElements } from "@/app/_components/charts-ui/chart-elements"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
 import clsx from "clsx"
-import { useThemeColor } from "./theme-context"
+import { useThemeColor } from '@/app/_components/providers/theme-context'
 import { useTranslations } from 'next-intl'
 
 interface ChartControlsProps {
@@ -19,43 +19,50 @@ interface ChartControlsProps {
   currentVibe: string
   onVibeChange: (vibe: string) => void
   showAxes: boolean
-  onAxesChange: (value: boolean) => void
+  onAxesChange: (show: boolean) => void
   showGrid: boolean
-  onGridChange: (value: boolean) => void
+  onGridChange: (show: boolean) => void
   showLabels: boolean
-  onLabelsChange: (value: boolean) => void
+  onLabelsChange: (show: boolean) => void
   showTitle: boolean
-  onTitleChange: (value: boolean) => void
+  onTitleChange: (show: boolean) => void
   showLegend: boolean
-  onLegendChange: (value: boolean) => void
+  onLegendChange: (show: boolean) => void
   showTooltips: boolean
-  onTooltipsChange: (value: boolean) => void
+  onTooltipsChange: (show: boolean) => void
   labelSize: number
-  onLabelSizeChange: (value: number) => void
+  onLabelSizeChange: (size: number) => void
 }
 
-export function ChartControls() {
+export function ChartControls({
+  currentTheme,
+  onThemeChange,
+  currentVibe,
+  onVibeChange,
+  showAxes,
+  onAxesChange,
+  showGrid,
+  onGridChange,
+  showLabels,
+  onLabelsChange,
+  showTitle,
+  onTitleChange,
+  showLegend,
+  onLegendChange,
+  showTooltips,
+  onTooltipsChange,
+  labelSize,
+  onLabelSizeChange
+}: ChartControlsProps) {
   const t = useTranslations('chart')
   const [isExpanded, setIsExpanded] = useState(true)
-  const [currentTheme, setCurrentTheme] = useState('#22C55E')  // Forest theme
-  const [currentVibe, setCurrentVibe] = useState('palm')
-  const [showAxes, setShowAxes] = useState(true)
-  const [showGrid, setShowGrid] = useState(true)
-  const [showLabels, setShowLabels] = useState(true)
-  const [showTitle, setShowTitle] = useState(true)
-  const [showLegend, setShowLegend] = useState(true)
-  const [showTooltips, setShowTooltips] = useState(true)
-  const [labelSize, setLabelSize] = useState(12)
 
   const { setThemeColor } = useThemeColor()
 
   // Initialize defaults on mount
   useEffect(() => {
-    setThemeColor('#22C55E')  // Set Forest theme
-    if (!currentVibe || currentVibe === '') {
-      setCurrentVibe('palm')
-    }
-  }, [])
+    setThemeColor(currentTheme)  
+  }, [currentTheme, setThemeColor])
 
   // Keep theme context in sync
   useEffect(() => {
@@ -126,27 +133,27 @@ export function ChartControls() {
           )}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="h-full group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
-                <ColorSelector currentTheme={currentTheme} onThemeChange={setCurrentTheme} />
+                <ColorSelector currentTheme={currentTheme} onThemeChange={onThemeChange} />
               </div>
               <div className="h-full group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
-                <VibeSelector currentVibe={currentVibe} onVibeChange={setCurrentVibe} />
+                <VibeSelector selectedVibe={currentVibe} onVibeChange={onVibeChange} />
               </div>
               <div className="h-full group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
                 <ChartElements
                   showAxes={showAxes}
-                  onAxesChange={setShowAxes}
+                  onAxesChange={onAxesChange}
                   showGrid={showGrid}
-                  onGridChange={setShowGrid}
+                  onGridChange={onGridChange}
                   showLabels={showLabels}
-                  onLabelsChange={setShowLabels}
+                  onLabelsChange={onLabelsChange}
                   showTitle={showTitle}
-                  onTitleChange={setShowTitle}
+                  onTitleChange={onTitleChange}
                   showLegend={showLegend}
-                  onLegendChange={setShowLegend}
+                  onLegendChange={onLegendChange}
                   showTooltips={showTooltips}
-                  onTooltipsChange={setShowTooltips}
+                  onTooltipsChange={onTooltipsChange}
                   labelSize={labelSize}
-                  onLabelSizeChange={setLabelSize}
+                  onLabelSizeChange={onLabelSizeChange}
                 />
               </div>
             </div>

@@ -1,8 +1,8 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { Space_Grotesk } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
-import { ThemeColorProvider } from '@/app/components/theme-context';
+import { ThemeProvider } from "@/app/_components/ui/theme-provider";
+import { ThemeColorProvider } from '@/app/_components/providers/theme-context';
 import { locales } from '@/config/i18n';
 
 const spaceGrotesk = Space_Grotesk({

@@ -3,16 +3,16 @@
 import { useState } from "react"
 import { Globe, TreesIcon as Tree, Wand2, PlugIcon as Plugin, Wrench, Triangle } from "lucide-react"
 import Link from "next/link"
-import { ColorSelector } from "./components/color-selector"
-import { VibeSelector } from "./components/vibe-selector"
-import TreeMap from "./d3-tree-map"
-import BarChart from "./d3-bar-chart"
-import LineChart from "./d3-line-chart"
-import StreamChart from "./d3-stream-chart"
-import StackedBarChart from "./d3-stacked-bar-chart"
-import DonutChart from "./d3-donut-chart"
-import { AiChartSuggest } from "./components/ai-chart-suggest"
-import { ChartControls } from "./components/chart-controls"
+import { ColorSelector } from "@/app/_components/charts-ui/color-selector"
+import { VibeSelector } from "@/app/_components/charts-ui/vibe-selector"
+import TreeMap from "@/app/_components/charts/d3-tree-map"
+import BarChart from "@/app/_components/charts/d3-bar-chart"
+import LineChart from "@/app/_components/charts/d3-line-chart"
+import StreamChart from "@/app/_components/charts/d3-stream-chart"
+import StackedBarChart from "@/app/_components/charts/d3-stacked-bar-chart"
+import DonutChart from "@/app/_components/charts/d3-donut-chart"
+import { AiChartSuggest } from "@/app/_components/charts-ui/ai-chart-suggest"
+import { ChartControls } from "@/app/_components/charts-ui/chart-controls"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -23,7 +23,7 @@ import { Command } from 'lucide-react'
 import * as d3 from 'd3'
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
-import { useThemeColor } from "./components/theme-context"
+import { useThemeColor } from "@/app/_components/providers/theme-context"
 
 type Feature = {
    title: string;
@@ -283,11 +283,14 @@ const features: Feature[] = [
 
 export function Features() {
    const { themeColor, setThemeColor } = useThemeColor()
-   const [currentVibe, setCurrentVibe] = useState('palm') // Default palm vibe
+   const [currentVibe, setCurrentVibe] = useState('rainforest') // Default rainforest vibe
    const [showAxes, setShowAxes] = useState(true)
    const [showGrid, setShowGrid] = useState(true)
    const [showLabels, setShowLabels] = useState(true)
    const [labelSize, setLabelSize] = useState(12)
+   const [showTitle, setShowTitle] = useState(true);
+   const [showLegend, setShowLegend] = useState(true);
+   const [showTooltips, setShowTooltips] = useState(true);
 
    return (
       <section className="relative w-full py-8 sm:py-16 bg-background dark:bg-[#1B1B1B]">
@@ -310,13 +313,19 @@ export function Features() {
                onLabelsChange={setShowLabels}
                labelSize={labelSize}
                onLabelSizeChange={setLabelSize}
+               showTitle={showTitle}
+               onTitleChange={setShowTitle}
+               showLegend={showLegend}
+               onLegendChange={setShowLegend}
+               showTooltips={showTooltips}
+               onTooltipsChange={setShowTooltips}
             />
          </div>
          <div className="relative grid grid-cols-1 gap-8 px-4 max-w-7xl mx-auto md:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
                <div 
                   key={feature.title} 
-                  className="group relative rounded-lg bg-background/40 dark:bg-[#181818]/30 hover:bg-muted/20 dark:hover:bg-[#1A1A1A]/20 p-6 
+                  className="group rounded-lg bg-background/40 dark:bg-[#181818]/30 hover:bg-muted/20 dark:hover:bg-[#1A1A1A]/20 p-6 
                     backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 transition-all duration-300
                     shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
                     hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)] 
@@ -327,8 +336,7 @@ export function Features() {
                     after:transition-opacity after:duration-300 hover:after:opacity-50 after:opacity-0 after:-z-10
                     before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-b 
                     before:from-white/5 before:to-transparent before:opacity-0 hover:before:opacity-100 
-                    before:transition-opacity before:duration-300 before:-z-10
-                    relative">
+                    before:transition-opacity before:duration-300 before:-z-10">
                   {feature.component ? (
                      <div className="relative mb-4 h-[200px] w-full overflow-hidden rounded-md 
                         bg-gradient-to-b from-background/50 to-transparent dark:from-[#161616]/50

@@ -2,9 +2,9 @@
 
 import { Space_Grotesk } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { Navbar } from "./navbar"
-import { ThemeContext } from './components/theme-context'
+import { ThemeProvider } from "@/app/_components/ui/theme-provider"
+import { Navbar } from "@/app/_components/layout/navbar"
+import { ThemeColorProvider } from '@/app/_components/providers/theme-context'
 import { useState } from 'react'
 
 const spaceGrotesk = Space_Grotesk({
