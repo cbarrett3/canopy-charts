@@ -19,27 +19,241 @@
     "blog": "Blog",
     "getStarted": "Comenzar"
   },
-  "Docs": {
-    "gettingStarted": {
-      "title": "Primeros Pasos"
-    },
-    "installation": {
-      "title": "Instalación"
-    },
-    "usage": {
-      "title": "Uso"
-    }
-  },
   "hero": {
     "title": "Canopy Charts",
     "subtitle": {
       "line1": "Visualización de Datos",
-      "line2": "Reinventada"
+      "line2": "Reimaginada"
     },
-    "description": "Visuales D3.js hermosos y personalizables para React. Accesible. Ligero. Copia, pega, personaliza.",
+    "description": "Visualizaciones D3.js hermosas y personalizables para React. Accesible. Ligero. Copia, pega, personaliza.",
     "buttons": {
       "getStarted": "Comenzar",
       "github": "Ver en GitHub"
+    }
+  },
+  "Docs": {
+    "title": "Documentación",
+    "search": "Buscar documentación...",
+    "getting-started": {
+      "title": "Primeros Pasos",
+      "introduction": {
+        "title": "Introducción",
+        "welcome": "Bienvenido a la documentación de Canopy Charts. Esta guía te ayudará a comenzar con nuestra potente biblioteca de visualización que combina la flexibilidad de D3.js con las características modernas de React.",
+        "features": {
+          "title": "Características Principales",
+          "list": [
+            "Visualizaciones D3.js interactivas con componentes React",
+            "Temas y estilos personalizables y hermosos",
+            "Diseño responsivo y accesible",
+            "Animaciones y transiciones suaves",
+            "Soporte para TypeScript"
+          ]
+        }
+      },
+      "installation": {
+        "title": "Instalación",
+        "description": "Comienza con Canopy Charts en tu proyecto React."
+      }
+    },
+    "usage": {
+      "title": "Uso Básico",
+      "description": "Aprende a usar los componentes de Canopy Charts en tu aplicación React."
+    },
+    "visualizations": {
+      "title": "Visualizaciones",
+      "line-chart": "Gráfico de Líneas",
+      "bar-chart": "Gráfico de Barras",
+      "donut-chart": "Gráfico de Dona",
+      "stream-chart": "Gráfico de Flujo",
+      "tree-map": "Mapa de Árbol",
+      "stacked-bar-chart": "Gráfico de Barras Apiladas"
+    },
+    "features": {
+      "title": "Características",
+      "theming": "Temas",
+      "animations": "Animaciones",
+      "responsiveness": "Responsividad",
+      "accessibility": "Accesibilidad"
+    },
+    "contributing": {
+      "title": "Contribuir",
+      "how-to": "Cómo Contribuir",
+      "dev-guide": "Guía de Desarrollo"
+    },
+    "charts": {
+      "title": "Gráficos",
+      "barChart": {
+        "title": "Gráfico de Barras",
+        "description": "Crea gráficos de barras hermosos e interactivos con estilos y animaciones personalizables."
+      },
+      "lineChart": {
+        "title": "Gráfico de Líneas",
+        "description": "Visualiza tendencias y patrones con gráficos de líneas suaves y animados."
+      },
+      "donutChart": {
+        "title": "Gráfico de Dona",
+        "description": "Muestra datos proporcionales con gráficos de dona interactivos."
+      },
+      "streamChart": {
+        "title": "Gráfico de Flujo",
+        "description": "Muestra la evolución de múltiples variables a lo largo del tiempo con gráficos de flujo."
+      },
+      "treeMap": {
+        "title": "Mapa de Árbol",
+        "description": "Visualiza datos jerárquicos con mapas de árbol interactivos."
+      }
+    },
+    "sidebar": {
+      "visualizations": {
+        "title": "Visualizaciones",
+        "lineChart": "Gráfico de Líneas",
+        "barChart": "Gráfico de Barras",
+        "donutChart": "Gráfico de Dona",
+        "streamChart": "Gráfico de Flujo",
+        "treeMap": "Mapa de Árbol",
+        "stackedBarChart": "Gráfico de Barras Apiladas"
+      },
+      "features": {
+        "title": "Características",
+        "theming": "Temas",
+        "animations": "Animaciones",
+        "responsiveness": "Responsividad",
+        "accessibility": "Accesibilidad"
+      },
+      "contributing": {
+        "title": "Contribuir",
+        "howTo": "Cómo Contribuir",
+        "devGuide": "Guía de Desarrollo"
+      }
+    },
+    "visualizations": {
+      "lineChart": {
+        "title": "Gráfico de Líneas",
+        "description": "Crea gráficos de líneas interactivos para visualizar tendencias a lo largo del tiempo.",
+        "installation": "Instalación",
+        "usage": "Uso",
+        "props": {
+          "title": "Propiedades",
+          "data": "Array de datos que contiene valores x e y",
+          "width": "Ancho del gráfico en píxeles",
+          "height": "Altura del gráfico en píxeles",
+          "margin": "Márgenes del gráfico (superior, derecho, inferior, izquierdo)",
+          "xAxis": "Configuración del eje X",
+          "yAxis": "Configuración del eje Y",
+          "color": "Color de la línea (acepta cualquier color CSS válido)",
+          "animate": "Activar/desactivar animaciones"
+        },
+        "examples": {
+          "title": "Ejemplos",
+          "basic": "Gráfico de Líneas Básico",
+          "multiline": "Gráfico Multilínea",
+          "animated": "Gráfico de Líneas Animado"
+        }
+      },
+      "barChart": {
+        "title": "Gráfico de Barras",
+        "description": "Crea hermosos gráficos de barras para comparar datos categóricos.",
+        "installation": "Instalación",
+        "usage": "Uso",
+        "props": {
+          "title": "Propiedades",
+          "data": "Array de datos que contiene pares de categoría y valor",
+          "width": "Ancho del gráfico en píxeles",
+          "height": "Altura del gráfico en píxeles",
+          "margin": "Márgenes del gráfico (superior, derecho, inferior, izquierdo)",
+          "xAxis": "Configuración del eje X",
+          "yAxis": "Configuración del eje Y",
+          "color": "Color de las barras (acepta cualquier color CSS válido)",
+          "animate": "Activar/desactivar animaciones"
+        },
+        "examples": {
+          "title": "Ejemplos",
+          "basic": "Gráfico de Barras Básico",
+          "grouped": "Gráfico de Barras Agrupadas",
+          "animated": "Gráfico de Barras Animado"
+        }
+      },
+      "donutChart": {
+        "title": "Gráfico de Dona",
+        "description": "Crea atractivos gráficos de dona para mostrar datos proporcionales.",
+        "installation": "Instalación",
+        "usage": "Uso",
+        "props": {
+          "title": "Propiedades",
+          "data": "Array de datos que contiene pares de categoría y valor",
+          "width": "Ancho del gráfico en píxeles",
+          "height": "Altura del gráfico en píxeles",
+          "innerRadius": "Radio interno de la dona",
+          "outerRadius": "Radio externo de la dona",
+          "colors": "Array de colores para los segmentos",
+          "animate": "Activar/desactivar animaciones"
+        },
+        "examples": {
+          "title": "Ejemplos",
+          "basic": "Gráfico de Dona Básico",
+          "interactive": "Gráfico de Dona Interactivo",
+          "animated": "Gráfico de Dona Animado"
+        }
+      },
+      "treeMap": {
+        "title": "Gráfico de Mapa de Árbol",
+        "description": "Crea visualizaciones jerárquicas hermosas con mapas de árbol interactivos.",
+        "installation": "Instalación",
+        "usage": "Uso",
+        "examples": {
+          "basic": "Ejemplo Básico"
+        },
+        "props": {
+          "title": "Props",
+          "data": "Datos (requerido)",
+          "width": "Ancho (requerido)",
+          "height": "Alto (requerido)",
+          "animate": "Animar"
+        }
+      },
+      "streamChart": {
+        "title": "Gráfico de Flujo",
+        "description": "Muestra la evolución de múltiples variables a lo largo del tiempo con gráficos de flujo.",
+        "installation": "Instalación",
+        "usage": "Uso",
+        "examples": {
+          "basic": "Ejemplo Básico"
+        },
+        "props": {
+          "title": "Props",
+          "data": "Datos (requerido)",
+          "width": "Ancho (requerido)",
+          "height": "Alto (requerido)",
+          "animate": "Animar"
+        }
+      },
+      "stackedBarChart": {
+        "title": "Gráfico de Barras Apiladas",
+        "description": "Compara partes entre categorías con gráficos de barras apiladas.",
+        "installation": "Instalación",
+        "usage": "Uso",
+        "examples": {
+          "basic": "Ejemplo Básico"
+        },
+        "props": {
+          "title": "Props",
+          "data": "Datos (requerido)",
+          "width": "Ancho (requerido)",
+          "height": "Alto (requerido)",
+          "animate": "Animar"
+        }
+      }
+    },
+    "sidebar": {
+      "visualizations": {
+        "title": "Visualizaciones",
+        "lineChart": "Gráfico de Líneas",
+        "barChart": "Gráfico de Barras",
+        "donutChart": "Gráfico de Dona",
+        "streamChart": "Gráfico de Flujo",
+        "treeMap": "Mapa de Árbol",
+        "stackedBarChart": "Gráfico de Barras Apiladas"
+      }
     }
   },
   "Index": {
@@ -126,6 +340,29 @@
       "coral": "Mundo submarino colorido",
       "volcanic": "Paisaje audaz y poderoso",
       "dunes": "Desierto suave y sereno"
+    }
+  },
+  "Sidebar": {
+    "visualizations": {
+      "title": "Visualizaciones",
+      "bar": {
+        "description": "Gráficos de barras simples y efectivos"
+      },
+      "line": {
+        "description": "Sigue tendencias con gráficos de líneas"
+      },
+      "donut": {
+        "description": "Visualiza partes de un todo"
+      },
+      "stream": {
+        "description": "Muestra flujo y distribución"
+      },
+      "treemap": {
+        "description": "Visualización de datos jerárquicos"
+      },
+      "stackedBar": {
+        "description": "Compara partes entre categorías"
+      }
     }
   }
 }

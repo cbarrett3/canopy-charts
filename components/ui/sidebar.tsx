@@ -4,6 +4,10 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
+import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { BarChart3, LineChart, PieChart, GitGraph, LayoutGrid, BarChartHorizontal } from 'lucide-react';
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -738,6 +742,74 @@ const SidebarMenuSubButton = React.forwardRef<
   )
 })
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
+
+export function Sidebar() {
+  const t = useTranslations('Sidebar');
+  const { locale } = useParams();
+
+  const visualizations = [
+    {
+      title: 'Bar Chart',
+      href: `/${locale}/docs/bar-chart`,
+      icon: BarChart3,
+      description: t('visualizations.bar.description')
+    },
+    {
+      title: 'Line Chart',
+      href: `/${locale}/docs/line-chart`,
+      icon: LineChart,
+      description: t('visualizations.line.description')
+    },
+    {
+      title: 'Donut Chart',
+      href: `/${locale}/docs/donut-chart`,
+      icon: PieChart,
+      description: t('visualizations.donut.description')
+    },
+    {
+      title: 'Stream Chart',
+      href: `/${locale}/docs/stream-chart`,
+      icon: GitGraph,
+      description: t('visualizations.stream.description')
+    },
+    {
+      title: 'TreeMap',
+      href: `/${locale}/docs/treemap-chart`,
+      icon: LayoutGrid,
+      description: t('visualizations.treemap.description')
+    },
+    {
+      title: 'Stacked Bar Chart',
+      href: `/${locale}/docs/stacked-bar-chart`,
+      icon: BarChartHorizontal,
+      description: t('visualizations.stackedBar.description')
+    }
+  ];
+
+  return (
+    <div className="pb-12">
+      <div className="space-y-4 py-4">
+        <div className="px-3 py-2">
+          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+            {t('visualizations.title')}
+          </h2>
+          <div className="space-y-1">
+            {visualizations.map((vis) => (
+              <Link
+                key={vis.title}
+                href={vis.href}
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+              >
+                <vis.icon className="h-4 w-4" />
+                <span>{vis.title}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export {
   Sidebar,

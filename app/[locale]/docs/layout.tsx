@@ -7,48 +7,58 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link";
 import { cn } from "@/lib/utils"
+import { useParams } from 'next/navigation';
 
 export default function DocsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const t = useTranslations('Docs');
   const { isExpanded, setIsExpanded } = useSidebar();
+  const { locale } = useParams();
   const isOpen = isExpanded;
+
+  const gettingStartedT = useTranslations('Docs.getting-started');
+  const visualizationsT = useTranslations('Docs.visualizations');
+  const featuresT = useTranslations('Docs.features');
+  const contributingT = useTranslations('Docs.contributing');
+  const usageT = useTranslations('Docs.usage');
+  const searchT = useTranslations('Docs');
 
   const sections = [
     {
-      title: t('gettingStarted.title'),
+      title: gettingStartedT('title'),
       items: [
-        { title: t('gettingStarted.title'), href: '/docs' },
-        { title: t('installation.title'), href: '/docs/installation' },
-        { title: t('usage.title'), href: '/docs/usage' },
+        { title: gettingStartedT('introduction.title'), href: `/${locale}/docs` },
+        { title: gettingStartedT('installation.title'), href: `/${locale}/docs/installation` },
+        { title: usageT('title'), href: `/${locale}/docs/usage` },
       ]
     },
     {
-      title: "Visualizations",
+      title: visualizationsT('title'),
       items: [
-        { title: "Line Chart", href: '/docs/line-chart' },
-        { title: "Bar Chart", href: '/docs/bar-chart' },
-        { title: "Scatter Plot", href: '/docs/scatter-plot' },
-        { title: "Pie Chart", href: '/docs/pie-chart' },
+        { title: visualizationsT('line-chart'), href: `/${locale}/docs/line-chart` },
+        { title: visualizationsT('bar-chart'), href: `/${locale}/docs/bar-chart` },
+        { title: visualizationsT('donut-chart'), href: `/${locale}/docs/donut-chart` },
+        { title: visualizationsT('stream-chart'), href: `/${locale}/docs/stream-chart` },
+        { title: visualizationsT('tree-map'), href: `/${locale}/docs/treemap-chart` },
+        { title: visualizationsT('stacked-bar-chart'), href: `/${locale}/docs/stacked-bar-chart` },
       ]
     },
     {
-      title: "Features",
+      title: featuresT('title'),
       items: [
-        { title: "Theming", href: '/docs/theming' },
-        { title: "Animations", href: '/docs/animations' },
-        { title: "Responsiveness", href: '/docs/responsiveness' },
-        { title: "Accessibility", href: '/docs/accessibility' },
+        { title: featuresT('theming'), href: `/${locale}/docs/theming` },
+        { title: featuresT('animations'), href: `/${locale}/docs/animations` },
+        { title: featuresT('responsiveness'), href: `/${locale}/docs/responsiveness` },
+        { title: featuresT('accessibility'), href: `/${locale}/docs/accessibility` },
       ]
     },
     {
-      title: "Contributing",
+      title: contributingT('title'),
       items: [
-        { title: "How to Contribute", href: '/docs/contributing' },
-        { title: "Development Guide", href: '/docs/development' },
+        { title: contributingT('how-to'), href: `/${locale}/docs/contributing` },
+        { title: contributingT('dev-guide'), href: `/${locale}/docs/development` },
       ]
     }
   ];
@@ -72,7 +82,7 @@ export default function DocsLayout({
             )}>
               <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
-                placeholder={t('search')}
+                placeholder={searchT('search')}
                 className={cn(
                   "w-full pl-9 h-10 bg-[#2A2A2A]",
                   "border-border/40",
