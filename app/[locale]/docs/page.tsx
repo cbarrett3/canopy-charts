@@ -2,13 +2,14 @@
 
 import { useTranslations } from 'next-intl';
 import { useParams, usePathname } from 'next/navigation';
-import { ChartBarIcon, Book, Code, Settings, Wand2, Terminal } from "lucide-react"
+import { ChartBarIcon, Book, Code, Settings, Wand2, Terminal, ArrowRight } from "lucide-react"
 import D3BarChart from '@/app/_components/charts/d3-bar-chart';
 import D3DonutChart from '@/app/_components/charts/d3-donut-chart';
 import D3LineChart from '@/app/_components/charts/d3-line-chart';
 import D3StackedBarChart from '@/app/_components/charts/d3-stacked-bar-chart';
 import D3StreamChart from '@/app/_components/charts/d3-stream-chart';
 import D3TreeMap from '@/app/_components/charts/d3-tree-map';
+import Link from 'next/link';
 
 // Define the type for navigation items
 type NavItem = {
@@ -463,7 +464,7 @@ export default function MyStackedBarChart() {
 ];
 
 // Export the DocsPage component
-export function DocsPage() {
+export default function DocsPage() {
   const t = useTranslations('Docs');
   const pathname = usePathname();
   const { locale } = useParams();
@@ -599,10 +600,97 @@ export default function MyBarChart() {
     if (currentContent) break;
   }
 
-  return currentContent;
+  return (
+    <div className="relative w-full py-10 bg-background dark:bg-[#1B1B1B]">
+      {/* Gradient fade effect */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-transparent dark:from-[#1B1B1B] dark:via-[#1B1B1B] dark:to-[#1A1A1A] opacity-90" />
+      </div>
+
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="space-y-8">
+          <section>
+            <Link href="/docs" className="block w-fit group relative">
+              <div className="absolute inset-0 rounded-md -z-10 transition-all duration-300 blur-sm bg-green-500/0 group-hover:bg-green-500/10" />
+              <h1 className="text-4xl font-bold mb-4 transition-colors group-hover:text-green-500">Introduction</h1>
+            </Link>
+            <p className="text-lg text-muted-foreground mb-6">
+              Canopy Charts is a collection of beautifully crafted, customizable D3.js chart components for React. Built with flexibility and developer experience in mind.
+            </p>
+
+            <div className="grid gap-8">
+              <div className="group rounded-lg bg-background/40 dark:bg-[#181818]/30 hover:bg-muted/20 dark:hover:bg-[#1A1A1A]/20 p-8 
+                backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 transition-all duration-300
+                shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
+                hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)]">
+                <div className="w-fit relative group">
+                  <div className="absolute inset-0 rounded-md -z-10 transition-all duration-300 blur-sm bg-green-500/0 group-hover:bg-green-500/10" />
+                  <h2 className="text-2xl font-semibold mb-4 transition-colors group-hover:text-green-500">Component-First Philosophy</h2>
+                </div>
+                <p className="text-muted-foreground/90 leading-relaxed">
+                  Instead of providing a monolithic charting library, Canopy Charts follows a component-first approach. Each chart is a standalone component that you can copy and paste into your project, giving you complete control over your visualization code.
+                </p>
+              </div>
+
+              <div className="group rounded-lg bg-background/40 dark:bg-[#181818]/30 hover:bg-muted/20 dark:hover:bg-[#1A1A1A]/20 p-8 
+                backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 transition-all duration-300
+                shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
+                hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)]">
+                <div className="w-fit relative group">
+                  <div className="absolute inset-0 rounded-md -z-10 transition-all duration-300 blur-sm bg-green-500/0 group-hover:bg-green-500/10" />
+                  <h2 className="text-2xl font-semibold mb-4 transition-colors group-hover:text-green-500">Why This Approach?</h2>
+                </div>
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-medium mb-2 transition-colors hover:text-green-500">Complete Control & Understanding</h3>
+                    <p className="text-muted-foreground/90 leading-relaxed">
+                      Take full ownership of your visualization code. Modify, extend, and adapt components to your specific needs without limitations. Having the source code in your project helps you understand how the charts work and makes debugging straightforward.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-medium mb-2 transition-colors hover:text-green-500">Optimized Performance</h3>
+                    <p className="text-muted-foreground/90 leading-relaxed">
+                      No external dependencies means a leaner bundle size. Only include the charts you actually use, keeping your application fast and efficient. No need to install and maintain additional packages.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-medium mb-2 transition-colors hover:text-green-500">Enhanced Security</h3>
+                    <p className="text-muted-foreground/90 leading-relaxed">
+                      Minimize security vulnerabilities by reducing external dependencies. You can audit and control all the code that runs in your application, eliminating potential supply chain attacks by removing the need to trust and maintain third-party packages.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group rounded-lg bg-background/40 dark:bg-[#181818]/30 hover:bg-muted/20 dark:hover:bg-[#1A1A1A]/20 p-8 
+                backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 transition-all duration-300
+                shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
+                hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)]">
+                <div className="w-fit relative group">
+                  <div className="absolute inset-0 rounded-md -z-10 transition-all duration-300 blur-sm bg-green-500/0 group-hover:bg-green-500/10" />
+                  <h2 className="text-2xl font-semibold mb-4 transition-colors group-hover:text-green-500">Getting Started</h2>
+                </div>
+                <p className="text-muted-foreground/90 leading-relaxed mb-4">
+                  Browse our collection of charts, find the one you need, and copy it into your project. Each component comes with clear documentation, TypeScript types, and customization options.
+                </p>
+                <div className="mt-4">
+                  <Link href="/docs/installation" className="inline-flex items-center text-muted-foreground hover:text-green-500 transition-colors">
+                    Installation guide <ArrowRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </section>
+          {currentContent}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // Default export for the index route
-export default function DefaultDocsPage() {
+export function DefaultDocsPage() {
   return <DocsPage />;
 }
