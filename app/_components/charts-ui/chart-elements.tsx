@@ -41,8 +41,12 @@ export function ChartElements({
   labelSize = 12,
   onLabelSizeChange,
 }: ChartElementsProps) {
-  const { themeColor } = useThemeColor()
-  
+  const { themeColor = '#22C55E' } = useThemeColor()
+
+  const getRgbValues = (color: string) => {
+    return color?.replace('#', '').match(/.{2}/g)?.map(x => parseInt(x, 16)).join(',') || '34,197,94'
+  }
+
   return (
     <div className="bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 
       shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
@@ -66,7 +70,7 @@ export function ChartElements({
                 "transition-all duration-300"
               )}
               style={{
-                '--theme-rgb': showAxes ? themeColor.replace('#', '').match(/.{2}/g)?.map(x => parseInt(x, 16)).join(',') : undefined,
+                '--theme-rgb': showAxes ? getRgbValues(themeColor) : undefined,
                 color: showAxes ? themeColor : undefined
               } as any}
             />
@@ -84,7 +88,7 @@ export function ChartElements({
                 "transition-all duration-300"
               )}
               style={{
-                '--theme-rgb': showGrid ? themeColor.replace('#', '').match(/.{2}/g)?.map(x => parseInt(x, 16)).join(',') : undefined,
+                '--theme-rgb': showGrid ? getRgbValues(themeColor) : undefined,
                 color: showGrid ? themeColor : undefined
               } as any}
             />
@@ -102,7 +106,7 @@ export function ChartElements({
                 "transition-all duration-300"
               )}
               style={{
-                '--theme-rgb': showLabels ? themeColor.replace('#', '').match(/.{2}/g)?.map(x => parseInt(x, 16)).join(',') : undefined,
+                '--theme-rgb': showLabels ? getRgbValues(themeColor) : undefined,
                 color: showLabels ? themeColor : undefined
               } as any}
             />
@@ -120,7 +124,7 @@ export function ChartElements({
                 "transition-all duration-300"
               )}
               style={{
-                '--theme-rgb': showTitle ? themeColor.replace('#', '').match(/.{2}/g)?.map(x => parseInt(x, 16)).join(',') : undefined,
+                '--theme-rgb': showTitle ? getRgbValues(themeColor) : undefined,
                 color: showTitle ? themeColor : undefined
               } as any}
             />
@@ -138,7 +142,7 @@ export function ChartElements({
                 "transition-all duration-300"
               )}
               style={{
-                '--theme-rgb': showLegend ? themeColor.replace('#', '').match(/.{2}/g)?.map(x => parseInt(x, 16)).join(',') : undefined,
+                '--theme-rgb': showLegend ? getRgbValues(themeColor) : undefined,
                 color: showLegend ? themeColor : undefined
               } as any}
             />
@@ -156,7 +160,7 @@ export function ChartElements({
                 "transition-all duration-300"
               )}
               style={{
-                '--theme-rgb': showTooltips ? themeColor.replace('#', '').match(/.{2}/g)?.map(x => parseInt(x, 16)).join(',') : undefined,
+                '--theme-rgb': showTooltips ? getRgbValues(themeColor) : undefined,
                 color: showTooltips ? themeColor : undefined
               } as any}
             />

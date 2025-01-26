@@ -30,6 +30,91 @@
       "github": "View on GitHub"
     }
   },
+  "Docs": {
+    "title": "Documentation",
+    "search": "Search documentation...",
+    "getting-started": {
+      "title": "Getting Started",
+      "introduction": {
+        "title": "Introduction",
+        "welcome": "Welcome to Canopy Charts documentation. This guide will help you get started with our powerful charting library that combines the flexibility of D3.js with the modern features of React.",
+        "features": {
+          "title": "Key Features",
+          "list": [
+            "Interactive D3.js visualizations with React components",
+            "Beautiful, customizable themes and vibes",
+            "Responsive and accessible design",
+            "Smooth animations and transitions",
+            "TypeScript support"
+          ]
+        }
+      },
+      "installation": {
+        "title": "Installation",
+        "description": "Get started with Canopy Charts in your React project."
+      }
+    },
+    "usage": {
+      "title": "Basic Usage",
+      "description": "Learn how to use Canopy Charts components in your React application."
+    },
+    "visualizations": {
+      "title": "Visualizations",
+      "line-chart": "Line Chart",
+      "bar-chart": "Bar Chart",
+      "donut-chart": "Donut Chart",
+      "stream-chart": "Stream Chart",
+      "tree-map": "TreeMap Chart",
+      "stacked-bar-chart": "Stacked Bar Chart"
+    },
+    "features": {
+      "title": "Features",
+      "theming": "Theming",
+      "animations": "Animations",
+      "responsiveness": "Responsiveness",
+      "accessibility": "Accessibility"
+    },
+    "contributing": {
+      "title": "Contributing",
+      "how-to": "How to Contribute",
+      "dev-guide": "Development Guide"
+    }
+  },
+  "Sidebar": {
+    "visualizations": {
+      "title": "Visualizations",
+      "bar": {
+        "description": "Simple and effective bar charts"
+      },
+      "line": {
+        "description": "Track trends with line charts"
+      },
+      "donut": {
+        "description": "Visualize parts of a whole"
+      },
+      "stream": {
+        "description": "Show flow and distribution"
+      },
+      "treemap": {
+        "description": "Hierarchical data visualization"
+      },
+      "stackedBar": {
+        "description": "Compare parts across categories"
+      }
+    },
+    "features": {
+      "title": "Features",
+      "theming": "Theming",
+      "animations": "Animations",
+      "responsiveness": "Responsiveness",
+      "accessibility": "Accessibility"
+    },
+    "contributing": {
+      "title": "Contributing",
+      "howTo": "How to Contribute",
+      "devGuide": "Development Guide"
+    }
+  },
   "chart": {
     "customize": "Customize Charts",
     "elements": {
@@ -75,82 +160,7 @@
           "name": "Slate",
           "description": "Professional and neutral gray"
         }
-      },
-      "custom": {
-        "title": "Custom Color",
-        "hex": "HEX",
-        "rgb": "RGB",
-        "hue": "Hue",
-        "saturation": "Saturation",
-        "lightness": "Lightness"
       }
-    },
-    "vibeSelector": {
-      "title": "Style Selector",
-      "vibes": {
-        "rainforest": {
-          "name": "Rainforest",
-          "description": "Dense, vibrant, and layered"
-        },
-        "savanna": {
-          "name": "Savanna",
-          "description": "Open, structured, and calm"
-        },
-        "tundra": {
-          "name": "Tundra",
-          "description": "Stark, angular, and crisp"
-        },
-        "coral": {
-          "name": "Coral Reef",
-          "description": "Playful, fluid, and detailed"
-        },
-        "volcanic": {
-          "name": "Volcanic",
-          "description": "Bold, explosive, and striking"
-        },
-        "dunes": {
-          "name": "Dunes",
-          "description": "Smooth, flowing, and soft"
-        }
-      }
-    }
-  },
-  "Index": {
-    "title": "Welcome to Canopy Charts"
-  },
-  "VibeSelector": {
-    "title": "Vibe Selector",
-    "vibes": {
-      "rainforest": "Rainforest",
-      "savanna": "Savanna",
-      "tundra": "Tundra",
-      "coral": "Coral Reef",
-      "volcanic": "Volcanic",
-      "dunes": "Dunes"
-    },
-    "descriptions": {
-      "rainforest": "Lush and vibrant ecosystem",
-      "savanna": "Wild and open grasslands",
-      "tundra": "Cold and pristine wilderness",
-      "coral": "Colorful underwater world",
-      "volcanic": "Bold and powerful landscape",
-      "dunes": "Smooth and serene desert"
-    }
-  },
-  "Docs": {
-    "title": "Documentation",
-    "navigation": "Navigation",
-    "gettingStarted": {
-      "title": "Getting Started",
-      "description": "Learn how to install and start using Canopy Charts in your React applications."
-    },
-    "installation": {
-      "title": "Installation",
-      "description": "Install Canopy Charts using your preferred package manager."
-    },
-    "usage": {
-      "title": "Basic Usage",
-      "description": "Learn the fundamentals of using Canopy Charts components."
     }
   }
 }
