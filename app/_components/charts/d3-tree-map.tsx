@@ -9,7 +9,7 @@ interface DataPoint {
    children?: DataPoint[];
 }
 
-type VibeType = 'rainforest' | 'savanna' | 'tundra' | 'coral' | 'volcanic' | 'dunes';
+export type VibeType = 'rainforest' | 'savanna' | 'tundra' | 'coral' | 'volcanic' | 'dunes';
 
 interface D3TreeMapProps {
    width?: number;
@@ -21,6 +21,12 @@ interface D3TreeMapProps {
    tooltipTextColor?: string;
    vibe?: VibeType;
    showLegend?: boolean;
+   showAxes?: boolean;
+   showGrid?: boolean;
+   showLabels?: boolean;
+   labelSize?: number;
+   showTitle?: boolean;
+   showTooltips?: boolean;
 }
 
 // Define the type for the treemap node
@@ -293,6 +299,12 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
    tooltipTextColor = '#ffffff',
    vibe = 'rainforest',
    showLegend = true,
+   showAxes = false,
+   showGrid = false,
+   showLabels = true,
+   labelSize = 12,
+   showTitle = false,
+   showTooltips = true,
 }) => {
    const svgRef = useRef<SVGSVGElement | null>(null);
    const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -375,17 +387,21 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
                   .style('transform', vibeStyle.text.hover.transform)
                   .style('filter', vibeStyle.text.hover.filter);
 
-               tooltip
-                  .html(`${d.data.name}<br/>${d.value}`)
-                  .style('visibility', 'visible')
-                  .style('opacity', 1)
-                  .style('left', `${event.pageX + 10}px`)
-                  .style('top', `${event.pageY - 10}px`);
+               if (showTooltips) {
+                  tooltip
+                     .html(`${d.data.name}<br/>${d.value}`)
+                     .style('visibility', 'visible')
+                     .style('opacity', 1)
+                     .style('left', `${event.pageX + 10}px`)
+                     .style('top', `${event.pageY - 10}px`);
+               }
             })
             .on('mousemove', function(event) {
-               tooltip
-                  .style('left', `${event.pageX + 10}px`)
-                  .style('top', `${event.pageY - 10}px`);
+               if (showTooltips) {
+                  tooltip
+                     .style('left', `${event.pageX + 10}px`)
+                     .style('top', `${event.pageY - 10}px`);
+               }
             })
             .on('mouseout', function() {
                const rect = d3.select(this);
@@ -400,9 +416,11 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
                   .style('transform', 'translate(0, 0) scale(1)')
                   .style('filter', 'none');
 
-               tooltip
-                  .style('visibility', 'hidden')
-                  .style('opacity', 0);
+               if (showTooltips) {
+                  tooltip
+                     .style('visibility', 'hidden')
+                     .style('opacity', 0);
+               }
             });
 
          // Add text labels
@@ -492,7 +510,7 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
       } catch (error) {
          console.error('Error rendering treemap:', error);
       }
-   }, [width, height, data, padding, themeColor, currentVibe, legendVisible, showLegend]);
+   }, [width, height, data, padding, themeColor, currentVibe, legendVisible, showLegend, showTooltips]);
 
    return (
       <div className="relative">
