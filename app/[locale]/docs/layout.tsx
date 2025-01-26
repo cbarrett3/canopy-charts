@@ -72,7 +72,7 @@ export default function DocsLayout({
       )}>
         <div className="flex flex-col h-full">
           <div className={cn(
-            "sticky top-4 z-50 flex items-center gap-2 px-4 bg-[#1B1B1B]",
+            "sticky top-4 z-50 flex items-center gap-2 px-4 bg-background dark:bg-[#1B1B1B]",
             "rounded-none border-b border-border/40",
             "h-[52px] pt-1"  // matches navbar height (py-2.5 * 2 + content height)
           )}>
@@ -84,7 +84,7 @@ export default function DocsLayout({
               <Input
                 placeholder={searchT('search')}
                 className={cn(
-                  "w-full pl-9 h-10 bg-[#2A2A2A]",
+                  "w-full pl-9 h-10 bg-background/40 dark:bg-[#2A2A2A]",
                   "border-border/40",
                   "focus-visible:ring-1 focus-visible:ring-green-500/20",
                   "placeholder:text-muted-foreground/50"
