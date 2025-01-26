@@ -10,6 +10,7 @@ import { useTranslations } from 'next-intl'
 import { cn } from "@/lib/utils"
 import { useSidebar } from "../layout/sidebar-context"
 import { usePathname } from 'next/navigation'
+import { Sun, Moon } from 'lucide-react'
 
 const NavLink = ({ href, children }: { href: string, children: React.ReactNode }) => (
   <Link 
@@ -43,7 +44,7 @@ export function Navbar() {
       )}>
         <nav className={cn(
           "relative flex items-center justify-between",
-          "px-5 py-4",
+          "px-5 py-2.5",
           "bg-background/80 dark:bg-[#1B1B1B]/80",
           "backdrop-blur-[8px] backdrop-saturate-[140%]",
           "border border-border/40 dark:border-border/30",
@@ -54,37 +55,37 @@ export function Navbar() {
           "hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
           "dark:hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
         )}>
-          <div className="relative flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-3 mr-8 group">
-              <div className="relative h-12 w-12 flex-shrink-0 overflow-visible transition-transform duration-300 group-hover:scale-[1.02]">
+          <div className="relative flex items-center gap-4 font-sans">
+            <Link href="/" className="flex items-center gap-3 mr-8 group relative">
+              <div className="absolute inset-[-4px] rounded-xl bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
+              <div className="relative h-10 w-10 flex-shrink-0 overflow-visible transition-transform duration-300 group-hover:scale-[1.02]">
                 <Logo className="w-full h-full" />
               </div>
-              <span className="text-xl font-semibold tracking-tight text-foreground transition-all duration-300 group-hover:text-green-500">Canopy Charts</span>
+              <span className="hidden md:inline text-xl font-semibold tracking-tight text-foreground font-sans transition-all duration-300 group-hover:text-green-500">Canopy Charts</span>
             </Link>
-            <div className="hidden md:flex items-center gap-8">
+
+            <div className="hidden md:flex items-center gap-8 font-sans">
               <NavLink href="/docs">{t('docs')}</NavLink>
               <NavLink href="/examples">{t('examples')}</NavLink>
               <NavLink href="/blog">{t('blog')}</NavLink>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-4">
+          <div className="flex items-center gap-4 font-sans">
+            <div className="flex items-center gap-4">
               <Button
                 variant="ghost"
                 size="icon"
                 asChild
-                className="text-muted-foreground hover:text-green-500 hover:bg-green-500/10"
+                className="relative hover:bg-transparent group"
               >
                 <Link href="https://github.com/cbarrett3/canopy-charts">
-                  <Github className="h-5 w-5" />
+                  <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
+                  <Github className="relative h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
                 </Link>
               </Button>
               <LanguageSelector />
               <ThemeToggle />
             </div>
-            <Button variant="default" asChild>
-              <Link href="/docs">{t('getStarted')}</Link>
-            </Button>
           </div>
         </nav>
       </div>

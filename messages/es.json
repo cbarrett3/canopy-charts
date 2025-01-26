@@ -4,8 +4,18 @@
     "description": "Una biblioteca de visualización totalmente personalizable y de bajo nivel, impulsada por D3 y estilizada con Tailwind."
   },
   "navigation": {
+    "home": "Inicio",
     "docs": "Documentación",
     "examples": "Ejemplos",
+    "blog": "Blog",
+    "getStarted": "Comenzar"
+  },
+  "Navbar": {
+    "docs": "Documentación",
+    "examples": "Ejemplos",
+    "github": "GitHub",
+    "theme": "Cambiar tema",
+    "language": "Cambiar idioma",
     "blog": "Blog",
     "getStarted": "Comenzar"
   },
