@@ -46,6 +46,7 @@ export default async function RootLayout({
         spaceGrotesk.variable,
         'min-h-screen bg-background text-foreground antialiased',
         'selection:bg-green-500/20 selection:text-green-900 dark:selection:text-green-100',
+        'dark:bg-[#1B1B1B]'
       )}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider

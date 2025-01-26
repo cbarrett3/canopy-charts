@@ -23,9 +23,10 @@ const NavLink = ({ href, children }: { href: string, children: React.ReactNode }
 
 export function Navbar() {
   const t = useTranslations('Navbar')
-  const { isExpanded } = useSidebar()
   const pathname = usePathname()
-  const isDocsPage = pathname.startsWith('/docs')
+  const { isExpanded } = useSidebar()
+  // Update docs page detection to work with any locale
+  const isDocsPage = pathname.includes('/docs')
   
   return (
     <div className={cn(
@@ -43,7 +44,7 @@ export function Navbar() {
         <nav className={cn(
           "relative flex items-center justify-between",
           "px-5 py-4",
-          "bg-background/60 dark:bg-[#1B1B1B]/60",
+          "bg-background/80 dark:bg-[#1B1B1B]/80",
           "backdrop-blur-[8px] backdrop-saturate-[140%]",
           "border border-border/40 dark:border-border/30",
           "rounded-xl",

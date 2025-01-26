@@ -7,9 +7,10 @@ import { useSidebar } from "../layout/sidebar-context"
 import { usePathname } from 'next/navigation'
 
 export function Footer() {
-  const { isExpanded } = useSidebar();
   const pathname = usePathname()
-  const isDocsPage = pathname.startsWith('/docs')
+  const { isExpanded } = useSidebar();
+  // Update docs page detection to work with any locale
+  const isDocsPage = pathname.includes('/docs')
 
   return (
     <footer className={cn(
@@ -21,7 +22,7 @@ export function Footer() {
           : "ml-16"
         : ""
     )}>
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/80 dark:from-[#1B1B1B] dark:via-[#1B1B1B] dark:to-[#161616]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/80 dark:from-[#1B1B1B] dark:via-[#1B1B1B] dark:to-[#1B1B1B]/80" />
       
       <div className={cn(
         "relative",
