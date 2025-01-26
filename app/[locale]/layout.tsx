@@ -3,13 +3,15 @@ import { notFound } from 'next/navigation';
 import { Space_Grotesk } from "next/font/google";
 import { ThemeProvider } from "@/app/_components/ui/theme-provider";
 import { ThemeColorProvider } from '@/app/_components/providers/theme-context';
+import { Navbar } from "@/app/_components/layout/navbar";
+import { Footer } from "@/app/_components/layout/footer";
 import { locales } from '@/config/i18n';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  display: "swap",
+  display: 'swap',
   variable: '--space-grotesk',
-})
+});
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -35,18 +37,24 @@ export default async function LocaleLayout({
     <html lang={locale} suppressHydrationWarning>
       <head />
       <body className={`${spaceGrotesk.className} ${spaceGrotesk.variable} min-h-screen bg-background dark:bg-[#1B1B1B] font-sans antialiased`}>
-        <ThemeColorProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-            <NextIntlClientProvider locale={locale} messages={messages}>
-              {children}
-            </NextIntlClientProvider>
+            <ThemeColorProvider>
+              <div className="relative flex min-h-screen flex-col">
+                <Navbar />
+                <main className="flex-1">
+                  {children}
+                </main>
+                <Footer />
+              </div>
+            </ThemeColorProvider>
           </ThemeProvider>
-        </ThemeColorProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -42,7 +42,7 @@ export function Navbar() {
             <div className="relative h-12 w-12 flex-shrink-0 overflow-visible transition-transform duration-300 group-hover:scale-[1.02]">
               <Logo className="w-full h-full" />
             </div>
-            <span className="text-xl font-semibold tracking-tight text-foreground transition-all duration-300 group-hover:text-green-500">Canopy</span>
+            <span className="text-xl font-semibold tracking-tight text-foreground transition-all duration-300 group-hover:text-green-500">Canopy Charts</span>
           </Link>
           <div className="hidden md:flex items-center gap-8">
             <NavLink href="/docs">{t('docs')}</NavLink>

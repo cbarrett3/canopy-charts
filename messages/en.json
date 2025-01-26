@@ -123,5 +123,21 @@
       "volcanic": "Bold and powerful landscape",
       "dunes": "Smooth and serene desert"
     }
+  },
+  "Docs": {
+    "title": "Documentation",
+    "navigation": "Navigation",
+    "gettingStarted": {
+      "title": "Getting Started",
+      "description": "Learn how to install and start using Canopy Charts in your React applications."
+    },
+    "installation": {
+      "title": "Installation",
+      "description": "Install Canopy Charts using your preferred package manager."
+    },
+    "usage": {
+      "title": "Basic Usage",
+      "description": "Learn the fundamentals of using Canopy Charts components."
+    }
   }
 }
