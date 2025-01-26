@@ -23,6 +23,9 @@ interface D3TreeMapProps {
    showLegend?: boolean;
 }
 
+// Define the type for the treemap node
+type TreemapNode = d3.HierarchyRectangularNode<DataPoint>;
+
 const vibeConfigs: Record<VibeType, {
    animation: {
       duration: number;
@@ -327,19 +330,12 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
             return;
          }
 
-         const root = d3.hierarchy(data)
-            .sum(d => (d as any).value || 0)
-            .sort((a, b) => (b.value || 0) - (a.value || 0));
-
-         if (!root.children || root.children.length === 0) {
-            console.error('No valid children in data');
-            return;
-         }
-
-         const treemap = d3.treemap()
+         const treemap = d3.treemap<DataPoint>()
             .size([width, height])
-            .padding(padding)
-            .round(true);
+            .padding(padding);
+
+         const root = d3.hierarchy(data)
+            .sum(d => d.value);
 
          treemap(root);
 
@@ -347,8 +343,8 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
          const config = vibeConfigs[currentVibe];
 
          // Create cells
-         const cells = mainGroup.selectAll('g')
-            .data(root.leaves())
+         const cells = mainGroup.selectAll<SVGGElement, TreemapNode>('g')
+            .data(root.leaves() as TreemapNode[])
             .enter()
             .append('g')
             .attr('transform', d => `translate(${d.x0},${d.y0})`);
@@ -373,7 +369,7 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
                   .style('transform', vibeStyle.rect.hover.transform)
                   .style('filter', vibeStyle.rect.hover.filter);
 
-               const text = d3.select(this.parentNode).select('text');
+               const text = d3.select(this.parentNode as Element).select('text');
                text.transition()
                   .duration(vibeStyle.text.transition)
                   .style('transform', vibeStyle.text.hover.transform)
@@ -398,7 +394,7 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
                   .style('transform', 'translate(0, 0) scale(1)')
                   .style('filter', 'none');
 
-               const text = d3.select(this.parentNode).select('text');
+               const text = d3.select(this.parentNode as Element).select('text');
                text.transition()
                   .duration(vibeStyle.text.transition)
                   .style('transform', 'translate(0, 0) scale(1)')
