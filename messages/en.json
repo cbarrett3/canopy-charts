@@ -1,4 +1,8 @@
 {
+  "Metadata": {
+    "title": "Canopy Charts - Beautiful Data Visualization Library",
+    "description": "A fully customizable, low-level visualization library powered by D3 and styled with Tailwind."
+  },
   "navigation": {
     "docs": "Documentation",
     "examples": "Examples",

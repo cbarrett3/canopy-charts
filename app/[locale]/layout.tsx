@@ -1,42 +1,52 @@
+import { Space_Grotesk } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { notFound } from 'next/navigation';
-import { Space_Grotesk } from "next/font/google";
-import { ThemeProvider } from "@/app/_components/ui/theme-provider";
+import { ThemeProvider } from 'next-themes';
+import { cn } from '@/lib/utils';
 import { ThemeColorProvider } from '@/app/_components/providers/theme-context';
 import { Navbar } from "@/app/_components/layout/navbar";
 import { Footer } from "@/app/_components/layout/footer";
+import { SidebarProvider } from '@/app/_components/layout/sidebar-context';
 import { locales } from '@/config/i18n';
+import { getTranslations } from 'next-intl/server';
+import { unstable_setRequestLocale } from 'next-intl/server';
+import { getDictionary } from '@/get-dictionary';
 
 const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
+  subsets: ['latin'],
   display: 'swap',
-  variable: '--space-grotesk',
+  variable: '--font-space-grotesk',
 });
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export default async function LocaleLayout({
+export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+  const t = await getTranslations({ locale, namespace: 'Metadata' });
+
+  return {
+    title: t('title'),
+    description: t('description'),
+  };
+}
+
+export default async function RootLayout({
   children,
   params: { locale }
 }: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  if (!locales.includes(locale as any)) notFound();
-
-  let messages;
-  try {
-    messages = (await import(`../../messages/${locale}.json`)).default;
-  } catch (error) {
-    notFound();
-  }
+  unstable_setRequestLocale(locale);
+  const messages = await getDictionary(locale as any);
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <head />
-      <body className={`${spaceGrotesk.className} ${spaceGrotesk.variable} min-h-screen bg-background dark:bg-[#1B1B1B] font-sans antialiased`}>
+      <body className={cn(
+        spaceGrotesk.variable,
+        'min-h-screen bg-background text-foreground antialiased',
+        'selection:bg-green-500/20 selection:text-green-900 dark:selection:text-green-100',
+      )}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider
             attribute="class"
@@ -45,13 +55,13 @@ export default async function LocaleLayout({
             disableTransitionOnChange
           >
             <ThemeColorProvider>
-              <div className="relative flex min-h-screen flex-col">
-                <Navbar />
-                <main className="flex-1">
+              <SidebarProvider>
+                <div className="relative min-h-screen">
+                  <Navbar />
                   {children}
-                </main>
-                <Footer />
-              </div>
+                  <Footer />
+                </div>
+              </SidebarProvider>
             </ThemeColorProvider>
           </ThemeProvider>
         </NextIntlClientProvider>

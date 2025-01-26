@@ -1,9 +1,24 @@
 {
+  "Metadata": {
+    "title": "Canopy Charts - Biblioteca de Visualización de Datos",
+    "description": "Una biblioteca de visualización totalmente personalizable y de bajo nivel, impulsada por D3 y estilizada con Tailwind."
+  },
   "navigation": {
     "docs": "Documentación",
     "examples": "Ejemplos",
     "blog": "Blog",
     "getStarted": "Comenzar"
+  },
+  "Docs": {
+    "gettingStarted": {
+      "title": "Primeros Pasos"
+    },
+    "installation": {
+      "title": "Instalación"
+    },
+    "usage": {
+      "title": "Uso"
+    }
   },
   "hero": {
     "title": "Canopy Charts",
