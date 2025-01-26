@@ -59,8 +59,10 @@ export default function DocsLayout({
       <aside className={cn(
         "fixed inset-y-0 left-0 z-30",
         "transition-all duration-300",
-        "bg-background dark:bg-[#1B1B1B]",
-        "border-r border-border/20",
+        "bg-background/80 dark:bg-[#1B1B1B]/80",
+        "backdrop-blur-[8px] backdrop-saturate-[140%]",
+        "border-r border-border/20 dark:border-border/10",
+        "dark:shadow-[1px_0_16px_-4px_rgba(34,197,94,0.1)]",
         isOpen ? "w-72" : "w-16"
       )}>
         <div className="flex flex-col h-full">
@@ -162,7 +164,7 @@ export default function DocsLayout({
 
       {/* Main Content */}
       <main className={cn(
-        "flex-1 min-h-screen",
+        "flex-1 min-h-screen pt-24",
         "transition-all duration-300",
         isOpen ? "pl-72" : "pl-16"
       )}>
