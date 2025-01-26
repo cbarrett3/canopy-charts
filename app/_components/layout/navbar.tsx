@@ -12,15 +12,30 @@ import { useSidebar } from "../layout/sidebar-context"
 import { usePathname } from 'next/navigation'
 import { Sun, Moon } from 'lucide-react'
 
-const NavLink = ({ href, children }: { href: string, children: React.ReactNode }) => (
-  <Link 
-    href={href} 
-    className="relative text-sm font-medium text-muted-foreground hover:text-green-500 transition-colors group"
-  >
-    <div className="absolute inset-0 rounded-md -z-10 bg-green-500/0 group-hover:bg-green-500/10 transition-all duration-300 blur-sm" />
-    {children}
-  </Link>
-)
+const NavLink = ({ href, children }: { href: string, children: React.ReactNode }) => {
+  const pathname = usePathname()
+  const isActive = pathname.includes(href)
+  
+  return (
+    <Link 
+      href={href} 
+      className={cn(
+        "relative text-sm font-medium transition-colors group",
+        isActive 
+          ? "text-green-500" 
+          : "text-muted-foreground hover:text-green-500"
+      )}
+    >
+      <div className={cn(
+        "absolute inset-0 rounded-md -z-10 transition-all duration-300 blur-sm",
+        isActive 
+          ? "bg-green-500/10" 
+          : "bg-green-500/0 group-hover:bg-green-500/10"
+      )} />
+      {children}
+    </Link>
+  )
+}
 
 export function Navbar() {
   const t = useTranslations('Navbar')
