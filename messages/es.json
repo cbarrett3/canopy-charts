@@ -41,13 +41,26 @@
         "welcome": "Bienvenido a la documentación de Canopy Charts. Esta guía te ayudará a comenzar con nuestra potente biblioteca de visualización que combina la flexibilidad de D3.js con las características modernas de React.",
         "features": {
           "title": "Características Principales",
-          "list": [
-            "Visualizaciones D3.js interactivas con componentes React",
-            "Temas y estilos personalizables y hermosos",
-            "Diseño responsivo y accesible",
-            "Animaciones y transiciones suaves",
-            "Soporte para TypeScript"
-          ]
+          "interactive": {
+            "title": "Visualizaciones D3.js Interactivas",
+            "description": "Integra perfectamente gráficos D3.js con componentes React para visualizaciones de datos dinámicas e interactivas."
+          },
+          "themes": {
+            "title": "Temas Hermosos",
+            "description": "Personaliza tus gráficos con temas modernos y elegantes que coincidan con el diseño de tu aplicación."
+          },
+          "responsive": {
+            "title": "Diseño Responsivo",
+            "description": "Gráficos que se adaptan perfectamente a cualquier tamaño de pantalla y dispositivo."
+          },
+          "animations": {
+            "title": "Animaciones Suaves",
+            "description": "Transiciones y animaciones fluidas que mejoran la experiencia del usuario."
+          },
+          "typescript": {
+            "title": "Soporte TypeScript",
+            "description": "Desarrollo seguro con tipos y autocompletado integrado."
+          }
         }
       },
       "installation": {
