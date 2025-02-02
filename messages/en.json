@@ -136,25 +136,19 @@
         "preview": {
           "title": "Interactive Preview",
           "showCode": "Show Code",
+          "hideCode": "Hide Code",
           "showChart": "Show Chart"
         },
         "quickStart": {
           "title": "Quick Start",
           "step1": {
-            "title": "Ensure you have the required dependencies:",
-            "command": "Install dependencies"
+            "title": "Install dependencies"
           },
           "step2": {
-            "title": "Copy the implementation to your project:",
-            "copyFull": "Copy full implementation",
-            "copied": "Copied!"
+            "title": "Create the component"
           },
           "step3": {
-            "title": "Use the component in your app:"
-          },
-          "step4": {
-            "title": "",
-            "description": ""
+            "title": "Create your first chart"
           }
         }
       }
