@@ -18,9 +18,23 @@ export default function LanguageSelector() {
   const pathname = usePathname()
 
   const handleLocaleChange = (newLocale: string) => {
-    const pathnameWithoutLocale = pathname.replace(`/${locale}`, '')
-    const newPathname = `/${newLocale}${pathnameWithoutLocale || '/'}`
-    router.replace(newPathname)
+    if (newLocale === locale) return;
+    
+    // More robust locale path handling
+    const segments = pathname.split('/')
+    // Find the locale segment index (should be 1)
+    const localeIndex = segments.findIndex(segment => segment === locale)
+    
+    if (localeIndex !== -1) {
+      // Replace the locale segment
+      segments[localeIndex] = newLocale
+      const newPathname = segments.join('/')
+      router.push(newPathname)
+    } else {
+      // If no locale found in path, construct it
+      const newPathname = `/${newLocale}${pathname === '/' ? '' : pathname}`
+      router.push(newPathname)
+    }
   }
 
   return (
