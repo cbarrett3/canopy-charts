@@ -119,10 +119,45 @@
       "title": "Visualizations",
       "line-chart": "Line Chart",
       "bar-chart": "Bar Chart",
+      "area-chart": "Area Chart",
+      "scatter-plot": "Scatter Plot",
       "donut-chart": "Donut Chart",
       "stream-chart": "Stream Chart",
       "tree-map": "Tree Map",
-      "stacked-bar-chart": "Stacked Bar Chart"
+      "stacked-bar-chart": "Stacked Bar Chart",
+      "lineChart": {
+        "title": "Line Chart",
+        "description": "A beautiful and interactive line chart component for your data visualization needs.",
+        "tags": {
+          "timeSeries": "Time Series",
+          "trends": "Trends",
+          "continuousData": "Continuous Data"
+        },
+        "preview": {
+          "title": "Interactive Preview",
+          "showCode": "Show Code",
+          "showChart": "Show Chart"
+        },
+        "quickStart": {
+          "title": "Quick Start",
+          "step1": {
+            "title": "Ensure you have the required dependencies:",
+            "command": "Install dependencies"
+          },
+          "step2": {
+            "title": "Copy the implementation to your project:",
+            "copyFull": "Copy full implementation",
+            "copied": "Copied!"
+          },
+          "step3": {
+            "title": "Use the component in your app:"
+          },
+          "step4": {
+            "title": "",
+            "description": ""
+          }
+        }
+      }
     },
     "features": {
       "title": "Features",

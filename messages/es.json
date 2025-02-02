@@ -120,10 +120,45 @@
       "title": "Visualizaciones",
       "line-chart": "Gráfico de Líneas",
       "bar-chart": "Gráfico de Barras",
+      "area-chart": "Gráfico de Área",
+      "scatter-plot": "Gráfico de Dispersión",
       "donut-chart": "Gráfico de Dona",
       "stream-chart": "Gráfico de Flujo",
       "tree-map": "Mapa de Árbol",
-      "stacked-bar-chart": "Gráfico de Barras Apiladas"
+      "stacked-bar-chart": "Gráfico de Barras Apiladas",
+      "lineChart": {
+        "title": "Gráfico de Líneas",
+        "description": "Un componente de gráfico de líneas hermoso e interactivo para tus necesidades de visualización de datos.",
+        "tags": {
+          "timeSeries": "Series Temporales",
+          "trends": "Tendencias",
+          "continuousData": "Datos Continuos"
+        },
+        "preview": {
+          "title": "Vista Previa Interactiva",
+          "showCode": "Mostrar Código",
+          "showChart": "Mostrar Gráfico"
+        },
+        "quickStart": {
+          "title": "Inicio Rápido",
+          "step1": {
+            "title": "Asegúrate de tener las dependencias necesarias:",
+            "command": "Instalar dependencias"
+          },
+          "step2": {
+            "title": "Copia la implementación a tu proyecto:",
+            "copyFull": "Copiar implementación completa",
+            "copied": "¡Copiado!"
+          },
+          "step3": {
+            "title": "Usa el componente en tu aplicación:"
+          },
+          "step4": {
+            "title": "",
+            "description": ""
+          }
+        }
+      }
     },
     "features": {
       "title": "Características",
