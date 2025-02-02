@@ -32,46 +32,57 @@ export default function DocsPage() {
               repeat: Infinity
             }}
           >
-            {t('getting-started.introduction.title')}
+            {t('introduction.title')}
           </motion.h1>
           <div className="absolute -inset-x-2 -inset-y-2 bg-gradient-to-r from-green-500/20 via-green-500/10 to-green-500/20 blur-lg opacity-40 -z-10" />
         </div>
 
-        <p className="text-sm text-muted-foreground/90 mb-6">
-          {t('getting-started.introduction.welcome')}
+        <p className="text-sm text-muted-foreground/90 mb-8">
+          {t('introduction.welcome')}
         </p>
 
-        <div className="space-y-3">
+        <div className="space-y-6">
+          <div className="grid gap-4">
+            <div className="grid gap-1">
+              <h3 className="text-sm font-medium tracking-wide text-green-500/90">
+                {t('introduction.philosophy.title')}
+              </h3>
+              <p className="text-sm text-muted-foreground/90">
+                {t('introduction.philosophy.description')}
+              </p>
+            </div>
+          </div>
+
           <div className="grid gap-3 sm:grid-cols-2">
             {[
               {
-                key: 'interactive',
-                title: t('getting-started.introduction.features.interactive.title'),
-                description: t('getting-started.introduction.features.interactive.description'),
+                key: 'ownership',
+                title: t('introduction.features.ownership.title'),
+                description: t('introduction.features.ownership.description'),
+                icon: <Code2 className="h-3.5 w-3.5" />
+              },
+              {
+                key: 'modern',
+                title: t('introduction.features.modern.title'),
+                description: t('introduction.features.modern.description'),
                 icon: <Sparkles className="h-3.5 w-3.5" />
               },
               {
-                key: 'themes',
-                title: t('getting-started.introduction.features.themes.title'),
-                description: t('getting-started.introduction.features.themes.description'),
+                key: 'flexible',
+                title: t('introduction.features.flexible.title'),
+                description: t('introduction.features.flexible.description'),
                 icon: <Palette className="h-3.5 w-3.5" />
               },
               {
                 key: 'responsive',
-                title: t('getting-started.introduction.features.responsive.title'),
-                description: t('getting-started.introduction.features.responsive.description'),
+                title: t('introduction.features.responsive.title'),
+                description: t('introduction.features.responsive.description'),
                 icon: <Smartphone className="h-3.5 w-3.5" />
               },
               {
-                key: 'animations',
-                title: t('getting-started.introduction.features.animations.title'),
-                description: t('getting-started.introduction.features.animations.description'),
-                icon: <Waves className="h-3.5 w-3.5" />
-              },
-              {
                 key: 'typescript',
-                title: t('getting-started.introduction.features.typescript.title'),
-                description: t('getting-started.introduction.features.typescript.description'),
+                title: t('introduction.features.typescript.title'),
+                description: t('introduction.features.typescript.description'),
                 icon: <Code2 className="h-3.5 w-3.5" />
               }
             ].map((feature, index) => (
@@ -100,6 +111,25 @@ export default function DocsPage() {
             ))}
           </div>
 
+          <div className="grid gap-4">
+            <div className="grid gap-1">
+              <h3 className="text-sm font-medium tracking-wide text-green-500/90">
+                {t('introduction.philosophy.why.title')}
+              </h3>
+              <p className="text-sm text-muted-foreground/90">
+                {t('introduction.philosophy.why.description')}
+              </p>
+              <ul className="mt-2 text-sm text-muted-foreground/90 space-y-2 list-disc list-inside">
+                <li>{t('introduction.philosophy.why.benefits.control')}</li>
+                <li>{t('introduction.philosophy.why.benefits.dependencies')}</li>
+                <li>{t('introduction.philosophy.why.benefits.learning')}</li>
+                <li>{t('introduction.philosophy.why.benefits.bundle')}</li>
+                <li>{t('introduction.philosophy.why.benefits.future')}</li>
+                <li>{t('introduction.philosophy.why.benefits.security')}</li>
+              </ul>
+            </div>
+          </div>
+
           <div className="group relative rounded-lg border bg-gradient-to-b from-zinc-50/50 to-white dark:from-zinc-900/50 dark:to-zinc-900 dark:border-zinc-800 p-3 hover:shadow-md transition-all duration-300">
             <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="absolute -inset-px rounded-lg bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 opacity-0 group-hover:opacity-100 blur-sm transition-all duration-500" />
@@ -109,9 +139,9 @@ export default function DocsPage() {
                 <ArrowRight className="h-3.5 w-3.5 text-primary" />
               </div>
               <div>
-                <h3 className="text-sm font-medium mb-1 text-zinc-900 dark:text-zinc-100 group-hover:text-green-500/90 transition-colors duration-300">{t('getting-started.installation.title')}</h3>
+                <h3 className="text-sm font-medium mb-1 text-zinc-900 dark:text-zinc-100 group-hover:text-green-500/90 transition-colors duration-300">{t('installation.title')}</h3>
                 <p className="text-xs text-muted-foreground/80 mb-2">
-                  {t('getting-started.installation.description')}
+                  {t('installation.description')}
                 </p>
                 <Link 
                   href={`/${locale}/docs/installation`}

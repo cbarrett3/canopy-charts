@@ -33,70 +33,66 @@
   "Docs": {
     "title": "Documentation",
     "search": "Search documentation...",
+    "introduction": {
+      "title": "Introduction",
+      "welcome": "Welcome to Canopy Charts documentation. This guide will help you get started with our powerful charting library that combines the flexibility of D3.js with the modern features of React.",
+      "features": {
+        "title": "Key Features",
+        "ownership": {
+          "title": "Your Code, Your Control",
+          "description": "Copy and paste what you need, then customize freely without dependency constraints."
+        },
+        "modern": {
+          "title": "Modern Stack",
+          "description": "Built with React + D3.js + Tailwind CSS for beautiful, responsive visualizations."
+        },
+        "flexible": {
+          "title": "Flexible Design",
+          "description": "Start with sensible defaults, then customize the implementation and design separately."
+        },
+        "responsive": {
+          "title": "Responsive by Default",
+          "description": "Charts automatically adapt to any screen size with smooth animations."
+        },
+        "typescript": {
+          "title": "TypeScript Ready",
+          "description": "Full TypeScript support with well-documented props and utilities."
+        }
+      },
+      "philosophy": {
+        "title": "Philosophy",
+        "description": "Canopy Charts is not a traditional component library. Instead of installing a dependency, you copy and paste the components you need. This gives you complete control over your charts.",
+        "why": {
+          "title": "Why this approach?",
+          "description": "Traditional chart libraries often couple style with implementation. By providing copy-paste components:",
+          "benefits": {
+            "control": "Full control over implementation and design",
+            "dependencies": "No version conflicts or dependency management",
+            "learning": "Learn and modify the code as you use it",
+            "bundle": "Only include what you need, reducing bundle size",
+            "future": "Future-proof: your charts won't break from upstream changes",
+            "security": "Better security: review code once, no need to trust external package updates"
+          }
+        }
+      }
+    },
     "getting-started": {
       "title": "Getting Started",
       "introduction": {
-        "title": "Introduction",
-        "welcome": "Welcome to Canopy Charts documentation. This guide will help you get started with our powerful charting library that combines the flexibility of D3.js with the modern features of React.",
-        "features": {
-          "title": "Key Features",
-          "interactive": {
-            "title": "Interactive D3.js Visualizations",
-            "description": "Seamlessly integrate D3.js charts with React components for dynamic, interactive data visualizations."
-          },
-          "themes": {
-            "title": "Beautiful Themes",
-            "description": "Customize your charts with modern, elegant themes that match your application's design."
-          },
-          "responsive": {
-            "title": "Responsive Design",
-            "description": "Charts automatically adapt to different screen sizes while maintaining visual appeal and functionality."
-          },
-          "animations": {
-            "title": "Smooth Animations",
-            "description": "Engage users with fluid transitions and animations that bring your data to life."
-          },
-          "typescript": {
-            "title": "TypeScript Support",
-            "description": "Built with TypeScript for better development experience with type safety and autocompletion."
-          }
-        }
+        "title": "Introduction"
       },
       "installation": {
         "title": "Installation",
         "description": "Get started with Canopy Charts in your React project."
       }
     },
+    "installation": {
+      "title": "Installation",
+      "description": "Get started with Canopy Charts in your React project."
+    },
     "usage": {
       "title": "Basic Usage",
-      "description": "Learn how to use Canopy Charts components in your React application."
-    },
-    "charts": {
-      "title": "Charts",
-      "barChart": {
-        "title": "Bar Chart",
-        "description": "Create beautiful bar charts with customizable styles and animations."
-      },
-      "lineChart": {
-        "title": "Line Chart",
-        "description": "Build interactive line charts with smooth transitions and hover effects."
-      },
-      "donutChart": {
-        "title": "Donut Chart",
-        "description": "Visualize proportional data with elegant donut charts."
-      },
-      "streamChart": {
-        "title": "Stream Chart",
-        "description": "Show flowing data patterns with smooth stream charts."
-      },
-      "treeMap": {
-        "title": "TreeMap",
-        "description": "Display hierarchical data with interactive treemaps."
-      },
-      "stackedBarChart": {
-        "title": "Stacked Bar Chart",
-        "description": "Compare parts of a whole with stacked bar charts."
-      }
+      "description": "Learn how to use Canopy Charts components in your React app."
     },
     "visualizations": {
       "title": "Visualizations",
@@ -104,7 +100,7 @@
       "bar-chart": "Bar Chart",
       "donut-chart": "Donut Chart",
       "stream-chart": "Stream Chart",
-      "tree-map": "TreeMap Chart",
+      "tree-map": "Tree Map",
       "stacked-bar-chart": "Stacked Bar Chart"
     },
     "features": {
