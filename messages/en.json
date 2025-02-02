@@ -40,13 +40,26 @@
         "welcome": "Welcome to Canopy Charts documentation. This guide will help you get started with our powerful charting library that combines the flexibility of D3.js with the modern features of React.",
         "features": {
           "title": "Key Features",
-          "list": [
-            "Interactive D3.js visualizations with React components",
-            "Beautiful, customizable themes and vibes",
-            "Responsive and accessible design",
-            "Smooth animations and transitions",
-            "TypeScript support"
-          ]
+          "interactive": {
+            "title": "Interactive D3.js Visualizations",
+            "description": "Seamlessly integrate D3.js charts with React components for dynamic, interactive data visualizations."
+          },
+          "themes": {
+            "title": "Beautiful Themes",
+            "description": "Customize your charts with modern, elegant themes that match your application's design."
+          },
+          "responsive": {
+            "title": "Responsive Design",
+            "description": "Charts automatically adapt to different screen sizes while maintaining visual appeal and functionality."
+          },
+          "animations": {
+            "title": "Smooth Animations",
+            "description": "Engage users with fluid transitions and animations that bring your data to life."
+          },
+          "typescript": {
+            "title": "TypeScript Support",
+            "description": "Built with TypeScript for better development experience with type safety and autocompletion."
+          }
         }
       },
       "installation": {
@@ -57,6 +70,33 @@
     "usage": {
       "title": "Basic Usage",
       "description": "Learn how to use Canopy Charts components in your React application."
+    },
+    "charts": {
+      "title": "Charts",
+      "barChart": {
+        "title": "Bar Chart",
+        "description": "Create beautiful bar charts with customizable styles and animations."
+      },
+      "lineChart": {
+        "title": "Line Chart",
+        "description": "Build interactive line charts with smooth transitions and hover effects."
+      },
+      "donutChart": {
+        "title": "Donut Chart",
+        "description": "Visualize proportional data with elegant donut charts."
+      },
+      "streamChart": {
+        "title": "Stream Chart",
+        "description": "Show flowing data patterns with smooth stream charts."
+      },
+      "treeMap": {
+        "title": "TreeMap",
+        "description": "Display hierarchical data with interactive treemaps."
+      },
+      "stackedBarChart": {
+        "title": "Stacked Bar Chart",
+        "description": "Compare parts of a whole with stacked bar charts."
+      }
     },
     "visualizations": {
       "title": "Visualizations",
