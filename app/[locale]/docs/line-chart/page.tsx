@@ -239,12 +239,15 @@ export default function LineChart({ data, width = 600, height = 400 }) {
         {/* Interactive Preview Section */}
         <div className="mb-12 rounded-lg border border-green-500/20 overflow-hidden">
           <div className="flex items-center justify-between p-6 border-b border-green-500/20">
-            <h2 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-400">{t('preview.title')}</h2>
+            <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">{t('preview.title')}</h2>
             <button
               onClick={() => setShowPreview(!showPreview)}
-              className="px-4 py-1.5 text-xs font-medium rounded-full text-green-500 bg-green-500/5 border border-green-500/10 shadow-[0_0_12px_-3px_rgba(34,197,94,0.2)] hover:shadow-[0_0_12px_-2px_rgba(34,197,94,0.3)] transition-shadow"
+              className="relative px-3 py-1.5 text-xs font-medium rounded-md text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800/90 border border-zinc-200/50 dark:border-zinc-700/50 transition-all duration-200 hover:border-zinc-300 dark:hover:border-zinc-600"
             >
-              {showPreview ? t('preview.showCode') : t('preview.showChart')}
+              <div className="absolute inset-0 rounded-md bg-gradient-to-r from-zinc-500/0 via-zinc-500/5 to-zinc-500/0 opacity-0 hover:opacity-100 transition-opacity" />
+              <span className="relative">
+                {showPreview ? t('preview.showCode') : t('preview.showChart')}
+              </span>
             </button>
           </div>
           <div className="p-6">
@@ -309,7 +312,7 @@ export default function LineChart({ data, width = 600, height = 400 }) {
         {/* Quick Start Section */}
         <Card className="relative mb-8 border border-green-500/20 hover:border-green-500/40 transition-colors bg-white/50 dark:bg-white/[0.02] backdrop-blur-sm">
           <div className="flex items-center justify-between p-6 border-b border-green-500/20">
-            <h2 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-400">{t('quickStart.title')}</h2>
+            <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">{t('quickStart.title')}</h2>
           </div>
           <div className="p-6 space-y-6">
             <div className="space-y-4">
@@ -440,6 +443,20 @@ export default function LineChart({ data, width = 600, height = 400 }) {
                       <pre className="p-4 rounded-md bg-zinc-100/70 dark:bg-zinc-900/70 text-zinc-800 dark:text-slate-50 text-sm overflow-x-auto border border-border/40">
                         <code>{implementationCode}</code>
                       </pre>
+                      <div className="absolute inset-x-0 bottom-0 h-48 pointer-events-none select-none">
+                        {/* Main gradient fade */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/98 to-transparent dark:from-[#181818] dark:via-[#181818]/98" />
+                        
+                        {/* Layered blurs for depth */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/60 to-transparent dark:from-[#181818]/95 dark:via-[#181818]/60 blur-[2px]" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent dark:from-[#181818]/90 dark:via-[#181818]/50 blur-md" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/40 to-transparent dark:from-[#181818]/85 dark:via-[#181818]/40 blur-lg" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/30 to-transparent dark:from-[#181818]/80 dark:via-[#181818]/30 blur-xl" />
+                        
+                        {/* Subtle side gradients for depth */}
+                        <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-background/20 to-transparent dark:from-[#181818]/20 blur-sm" />
+                        <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background/20 to-transparent dark:from-[#181818]/20 blur-sm" />
+                      </div>
                       <button
                         className="absolute top-3 right-3 p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                         onClick={() => handleCopy(implementationCode)}
