@@ -48,6 +48,7 @@ export function Navbar() {
     <div className={cn(
       "fixed top-4 z-40",
       "transition-all duration-300",
+      isDocsPage && "md:block hidden",
       isDocsPage 
         ? isExpanded 
           ? "left-[calc(18rem+1rem)] right-4 w-[calc(100%-19rem-1rem)]" 

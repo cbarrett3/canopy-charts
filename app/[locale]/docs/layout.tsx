@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils"
 import { useParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { Logo } from '@/app/_components/ui/logo';
 
 export default function DocsLayout({
   children,
@@ -79,6 +80,39 @@ export default function DocsLayout({
 
   return (
     <div className="relative min-h-screen">
+      {/* Mobile Sidebar - Only visible on mobile, at the top */}
+      <div className={cn(
+        "fixed top-4 left-4 right-4 z-50 md:hidden",
+        "bg-background/80 dark:bg-[#1B1B1B]/80",
+        "backdrop-blur-[8px] backdrop-saturate-[140%]",
+        "border border-border/40 dark:border-border/30",
+        "rounded-xl",
+        "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
+        "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
+        "transition-all duration-300",
+        "hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
+        "dark:hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
+      )}>
+        <div className="flex items-center justify-between h-[52px] px-5 py-2.5">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative hover:bg-transparent group"
+              onClick={() => setIsExpanded(!isOpen)}
+            >
+              <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
+              {isOpen ? (
+                <ChevronUp className="relative h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
+              ) : (
+                <ChevronDown className="relative h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
+              )}
+            </Button>
+            <span className="text-lg font-semibold tracking-tight text-foreground font-sans transition-all duration-300">Documentation</span>
+          </div>
+        </div>
+      </div>
+
       {/* Desktop Sidebar - Hidden on mobile */}
       <aside className={cn(
         "fixed z-40 hidden md:flex flex-col border-r border-border/40 bg-sidebar transition-all duration-300",
@@ -128,46 +162,75 @@ export default function DocsLayout({
       </aside>
 
       {/* Mobile Menu Button and Dropdown */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-background">
-        <div className="flex items-center h-[52px] px-4 border-b border-border/40">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-10 w-10 relative group hover:bg-transparent"
-            onClick={() => setIsExpanded(!isOpen)}
-          >
-            {isOpen ? (
-              <ChevronUp className="relative z-10 text-foreground group-hover:text-green-500 transition-colors duration-300" />
-            ) : (
-              <ChevronDown className="relative z-10 text-foreground group-hover:text-green-500 transition-colors duration-300" />
-            )}
-          </Button>
-          <span className="ml-2 text-sm font-medium text-muted-foreground">Documentation</span>
+      <nav className={cn(
+        "fixed top-4 left-4 right-4 z-50 md:hidden",
+        "bg-background/80 dark:bg-[#1B1B1B]/80",
+        "backdrop-blur-[8px] backdrop-saturate-[140%]",
+        "border border-border/40 dark:border-border/30",
+        "rounded-xl",
+        "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
+        "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
+        "transition-all duration-300",
+        "hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
+        "dark:hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
+      )}>
+        <div className="flex items-center justify-between h-[52px] px-5 py-2.5">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative hover:bg-transparent group"
+              onClick={() => setIsExpanded(!isOpen)}
+            >
+              <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
+              {isOpen ? (
+                <ChevronUp className="relative h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
+              ) : (
+                <ChevronDown className="relative h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
+              )}
+            </Button>
+            <span className="text-lg font-semibold tracking-tight text-foreground font-sans transition-all duration-300">Documentation</span>
+          </div>
         </div>
-      </div>
+      </nav>
 
       {/* Mobile Dropdown Menu */}
       <div className={cn(
-        "fixed md:hidden z-40 left-0 right-0 bg-sidebar border-b border-border/40 transition-all duration-300",
-        "top-[52px]",
-        isOpen ? "translate-y-0" : "-translate-y-full",
-        "max-h-[70vh] overflow-y-auto" // Limit height and enable scroll
+        "fixed md:hidden z-40 left-4 right-4 transition-all duration-300",
+        "top-[calc(52px+2rem)]",
+        isOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0 pointer-events-none",
       )}>
-        <div className="px-4 py-2">
-          <div className="relative">
-            <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input
-              placeholder={searchT('search')}
-              className={cn(
-                "w-full pl-9 h-10 bg-background/40 dark:bg-[#2A2A2A]",
-                "border-border/40",
-                "focus-visible:ring-1 focus-visible:ring-green-500/20",
-                "placeholder:text-muted-foreground/50"
-              )}
-            />
+        <div className={cn(
+          "bg-background/80 dark:bg-[#1B1B1B]/80",
+          "backdrop-blur-[8px] backdrop-saturate-[140%]",
+          "border border-border/40 dark:border-border/30",
+          "rounded-xl",
+          "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
+          "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
+          "max-h-[calc(100vh-10rem)] overflow-y-auto",
+        )}>
+          <div className="p-4">
+            <div className="relative mb-4">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                placeholder={searchT('search')}
+                className={cn(
+                  "w-full pl-10",
+                  "bg-background/50 dark:bg-background/20",
+                  "border-border/40 dark:border-border/30",
+                  "focus:ring-green-500/20 focus:border-green-500/30",
+                  "shadow-[0_4px_12px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
+                  "dark:shadow-[0_4px_12px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
+                  "rounded-xl",
+                  "transition-all duration-300",
+                  "hover:shadow-[0_6px_16px_-6px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.25)]",
+                  "dark:hover:shadow-[0_6px_16px_-6px_rgba(0,0,0,0.3),inset_0_1px_2px_rgba(255,255,255,0.07)]",
+                )}
+              />
+            </div>
+            <SidebarContent isOpen={true} sections={sections} />
           </div>
         </div>
-        <SidebarContent isOpen={true} sections={sections} />
       </div>
 
       {/* Main Content */}
