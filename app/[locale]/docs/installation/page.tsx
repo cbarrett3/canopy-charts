@@ -6,10 +6,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
+import { useTranslations } from 'next-intl';
 
 export default function InstallationPage() {
   const [mounted, setMounted] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
+  const t = useTranslations('Docs.installation');
 
   useEffect(() => {
     setMounted(true);
@@ -48,13 +50,13 @@ export default function InstallationPage() {
               repeat: Infinity
             }}
           >
-            Installation
+            {t('title')}
           </motion.h1>
           <div className="absolute -inset-x-2 -inset-y-2 bg-gradient-to-r from-green-500/20 via-green-500/10 to-green-500/20 blur-lg opacity-40 -z-10" />
         </div>
 
         <p className="text-sm text-muted-foreground/90 mb-6">
-          Get started with Canopy Charts by installing D3.js as your foundation.
+          {t('intro')}
         </p>
         
         <div className="space-y-6">
@@ -67,7 +69,7 @@ export default function InstallationPage() {
                 <div className="absolute inset-0 rounded-md bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500" />
                 <div className="absolute -inset-px rounded-md bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 opacity-0 data-[state=active]:opacity-100 blur-sm transition-all duration-500" />
                 <div className="absolute -inset-[2px] rounded-md bg-gradient-to-r from-green-500/5 via-green-500/2 to-green-500/5 opacity-0 data-[state=active]:opacity-100 blur-md transition-all duration-500" />
-                <span className="relative">npm</span>
+                <span className="relative">{t('tabs.npm')}</span>
               </TabsTrigger>
               <TabsTrigger
                 value="pnpm"
@@ -76,7 +78,7 @@ export default function InstallationPage() {
                 <div className="absolute inset-0 rounded-md bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500" />
                 <div className="absolute -inset-px rounded-md bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 opacity-0 data-[state=active]:opacity-100 blur-sm transition-all duration-500" />
                 <div className="absolute -inset-[2px] rounded-md bg-gradient-to-r from-green-500/5 via-green-500/2 to-green-500/5 opacity-0 data-[state=active]:opacity-100 blur-md transition-all duration-500" />
-                <span className="relative">pnpm</span>
+                <span className="relative">{t('tabs.pnpm')}</span>
               </TabsTrigger>
               <TabsTrigger
                 value="yarn"
@@ -85,9 +87,10 @@ export default function InstallationPage() {
                 <div className="absolute inset-0 rounded-md bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500" />
                 <div className="absolute -inset-px rounded-md bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 opacity-0 data-[state=active]:opacity-100 blur-sm transition-all duration-500" />
                 <div className="absolute -inset-[2px] rounded-md bg-gradient-to-r from-green-500/5 via-green-500/2 to-green-500/5 opacity-0 data-[state=active]:opacity-100 blur-md transition-all duration-500" />
-                <span className="relative">yarn</span>
+                <span className="relative">{t('tabs.yarn')}</span>
               </TabsTrigger>
             </TabsList>
+
             <div className="mt-4 rounded-lg border bg-gradient-to-b from-zinc-50/50 to-white dark:from-zinc-900/50 dark:to-zinc-900 dark:border-zinc-800 text-card-foreground">
               <TabsContent value="npm" className="p-4">
                 <div className="relative">
@@ -129,28 +132,28 @@ export default function InstallationPage() {
                 </div>
               </TabsContent>
             </div>
-          </Tabs>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="group relative rounded-lg border bg-gradient-to-b from-zinc-50/50 to-white dark:from-zinc-900/50 dark:to-zinc-900 dark:border-zinc-800 p-4"
-          >
-            <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="absolute -inset-px rounded-lg bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 opacity-0 group-hover:opacity-100 blur-sm transition-all duration-500" />
-            <div className="absolute -inset-[2px] rounded-lg bg-gradient-to-r from-green-500/5 via-green-500/2 to-green-500/5 opacity-0 group-hover:opacity-100 blur-md transition-all duration-500" />
-            <div className="relative space-y-4">
-              <h3 className="text-sm font-medium mb-2 text-zinc-900 dark:text-zinc-100">Next Steps</h3>
-              <Link 
-                href="/docs/quickstart" 
-                className="group/link flex items-center text-sm text-muted-foreground/90 hover:text-green-500/90 transition-colors"
-              >
-                <ArrowRight className="mr-2 h-4 w-4" />
-                Check out our quickstart guide to create your first chart
-              </Link>
-            </div>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="group relative rounded-lg border bg-gradient-to-b from-zinc-50/50 to-white dark:from-zinc-900/50 dark:to-zinc-900 dark:border-zinc-800 p-4 mt-4"
+            >
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -inset-px rounded-lg bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 opacity-0 group-hover:opacity-100 blur-sm transition-all duration-500" />
+              <div className="absolute -inset-[2px] rounded-lg bg-gradient-to-r from-green-500/5 via-green-500/2 to-green-500/5 opacity-0 group-hover:opacity-100 blur-md transition-all duration-500" />
+              <div className="relative space-y-4">
+                <h3 className="text-sm font-medium mb-2 text-zinc-900 dark:text-zinc-100">{t('next.title')}</h3>
+                <Link 
+                  href="/docs/visualizations" 
+                  className="group/link flex items-center text-sm text-muted-foreground/90 hover:text-green-500/90 transition-colors"
+                >
+                  <ArrowRight className="mr-2 h-4 w-4" />
+                  {t('next.link')}
+                </Link>
+              </div>
+            </motion.div>
+          </Tabs>
         </div>
       </div>
     </div>

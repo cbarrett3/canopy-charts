@@ -24,7 +24,6 @@ export default function DocsLayout({
   const visualizationsT = useTranslations('Docs.visualizations');
   const featuresT = useTranslations('Docs.features');
   const contributingT = useTranslations('Docs.contributing');
-  const usageT = useTranslations('Docs.usage');
   const searchT = useTranslations('Docs');
 
   const sections = [
@@ -33,7 +32,6 @@ export default function DocsLayout({
       items: [
         { title: gettingStartedT('introduction.title'), href: `/${locale}/docs` },
         { title: gettingStartedT('installation.title'), href: `/${locale}/docs/installation` },
-        { title: usageT('title'), href: `/${locale}/docs/usage` },
       ]
     },
     {

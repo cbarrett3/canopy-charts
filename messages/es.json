@@ -89,11 +89,32 @@
     },
     "installation": {
       "title": "Instalación",
-      "description": "Comienza con Canopy Charts en tu proyecto React."
-    },
-    "usage": {
-      "title": "Uso Básico",
-      "description": "Aprende a usar los componentes de Canopy Charts en tu aplicación React."
+      "description": "Comienza con Canopy Charts en tu proyecto React.",
+      "intro": "Comienza con Canopy Charts instalando D3.js como tu base.",
+      "tabs": {
+        "npm": "npm",
+        "pnpm": "pnpm",
+        "yarn": "yarn"
+      },
+      "steps": {
+        "install": {
+          "title": "1. Instalar D3.js",
+          "description": "Instala D3.js usando tu gestor de paquetes preferido:"
+        },
+        "copy": {
+          "title": "2. Copiar Componentes",
+          "description": "Copia los componentes que necesites de nuestra biblioteca:"
+        },
+        "customize": {
+          "title": "3. Personalizar",
+          "description": "Personaliza los componentes según tus necesidades:"
+        }
+      },
+      "next": {
+        "title": "Siguiente Paso",
+        "description": "Explora nuestras visualizaciones disponibles",
+        "link": "Ver Visualizaciones"
+      }
     },
     "visualizations": {
       "title": "Visualizaciones",
