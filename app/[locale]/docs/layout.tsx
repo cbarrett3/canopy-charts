@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useSidebar } from '@/app/_components/layout/sidebar-context';
-import { Search, ChevronRight, PanelLeftClose, PanelLeft, ChevronUp, ChevronDown } from "lucide-react"
+import { Search, Menu, X, ChevronRight, PanelLeftClose, PanelLeft, ChevronUp, ChevronDown } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link";
@@ -17,7 +17,7 @@ export default function DocsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isExpanded: isOpen, setIsExpanded } = useSidebar();
+  const { isExpanded: isOpen, setIsExpanded: setIsOpen } = useSidebar();
   const { locale } = useParams();
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -27,61 +27,65 @@ export default function DocsLayout({
   const contributingT = useTranslations('Docs.contributing');
   const searchT = useTranslations('Docs');
 
-  const sections = [
+  const sidebarConfig = [
     {
-      title: gettingStartedT('title'),
+      label: gettingStartedT('title'),
       items: [
-        { title: gettingStartedT('introduction.title'), href: `/${locale}/docs` },
-        { title: gettingStartedT('installation.title'), href: `/${locale}/docs/installation` },
+        { label: gettingStartedT('introduction.title'), href: `/${locale}/docs` },
+        { label: gettingStartedT('installation.title'), href: `/${locale}/docs/installation` },
       ]
     },
     {
-      title: visualizationsT('title'),
+      label: visualizationsT('title'),
       items: [
-        { title: visualizationsT('line-chart'), href: `/${locale}/docs/line-chart` },
-        { title: visualizationsT('bar-chart'), href: `/${locale}/docs/bar-chart` },
-        { title: visualizationsT('donut-chart'), href: `/${locale}/docs/donut-chart` },
-        { title: visualizationsT('stream-chart'), href: `/${locale}/docs/stream-chart` },
-        { title: visualizationsT('tree-map'), href: `/${locale}/docs/treemap-chart` },
-        { title: visualizationsT('stacked-bar-chart'), href: `/${locale}/docs/stacked-bar-chart` },
+        { label: visualizationsT('line-chart'), href: `/${locale}/docs/line-chart` },
+        { label: visualizationsT('bar-chart'), href: `/${locale}/docs/bar-chart` },
+        { label: visualizationsT('donut-chart'), href: `/${locale}/docs/donut-chart` },
+        { label: visualizationsT('stream-chart'), href: `/${locale}/docs/stream-chart` },
+        { label: visualizationsT('tree-map'), href: `/${locale}/docs/treemap-chart` },
+        { label: visualizationsT('stacked-bar-chart'), href: `/${locale}/docs/stacked-bar-chart` },
       ]
     },
     {
-      title: featuresT('title'),
+      label: featuresT('title'),
       items: [
-        { title: featuresT('theming'), href: `/${locale}/docs/theming` },
-        { title: featuresT('animations'), href: `/${locale}/docs/animations` },
-        { title: featuresT('responsiveness'), href: `/${locale}/docs/responsiveness` },
-        { title: featuresT('accessibility'), href: `/${locale}/docs/accessibility` },
+        { label: featuresT('theming'), href: `/${locale}/docs/theming` },
+        { label: featuresT('animations'), href: `/${locale}/docs/animations` },
+        { label: featuresT('responsiveness'), href: `/${locale}/docs/responsiveness` },
+        { label: featuresT('accessibility'), href: `/${locale}/docs/accessibility` },
       ]
     },
     {
-      title: contributingT('title'),
+      label: contributingT('title'),
       items: [
-        { title: contributingT('how-to'), href: `/${locale}/docs/contributing` },
-        { title: contributingT('dev-guide'), href: `/${locale}/docs/development` },
+        { label: contributingT('how-to'), href: `/${locale}/docs/contributing` },
+        { label: contributingT('dev-guide'), href: `/${locale}/docs/development` },
       ]
     }
   ];
 
-  // Track sidebar height for mobile layout
   useEffect(() => {
-    const updateSidebarHeight = () => {
-      if (sidebarRef.current) {
-        const height = sidebarRef.current.offsetHeight;
-        document.documentElement.style.setProperty('--sidebar-height', `${height}px`);
+    const mediaQuery = window.matchMedia('(max-width: 768px)')
+    const handleResize = () => {
+      if (isOpen && mediaQuery.matches) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = 'auto'
       }
-    };
-
-    updateSidebarHeight();
-    window.addEventListener('resize', updateSidebarHeight);
-    return () => window.removeEventListener('resize', updateSidebarHeight);
-  }, [isOpen]);
+    }
+    
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      document.body.style.overflow = 'auto'
+    }
+  }, [isOpen])
 
   return (
     <div className="relative min-h-screen">
-      {/* Mobile Sidebar - Only visible on mobile, at the top */}
-      <div className={cn(
+      {/* Mobile Menu Button and Dropdown */}
+      <nav className={cn(
         "fixed top-4 left-4 right-4 z-50 md:hidden",
         "bg-background/80 dark:bg-[#1B1B1B]/80",
         "backdrop-blur-[8px] backdrop-saturate-[140%]",
@@ -93,22 +97,75 @@ export default function DocsLayout({
         "hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
         "dark:hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
       )}>
-        <div className="flex items-center justify-between h-[52px] px-5 py-2.5">
-          <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative hover:bg-transparent group"
-              onClick={() => setIsExpanded(!isOpen)}
-            >
-              <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
-              {isOpen ? (
-                <ChevronUp className="relative h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
-              ) : (
-                <ChevronDown className="relative h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
-              )}
-            </Button>
-            <span className="text-lg font-semibold tracking-tight text-foreground font-sans transition-all duration-300">Documentation</span>
+        <div className="relative flex items-center justify-between h-[52px] px-5 py-2.5">
+          <Link href="/" className="relative w-10 h-10">
+            <Logo className="absolute inset-0" showGrid={false} />
+          </Link>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="relative p-2 rounded-lg hover:bg-transparent group"
+          >
+            <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
+            <Menu className={cn(
+              "w-5 h-5 transition-all relative text-foreground group-hover:text-green-500",
+              isOpen ? "opacity-0 scale-0" : "opacity-100 scale-100"
+            )} />
+            <X className={cn(
+              "w-5 h-5 transition-all absolute inset-0 m-2 text-foreground group-hover:text-green-500",
+              !isOpen ? "opacity-0 scale-0" : "opacity-100 scale-100"
+            )} />
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      <div 
+        className={cn(
+          "fixed inset-0 z-40 bg-background md:hidden transition-opacity duration-300",
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+        onClick={() => setIsOpen(false)}
+      />
+
+      {/* Mobile Menu Content */}
+      <div className={cn(
+        "fixed inset-x-4 top-[76px] bottom-4 z-50 md:hidden",
+        "bg-background/95 dark:bg-[#1B1B1B]/95",
+        "backdrop-blur-[8px] backdrop-saturate-[140%]",
+        "border border-border/40 dark:border-border/30",
+        "rounded-xl",
+        "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
+        "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
+        "transition-all duration-300 ease-out",
+        isOpen 
+          ? "opacity-100 translate-y-0" 
+          : "opacity-0 -translate-y-4 pointer-events-none"
+      )}>
+        <div className="p-6 h-full overflow-y-auto">
+          <div className="space-y-6">
+            {sidebarConfig.map((item) => (
+              <div key={item.label} className="space-y-3">
+                <div className="font-medium text-lg text-foreground/90">{item.label}</div>
+                <div className="space-y-1 pl-1">
+                  {item.items?.map((subItem) => (
+                    <Link
+                      key={subItem.href}
+                      href={subItem.href}
+                      className={cn(
+                        "group flex items-center py-2 px-3 rounded-lg relative isolate",
+                        "text-muted-foreground/90 hover:text-green-500",
+                        "transition-all duration-300"
+                      )}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <div className="absolute inset-0 rounded-lg bg-green-500/0 group-hover:bg-green-500/10 -z-10 transition-all duration-300" />
+                      <div className="absolute inset-0 rounded-lg bg-green-500/0 group-hover:bg-green-500/5 blur-lg -z-10 transition-all duration-300" />
+                      {subItem.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -148,7 +205,7 @@ export default function DocsLayout({
                 "after:absolute after:inset-0 after:rounded-full after:bg-green-500/0 hover:after:bg-green-500/20 after:transition-all after:duration-300 after:blur-lg",
                 !isOpen && "mx-auto" // Center the button when collapsed
               )}
-              onClick={() => setIsExpanded(!isOpen)}
+              onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? (
                 <PanelLeftClose className="relative z-10 text-foreground group-hover:text-green-500 transition-colors duration-300" />
@@ -157,81 +214,9 @@ export default function DocsLayout({
               )}
             </Button>
           </div>
-          <SidebarContent isOpen={isOpen} sections={sections} />
+          <SidebarContent isOpen={isOpen} sidebarConfig={sidebarConfig} />
         </div>
       </aside>
-
-      {/* Mobile Menu Button and Dropdown */}
-      <nav className={cn(
-        "fixed top-4 left-4 right-4 z-50 md:hidden",
-        "bg-background/80 dark:bg-[#1B1B1B]/80",
-        "backdrop-blur-[8px] backdrop-saturate-[140%]",
-        "border border-border/40 dark:border-border/30",
-        "rounded-xl",
-        "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
-        "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
-        "transition-all duration-300",
-        "hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
-        "dark:hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
-      )}>
-        <div className="flex items-center justify-between h-[52px] px-5 py-2.5">
-          <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative hover:bg-transparent group"
-              onClick={() => setIsExpanded(!isOpen)}
-            >
-              <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
-              {isOpen ? (
-                <ChevronUp className="relative h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
-              ) : (
-                <ChevronDown className="relative h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
-              )}
-            </Button>
-            <span className="text-lg font-semibold tracking-tight text-foreground font-sans transition-all duration-300">Documentation</span>
-          </div>
-        </div>
-      </nav>
-
-      {/* Mobile Dropdown Menu */}
-      <div className={cn(
-        "fixed md:hidden z-40 left-4 right-4 transition-all duration-300",
-        "top-[calc(52px+2rem)]",
-        isOpen ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0 pointer-events-none",
-      )}>
-        <div className={cn(
-          "bg-background/80 dark:bg-[#1B1B1B]/80",
-          "backdrop-blur-[8px] backdrop-saturate-[140%]",
-          "border border-border/40 dark:border-border/30",
-          "rounded-xl",
-          "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
-          "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
-          "max-h-[calc(100vh-10rem)] overflow-y-auto",
-        )}>
-          <div className="p-4">
-            <div className="relative mb-4">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input
-                placeholder={searchT('search')}
-                className={cn(
-                  "w-full pl-10",
-                  "bg-background/50 dark:bg-background/20",
-                  "border-border/40 dark:border-border/30",
-                  "focus:ring-green-500/20 focus:border-green-500/30",
-                  "shadow-[0_4px_12px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
-                  "dark:shadow-[0_4px_12px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
-                  "rounded-xl",
-                  "transition-all duration-300",
-                  "hover:shadow-[0_6px_16px_-6px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.25)]",
-                  "dark:hover:shadow-[0_6px_16px_-6px_rgba(0,0,0,0.3),inset_0_1px_2px_rgba(255,255,255,0.07)]",
-                )}
-              />
-            </div>
-            <SidebarContent isOpen={true} sections={sections} />
-          </div>
-        </div>
-      </div>
 
       {/* Main Content */}
       <main className={cn(
@@ -239,7 +224,7 @@ export default function DocsLayout({
         "pt-[52px] md:pt-24", // Mobile: account for top bar, Desktop: normal padding
         isOpen ? "md:pl-72" : "md:pl-16" // Desktop sidebar spacing
       )}>
-        <div className="container relative mx-auto px-4 md:px-8">
+        <div className="container relative mx-auto p-4 md:p-8">
           <div className="prose prose-slate dark:prose-invert max-w-none">
             {children}
           </div>
@@ -250,7 +235,7 @@ export default function DocsLayout({
 }
 
 // Separate component for sidebar content to avoid duplication
-function SidebarContent({ isOpen, sections }: { isOpen: boolean, sections: any[] }) {
+function SidebarContent({ isOpen, sidebarConfig }: { isOpen: boolean, sidebarConfig: any[] }) {
   const pathname = usePathname();
   
   const isActive = (path: string) => {
@@ -268,17 +253,17 @@ function SidebarContent({ isOpen, sections }: { isOpen: boolean, sections: any[]
 
   return (
     <div className="overflow-y-auto flex-1 pt-6">
-      {sections.map((section, i) => (
+      {sidebarConfig.map((item, i) => (
         <div key={i} className="py-4">
           <h2 className={cn(
             "px-4 text-sm font-semibold text-foreground/70",
             !isOpen && "md:hidden"
           )}>
-            {section.title}
+            {item.label}
           </h2>
           <div className="mt-2">
-            {section.items.map((item: any, j: number) => {
-              const active = isActive(item.href);
+            {item.items?.map((subItem: any, j: number) => {
+              const active = isActive(subItem.href);
               return (
                 <div key={j} className="relative isolate">
                   {active && (
@@ -288,7 +273,7 @@ function SidebarContent({ isOpen, sections }: { isOpen: boolean, sections: any[]
                     </div>
                   )}
                   <Link
-                    href={item.href}
+                    href={subItem.href}
                     className={cn(
                       "flex items-center gap-2 px-4 py-1.5 text-sm transition-colors relative",
                       !isOpen && "md:justify-center",
@@ -304,7 +289,7 @@ function SidebarContent({ isOpen, sections }: { isOpen: boolean, sections: any[]
                     <span className={cn(
                       !isOpen && "md:hidden"
                     )}>
-                      {item.title}
+                      {subItem.label}
                     </span>
                   </Link>
                 </div>

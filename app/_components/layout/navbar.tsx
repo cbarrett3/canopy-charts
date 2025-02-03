@@ -74,16 +74,14 @@ export function Navbar() {
           <div className="relative flex items-center gap-4 font-sans">
             <Link href="/" className="flex items-center gap-3 mr-8 group relative">
               <div className="absolute inset-[-4px] rounded-xl bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
-              <div className="relative h-10 w-10 flex-shrink-0 overflow-visible transition-transform duration-300 group-hover:scale-[1.02]">
-                <Logo className="w-full h-full" />
+              <div className="h-10 w-10 relative">
+                <Logo className="absolute inset-0" />
               </div>
               <span className="hidden md:inline text-xl font-semibold tracking-tight text-foreground font-sans transition-all duration-300 group-hover:text-green-500">Canopy Charts</span>
             </Link>
 
             <div className="hidden md:flex items-center gap-8 font-sans">
               <NavLink href="/docs">{t('docs')}</NavLink>
-              <NavLink href="/examples">{t('examples')}</NavLink>
-              <NavLink href="/blog">{t('blog')}</NavLink>
             </div>
           </div>
           <div className="flex items-center gap-4 font-sans">
