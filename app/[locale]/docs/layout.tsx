@@ -86,46 +86,44 @@ export default function DocsLayout({
     <div className="relative min-h-screen">
       {/* Mobile Menu Button and Dropdown */}
       <nav className={cn(
-        "fixed top-4 left-4 right-4 z-50 md:hidden isolate",
-        "before:absolute before:inset-0 before:-z-10",
-        "before:bg-background/80 before:dark:bg-[#1B1B1B]/80",
-        "before:backdrop-blur-[8px] before:backdrop-saturate-[140%]",
-        "before:border before:border-border/40 before:dark:border-border/30",
-        "before:rounded-xl",
-        "before:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
-        "before:dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
-        "before:transition-all before:duration-300",
-        "hover:before:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
-        "hover:before:dark:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
+        "fixed top-4 left-4 right-4 z-[100] md:hidden",
+        "bg-transparent"
       )}>
-        <div className="relative flex items-center justify-between h-[52px] px-5 py-2.5">
-          <Link href="/" className="flex items-center gap-3 group relative">
-            <div className="absolute inset-[-4px] rounded-xl bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
-            <div className="h-10 w-10 relative">
-              <Logo className="absolute inset-0" showGrid={false} />
-            </div>
-          </Link>
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="relative p-2 rounded-lg hover:bg-transparent group"
-          >
-            <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
-            <Menu className={cn(
-              "w-5 h-5 transition-all relative text-foreground group-hover:text-green-500",
-              isOpen ? "opacity-0 scale-0" : "opacity-100 scale-100"
-            )} />
-            <X className={cn(
-              "w-5 h-5 transition-all absolute inset-0 m-2 text-foreground group-hover:text-green-500",
-              !isOpen ? "opacity-0 scale-0" : "opacity-100 scale-100"
-            )} />
-          </button>
+        <div className="relative isolate">
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute inset-0 bg-background/80 dark:bg-[#1B1B1B]/80 backdrop-blur-[8px] backdrop-saturate-[140%] rounded-xl" />
+            <div className="absolute inset-0 border border-border/40 dark:border-border/30 rounded-xl" />
+            <div className="absolute inset-0 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)] dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)] rounded-xl transition-all duration-300" />
+          </div>
+          <div className="relative flex items-center justify-between h-[52px] px-5 py-2.5">
+            <Link href="/" className="flex items-center gap-3 group relative z-[101]">
+              <div className="absolute inset-[-4px] rounded-xl bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
+              <div className="h-10 w-10 relative">
+                <Logo className="absolute inset-0" showGrid={false} />
+              </div>
+            </Link>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="relative p-2 rounded-lg hover:bg-transparent group"
+            >
+              <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
+              <Menu className={cn(
+                "w-5 h-5 transition-all relative text-foreground group-hover:text-green-500",
+                isOpen ? "opacity-0 scale-0" : "opacity-100 scale-100"
+              )} />
+              <X className={cn(
+                "w-5 h-5 transition-all absolute inset-0 m-2 text-foreground group-hover:text-green-500",
+                !isOpen ? "opacity-0 scale-0" : "opacity-100 scale-100"
+              )} />
+            </button>
+          </div>
         </div>
       </nav>
 
       {/* Mobile Menu Overlay */}
       <div 
         className={cn(
-          "fixed inset-0 z-40 bg-background md:hidden transition-opacity duration-300",
+          "fixed inset-0 z-[40] bg-background md:hidden transition-opacity duration-300",
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
         onClick={() => setIsOpen(false)}
@@ -133,19 +131,20 @@ export default function DocsLayout({
 
       {/* Mobile Menu Content */}
       <div className={cn(
-        "fixed inset-x-4 top-[76px] bottom-4 z-50 md:hidden",
-        "bg-background/95 dark:bg-[#1B1B1B]/95",
-        "backdrop-blur-[8px] backdrop-saturate-[140%]",
-        "border border-border/40 dark:border-border/30",
-        "rounded-xl",
-        "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
-        "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
-        "transition-all duration-300 ease-out",
+        "fixed inset-x-4 top-[76px] bottom-4 z-[45] md:hidden isolate",
+        "before:absolute before:inset-0 before:-z-10",
+        "before:bg-background/95 before:dark:bg-[#1B1B1B]/95",
+        "before:backdrop-blur-[8px] before:backdrop-saturate-[140%]",
+        "before:border before:border-border/40 before:dark:border-border/30",
+        "before:rounded-xl",
+        "before:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
+        "before:dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
+        "before:transition-all before:duration-300 before:ease-out",
         isOpen 
           ? "opacity-100 translate-y-0" 
           : "opacity-0 -translate-y-4 pointer-events-none"
       )}>
-        <div className="p-6 h-full overflow-y-auto">
+        <div className="relative z-10 p-6 h-full overflow-y-auto">
           <div className="space-y-6">
             {sidebarConfig.map((item) => (
               <div key={item.label} className="space-y-3">
