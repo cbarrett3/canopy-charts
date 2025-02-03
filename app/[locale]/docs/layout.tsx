@@ -86,20 +86,24 @@ export default function DocsLayout({
     <div className="relative min-h-screen">
       {/* Mobile Menu Button and Dropdown */}
       <nav className={cn(
-        "fixed top-4 left-4 right-4 z-50 md:hidden",
-        "bg-background/80 dark:bg-[#1B1B1B]/80",
-        "backdrop-blur-[8px] backdrop-saturate-[140%]",
-        "border border-border/40 dark:border-border/30",
-        "rounded-xl",
-        "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
-        "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
-        "transition-all duration-300",
-        "hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
-        "dark:hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
+        "fixed top-4 left-4 right-4 z-50 md:hidden isolate",
+        "before:absolute before:inset-0 before:-z-10",
+        "before:bg-background/80 before:dark:bg-[#1B1B1B]/80",
+        "before:backdrop-blur-[8px] before:backdrop-saturate-[140%]",
+        "before:border before:border-border/40 before:dark:border-border/30",
+        "before:rounded-xl",
+        "before:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
+        "before:dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
+        "before:transition-all before:duration-300",
+        "hover:before:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
+        "hover:before:dark:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
       )}>
         <div className="relative flex items-center justify-between h-[52px] px-5 py-2.5">
-          <Link href="/" className="relative w-10 h-10">
-            <Logo className="absolute inset-0" showGrid={false} />
+          <Link href="/" className="flex items-center gap-3 group relative">
+            <div className="absolute inset-[-4px] rounded-xl bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
+            <div className="h-10 w-10 relative">
+              <Logo className="absolute inset-0" showGrid={false} />
+            </div>
           </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}
