@@ -67,14 +67,14 @@ const gridVariants = {
    },
 }
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({ className, showGrid = true }: { className?: string, showGrid?: boolean }) {
    return (
-      <div className={`relative h-full w-full ${className}`}>
+      <div className={`relative flex items-center justify-center ${className}`}>
          <motion.svg
             viewBox="0 0 500 500"
             initial="initial"
             animate="animate"
-            className="h-full w-full p-2"
+            className="w-full h-full"
             preserveAspectRatio="xMidYMid meet"
          >
             {/* Radial fade mask */}
@@ -86,65 +86,6 @@ export function Logo({ className }: { className?: string }) {
                <mask id="fade">
                   <circle cx="250" cy="250" r="250" fill="url(#fade-mask)" />
                </mask>
-            </defs>
-
-            {/* Grid Background */}
-            <g mask="url(#fade)">
-               <motion.g 
-                  variants={gridVariants}
-                  className="origin-center"
-               >
-                  {/* Horizontal lines */}
-                  {Array.from({ length: 20 }).map((_, i) => (
-                     <motion.line
-                        key={`h-${i}`}
-                        x1="0"
-                        y1={25 * i}
-                        x2="500"
-                        y2={25 * i}
-                        stroke="currentColor"
-                        className="text-muted-foreground/70 dark:text-muted-foreground/90"
-                        strokeWidth="1"
-                     />
-                  ))}
-                  {/* Vertical lines */}
-                  {Array.from({ length: 20 }).map((_, i) => (
-                     <motion.line
-                        key={`v-${i}`}
-                        x1={25 * i}
-                        y1="0"
-                        x2={25 * i}
-                        y2="500"
-                        stroke="currentColor"
-                        className="text-muted-foreground/70 dark:text-muted-foreground/90"
-                        strokeWidth="1"
-                     />
-                  ))}
-                  
-                  {/* Animated data points */}
-                  {Array.from({ length: 10 }).map((_, i) => (
-                     <motion.circle
-                        key={`point-${i}`}
-                        cx={50 + i * 40}
-                        cy={250 + Math.sin(i * 0.5) * 50}
-                        r="3"
-                        fill="#22c55e"
-                        initial={{ opacity: 0 }}
-                        animate={{
-                           opacity: [0, 1, 0],
-                           scale: [0, 1, 0],
-                        }}
-                        transition={{
-                           duration: 2,
-                           repeat: Infinity,
-                           delay: i * 0.2,
-                        }}
-                     />
-                  ))}
-               </motion.g>
-            </g>
-
-            <defs>
                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
                   <feGaussianBlur stdDeviation="15" result="blur" />
                   <feColorMatrix
@@ -162,6 +103,43 @@ export function Logo({ className }: { className?: string }) {
                   <stop offset="100%" stopColor="#22c55e" />
                </linearGradient>
             </defs>
+
+            {/* Grid Background */}
+            {showGrid && (
+               <g mask="url(#fade)" style={{ opacity: 0.3 }}>
+                  <motion.g 
+                     variants={gridVariants}
+                     className="origin-center"
+                  >
+                     {/* Horizontal lines */}
+                     {Array.from({ length: 20 }).map((_, i) => (
+                        <motion.line
+                           key={`h-${i}`}
+                           x1="0"
+                           y1={25 * i}
+                           x2="500"
+                           y2={25 * i}
+                           stroke="currentColor"
+                           className="text-muted-foreground/40"
+                           strokeWidth="1"
+                        />
+                     ))}
+                     {/* Vertical lines */}
+                     {Array.from({ length: 20 }).map((_, i) => (
+                        <motion.line
+                           key={`v-${i}`}
+                           x1={25 * i}
+                           y1="0"
+                           x2={25 * i}
+                           y2="500"
+                           stroke="currentColor"
+                           className="text-muted-foreground/40"
+                           strokeWidth="1"
+                        />
+                     ))}
+                  </motion.g>
+               </g>
+            )}
 
             {/* Logo Group - centered */}
             <g transform="translate(250, 250)">
