@@ -227,18 +227,37 @@ export default function BarChart({ data, width = 600, height = 400 }) {
         </p>
 
         <div className="flex flex-wrap gap-2 mb-12">
-          {tags.map((tag) => (
-            <div
+          {tags.map((tag, index) => (
+            <motion.div
               key={tag}
-              className="px-4 py-1.5 text-xs font-medium rounded-full text-green-500 bg-green-500/5 border border-green-500/10 shadow-[0_0_12px_-3px_rgba(34,197,94,0.2)] hover:shadow-[0_0_12px_-2px_rgba(34,197,94,0.3)] transition-shadow"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                delay: 0.1 + index * 0.1,
+                duration: 0.4,
+                ease: [0.21, 0.47, 0.32, 0.98]
+              }}
             >
-              {tag}
-            </div>
+              <div
+                className="px-4 py-1.5 text-xs font-medium rounded-full text-green-500 bg-green-500/5 border border-green-500/10 shadow-[0_0_12px_-3px_rgba(34,197,94,0.2)] hover:shadow-[0_0_12px_-2px_rgba(34,197,94,0.3)] transition-shadow"
+              >
+                {tag}
+              </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Interactive Preview Section */}
-        <div className="mb-12 rounded-lg border border-green-500/20 overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ 
+            delay: 0.3,
+            duration: 0.5,
+            ease: [0.21, 0.47, 0.32, 0.98]
+          }}
+          className="mb-12 rounded-lg border border-green-500/20 overflow-hidden"
+        >
           <div className="flex items-center justify-between p-6 border-b border-green-500/20">
             <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">{t('preview.title')}</h2>
             <button
@@ -306,7 +325,7 @@ export default function BarChart({ data, width = 600, height = 400 }) {
               onTooltipsChange={setShowTooltips}
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* Quick Start Section */}
         <Card className="relative mb-8 border border-green-500/20 hover:border-green-500/40 transition-colors bg-white/50 dark:bg-white/[0.02] backdrop-blur-sm">
