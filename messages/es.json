@@ -128,10 +128,10 @@
       "stacked-bar-chart": "Gráfico de Barras Apiladas",
       "lineChart": {
         "title": "Gráfico de Líneas",
-        "description": "Un componente de gráfico de líneas hermoso e interactivo para tus necesidades de visualización de datos.",
+        "description": "Un gráfico de líneas versátil perfecto para visualizar tendencias a lo largo del tiempo, mostrar cambios continuos en los datos y comparar múltiples series de datos.",
         "tags": {
           "timeSeries": "Series Temporales",
-          "trends": "Tendencias",
+          "trends": "Análisis de Tendencias",
           "continuousData": "Datos Continuos"
         },
         "preview": {
@@ -151,6 +151,42 @@
           "step3": {
             "title": "Crear tu primer gráfico"
           }
+        }
+      },
+      "barChart": {
+        "title": "Gráfico de Barras",
+        "description": "Un potente gráfico de barras para comparar datos categóricos, mostrar distribuciones y resaltar diferencias entre grupos.",
+        "tags": {
+          "categorical": "Datos Categóricos",
+          "comparison": "Comparación de Datos",
+          "distribution": "Análisis de Distribución"
+        }
+      },
+      "donutChart": {
+        "title": "Gráfico de Dona",
+        "description": "Un elegante gráfico de dona para mostrar relaciones parte-todo y datos proporcionales con énfasis en el valor total.",
+        "tags": {
+          "proportion": "Datos Proporcionales",
+          "composition": "Composición de Datos",
+          "percentage": "Distribución Porcentual"
+        }
+      },
+      "treemapChart": {
+        "title": "Mapa de Árbol",
+        "description": "Una visualización jerárquica que muestra datos anidados usando rectángulos, perfecta para mostrar relaciones proporcionales dentro de categorías.",
+        "tags": {
+          "hierarchy": "Datos Jerárquicos",
+          "nested": "Categorías Anidadas",
+          "proportion": "Relaciones de Tamaño"
+        }
+      },
+      "streamChart": {
+        "title": "Gráfico de Flujo",
+        "description": "Una visualización fluida que muestra cómo múltiples categorías cambian a lo largo del tiempo, ideal para mostrar patrones temporales y proporciones.",
+        "tags": {
+          "temporal": "Datos Temporales",
+          "flow": "Análisis de Flujo",
+          "stacked": "Áreas Apiladas"
         }
       }
     },

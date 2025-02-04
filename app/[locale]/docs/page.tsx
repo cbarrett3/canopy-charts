@@ -15,7 +15,7 @@ export default function DocsPage() {
   return (
     <div className="min-h-screen">
       <MouseTrail />
-      <section id="introduction" className="relative max-w-4xl mx-auto pt-12 px-4">
+      <section id="introduction" className="relative max-w-4xl mx-auto pt-6 px-4">
         <div className="relative inline-block mb-6">
           <motion.h1 
             className="relative text-2xl font-semibold tracking-tight bg-clip-text text-transparent"
@@ -113,7 +113,7 @@ export default function DocsPage() {
 
           <div className="grid gap-4">
             <div className="grid gap-1">
-              <h3 className="text-sm font-medium tracking-wide text-green-500/90">
+              <h3 className="text-sm pt-3 font-medium tracking-wide text-green-500/90">
                 {t('introduction.philosophy.why.title')}
               </h3>
               <p className="text-sm text-muted-foreground/90">
