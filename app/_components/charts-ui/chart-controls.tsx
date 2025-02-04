@@ -84,7 +84,7 @@ export function ChartControls({
             borderColor: currentTheme
           } as React.CSSProperties}
           className={clsx(
-            "relative min-w-[300px] max-w-[400px] text-foreground",
+            "relative w-full sm:min-w-[250px] sm:max-w-[350px] text-foreground",
             "bg-background/40 dark:bg-background/20 backdrop-blur-[12px] backdrop-saturate-[180%]",
             "border border-[var(--theme-color)] dark:border-[var(--theme-color)]/80",
             "rounded-xl",
@@ -92,7 +92,7 @@ export function ChartControls({
             "hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.15),inset_0_2px_3px_rgba(255,255,255,0.3)]",
             "dark:shadow-[0_8px_24px_-6px_rgba(0,0,0,0.4),inset_0_1px_2px_rgba(255,255,255,0.08)]",
             "dark:hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.5),inset_0_2px_3px_rgba(255,255,255,0.12)]",
-            "px-8 py-4 font-semibold text-lg",
+            "px-4 sm:px-8 py-4 font-semibold text-lg",
             "transition-all duration-300",
             "hover:scale-[1.02] active:scale-[0.98]",
             isExpanded 
@@ -132,14 +132,14 @@ export function ChartControls({
             "transition-all duration-700 ease-out",
             isExpanded ? "translate-y-0" : "translate-y-8"
           )}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               <div className="h-full group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
                 <ColorSelector currentTheme={currentTheme} onThemeChange={onThemeChange} />
               </div>
               <div className="h-full group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
                 <VibeSelector selectedVibe={currentVibe} onVibeChange={onVibeChange} />
               </div>
-              <div className="h-full group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
+              <div className="h-full sm:col-span-2 lg:col-span-1 group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
                 <ChartElements
                   showAxes={showAxes}
                   onAxesChange={onAxesChange}

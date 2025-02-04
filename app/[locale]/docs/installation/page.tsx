@@ -24,7 +24,7 @@ export default function InstallationPage() {
   };
 
   return (
-    <div className="relative max-w-4xl mx-auto py-12 px-4">
+    <div className="relative max-w-4xl mx-auto py-6 px-4">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-grid-slate-900/[0.04] dark:bg-grid-slate-100/[0.03] bg-[bottom_1px_center]" />
@@ -145,7 +145,7 @@ export default function InstallationPage() {
               <div className="relative space-y-4">
                 <h3 className="text-sm font-medium mb-2 text-zinc-900 dark:text-zinc-100">{t('next.title')}</h3>
                 <Link 
-                  href="/docs/visualizations" 
+                  href="/docs/line-chart" 
                   className="group/link flex items-center text-sm text-muted-foreground/90 hover:text-green-500/90 transition-colors"
                 >
                   <ArrowRight className="mr-2 h-4 w-4" />

@@ -189,7 +189,7 @@ export default function LineChart({ data, width = 600, height = 400 }) {
   };
 
   return (
-    <div className="relative max-w-4xl mx-auto py-12 px-4">
+    <div className="relative max-w-4xl mx-auto py-6 px-4">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-grid-slate-900/[0.08] dark:bg-grid-slate-100/[0.03] bg-[bottom_1px_center]" />

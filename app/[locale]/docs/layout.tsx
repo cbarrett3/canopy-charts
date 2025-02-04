@@ -19,7 +19,23 @@ export default function DocsLayout({
 }) {
   const { isExpanded: isOpen, setIsExpanded: setIsOpen } = useSidebar();
   const { locale } = useParams();
+  const pathname = usePathname();
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const isManualToggleRef = useRef(false);
+
+  // Reset manual toggle flag after a short delay
+  const resetManualToggle = () => {
+    setTimeout(() => {
+      isManualToggleRef.current = false;
+    }, 100);
+  };
+
+  // Handle manual toggle
+  const handleToggle = () => {
+    isManualToggleRef.current = true;
+    setIsOpen(!isOpen);
+    resetManualToggle();
+  };
 
   const gettingStartedT = useTranslations('Docs.getting-started');
   const visualizationsT = useTranslations('Docs.visualizations');
@@ -66,21 +82,44 @@ export default function DocsLayout({
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 768px)')
+    
     const handleResize = () => {
-      if (isOpen && mediaQuery.matches) {
-        document.body.style.overflow = 'hidden'
-      } else {
-        document.body.style.overflow = 'auto'
+      // Only update state if it wasn't manually toggled
+      if (!isManualToggleRef.current) {
+        if (mediaQuery.matches) {
+          setIsOpen(false);
+        } else {
+          setIsOpen(true);
+        }
       }
+      document.body.style.overflow = (mediaQuery.matches && isOpen) ? 'hidden' : 'auto';
     }
     
-    handleResize()
-    window.addEventListener('resize', handleResize)
+    // Initial setup
+    handleResize();
+    
+    // Listen for window resize
+    window.addEventListener('resize', handleResize);
+    
     return () => {
-      window.removeEventListener('resize', handleResize)
-      document.body.style.overflow = 'auto'
+      window.removeEventListener('resize', handleResize);
+      document.body.style.overflow = 'auto';
     }
-  }, [isOpen])
+  }, [isOpen, setIsOpen]);
+
+  // Handle navigation changes
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    
+    // Only update state if it wasn't manually toggled
+    if (!isManualToggleRef.current) {
+      if (mediaQuery.matches) {
+        setIsOpen(false);
+      } else {
+        setIsOpen(true);
+      }
+    }
+  }, [pathname, setIsOpen]);
 
   return (
     <div className="relative min-h-screen">
@@ -103,7 +142,7 @@ export default function DocsLayout({
               </div>
             </Link>
             <button
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={handleToggle}
               className="relative p-2 rounded-lg hover:bg-transparent group"
             >
               <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
@@ -159,7 +198,10 @@ export default function DocsLayout({
                         "text-muted-foreground/90 hover:text-green-500",
                         "transition-all duration-300"
                       )}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => {
+                        isManualToggleRef.current = false;
+                        setIsOpen(false);
+                      }}
                     >
                       <div className="absolute inset-0 rounded-lg bg-green-500/0 group-hover:bg-green-500/10 -z-10 transition-all duration-300" />
                       <div className="absolute inset-0 rounded-lg bg-green-500/0 group-hover:bg-green-500/5 blur-lg -z-10 transition-all duration-300" />
@@ -208,7 +250,7 @@ export default function DocsLayout({
                 "after:absolute after:inset-0 after:rounded-full after:bg-green-500/0 hover:after:bg-green-500/20 after:transition-all after:duration-300 after:blur-lg",
                 !isOpen && "mx-auto" // Center the button when collapsed
               )}
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={handleToggle}
             >
               {isOpen ? (
                 <PanelLeftClose className="relative z-10 text-foreground group-hover:text-green-500 transition-colors duration-300" />

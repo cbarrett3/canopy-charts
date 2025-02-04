@@ -1,19 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import D3TreeMapChart, { VibeType } from '@/app/_components/charts/d3-tree-map';
+import { Copy, Check, ChevronRight } from "lucide-react";
+import D3TreeMap from '@/app/_components/charts/d3-tree-map';
+import D3LineChart from '@/app/_components/charts/d3-line-chart';
 import { ChartControls } from "@/app/_components/charts-ui/chart-controls";
 import { useThemeColor } from "@/app/_components/providers/theme-context";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { motion, useInView } from "framer-motion";
+import { cn } from "@/lib/utils";
 
-export default function TreeMapChartPage() {
-  const t = useTranslations('Docs.visualizations.treeMap');
+export default function TreemapChartPage() {
+  const t = useTranslations('Docs.visualizations.treemapChart');
   const { themeColor, setThemeColor } = useThemeColor();
-  const [currentVibe, setCurrentVibe] = useState<VibeType>('rainforest');
+  const [currentVibe, setCurrentVibe] = useState('rainforest');
   const [showAxes, setShowAxes] = useState(true);
   const [showGrid, setShowGrid] = useState(true);
   const [showLabels, setShowLabels] = useState(true);
@@ -21,240 +26,487 @@ export default function TreeMapChartPage() {
   const [showTitle, setShowTitle] = useState(true);
   const [showLegend, setShowLegend] = useState(true);
   const [showTooltips, setShowTooltips] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const [showPreview, setShowPreview] = useState(true);
+  const [showCode, setShowCode] = useState(false);
+  const [copiedCommand, setCopiedCommand] = useState<string | null>(null);
+  const [copiedCode, setCopiedCode] = useState(false);
 
-  const sampleData = {
-    name: "Budget",
-    value: 10000,  // Total budget value
-    children: [
-      {
-        name: "Technology",
-        value: 7500,  // Sum of technology children
-        children: [
-          { name: "Hardware", value: 3000 },
-          { name: "Software", value: 2500 },
-          { name: "Services", value: 2000 }
-        ]
+  const sampleData = [
+    { name: 'Jan', A: 30, B: 20, C: 25 },
+    { name: 'Feb', A: 40, B: 25, C: 30 },
+    { name: 'Mar', A: 45, B: 30, C: 35 },
+    { name: 'Apr', A: 50, B: 35, C: 40 },
+    { name: 'May', A: 55, B: 38, C: 42 },
+    { name: 'Jun', A: 60, B: 40, C: 45 },
+  ];
+
+  const step3Data = [
+    { date: '2024-01', value: 10 },
+    { date: '2024-02', value: 45 },
+    { date: '2024-03', value: 30 },
+    { date: '2024-04', value: 65 },
+    { date: '2024-05', value: 50 },
+    { date: '2024-06', value: 85 }
+  ];
+
+  const step3Code = `// Create a simple treemap chart
+const data = [
+  { date: '2024-01', value: 10 },
+  { date: '2024-02', value: 45 },
+  { date: '2024-03', value: 30 },
+  { date: '2024-04', value: 65 },
+  { date: '2024-05', value: 50 },
+  { date: '2024-06', value: 85 }
+];
+
+<D3TreemapChart
+  data={data}
+  xKey="date"
+  yKey="value"
+  theme="green"
+/>`;
+
+  const tags = [t('tags.hierarchy'), t('tags.nested'), t('tags.proportion')];
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleCopy = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2000);
+  };
+
+  const handleCommandCopy = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedCommand(text);
+    setTimeout(() => setCopiedCommand(null), 2000);
+  };
+
+  const implementationCode = `// components/charts/TreemapChart.tsx
+import { useEffect, useRef } from 'react';
+import * as d3 from 'd3';
+
+interface TreemapChartProps {
+  data: Array<{ name: string; [key: string]: number }>;
+  width?: number;
+  height?: number;
+}
+
+export default function TreemapChart({ data, width = 600, height = 400 }) {
+  const svgRef = useRef(null);
+
+  useEffect(() => {
+    if (!svgRef.current) return;
+    // D3 implementation...
+  }, [data, width, height]);
+
+  return (
+    <div className="w-full h-full">
+      <svg ref={svgRef} viewBox={\`0 0 \${width} \${height}\`} />
+    </div>
+  );
+}`;
+
+  const usageCode = `// Interactive Treemap Chart
+<D3TreeMap
+  data={sampleData}
+  datasets={['A', 'B', 'C']}
+  themeColor="${themeColor}"
+  vibe="${currentVibe}"
+  showAxes={${showAxes}}
+  showGrid={${showGrid}}
+  showLabels={${showLabels}}
+  labelSize={${labelSize}}
+  showTitle={${showTitle}}
+  showLegend={${showLegend}}
+  showTooltips={${showTooltips}}
+/>`;
+
+  const pathVariants = {
+    initial: {
+      pathLength: 0,
+      rotate: 0,
+      opacity: 0,
+    },
+    animate: {
+      pathLength: [0, 1, 1],
+      rotate: [0, 0, -180],
+      opacity: 1,
+      transition: {
+        pathLength: {
+          duration: 1.5,
+          ease: "easeInOut",
+        },
+        rotate: {
+          duration: 1.5,
+          ease: "easeInOut",
+          delay: 0.5,
+        },
+        opacity: {
+          duration: 0.01,
+        },
       },
-      {
-        name: "Marketing",
-        value: 4500,  // Sum of marketing children
-        children: [
-          { name: "Digital", value: 2000 },
-          { name: "Print", value: 1000 },
-          { name: "Events", value: 1500 }
-        ]
+    },
+  };
+
+  const glowVariants = {
+    initial: {
+      opacity: 0,
+      rotate: 0,
+    },
+    animate: {
+      opacity: [0, 0.5, 0.5],
+      rotate: [0, 0, -180],
+      transition: {
+        opacity: {
+          duration: 1.5,
+          ease: "easeInOut",
+        },
+        rotate: {
+          duration: 1.5,
+          ease: "easeInOut",
+          delay: 0.5,
+        },
       },
-      {
-        name: "Operations",
-        value: 8000,  // Sum of operations children
-        children: [
-          { name: "Salaries", value: 5000 },
-          { name: "Office", value: 2000 },
-          { name: "Utilities", value: 1000 }
-        ]
-      }
-    ]
+    },
+  };
+
+  const boxVariants = {
+    initial: {
+      opacity: 0,
+      scale: 0.95,
+    },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut",
+      },
+    },
   };
 
   return (
-    <div className="relative w-full py-8 space-y-8">
-      {/* Header Section with Gradient Background */}
-      <div className="relative px-4 sm:px-6 lg:px-8 py-16 overflow-hidden bg-background dark:bg-[#1B1B1B]">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-transparent dark:from-[#1B1B1B] dark:via-[#1B1B1B] dark:to-[#1A1A1A] opacity-90" />
+    <div className="relative max-w-4xl mx-auto py-6 px-4">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-grid-slate-900/[0.08] dark:bg-grid-slate-100/[0.03] bg-[bottom_1px_center]" />
+      </div>
+
+      <div className={cn(
+        "relative z-10",
+        mounted ? "animate-in fade-in-50 duration-1000" : "opacity-0"
+      )}>
+        {/* Title with gradient animation */}
+        <div className="relative inline-block mb-6">
+          <motion.h1 
+            className="relative text-2xl font-semibold tracking-tight bg-clip-text text-transparent"
+            style={{
+              backgroundImage: "linear-gradient(to right, #22c55e, #4ade80, #86efac, #4ade80, #22c55e)",
+              backgroundSize: "200% auto",
+            }}
+            animate={{
+              backgroundPosition: ["0% center", "200% center"]
+            }}
+            transition={{
+              duration: 8,
+              ease: "linear",
+              repeat: Infinity
+            }}
+          >
+            {t('title')}
+          </motion.h1>
+          <div className="absolute -inset-x-2 -inset-y-2 bg-gradient-to-r from-green-500/20 via-green-500/10 to-green-500/20 blur-lg opacity-40 -z-10" />
         </div>
-        <div className="relative max-w-7xl mx-auto">
-          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-            <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-              <h1 className="text-4xl font-bold tracking-tight text-primary mb-4 sm:text-5xl md:text-6xl">
-                {t('title')}
-              </h1>
-              <p className="mt-3 text-base text-muted-foreground sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                {t('description')}
-              </p>
-              <div className="mt-6 flex gap-4 sm:justify-center lg:justify-start">
-                <Badge variant="outline" className="text-sm">
-                  Hierarchy
-                </Badge>
-                <Badge variant="outline" className="text-sm">
-                  Nested Data
-                </Badge>
-                <Badge variant="outline" className="text-sm">
-                  Proportions
-                </Badge>
+
+        <p className="text-sm text-muted-foreground mb-6">
+          {t('description')}
+        </p>
+
+        <div className="flex flex-wrap gap-2 mb-12">
+          {tags.map((tag) => (
+            <div
+              key={tag}
+              className="px-4 py-1.5 text-xs font-medium rounded-full text-green-500 bg-green-500/5 border border-green-500/10 shadow-[0_0_12px_-3px_rgba(34,197,94,0.2)] hover:shadow-[0_0_12px_-2px_rgba(34,197,94,0.3)] transition-shadow"
+            >
+              {tag}
+            </div>
+          ))}
+        </div>
+
+        {/* Interactive Preview Section */}
+        <div className="mb-12 rounded-lg border border-green-500/20 overflow-hidden">
+          <div className="flex items-center justify-between p-6 border-b border-green-500/20">
+            <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">{t('preview.title')}</h2>
+            <button
+              onClick={() => setShowPreview(!showPreview)}
+              className="relative px-3 py-1.5 text-xs font-medium rounded-md text-zinc-600 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800/90 border border-zinc-200/50 dark:border-zinc-700/50 transition-all duration-200 hover:border-zinc-300 dark:hover:border-zinc-600"
+            >
+              <div className="absolute inset-0 rounded-md bg-gradient-to-r from-zinc-500/0 via-zinc-500/5 to-zinc-500/0 opacity-0 hover:opacity-100 transition-opacity" />
+              <span className="relative">
+                {showPreview ? t('preview.showCode') : t('preview.showChart')}
+              </span>
+            </button>
+          </div>
+          <div className="p-6">
+            {showPreview ? (
+              <div className="w-full aspect-[2/1]">
+                <D3TreeMap 
+                  themeColor={themeColor}
+                  vibe={currentVibe}
+                  showAxes={showAxes}
+                  showGrid={showGrid}
+                  showLabels={showLabels}
+                  labelSize={labelSize}
+                  showTitle={showTitle}
+                  showLegend={showLegend}
+                  showTooltips={showTooltips}
+                />
               </div>
-            </div>
-            <div className="mt-16 sm:mt-24 lg:mt-0 lg:col-span-6">
-              <Card className="bg-background/40 dark:bg-[#181818]/30 backdrop-blur-[12px] backdrop-saturate-[180%] border-border/40 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_16px_-6px_rgba(0,0,0,0.4)]">
-                <div className="relative w-full h-[400px] p-6">
-                  <D3TreeMapChart
-                    width={600}
-                    height={400}
-                    data={sampleData}
-                    themeColor={themeColor}
-                    vibe={currentVibe}
-                    showAxes={showAxes}
-                    showGrid={showGrid}
-                    showLabels={showLabels}
-                    labelSize={labelSize}
-                    showTitle={showTitle}
-                    showLegend={showLegend}
-                    showTooltips={showTooltips}
-                  />
-                </div>
-              </Card>
-            </div>
+            ) : (
+              <div className="relative">
+                <pre className="p-4 rounded-md bg-zinc-100/70 dark:bg-zinc-900/70 text-zinc-800 dark:text-slate-50 text-sm overflow-x-auto border border-border/40">
+                  <code className="language-tsx">{usageCode}</code>
+                </pre>
+                <button
+                  className="absolute top-3 right-3 p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                  onClick={() => handleCopy(usageCode)}
+                >
+                  {copiedCode ? (
+                    <Check className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <Copy className="w-4 h-4 text-zinc-400" />
+                  )}
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="border-t border-green-500/20 p-6">
+            <ChartControls
+              currentTheme={themeColor}
+              currentVibe={currentVibe}
+              onThemeChange={setThemeColor}
+              onVibeChange={setCurrentVibe}
+              showAxes={showAxes}
+              onAxesChange={setShowAxes}
+              showGrid={showGrid}
+              onGridChange={setShowGrid}
+              showLabels={showLabels}
+              onLabelsChange={setShowLabels}
+              labelSize={labelSize}
+              onLabelSizeChange={setLabelSize}
+              showTitle={showTitle}
+              onTitleChange={setShowTitle}
+              showLegend={showLegend}
+              onLegendChange={setShowLegend}
+              showTooltips={showTooltips}
+              onTooltipsChange={setShowTooltips}
+            />
           </div>
         </div>
-      </div>
 
-      {/* Chart Controls Section */}
-      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <Card className="p-6">
-          <h2 className="text-lg font-semibold mb-4">Customize Chart</h2>
-          <ChartControls
-            currentTheme={themeColor}
-            currentVibe={currentVibe}
-            onThemeChange={setThemeColor}
-            onVibeChange={(vibe: VibeType) => setCurrentVibe(vibe)}
-            showAxes={showAxes}
-            onAxesChange={setShowAxes}
-            showGrid={showGrid}
-            onGridChange={setShowGrid}
-            showLabels={showLabels}
-            onLabelsChange={setShowLabels}
-            labelSize={labelSize}
-            onLabelSizeChange={setLabelSize}
-            showTitle={showTitle}
-            onTitleChange={setShowTitle}
-            showLegend={showLegend}
-            onLegendChange={setShowLegend}
-            showTooltips={showTooltips}
-            onTooltipsChange={setShowTooltips}
-          />
+        {/* Quick Start Section */}
+        <Card className="relative mb-8 border border-green-500/20 hover:border-green-500/40 transition-colors bg-white/50 dark:bg-white/[0.02] backdrop-blur-sm">
+          <div className="flex items-center justify-between p-6 border-b border-green-500/20">
+            <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">{t('quickStart.title')}</h2>
+          </div>
+          <div className="p-6 space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-green-500/20 bg-green-500/10">
+                  <span className="text-sm font-medium text-green-600">1</span>
+                </div>
+                <p className="text-sm">{t('quickStart.step1.title')}</p>
+              </div>
+              <div className="pl-10">
+                <div className="group rounded-lg bg-background/40 dark:bg-[#181818]/30 hover:bg-muted/20 dark:hover:bg-[#1A1A1A]/20 p-6 
+                  backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 transition-all duration-300
+                  shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
+                  hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)]">
+                  <div className="relative">
+                    <Tabs defaultValue="npm">
+                      <TabsList className="inline-flex h-10 items-center justify-center rounded-lg bg-zinc-100/50 dark:bg-zinc-900/50 p-1 text-muted-foreground w-full sm:w-auto">
+                        <TabsTrigger
+                          value="npm"
+                          className="relative inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-green-500/90"
+                        >
+                          <div className="absolute inset-0 rounded-md bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500" />
+                          <div className="absolute -inset-px rounded-md bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 opacity-0 data-[state=active]:opacity-100 blur-sm transition-all duration-500" />
+                          <div className="absolute -inset-[2px] rounded-md bg-gradient-to-r from-green-500/5 via-green-500/2 to-green-500/5 opacity-0 data-[state=active]:opacity-100 blur-md transition-all duration-500" />
+                          <span className="relative">npm</span>
+                        </TabsTrigger>
+                        <TabsTrigger
+                          value="pnpm"
+                          className="relative inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-green-500/90"
+                        >
+                          <div className="absolute inset-0 rounded-md bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500" />
+                          <div className="absolute -inset-px rounded-md bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 opacity-0 data-[state=active]:opacity-100 blur-sm transition-all duration-500" />
+                          <div className="absolute -inset-[2px] rounded-md bg-gradient-to-r from-green-500/5 via-green-500/2 to-green-500/5 opacity-0 data-[state=active]:opacity-100 blur-md transition-all duration-500" />
+                          <span className="relative">pnpm</span>
+                        </TabsTrigger>
+                        <TabsTrigger
+                          value="yarn"
+                          className="relative inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-green-500/90"
+                        >
+                          <div className="absolute inset-0 rounded-md bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500" />
+                          <div className="absolute -inset-px rounded-md bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 opacity-0 data-[state=active]:opacity-100 blur-sm transition-all duration-500" />
+                          <div className="absolute -inset-[2px] rounded-md bg-gradient-to-r from-green-500/5 via-green-500/2 to-green-500/5 opacity-0 data-[state=active]:opacity-100 blur-md transition-all duration-500" />
+                          <span className="relative">yarn</span>
+                        </TabsTrigger>
+                        <TabsTrigger
+                          value="bun"
+                          className="relative inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-green-500/90"
+                        >
+                          <div className="absolute inset-0 rounded-md bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500" />
+                          <div className="absolute -inset-px rounded-md bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 opacity-0 data-[state=active]:opacity-100 blur-sm transition-all duration-500" />
+                          <div className="absolute -inset-[2px] rounded-md bg-gradient-to-r from-green-500/5 via-green-500/2 to-green-500/5 opacity-0 data-[state=active]:opacity-100 blur-md transition-all duration-500" />
+                          <span className="relative">bun</span>
+                        </TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="npm" className="relative">
+                        <pre className="p-4 rounded-md bg-zinc-100/70 dark:bg-zinc-900/70 text-zinc-800 dark:text-slate-50 text-sm overflow-x-auto border border-border/40">npm install d3 @types/d3</pre>
+                        <button
+                          className="absolute top-3 right-3 p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                          onClick={() => handleCommandCopy('npm install d3 @types/d3')}
+                        >
+                          {copiedCommand === 'npm install d3 @types/d3' ? (
+                            <Check className="w-4 h-4 text-green-500" />
+                          ) : (
+                            <Copy className="w-4 h-4 text-zinc-400" />
+                          )}
+                        </button>
+                      </TabsContent>
+                      <TabsContent value="pnpm" className="relative">
+                        <pre className="p-4 rounded-md bg-zinc-100/70 dark:bg-zinc-900/70 text-zinc-800 dark:text-slate-50 text-sm overflow-x-auto border border-border/40">pnpm add d3 @types/d3</pre>
+                        <button
+                          className="absolute top-3 right-3 p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                          onClick={() => handleCommandCopy('pnpm add d3 @types/d3')}
+                        >
+                          {copiedCommand === 'pnpm add d3 @types/d3' ? (
+                            <Check className="w-4 h-4 text-green-500" />
+                          ) : (
+                            <Copy className="w-4 h-4 text-zinc-400" />
+                          )}
+                        </button>
+                      </TabsContent>
+                      <TabsContent value="yarn" className="relative">
+                        <pre className="p-4 rounded-md bg-zinc-100/70 dark:bg-zinc-900/70 text-zinc-800 dark:text-slate-50 text-sm overflow-x-auto border border-border/40">yarn add d3 @types/d3</pre>
+                        <button
+                          className="absolute top-3 right-3 p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                          onClick={() => handleCommandCopy('yarn add d3 @types/d3')}
+                        >
+                          {copiedCommand === 'yarn add d3 @types/d3' ? (
+                            <Check className="w-4 h-4 text-green-500" />
+                          ) : (
+                            <Copy className="w-4 h-4 text-zinc-400" />
+                          )}
+                        </button>
+                      </TabsContent>
+                      <TabsContent value="bun" className="relative">
+                        <pre className="p-4 rounded-md bg-zinc-100/70 dark:bg-zinc-900/70 text-zinc-800 dark:text-slate-50 text-sm overflow-x-auto border border-border/40">bun add d3 @types/d3</pre>
+                        <button
+                          className="absolute top-3 right-3 p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                          onClick={() => handleCommandCopy('bun add d3 @types/d3')}
+                        >
+                          {copiedCommand === 'bun add d3 @types/d3' ? (
+                            <Check className="w-4 h-4 text-green-500" />
+                          ) : (
+                            <Copy className="w-4 h-4 text-zinc-400" />
+                          )}
+                        </button>
+                      </TabsContent>
+                    </Tabs>
+                    <p className="text-sm text-muted-foreground mt-6">
+                      Canopy Charts requires TypeScript 5.0+, React 18+, and Tailwind CSS 3.0+. Currently in beta, expect frequent updates and improvements.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-green-500/20 bg-green-500/10">
+                    <span className="text-sm font-medium text-green-600">2</span>
+                  </div>
+                  <p className="text-sm">{t('quickStart.step2.title')}</p>
+                </div>
+                <div className="pl-10">
+                  <div className="group rounded-lg bg-background/40 dark:bg-[#181818]/30 hover:bg-muted/20 dark:hover:bg-[#1A1A1A]/20 p-6 
+                    backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 transition-all duration-300
+                    shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
+                    hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)]">
+                    <div className="relative">
+                      <pre className="p-4 rounded-md bg-zinc-100/70 dark:bg-zinc-900/70 text-zinc-800 dark:text-slate-50 text-sm overflow-x-auto border border-border/40">
+                        <code>{implementationCode}</code>
+                      </pre>
+                      <div className="absolute inset-x-0 bottom-0 h-48 pointer-events-none select-none">
+                        {/* Main gradient fade */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/98 to-transparent dark:from-[#181818] dark:via-[#181818]/98" />
+                        
+                        {/* Layered blurs for depth */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/60 to-transparent dark:from-[#181818]/95 dark:via-[#181818]/60 blur-[2px]" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent dark:from-[#181818]/90 dark:via-[#181818]/50 blur-md" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/40 to-transparent dark:from-[#181818]/85 dark:via-[#181818]/40 blur-lg" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/30 to-transparent dark:from-[#181818]/80 dark:via-[#181818]/30 blur-xl" />
+                        
+                        {/* Subtle side gradients for depth */}
+                        <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-background/20 to-transparent dark:from-[#181818]/20 blur-sm" />
+                        <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background/20 to-transparent dark:from-[#181818]/20 blur-sm" />
+                      </div>
+                      <button
+                        className="absolute top-3 right-3 p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                        onClick={() => handleCopy(implementationCode)}
+                      >
+                        {copiedCode ? (
+                          <Check className="w-4 h-4 text-green-500" />
+                        ) : (
+                          <Copy className="w-4 h-4 text-zinc-400" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-green-500/20 bg-green-500/10">
+                    <span className="text-sm font-medium text-green-700 dark:text-green-400">3</span>
+                  </div>
+                  <p className="text-sm text-slate-800 dark:text-slate-200">{t('quickStart.step3.title')}</p>
+                </div>
+                <div className="pl-10">
+                  <div className="group rounded-lg bg-background/40 dark:bg-[#181818]/30 hover:bg-muted/20 dark:hover:bg-[#1A1A1A]/20 p-6 
+                    backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 transition-all duration-300
+                    shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
+                    hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)]">
+                    <div className="relative">
+                      <pre className="p-4 rounded-md bg-zinc-100/70 dark:bg-zinc-900/70 text-zinc-800 dark:text-slate-50 text-sm overflow-x-auto border border-border/40">
+                        <code>{step3Code}</code>
+                      </pre>
+                      <button
+                        className="absolute top-3 right-3 p-2 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                        onClick={() => handleCopy(step3Code)}
+                      >
+                        {copiedCode ? (
+                          <Check className="w-4 h-4 text-green-500" />
+                        ) : (
+                          <Copy className="w-4 h-4 text-zinc-400" />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </Card>
-      </div>
 
-      {/* Documentation Tabs */}
-      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <Tabs defaultValue="usage" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="usage">Usage</TabsTrigger>
-            <TabsTrigger value="props">Props</TabsTrigger>
-            <TabsTrigger value="examples">Examples</TabsTrigger>
-          </TabsList>
-          <TabsContent value="usage" className="mt-6">
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Basic Usage</h3>
-              <p className="text-muted-foreground mb-4">
-                Import and use the TreeMapChart component in your React application:
-              </p>
-              <pre className="bg-secondary/50 p-4 rounded-lg overflow-x-auto">
-                <code>{`import { TreeMapChart } from 'canopy-charts';
-
-const data = {
-  name: "Budget",
-  children: [
-    {
-      name: "Technology",
-      children: [
-        { name: "Hardware", value: 3000 },
-        { name: "Software", value: 2500 }
-      ]
-    },
-    {
-      name: "Marketing",
-      children: [
-        { name: "Digital", value: 2000 },
-        { name: "Print", value: 1000 }
-      ]
-    }
-  ]
-};
-
-export default function MyTreeMapChart() {
-  return (
-    <TreeMapChart
-      data={data}
-      width={600}
-      height={400}
-      themeColor="#22C55E"
-      vibe="rainforest"
-    />
-  );
-}`}</code>
-              </pre>
-            </Card>
-          </TabsContent>
-          <TabsContent value="props" className="mt-6">
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Props</h3>
-              <div className="grid gap-4">
-                <div>
-                  <h4 className="font-medium">Required Props</h4>
-                  <ul className="list-disc list-inside mt-2 text-muted-foreground">
-                    <li><code>data</code>: Hierarchical object with name, children, and value properties</li>
-                    <li><code>width</code>: Width of the chart in pixels</li>
-                    <li><code>height</code>: Height of the chart in pixels</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-medium">Optional Props</h4>
-                  <ul className="list-disc list-inside mt-2 text-muted-foreground">
-                    <li><code>themeColor</code>: Primary color for the chart (default: "#22C55E")</li>
-                    <li><code>vibe</code>: Visual style preset (default: "rainforest")</li>
-                    <li><code>showLabels</code>: Show or hide data labels (default: true)</li>
-                    <li><code>labelSize</code>: Font size for labels in pixels (default: 12)</li>
-                    <li><code>showTitle</code>: Show or hide chart title (default: true)</li>
-                    <li><code>showLegend</code>: Show or hide legend (default: true)</li>
-                    <li><code>showTooltips</code>: Show or hide tooltips (default: true)</li>
-                  </ul>
-                </div>
-              </div>
-            </Card>
-          </TabsContent>
-          <TabsContent value="examples" className="mt-6">
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Examples</h3>
-              <div className="grid gap-8">
-                <div>
-                  <h4 className="font-medium mb-4">Basic TreeMap Chart</h4>
-                  <div className="bg-secondary/50 rounded-lg p-6">
-                    <D3TreeMapChart
-                      width={600}
-                      height={300}
-                      data={{
-                        name: "Simple",
-                        value: 450, // Sum of children's values
-                        children: [
-                          { name: "A", value: 100 },
-                          { name: "B", value: 200 },
-                          { name: "C", value: 150 }
-                        ]
-                      }}
-                      themeColor={themeColor}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="font-medium mb-4">Styled TreeMap Chart</h4>
-                  <div className="bg-secondary/50 rounded-lg p-6">
-                    <D3TreeMapChart
-                      width={600}
-                      height={300}
-                      data={sampleData}
-                      themeColor={themeColor}
-                      vibe="coral"
-                      showLabels={false}
-                      labelSize={14}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </TabsContent>
-        </Tabs>
+        <p className="text-sm text-muted-foreground mt-6">
+        </p>
       </div>
     </div>
   );

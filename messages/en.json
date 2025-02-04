@@ -127,11 +127,146 @@
       "stacked-bar-chart": "Stacked Bar Chart",
       "lineChart": {
         "title": "Line Chart",
-        "description": "A beautiful and interactive line chart component for your data visualization needs.",
+        "description": "A versatile line chart perfect for visualizing trends over time, showing continuous data changes, and comparing multiple series of data.",
         "tags": {
           "timeSeries": "Time Series",
-          "trends": "Trends",
+          "trends": "Trend Analysis",
           "continuousData": "Continuous Data"
+        },
+        "preview": {
+          "title": "Interactive Preview",
+          "showCode": "Show Code",
+          "hideCode": "Hide Code",
+          "showChart": "Show Chart"
+        },
+        "quickStart": {
+          "title": "Quick Start",
+          "step1": {
+            "title": "Install dependencies"
+          },
+          "step2": {
+            "title": "Create the component"
+          },
+          "step3": {
+            "title": "Create your first chart"
+          }
+        }
+      },
+      "barChart": {
+        "title": "Bar Chart",
+        "description": "A powerful bar chart for comparing categorical data, displaying distributions, and highlighting differences between groups.",
+        "tags": {
+          "categorical": "Categorical Data",
+          "comparison": "Data Comparison",
+          "distribution": "Distribution Analysis"
+        },
+        "preview": {
+          "title": "Interactive Preview",
+          "showCode": "Show Code",
+          "hideCode": "Hide Code",
+          "showChart": "Show Chart"
+        },
+        "quickStart": {
+          "title": "Quick Start",
+          "step1": {
+            "title": "Install dependencies"
+          },
+          "step2": {
+            "title": "Create the component"
+          },
+          "step3": {
+            "title": "Create your first chart"
+          }
+        }
+      },
+      "donutChart": {
+        "title": "Donut Chart",
+        "description": "An elegant donut chart for displaying part-to-whole relationships and proportional data with an emphasis on the total value.",
+        "tags": {
+          "proportion": "Proportional Data",
+          "composition": "Data Composition",
+          "percentage": "Percentage Distribution"
+        },
+        "preview": {
+          "title": "Interactive Preview",
+          "showCode": "Show Code",
+          "hideCode": "Hide Code",
+          "showChart": "Show Chart"
+        },
+        "quickStart": {
+          "title": "Quick Start",
+          "step1": {
+            "title": "Install dependencies"
+          },
+          "step2": {
+            "title": "Create the component"
+          },
+          "step3": {
+            "title": "Create your first chart"
+          }
+        }
+      },
+      "streamChart": {
+        "title": "Stream Chart",
+        "description": "A flowing visualization that shows how multiple categories change over time, ideal for displaying temporal patterns and proportions.",
+        "tags": {
+          "temporal": "Temporal Data",
+          "flow": "Flow Analysis",
+          "stacked": "Stacked Areas"
+        },
+        "preview": {
+          "title": "Interactive Preview",
+          "showCode": "Show Code",
+          "hideCode": "Hide Code",
+          "showChart": "Show Chart"
+        },
+        "quickStart": {
+          "title": "Quick Start",
+          "step1": {
+            "title": "Install dependencies"
+          },
+          "step2": {
+            "title": "Create the component"
+          },
+          "step3": {
+            "title": "Create your first chart"
+          }
+        }
+      },
+      "treemapChart": {
+        "title": "Treemap Chart",
+        "description": "A hierarchical visualization that displays nested data using rectangles, perfect for showing proportional relationships within categories.",
+        "tags": {
+          "hierarchy": "Hierarchical Data",
+          "nested": "Nested Categories",
+          "proportion": "Size Relationships"
+        },
+        "preview": {
+          "title": "Interactive Preview",
+          "showCode": "Show Code",
+          "hideCode": "Hide Code",
+          "showChart": "Show Chart"
+        },
+        "quickStart": {
+          "title": "Quick Start",
+          "step1": {
+            "title": "Install dependencies"
+          },
+          "step2": {
+            "title": "Create the component"
+          },
+          "step3": {
+            "title": "Create your first chart"
+          }
+        }
+      },
+      "stackedBarChart": {
+        "title": "Stacked Bar Chart",
+        "description": "A beautiful and interactive stacked bar chart component for your data visualization needs.",
+        "tags": {
+          "timeSeries": "Categorical",
+          "trends": "Trends",
+          "continuousData": "Discrete Data"
         },
         "preview": {
           "title": "Interactive Preview",
