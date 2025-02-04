@@ -164,12 +164,20 @@ export default function AnimationsPage() {
   }, []);
 
   return (
-    <div className="max-w-[1200px] mx-auto py-12 px-4 sm:px-6">
+    <div className="relative max-w-4xl mx-auto py-6 px-4">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-grid-slate-900/[0.04] dark:bg-grid-slate-100/[0.03] bg-[bottom_1px_center]" />
+      </div>
+
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="space-y-6"
+        className={cn(
+          "relative z-10 space-y-6",
+          mounted ? "animate-in fade-in-50 duration-1000" : "opacity-0"
+        )}
       >
         {/* Title section */}
         <div className="relative inline-block">
@@ -202,7 +210,7 @@ export default function AnimationsPage() {
           Bring your charts to life with our ecosystem-inspired animation system. Each vibe offers unique motion characteristics that add personality to your visualizations.
         </p>
 
-        <div className="space-y-12">
+        <div className="space-y-6">
           {/* Vibe selection grid */}
           <motion.div variants={itemVariants}>
             <Card className="relative overflow-hidden border-zinc-200/40 dark:border-zinc-800/50 bg-zinc-50/40 dark:bg-zinc-900/50 backdrop-blur-xl">
@@ -211,7 +219,7 @@ export default function AnimationsPage() {
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
                     <activeVibe.Icon className="h-5 w-5" style={{ color: themeColor }} />
-                    <h2 className="text-lg font-semibold">Animation Vibes</h2>
+                    <h2 className="text-lg font-semibold">Choose your vibe</h2>
                   </div>
                   <button
                     onClick={() => setIsPlaying(!isPlaying)}
