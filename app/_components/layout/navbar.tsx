@@ -60,10 +60,10 @@ export function Navbar() {
       )}>
         <nav className={cn(
           "relative flex items-center justify-between",
-          "px-5 py-2.5",
+          "px-4 py-3",
           "bg-background/80 dark:bg-[#1B1B1B]/80",
           "backdrop-blur-[8px] backdrop-saturate-[140%]",
-          "border border-border/40 dark:border-border/30",
+          "border border-[#00ff9d] dark:border-[#00ff9d]/50",
           "rounded-xl",
           "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
           "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",

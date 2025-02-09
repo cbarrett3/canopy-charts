@@ -45,14 +45,20 @@ const D3StackedBarChart = ({
             // Clear any existing SVG content
             d3.select(svgRef.current).selectAll("*").remove();
 
-            const margin = { top: 20, right: 20, bottom: 30, left: 60 };
+            // Calculate responsive margins based on container size
+            const margin = {
+                top: Math.max(20, height * 0.05),
+                right: Math.max(20, width * 0.05),
+                bottom: Math.max(30, height * 0.1),
+                left: Math.max(60, width * 0.1)
+            };
             const innerWidth = width - margin.left - margin.right;
             const innerHeight = height - margin.top - margin.bottom;
 
             const svg = d3.select(svgRef.current)
                 .attr("width", width)
                 .attr("height", height)
-                .style("overflow", "visible")
+                .style("overflow", "hidden")
                 .style("display", "block");
 
             const g = svg.append("g")
@@ -71,17 +77,31 @@ const D3StackedBarChart = ({
 
             const series = stack(data);
 
-            // Create scales
+            // Create scales with padding
             const yScale = d3.scaleBand()
                 .domain(data.map(d => d.category))
                 .range([0, innerHeight])
-                .padding(0.1);
+                .padding(0.2);
 
             const xScale = d3.scaleLinear()
                 .domain([0, d3.max(series, d => d3.max(d, d => d[1])) || 0])
-                .range([0, innerWidth]);
+                .range([0, innerWidth])
+                .nice();
 
-            // Create tooltip
+            // Add X axis with responsive font size
+            g.append("g")
+                .attr("transform", `translate(0,${innerHeight})`)
+                .call(d3.axisBottom(xScale))
+                .selectAll("text")
+                .style("font-size", `${Math.max(10, Math.min(12, width * 0.02))}px`);
+
+            // Add Y axis with responsive font size
+            g.append("g")
+                .call(d3.axisLeft(yScale))
+                .selectAll("text")
+                .style("font-size", `${Math.max(10, Math.min(12, width * 0.02))}px`);
+
+            // Create tooltip with responsive positioning
             const tooltip = d3.select(tooltipRef.current)
                 .style("position", "absolute")
                 .style("visibility", "hidden")
@@ -89,8 +109,9 @@ const D3StackedBarChart = ({
                 .style("color", "white")
                 .style("padding", "8px")
                 .style("border-radius", "4px")
-                .style("font-size", "12px")
-                .style("pointer-events", "none");
+                .style("font-size", `${Math.max(10, Math.min(12, width * 0.02))}px`)
+                .style("pointer-events", "none")
+                .style("z-index", "100");
 
             // Add the stacked bars with transition and interactivity
             const layers = g.selectAll("g.layer")
@@ -105,123 +126,42 @@ const D3StackedBarChart = ({
                 .attr("y", d => yScale(d.data.category) || 0)
                 .attr("height", yScale.bandwidth())
                 .attr("x", d => xScale(d[0]))
-                .attr("width", 0)
-                .attr("cursor", "pointer")
-                .on("mouseover", function(event: MouseEvent, d: d3.SeriesPoint<any>) {
-                    // Safely handle element selection
-                    const element = this as Element;
-                    const layer = element.parentElement 
-                        ? d3.select(element.parentElement)
-                        : d3.select(element);
-                    const key = (layer.datum() as any).key;
+                .attr("width", d => xScale(d[1]) - xScale(d[0]))
+                .on("mouseover", function (event, d) {
+                    const key = d3.select(this.parentNode).datum().key;
                     const value = d[1] - d[0];
-
-                    d3.select(this)
-                        .transition()
-                        .duration(200)
-                        .attr("opacity", 1)
-                        .attr("transform", `scale(1, 1.1)`);
-
+                    
                     tooltip
                         .style("visibility", "visible")
-                        .html(`
-                            <div>
-                                <strong>${key}</strong><br/>
-                                Category: ${d.data.category}<br/>
-                                Value: ${Math.round(value)}
-                            </div>
-                        `);
-
-                    // Highlight related segments
-                    layers.selectAll("rect")
-                        .filter((rect: any) => (rect as any).data.category === d.data.category)
-                        .transition()
-                        .duration(200)
-                        .attr("opacity", 1)
-                        .attr("transform", `scale(1, 1.1)`);
-                })
-                .on("mousemove", function(event) {
+                        .html(`${key}: ${value}`);
+                        
+                    // Position tooltip responsively
+                    const [x, y] = d3.pointer(event, containerRef.current);
+                    const tooltipWidth = (tooltip.node() as HTMLElement).offsetWidth;
+                    const tooltipHeight = (tooltip.node() as HTMLElement).offsetHeight;
+                    
                     tooltip
-                        .style("left", `${event.pageX + 10}px`)
-                        .style("top", `${event.pageY - 10}px`);
+                        .style("left", `${Math.min(x, width - tooltipWidth)}px`)
+                        .style("top", `${Math.max(0, y - tooltipHeight)}px`);
                 })
-                .on("mouseout", function(event, d) {
-                    d3.select(this)
-                        .transition()
-                        .duration(200)
-                        .attr("opacity", 0.8)
-                        .attr("transform", "scale(1, 1)");
-
+                .on("mousemove", function (event) {
+                    const [x, y] = d3.pointer(event, containerRef.current);
+                    const tooltipWidth = (tooltip.node() as HTMLElement).offsetWidth;
+                    const tooltipHeight = (tooltip.node() as HTMLElement).offsetHeight;
+                    
+                    tooltip
+                        .style("left", `${Math.min(x, width - tooltipWidth)}px`)
+                        .style("top", `${Math.max(0, y - tooltipHeight)}px`);
+                })
+                .on("mouseout", function () {
                     tooltip.style("visibility", "hidden");
-
-                    // Reset all segments
-                    layers.selectAll("rect")
-                        .transition()
-                        .duration(200)
-                        .attr("opacity", 0.8)
-                        .attr("transform", "scale(1, 1)");
-                })
-                .transition()
-                .duration(1000)
-                .attr("width", d => xScale(d[1]) - xScale(d[0]))
-                .attr("opacity", 0.8);
-
-            // Add y-axis with transition
-            const yAxis = g.append("g")
-                .call(d3.axisLeft(yScale))
-                .attr("opacity", 0);
-
-            yAxis.transition()
-                .duration(1000)
-                .attr("opacity", 1);
-
-            // Add x-axis with transition
-            const xAxis = g.append("g")
-                .attr("transform", `translate(0,${innerHeight})`)
-                .call(d3.axisBottom(xScale).ticks(5))
-                .attr("opacity", 0);
-
-            xAxis.transition()
-                .duration(1000)
-                .attr("opacity", 1);
-
-            // Style the axes
-            g.selectAll(".domain")
-                .attr("stroke", "#666");
-            g.selectAll(".tick line")
-                .attr("stroke", "#666");
-            g.selectAll(".tick text")
-                .attr("fill", "#666");
-
-            // Add legend
-            const legend = svg.append("g")
-                .attr("font-family", "sans-serif")
-                .attr("font-size", 10)
-                .attr("text-anchor", "start")
-                .selectAll("g")
-                .data(keys)
-                .join("g")
-                .attr("transform", (d, i) => `translate(${margin.left},${i * 20 + 10})`);
-
-            legend.append("rect")
-                .attr("x", innerWidth + 10)
-                .attr("width", 15)
-                .attr("height", 15)
-                .attr("fill", (d, i) => colorScale(i.toString()))
-                .attr("opacity", 0.8);
-
-            legend.append("text")
-                .attr("x", innerWidth + 30)
-                .attr("y", 9.5)
-                .attr("dy", "0.32em")
-                .text(d => d)
-                .attr("fill", "#666");
+                });
         };
 
         // Initial render
         updateChart();
 
-        // Add resize observer for responsive behavior
+        // Add resize observer for responsiveness
         const resizeObserver = new ResizeObserver(() => {
             updateChart();
         });
