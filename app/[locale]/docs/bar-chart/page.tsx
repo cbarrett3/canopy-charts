@@ -33,36 +33,36 @@ export default function BarChartPage() {
   const [copiedCode, setCopiedCode] = useState(false);
 
   const sampleData = [
-    { name: 'Jan', A: 30, B: 20, C: 25 },
-    { name: 'Feb', A: 40, B: 25, C: 30 },
-    { name: 'Mar', A: 45, B: 30, C: 35 },
-    { name: 'Apr', A: 50, B: 35, C: 40 },
-    { name: 'May', A: 55, B: 38, C: 42 },
-    { name: 'Jun', A: 60, B: 40, C: 45 },
+    { label: 'Jan', value: 30 },
+    { label: 'Feb', value: 40 },
+    { label: 'Mar', value: 45 },
+    { label: 'Apr', value: 50 },
+    { label: 'May', value: 55 },
+    { label: 'Jun', value: 60 },
   ];
 
   const step3Data = [
-    { date: '2024-01', value: 10 },
-    { date: '2024-02', value: 45 },
-    { date: '2024-03', value: 30 },
-    { date: '2024-04', value: 65 },
-    { date: '2024-05', value: 50 },
-    { date: '2024-06', value: 85 }
+    { label: '2024-01', value: 10 },
+    { label: '2024-02', value: 45 },
+    { label: '2024-03', value: 30 },
+    { label: '2024-04', value: 65 },
+    { label: '2024-05', value: 50 },
+    { label: '2024-06', value: 85 }
   ];
 
   const step3Code = `// Create a simple bar chart
 const data = [
-  { date: '2024-01', value: 10 },
-  { date: '2024-02', value: 45 },
-  { date: '2024-03', value: 30 },
-  { date: '2024-04', value: 65 },
-  { date: '2024-05', value: 50 },
-  { date: '2024-06', value: 85 }
+  { label: '2024-01', value: 10 },
+  { label: '2024-02', value: 45 },
+  { label: '2024-03', value: 30 },
+  { label: '2024-04', value: 65 },
+  { label: '2024-05', value: 50 },
+  { label: '2024-06', value: 85 }
 ];
 
 <D3BarChart
   data={data}
-  xKey="date"
+  xKey="label"
   yKey="value"
   theme="green"
 />`;
@@ -90,7 +90,7 @@ import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
 interface BarChartProps {
-  data: Array<{ name: string; [key: string]: number }>;
+  data: Array<{ label: string; value: number }>;
   width?: number;
   height?: number;
 }
@@ -113,7 +113,6 @@ export default function BarChart({ data, width = 600, height = 400 }) {
   const usageCode = `// Interactive Bar Chart
 <D3BarChart
   data={sampleData}
-  datasets={['A', 'B', 'C']}
   themeColor="${themeColor}"
   vibe="${currentVibe}"
   showAxes={${showAxes}}
@@ -272,8 +271,9 @@ export default function BarChart({ data, width = 600, height = 400 }) {
           </div>
           <div className="p-6">
             {showPreview ? (
-              <div className="w-full aspect-[2/1]">
-                <D3BarChart 
+              <div className="relative aspect-[4/3] w-full">
+                <D3BarChart
+                  data={sampleData}
                   themeColor={themeColor}
                   vibe={currentVibe}
                   showAxes={showAxes}
@@ -283,6 +283,7 @@ export default function BarChart({ data, width = 600, height = 400 }) {
                   showTitle={showTitle}
                   showLegend={showLegend}
                   showTooltips={showTooltips}
+                  title={t('title')}
                 />
               </div>
             ) : (

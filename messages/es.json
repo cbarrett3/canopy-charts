@@ -160,6 +160,44 @@
           "categorical": "Datos Categóricos",
           "comparison": "Comparación de Datos",
           "distribution": "Análisis de Distribución"
+        },
+        "preview": {
+          "title": "Vista Previa Interactiva",
+          "showCode": "Mostrar Código",
+          "hideCode": "Ocultar Código",
+          "showChart": "Mostrar Gráfico"
+        },
+        "quickStart": {
+          "title": "Inicio Rápido",
+          "step1": {
+            "title": "Instalar dependencias",
+            "description": "Instala las dependencias necesarias usando tu gestor de paquetes preferido:"
+          },
+          "step2": {
+            "title": "Crear el componente",
+            "description": "Copia y pega el siguiente código en tu proyecto:"
+          },
+          "step3": {
+            "title": "Crear tu primer gráfico",
+            "description": "Usa el componente con tus datos:"
+          }
+        },
+        "features": {
+          "title": "Características",
+          "responsive": "Totalmente Responsivo",
+          "customizable": "Altamente Personalizable",
+          "interactive": "Interactivo",
+          "animated": "Animaciones Suaves"
+        },
+        "options": {
+          "title": "Opciones",
+          "axes": "Ejes",
+          "grid": "Cuadrícula",
+          "labels": "Etiquetas",
+          "legend": "Leyenda",
+          "tooltips": "Información Emergente",
+          "colors": "Colores",
+          "animation": "Animación"
         }
       },
       "donutChart": {
@@ -169,6 +207,88 @@
           "proportion": "Datos Proporcionales",
           "composition": "Composición de Datos",
           "percentage": "Distribución Porcentual"
+        },
+        "preview": {
+          "title": "Vista Previa Interactiva",
+          "showCode": "Mostrar Código",
+          "hideCode": "Ocultar Código",
+          "showChart": "Mostrar Gráfico"
+        },
+        "quickStart": {
+          "title": "Inicio Rápido",
+          "step1": {
+            "title": "Instalar dependencias",
+            "description": "Instala las dependencias necesarias usando tu gestor de paquetes preferido:"
+          },
+          "step2": {
+            "title": "Crear el componente",
+            "description": "Copia y pega el siguiente código en tu proyecto:"
+          },
+          "step3": {
+            "title": "Crear tu primer gráfico",
+            "description": "Usa el componente con tus datos:"
+          }
+        },
+        "features": {
+          "title": "Características",
+          "responsive": "Totalmente Responsivo",
+          "customizable": "Altamente Personalizable",
+          "interactive": "Interactivo",
+          "animated": "Animaciones Suaves"
+        },
+        "options": {
+          "title": "Opciones",
+          "labels": "Etiquetas",
+          "legend": "Leyenda",
+          "tooltips": "Información Emergente",
+          "colors": "Colores",
+          "animation": "Animación"
+        }
+      },
+      "streamChart": {
+        "title": "Gráfico de Flujo",
+        "description": "Una visualización fluida que muestra cómo múltiples categorías cambian a lo largo del tiempo, perfecta para mostrar patrones temporales y proporciones.",
+        "tags": {
+          "temporal": "Datos Temporales",
+          "flow": "Análisis de Flujo",
+          "stacked": "Áreas Apiladas"
+        },
+        "preview": {
+          "title": "Vista Previa Interactiva",
+          "showCode": "Mostrar Código",
+          "hideCode": "Ocultar Código",
+          "showChart": "Mostrar Gráfico"
+        },
+        "quickStart": {
+          "title": "Inicio Rápido",
+          "step1": {
+            "title": "Instalar dependencias",
+            "description": "Instala las dependencias necesarias usando tu gestor de paquetes preferido:"
+          },
+          "step2": {
+            "title": "Crear el componente",
+            "description": "Copia y pega el siguiente código en tu proyecto:"
+          },
+          "step3": {
+            "title": "Crear tu primer gráfico",
+            "description": "Usa el componente con tus datos:"
+          }
+        },
+        "features": {
+          "title": "Características",
+          "responsive": "Totalmente Responsivo",
+          "customizable": "Altamente Personalizable",
+          "interactive": "Interactivo",
+          "animated": "Animaciones Suaves"
+        },
+        "options": {
+          "title": "Opciones",
+          "axes": "Ejes",
+          "labels": "Etiquetas",
+          "legend": "Leyenda",
+          "tooltips": "Información Emergente",
+          "colors": "Colores",
+          "animation": "Animación"
         }
       },
       "treemapChart": {
@@ -178,15 +298,88 @@
           "hierarchy": "Datos Jerárquicos",
           "nested": "Categorías Anidadas",
           "proportion": "Relaciones de Tamaño"
+        },
+        "preview": {
+          "title": "Vista Previa Interactiva",
+          "showCode": "Mostrar Código",
+          "hideCode": "Ocultar Código",
+          "showChart": "Mostrar Gráfico"
+        },
+        "quickStart": {
+          "title": "Inicio Rápido",
+          "step1": {
+            "title": "Instalar dependencias",
+            "description": "Instala las dependencias necesarias usando tu gestor de paquetes preferido:"
+          },
+          "step2": {
+            "title": "Crear el componente",
+            "description": "Copia y pega el siguiente código en tu proyecto:"
+          },
+          "step3": {
+            "title": "Crear tu primer gráfico",
+            "description": "Usa el componente con tus datos:"
+          }
+        },
+        "features": {
+          "title": "Características",
+          "responsive": "Totalmente Responsivo",
+          "customizable": "Altamente Personalizable",
+          "interactive": "Interactivo",
+          "animated": "Animaciones Suaves"
+        },
+        "options": {
+          "title": "Opciones",
+          "labels": "Etiquetas",
+          "tooltips": "Información Emergente",
+          "colors": "Colores",
+          "animation": "Animación"
         }
       },
-      "streamChart": {
-        "title": "Gráfico de Flujo",
-        "description": "Una visualización fluida que muestra cómo múltiples categorías cambian a lo largo del tiempo, ideal para mostrar patrones temporales y proporciones.",
+      "stackedBarChart": {
+        "title": "Gráfico de Barras Apiladas",
+        "description": "Una potente visualización para comparar partes de un todo entre diferentes categorías, perfecta para mostrar cambios de composición a lo largo del tiempo o grupos.",
         "tags": {
-          "temporal": "Datos Temporales",
-          "flow": "Análisis de Flujo",
-          "stacked": "Áreas Apiladas"
+          "composition": "Análisis de Composición",
+          "comparison": "Comparación de Categorías",
+          "stacked": "Datos Apilados"
+        },
+        "preview": {
+          "title": "Vista Previa Interactiva",
+          "showCode": "Mostrar Código",
+          "hideCode": "Ocultar Código",
+          "showChart": "Mostrar Gráfico"
+        },
+        "quickStart": {
+          "title": "Inicio Rápido",
+          "step1": {
+            "title": "Instalar dependencias",
+            "description": "Instala las dependencias necesarias usando tu gestor de paquetes preferido:"
+          },
+          "step2": {
+            "title": "Crear el componente",
+            "description": "Copia y pega el siguiente código en tu proyecto:"
+          },
+          "step3": {
+            "title": "Crear tu primer gráfico",
+            "description": "Usa el componente con tus datos:"
+          }
+        },
+        "features": {
+          "title": "Características",
+          "responsive": "Totalmente Responsivo",
+          "customizable": "Altamente Personalizable",
+          "interactive": "Interactivo",
+          "animated": "Animaciones Suaves"
+        },
+        "options": {
+          "title": "Opciones",
+          "axes": "Ejes",
+          "grid": "Cuadrícula",
+          "labels": "Etiquetas",
+          "legend": "Leyenda",
+          "tooltips": "Información Emergente",
+          "colors": "Colores",
+          "animation": "Animación"
         }
       }
     },
