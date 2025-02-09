@@ -106,7 +106,7 @@ export function Logo({ className, showGrid = true }: { className?: string, showG
 
             {/* Grid Background */}
             {showGrid && (
-               <g mask="url(#fade)" style={{ opacity: 0.3 }}>
+               <g mask="url(#fade)" style={{ opacity: 0.45 }}>
                   <motion.g 
                      variants={gridVariants}
                      className="origin-center"
@@ -120,7 +120,7 @@ export function Logo({ className, showGrid = true }: { className?: string, showG
                            x2="500"
                            y2={25 * i}
                            stroke="currentColor"
-                           className="text-muted-foreground/40"
+                           className="text-muted-foreground/60"
                            strokeWidth="1"
                         />
                      ))}
@@ -133,7 +133,7 @@ export function Logo({ className, showGrid = true }: { className?: string, showG
                            x2={25 * i}
                            y2="500"
                            stroke="currentColor"
-                           className="text-muted-foreground/40"
+                           className="text-muted-foreground/60"
                            strokeWidth="1"
                         />
                      ))}

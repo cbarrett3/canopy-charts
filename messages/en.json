@@ -301,53 +301,9 @@
       "dev-guide": "Development Guide"
     }
   },
-  "Sidebar": {
-    "visualizations": {
-      "title": "Visualizations",
-      "bar": {
-        "description": "Simple and effective bar charts"
-      },
-      "line": {
-        "description": "Track trends with line charts"
-      },
-      "donut": {
-        "description": "Visualize parts of a whole"
-      },
-      "stream": {
-        "description": "Show flow and distribution"
-      },
-      "treemap": {
-        "description": "Hierarchical data visualization"
-      },
-      "stackedBar": {
-        "description": "Compare parts across categories"
-      }
-    },
-    "features": {
-      "title": "Features",
-      "theming": "Theming",
-      "animations": "Animations",
-      "responsiveness": "Responsiveness",
-      "accessibility": "Accessibility"
-    },
-    "contributing": {
-      "title": "Contributing",
-      "howTo": "How to Contribute",
-      "devGuide": "Development Guide"
-    }
-  },
-  "chart": {
-    "customize": "Customize Charts",
-    "elements": {
-      "title": "Element Selector",
-      "axes": "Axes",
-      "grid": "Grid",
-      "labels": "Labels",
-      "legend": "Legend",
-      "tooltips": "Tooltips"
-    },
-    "colorSelector": {
-      "title": "Color Selector",
+  "ChartControls": {
+    "colors": {
+      "title": "Colors",
       "themes": {
         "forest": {
           "name": "Forest",
@@ -381,7 +337,97 @@
           "name": "Slate",
           "description": "Professional and neutral gray"
         }
+      },
+      "custom": {
+        "title": "Custom Color",
+        "hue": "Hue",
+        "saturation": "Saturation",
+        "lightness": "Lightness"
       }
+    },
+    "vibes": {
+      "title": "Vibes",
+      "types": {
+        "rainforest": {
+          "name": "Rainforest",
+          "description": "Lush and vibrant"
+        },
+        "savanna": {
+          "name": "Savanna",
+          "description": "Warm and expansive"
+        },
+        "tundra": {
+          "name": "Tundra",
+          "description": "Cool and crisp"
+        },
+        "ocean": {
+          "name": "Ocean",
+          "description": "Flowing and dynamic"
+        },
+        "coral": {
+          "name": "Coral Reef",
+          "description": "Colorful and diverse"
+        },
+        "volcanic": {
+          "name": "Volcanic",
+          "description": "Intense and dramatic"
+        },
+        "dunes": {
+          "name": "Dunes",
+          "description": "Smooth and flowing"
+        },
+        "breeze": {
+          "name": "Breeze",
+          "description": "Light and refreshing"
+        },
+        "volcano": {
+          "name": "Volcano",
+          "description": "Bold and energetic"
+        }
+      }
+    }
+  },
+  "chart": {
+    "colorSelector": {
+      "title": "Color Selector"
+    },
+    "customize": "Customize Chart",
+    "elements": {
+    }
+  },
+  "Sidebar": {
+    "visualizations": {
+      "title": "Visualizations",
+      "bar": {
+        "description": "Simple and effective bar charts"
+      },
+      "line": {
+        "description": "Track trends with line charts"
+      },
+      "donut": {
+        "description": "Visualize parts of a whole"
+      },
+      "stream": {
+        "description": "Show flow and distribution"
+      },
+      "treemap": {
+        "description": "Hierarchical data visualization"
+      },
+      "stackedBar": {
+        "description": "Compare parts across categories"
+      }
+    },
+    "features": {
+      "title": "Features",
+      "theming": "Theming",
+      "animations": "Animations",
+      "responsiveness": "Responsiveness",
+      "accessibility": "Accessibility"
+    },
+    "contributing": {
+      "title": "Contributing",
+      "howTo": "How to Contribute",
+      "devGuide": "Development Guide"
     }
   }
 }

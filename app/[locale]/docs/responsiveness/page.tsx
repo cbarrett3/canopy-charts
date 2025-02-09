@@ -177,7 +177,7 @@ export default function ResponsivenessPage() {
         <div className="space-y-6">
           {/* Responsive Demo */}
           <motion.div variants={itemVariants}>
-            <Card className="relative overflow-hidden border-zinc-200/40 dark:border-zinc-800/50 bg-zinc-50/40 dark:bg-zinc-900/50 backdrop-blur-xl">
+            <Card className="relative overflow-hidden border border-green-500/30 shadow-[0_0_15px_rgba(34,197,94,0.2)] dark:shadow-[0_0_20px_rgba(34,197,94,0.15)] bg-zinc-50/40 dark:bg-zinc-900/50 backdrop-blur-xl">
               <div className="absolute inset-0 bg-gradient-to-b from-zinc-100/50 dark:from-zinc-900/50 to-transparent" />
               <div className="relative p-6 space-y-6">
                 <motion.div 
@@ -223,7 +223,7 @@ export default function ResponsivenessPage() {
                       whileHover={{ scale: 1.02 }}
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                      <D3BarChart data={sampleData} />
+                      <D3BarChart data={sampleData} themeColor="#6366f1" vibe="modern" />
                     </motion.div>
                     
                     {/* Lower side container */}
@@ -232,7 +232,7 @@ export default function ResponsivenessPage() {
                       whileHover={{ scale: 1.02 }}
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                      <D3BarChart data={sampleData} />
+                      <D3BarChart data={sampleData} themeColor="#ec4899" vibe="palm" />
                     </motion.div>
                   </div>
                   
@@ -244,7 +244,7 @@ export default function ResponsivenessPage() {
                       whileHover={{ scale: 1.02 }}
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                      <D3BarChart data={sampleData} />
+                      <D3BarChart data={sampleData} themeColor="#f59e0b" vibe="bamboo" />
                     </motion.div>
                   ))}
                 </div>
@@ -254,7 +254,7 @@ export default function ResponsivenessPage() {
 
           {/* Code example */}
           <motion.div variants={itemVariants}>
-            <Card className="relative overflow-hidden border-zinc-200/40 dark:border-zinc-800/50 bg-zinc-50/40 dark:bg-zinc-900/50 backdrop-blur-xl">
+            <Card className="relative overflow-hidden border border-green-500/30 shadow-[0_0_15px_rgba(34,197,94,0.2)] dark:shadow-[0_0_20px_rgba(34,197,94,0.15)] bg-zinc-50/40 dark:bg-zinc-900/50 backdrop-blur-xl">
               <div className="absolute inset-0 bg-gradient-to-b from-zinc-100/50 dark:from-zinc-900/50 to-transparent" />
               <div className="relative p-6 space-y-4">
                 <motion.div 

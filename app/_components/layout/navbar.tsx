@@ -94,7 +94,7 @@ export function Navbar() {
               >
                 <Link href="https://github.com/cbarrett3/canopy-charts">
                   <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
-                  <Github className="relative h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
+                  <Github className="h-5 w-5 text-foreground group-hover:text-green-500 transition-colors duration-300" />
                 </Link>
               </Button>
               <LanguageSelector />

@@ -254,9 +254,9 @@ export default function LineChart({ data, width = 600, height = 400 }) {
             duration: 0.5,
             ease: [0.21, 0.47, 0.32, 0.98]
           }}
-          className="mb-12 rounded-lg border border-green-500/20 overflow-hidden"
+          className="mb-12 rounded-lg border border-zinc-900/20 dark:border-green-500/20 overflow-hidden"
         >
-          <div className="flex items-center justify-between p-6 border-b border-green-500/20">
+          <div className="flex items-center justify-between p-6 border-b border-zinc-900/20 dark:border-green-500/20">
             <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">{t('preview.title')}</h2>
             <button
               onClick={() => setShowPreview(!showPreview)}
@@ -303,7 +303,7 @@ export default function LineChart({ data, width = 600, height = 400 }) {
               </div>
             )}
           </div>
-          <div className="border-t border-green-500/20 p-6">
+          <div className="border-t border-zinc-900/20 dark:border-green-500/20 p-6">
             <ChartControls
               currentTheme={themeColor}
               currentVibe={currentVibe}
@@ -328,8 +328,8 @@ export default function LineChart({ data, width = 600, height = 400 }) {
         </motion.div>
 
         {/* Quick Start Section */}
-        <Card className="relative mb-8 border border-green-500/20 hover:border-green-500/40 transition-colors bg-white/50 dark:bg-white/[0.02] backdrop-blur-sm">
-          <div className="flex items-center justify-between p-6 border-b border-green-500/20">
+        <Card className="relative mb-8 border border-zinc-900/20 dark:border-green-500/20 hover:border-zinc-900/40 dark:hover:border-green-500/40 transition-colors bg-white/50 dark:bg-white/[0.02] backdrop-blur-sm">
+          <div className="flex items-center justify-between p-6 border-b border-zinc-900/20 dark:border-green-500/20">
             <h2 className="text-lg font-semibold text-zinc-800 dark:text-zinc-200">{t('quickStart.title')}</h2>
           </div>
           <div className="p-6 space-y-6">

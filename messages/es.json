@@ -208,7 +208,29 @@
   },
   "chart": {
     "colorSelector": {
-      "title": "Selector de Color",
+      "title": "Selector de Color"
+    },
+    "customize": "Personalizar Gráfico",
+    "elements": {
+      "title": "Elementos",
+      "labels": "Etiquetas",
+      "legend": "Leyenda",
+      "grid": "Cuadrícula",
+      "axis": "Ejes"
+    },
+    "colors": {
+      "title": "Colores",
+      "theme": "Tema",
+      "custom": "Personalizado",
+      "presets": "Preestablecidos",
+      "hue": "Tono",
+      "saturation": "Saturación",
+      "lightness": "Luminosidad"
+    }
+  },
+  "ChartControls": {
+    "colors": {
+      "title": "Colores",
       "themes": {
         "forest": {
           "name": "Bosque",
@@ -216,7 +238,7 @@
         },
         "ocean": {
           "name": "Océano",
-          "description": "Azul profundo y calmante"
+          "description": "Azul profundo y calmado"
         },
         "sunset": {
           "name": "Atardecer",
@@ -245,29 +267,43 @@
       },
       "custom": {
         "title": "Color Personalizado",
-        "hex": "HEX",
-        "rgb": "RGB",
-        "hue": "Tono",
+        "hue": "Matiz",
         "saturation": "Saturación",
         "lightness": "Luminosidad"
       }
     },
-    "customize": "Personalizar Gráficos",
-    "elements": {
-      "title": "Elementos",
-      "labels": "Etiquetas",
-      "legend": "Leyenda",
-      "grid": "Cuadrícula",
-      "axis": "Ejes"
-    },
-    "colors": {
-      "title": "Colores",
-      "theme": "Tema",
-      "custom": "Personalizado",
-      "presets": "Preestablecidos",
-      "hue": "Tono",
-      "saturation": "Saturación",
-      "lightness": "Luminosidad"
+    "vibes": {
+      "title": "Ambientes",
+      "types": {
+        "rainforest": {
+          "name": "Selva",
+          "description": "Exuberante y vibrante"
+        },
+        "savanna": {
+          "name": "Sabana",
+          "description": "Cálido y expansivo"
+        },
+        "tundra": {
+          "name": "Tundra",
+          "description": "Fresco y nítido"
+        },
+        "ocean": {
+          "name": "Océano",
+          "description": "Fluido y dinámico"
+        },
+        "coral": {
+          "name": "Arrecife de Coral",
+          "description": "Colorido y diverso"
+        },
+        "volcanic": {
+          "name": "Volcánico",
+          "description": "Intenso y dramático"
+        },
+        "dunes": {
+          "name": "Dunas",
+          "description": "Suave y fluido"
+        }
+      }
     }
   },
   "VibeSelector": {
@@ -276,7 +312,7 @@
       "rainforest": "Selva",
       "savanna": "Sabana",
       "tundra": "Tundra",
-      "coral": "Arrecife de Coral",
+      "coral": "Arrecife de coral",
       "volcanic": "Volcánico",
       "dunes": "Dunas"
     },

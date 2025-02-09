@@ -74,8 +74,7 @@ export default function DocsLayout({
     {
       label: contributingT('title'),
       items: [
-        { label: contributingT('how-to'), href: `/${locale}/docs/contributing` },
-        { label: contributingT('dev-guide'), href: `/${locale}/docs/development` },
+        { label: contributingT('how-to'), href: `/${locale}/docs/contributing` }
       ]
     }
   ];
