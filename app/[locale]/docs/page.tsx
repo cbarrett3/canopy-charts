@@ -93,12 +93,12 @@ export default function DocsPage() {
                 transition={{ delay: index * 0.1 + 0.2 }}
                 className="group relative rounded-lg border bg-gradient-to-b from-zinc-50/50 to-white dark:from-zinc-900/50 dark:to-zinc-900 dark:border-zinc-800 p-3 hover:shadow-md transition-all duration-300"
               >
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute -inset-px rounded-lg bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 opacity-0 group-hover:opacity-100 blur-sm transition-all duration-500" />
-                <div className="absolute -inset-[2px] rounded-lg bg-gradient-to-r from-green-500/5 via-green-500/2 to-green-500/5 opacity-0 group-hover:opacity-100 blur-md transition-all duration-500" />
+                <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-green-500/50 transition-all duration-500" />
+                <div className="absolute -inset-px rounded-lg border border-transparent group-hover:border-green-500/30 transition-all duration-500" />
+                <div className="absolute -inset-[2px] rounded-lg border border-transparent group-hover:border-green-500/20 blur-[1px] transition-all duration-500" />
                 <div className="relative">
                   <h3 className="text-sm font-medium mb-1.5 flex items-center text-zinc-900 dark:text-zinc-100 group-hover:text-green-500/90 transition-colors duration-300">
-                    <span className="mr-1.5 p-1 rounded-md bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors duration-300">
+                    <span className="mr-1.5 p-1 rounded-md border border-primary/30 text-primary group-hover:border-primary/50 transition-colors duration-300">
                       {feature.icon}
                     </span>
                     {feature.title}
@@ -131,11 +131,11 @@ export default function DocsPage() {
           </div>
 
           <div className="group relative rounded-lg border bg-gradient-to-b from-zinc-50/50 to-white dark:from-zinc-900/50 dark:to-zinc-900 dark:border-zinc-800 p-3 hover:shadow-md transition-all duration-300">
-            <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-500/0 via-green-500/5 to-green-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="absolute -inset-px rounded-lg bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 opacity-0 group-hover:opacity-100 blur-sm transition-all duration-500" />
-            <div className="absolute -inset-[2px] rounded-lg bg-gradient-to-r from-green-500/5 via-green-500/2 to-green-500/5 opacity-0 group-hover:opacity-100 blur-md transition-all duration-500" />
+            <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-green-500/50 transition-all duration-500" />
+            <div className="absolute -inset-px rounded-lg border border-transparent group-hover:border-green-500/30 transition-all duration-500" />
+            <div className="absolute -inset-[2px] rounded-lg border border-transparent group-hover:border-green-500/20 blur-[1px] transition-all duration-500" />
             <div className="relative flex items-start space-x-3">
-              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
+              <div className="h-8 w-8 rounded-full border border-primary/30 flex items-center justify-center group-hover:border-primary/50 transition-colors duration-300">
                 <ArrowRight className="h-3.5 w-3.5 text-primary" />
               </div>
               <div>

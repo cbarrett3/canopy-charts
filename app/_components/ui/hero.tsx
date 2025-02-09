@@ -127,9 +127,13 @@ export function Hero() {
                     {t('subtitle.line2')}
                   </motion.span>
                 </h1>
-               <p className="mb-4 mt-4 text-base text-gray-400 sm:text-lg md:text-xl lg:text-2xl">
+               <motion.p 
+                  className="mb-4 mt-4 text-base text-gray-400 sm:text-lg md:text-xl lg:text-2xl"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+               >
                   {t('description')}
-               </p>
+               </motion.p>
                <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start mb-8">
                   <Button
                      size="lg"
@@ -137,7 +141,7 @@ export function Hero() {
                      className={cn(
                        "relative group px-8",
                        "bg-green-600 dark:bg-green-500",
-                       "text-base sm:text-lg font-semibold text-white",
+                       "text-base sm:text-lg font-semibold text-green-50/90 dark:text-green-50/85",
                        "border border-green-500/30 dark:border-green-400/30",
                        "shadow-[0_1px_2px_rgba(0,0,0,0.05),inset_0_1px_2px_rgba(255,255,255,0.1)]",
                        "dark:shadow-[0_1px_3px_rgba(0,0,0,0.3),inset_0_1px_2px_rgba(255,255,255,0.15)]",
@@ -148,7 +152,16 @@ export function Hero() {
                   >
                     <Link href="/docs">
                       <div className="absolute inset-0 rounded-lg bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
-                      <span className="relative">{t('buttons.getStarted')}</span>
+                      <motion.span 
+                        className="relative"
+                        whileHover={{ 
+                          scale: 1.05,
+                          textShadow: "0 0 8px rgba(255,255,255,0.3)"
+                        }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                      >
+                        {t('buttons.getStarted')}
+                      </motion.span>
                     </Link>
                   </Button>
                   <Button
@@ -170,7 +183,16 @@ export function Hero() {
                   >
                     <Link href="https://github.com/cbarrett3/canopy-charts">
                       <div className="absolute inset-0 rounded-lg bg-green-500/0 group-hover:bg-green-500/10 transition-all duration-300 blur-lg" />
-                      <span className="relative">{t('buttons.github')}</span>
+                      <motion.span 
+                        className="relative"
+                        whileHover={{ 
+                          scale: 1.05,
+                          textShadow: "0 0 8px rgba(255,255,255,0.2)"
+                        }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                      >
+                        {t('buttons.github')}
+                      </motion.span>
                     </Link>
                   </Button>
                </div>
