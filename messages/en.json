@@ -169,14 +169,34 @@
         "quickStart": {
           "title": "Quick Start",
           "step1": {
-            "title": "Install dependencies"
+            "title": "Install dependencies",
+            "description": "Install the required dependencies using your preferred package manager:"
           },
           "step2": {
-            "title": "Create the component"
+            "title": "Create the component",
+            "description": "Copy and paste the following code into your project:"
           },
           "step3": {
-            "title": "Create your first chart"
+            "title": "Create your first chart",
+            "description": "Use the component with your data:"
           }
+        },
+        "features": {
+          "title": "Features",
+          "responsive": "Fully Responsive",
+          "customizable": "Highly Customizable",
+          "interactive": "Interactive",
+          "animated": "Smooth Animations"
+        },
+        "options": {
+          "title": "Options",
+          "axes": "Axes",
+          "grid": "Grid",
+          "labels": "Labels",
+          "legend": "Legend",
+          "tooltips": "Tooltips",
+          "colors": "Colors",
+          "animation": "Animation"
         }
       },
       "donutChart": {
@@ -196,19 +216,37 @@
         "quickStart": {
           "title": "Quick Start",
           "step1": {
-            "title": "Install dependencies"
+            "title": "Install dependencies",
+            "description": "Install the required dependencies using your preferred package manager:"
           },
           "step2": {
-            "title": "Create the component"
+            "title": "Create the component",
+            "description": "Copy and paste the following code into your project:"
           },
           "step3": {
-            "title": "Create your first chart"
+            "title": "Create your first chart",
+            "description": "Use the component with your data:"
           }
+        },
+        "features": {
+          "title": "Features",
+          "responsive": "Fully Responsive",
+          "customizable": "Highly Customizable",
+          "interactive": "Interactive",
+          "animated": "Smooth Animations"
+        },
+        "options": {
+          "title": "Options",
+          "labels": "Labels",
+          "legend": "Legend",
+          "tooltips": "Tooltips",
+          "colors": "Colors",
+          "animation": "Animation"
         }
       },
       "streamChart": {
         "title": "Stream Chart",
-        "description": "A flowing visualization that shows how multiple categories change over time, ideal for displaying temporal patterns and proportions.",
+        "description": "A fluid visualization that shows how multiple categories change over time, perfect for displaying temporal patterns and proportions.",
         "tags": {
           "temporal": "Temporal Data",
           "flow": "Flow Analysis",
@@ -223,14 +261,33 @@
         "quickStart": {
           "title": "Quick Start",
           "step1": {
-            "title": "Install dependencies"
+            "title": "Install dependencies",
+            "description": "Install the required dependencies using your preferred package manager:"
           },
           "step2": {
-            "title": "Create the component"
+            "title": "Create the component",
+            "description": "Copy and paste the following code into your project:"
           },
           "step3": {
-            "title": "Create your first chart"
+            "title": "Create your first chart",
+            "description": "Use the component with your data:"
           }
+        },
+        "features": {
+          "title": "Features",
+          "responsive": "Fully Responsive",
+          "customizable": "Highly Customizable",
+          "interactive": "Interactive",
+          "animated": "Smooth Animations"
+        },
+        "options": {
+          "title": "Options",
+          "axes": "Axes",
+          "labels": "Labels",
+          "legend": "Legend",
+          "tooltips": "Tooltips",
+          "colors": "Colors",
+          "animation": "Animation"
         }
       },
       "treemapChart": {
@@ -250,23 +307,40 @@
         "quickStart": {
           "title": "Quick Start",
           "step1": {
-            "title": "Install dependencies"
+            "title": "Install dependencies",
+            "description": "Install the required dependencies using your preferred package manager:"
           },
           "step2": {
-            "title": "Create the component"
+            "title": "Create the component",
+            "description": "Copy and paste the following code into your project:"
           },
           "step3": {
-            "title": "Create your first chart"
+            "title": "Create your first chart",
+            "description": "Use the component with your data:"
           }
+        },
+        "features": {
+          "title": "Features",
+          "responsive": "Fully Responsive",
+          "customizable": "Highly Customizable",
+          "interactive": "Interactive",
+          "animated": "Smooth Animations"
+        },
+        "options": {
+          "title": "Options",
+          "labels": "Labels",
+          "tooltips": "Tooltips",
+          "colors": "Colors",
+          "animation": "Animation"
         }
       },
       "stackedBarChart": {
         "title": "Stacked Bar Chart",
-        "description": "A beautiful and interactive stacked bar chart component for your data visualization needs.",
+        "description": "A powerful visualization for comparing parts of a whole across different categories, perfect for showing composition changes over time or groups.",
         "tags": {
-          "timeSeries": "Categorical",
-          "trends": "Trends",
-          "continuousData": "Discrete Data"
+          "composition": "Composition Analysis",
+          "comparison": "Category Comparison",
+          "stacked": "Stacked Data"
         },
         "preview": {
           "title": "Interactive Preview",
@@ -277,14 +351,34 @@
         "quickStart": {
           "title": "Quick Start",
           "step1": {
-            "title": "Install dependencies"
+            "title": "Install dependencies",
+            "description": "Install the required dependencies using your preferred package manager:"
           },
           "step2": {
-            "title": "Create the component"
+            "title": "Create the component",
+            "description": "Copy and paste the following code into your project:"
           },
           "step3": {
-            "title": "Create your first chart"
+            "title": "Create your first chart",
+            "description": "Use the component with your data:"
           }
+        },
+        "features": {
+          "title": "Features",
+          "responsive": "Fully Responsive",
+          "customizable": "Highly Customizable",
+          "interactive": "Interactive",
+          "animated": "Smooth Animations"
+        },
+        "options": {
+          "title": "Options",
+          "axes": "Axes",
+          "grid": "Grid",
+          "labels": "Labels",
+          "legend": "Legend",
+          "tooltips": "Tooltips",
+          "colors": "Colors",
+          "animation": "Animation"
         }
       }
     },
