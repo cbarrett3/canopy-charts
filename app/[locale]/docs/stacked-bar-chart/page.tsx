@@ -33,12 +33,12 @@ export default function StackedBarChartPage() {
   const [copiedCode, setCopiedCode] = useState(false);
 
   const sampleData = [
-    { name: 'Jan', A: 30, B: 20, C: 25 },
-    { name: 'Feb', A: 40, B: 25, C: 30 },
-    { name: 'Mar', A: 45, B: 30, C: 35 },
-    { name: 'Apr', A: 50, B: 35, C: 40 },
-    { name: 'May', A: 55, B: 38, C: 42 },
-    { name: 'Jun', A: 60, B: 40, C: 45 },
+    { category: 'Jan', value1: 30, value2: 20, value3: 25 },
+    { category: 'Feb', value1: 40, value2: 25, value3: 30 },
+    { category: 'Mar', value1: 45, value2: 30, value3: 35 },
+    { category: 'Apr', value1: 50, value2: 35, value3: 40 },
+    { category: 'May', value1: 55, value2: 38, value3: 42 },
+    { category: 'Jun', value1: 60, value2: 40, value3: 45 },
   ];
 
   const step3Data = [
@@ -113,7 +113,7 @@ export default function StackedBarChart({ data, width = 600, height = 400 }) {
   const usageCode = `// Interactive StackedBar Chart
 <D3StackedBarChart
   data={sampleData}
-  datasets={['A', 'B', 'C']}
+  datasets={['value1', 'value2', 'value3']}
   themeColor="${themeColor}"
   vibe="${currentVibe}"
   showAxes={${showAxes}}
@@ -272,18 +272,21 @@ export default function StackedBarChart({ data, width = 600, height = 400 }) {
           </div>
           <div className="p-6">
             {showPreview ? (
-              <div className="w-full aspect-[2/1]">
-                <D3StackedBarChart 
-                  themeColor={themeColor}
-                  vibe={currentVibe}
-                  showAxes={showAxes}
-                  showGrid={showGrid}
-                  showLabels={showLabels}
-                  labelSize={labelSize}
-                  showTitle={showTitle}
-                  showLegend={showLegend}
-                  showTooltips={showTooltips}
-                />
+              <div className="flex flex-col gap-8 w-full">
+                <div className="relative w-full h-[400px] rounded-lg border shadow-sm p-6">
+                  <D3StackedBarChart 
+                    data={sampleData}
+                    themeColor={themeColor}
+                    vibe={currentVibe}
+                    showAxes={showAxes}
+                    showGrid={showGrid}
+                    showLabels={showLabels}
+                    labelSize={labelSize}
+                    showTitle={showTitle}
+                    showLegend={showLegend}
+                    showTooltips={showTooltips}
+                  />
+                </div>
               </div>
             ) : (
               <div className="relative">
