@@ -1,335 +1,148 @@
 "use client"
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, memo } from 'react';
 import * as d3 from 'd3';
 import { defaultThemeColor } from '@/app/_components/charts/utils/colors';
-
-// Define the props interface
-interface DataPoint {
-   name: string;
-   [key: string]: number | string;
-}
+import { DataPoint, VibeType } from './types';
+import { useChartDimensions } from './hooks/use-chart-dimensions';
+import { useChartScales } from './hooks/use-chart-scales';
+import { useChartColors, getChartColorScheme } from './hooks/use-chart-colors';
+import { useChartAnimation } from './hooks/use-chart-animation';
+import { useChartTooltip } from './hooks/use-chart-tooltip';
+import { ChartAxis } from './components/chart-axis';
+import { ChartGrid } from './components/chart-grid';
+import { ChartTooltip } from './components/chart-tooltip';
+import { ChartLines } from './components/chart-lines';
 
 interface D3LineChartProps {
-   data?: DataPoint[];
-   datasets?: string[];
-   lineColors?: string[];
-   axisColor?: string;
-   tooltipBackgroundColor?: string;
-   tooltipTextColor?: string;
-   gridColor?: string;
-   labelColor?: string;
-   xAxisTitle?: string;
-   yAxisTitle?: string;
-   themeColor?: string;
+  data?: DataPoint[];
+  datasets?: string[];
+  axisColor?: string;
+  tooltipBackgroundColor?: string;
+  tooltipTextColor?: string;
+  gridColor?: string;
+  labelColor?: string;
+  xAxisTitle?: string;
+  yAxisTitle?: string;
+  themeColor?: string;
+  vibe?: VibeType;
+  showAxes?: boolean;
+  showGrid?: boolean;
+  showLabels?: boolean;
+  showTooltips?: boolean;
+  labelSize?: number;
 }
 
-const D3LineChart: React.FC<D3LineChartProps> = ({
-   data = [
-      { name: 'oceans', dataset1: 50, dataset2: 40 },
-      { name: 'forests', dataset1: 70, dataset2: 65 },
-      { name: 'deserts', dataset1: 90, dataset2: 80 },
-   ],
-   datasets = ['dataset1', 'dataset2'],
-   lineColors = ['#1A458E', '#5CB02C'],
-   axisColor = 'rgba(105, 105, 105, 0.8)',
-   tooltipBackgroundColor = '#1A458E',
-   tooltipTextColor = 'white',
-   gridColor = 'rgba(105, 105, 105, 0.1)',
-   labelColor = 'rgba(105, 105, 105, 0.8)',
-   xAxisTitle,
-   yAxisTitle,
-   themeColor = defaultThemeColor
-}) => {
-   const svgRef = useRef<SVGSVGElement | null>(null);
-   const containerRef = useRef<HTMLDivElement | null>(
-      null,
-   );
+const D3LineChart = memo(({
+  data = [
+    { name: 'oceans', dataset1: 50, dataset2: 40 },
+    { name: 'forests', dataset1: 70, dataset2: 65 },
+    { name: 'deserts', dataset1: 90, dataset2: 80 },
+  ],
+  datasets = ['dataset1', 'dataset2'],
+  axisColor = 'rgba(105, 105, 105, 0.8)',
+  tooltipBackgroundColor = '#1A458E',
+  tooltipTextColor = 'white',
+  gridColor = 'rgba(105, 105, 105, 0.1)',
+  labelColor = 'rgba(105, 105, 105, 0.8)',
+  xAxisTitle,
+  yAxisTitle,
+  themeColor = defaultThemeColor,
+  vibe = 'default',
+  showAxes = true,
+  showGrid = true,
+  showLabels = true,
+  showTooltips = true,
+  labelSize = 12
+}: D3LineChartProps) => {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-   const createChart = (width: number, height: number) => {
-      if (svgRef.current) {
-         const svg = d3.select(svgRef.current);
-         svg.selectAll('*').remove();
+  // Custom hooks
+  const { dimensions, updateDimensions } = useChartDimensions();
+  const { xScale, yScale } = useChartScales({ data, dimensions, datasets });
+  const colors = useChartColors({
+    baseColor: themeColor,
+    count: datasets.length,
+    scheme: getChartColorScheme('line')
+  });
+  const { tooltipData, handleMouseMove, handleMouseLeave } = useChartTooltip(xScale);
 
-         const margin = {
-            top: 20,
-            right: 20,
-            bottom: 50,
-            left: 50,
-         };
-         const innerWidth =
-            width - margin.left - margin.right;
-         const innerHeight =
-            height - margin.top - margin.bottom;
+  // Apply animations
+  useChartAnimation(svgRef, datasets, vibe);
 
-         const x = d3
-            .scaleBand()
-            .domain(data.map((d) => d.name))
-            .range([0, innerWidth])
-            .padding(0.1);
-
-         const y = d3
-            .scaleLinear()
-            .domain([
-               0,
-               d3.max(
-                  data.flatMap((d) =>
-                     datasets.map(
-                        (key) => d[key] as number,
-                     ),
-                  ),
-               ) || 0,
-            ])
-            .range([innerHeight, 0]);
-
-         const line = d3
-            .line<{ name: string; value: number }>()
-            .x((d) => x(d.name)! + x.bandwidth() / 2)
-            .y((d) => y(d.value))
-            .curve(d3.curveMonotoneX);
-
-         const g = svg
-            .append('g')
-            .attr(
-               'transform',
-               `translate(${margin.left},${margin.top})`,
-            );
-
-         g.append('g')
-            .call(
-               d3
-                  .axisLeft(y)
-                  .tickSize(-innerWidth)
-                  .tickPadding(10),
-            )
-            .attr('color', axisColor)
-            .selectAll('text')
-            .attr('fill', labelColor);
-
-         g.selectAll('.tick line')
-            .attr('stroke', gridColor)
-            .attr('stroke-dasharray', '4 2');
-
-         g.append('g')
-            .call(
-               d3
-                  .axisBottom(x)
-                  .tickSize(0)
-                  .tickPadding(10),
-            )
-            .attr(
-               'transform',
-               `translate(0,${innerHeight})`,
-            )
-            .attr('color', axisColor)
-            .selectAll('text')
-            .attr('fill', labelColor);
-
-         if (xAxisTitle) {
-            svg.append('text')
-               .attr('class', 'x-axis-title')
-               .attr('text-anchor', 'middle')
-               .attr('x', margin.left + innerWidth / 2)
-               .attr('y', height - 10)
-               .attr('fill', labelColor)
-               .text(xAxisTitle);
-         }
-
-         if (yAxisTitle) {
-            svg.append('text')
-               .attr('class', 'y-axis-title')
-               .attr('text-anchor', 'middle')
-               .attr(
-                  'x',
-                  -margin.top - innerHeight / 2,
-               )
-               .attr('y', 15)
-               .attr('transform', 'rotate(-90)')
-               .attr('fill', labelColor)
-               .text(yAxisTitle);
-         }
-
-         const tooltip = d3
-            .select('body')
-            .append('div')
-            .attr('class', 'tooltip')
-            .style('position', 'absolute')
-            .style('text-align', 'center')
-            .style('width', 'auto')
-            .style('height', 'auto')
-            .style('padding', '10px')
-            .style('font', '14px sans-serif')
-            .style('background', tooltipBackgroundColor)
-            .style('color', tooltipTextColor)
-            .style('border', '0px')
-            .style('border-radius', '8px')
-            .style('pointer-events', 'none')
-            .style('opacity', 0)
-            .style('transition', 'opacity 0.3s');
-
-         datasets.forEach((dataset, index) => {
-            const lineData = data.map((d) => ({
-               name: d.name,
-               value: d[dataset] as number,
-            }));
-            const linePath = g
-               .append('path')
-               .datum(lineData)
-               .attr('fill', 'none')
-               .attr(
-                  'stroke',
-                  themeColor,
-               )
-               .attr('stroke-width', 2)
-               .attr('d', line)
-               .attr('class', 'line');
-
-            const totalLength = (
-               linePath.node() as SVGPathElement
-            ).getTotalLength();
-            linePath
-               .attr(
-                  'stroke-dasharray',
-                  `${totalLength} ${totalLength}`,
-               )
-               .attr('stroke-dashoffset', totalLength)
-               .transition()
-               .duration(2000)
-               .ease(d3.easeLinear)
-               .attr('stroke-dashoffset', 0);
-
-            // Adding event listeners outside the transition to avoid timing issues
-            linePath
-               .on('mouseover', function () {
-                  d3.select(this)
-                     .transition()
-                     .duration(200)
-                     .attr('stroke-width', 4);
-
-                  d3.selectAll('.line')
-                     .filter(function () {
-                        return (
-                           this !== linePath.node()
-                        );
-                     })
-                     .transition()
-                     .duration(200)
-                     .attr('opacity', 0.3);
-               })
-               .on('mouseout', function () {
-                  d3.select(this)
-                     .transition()
-                     .duration(200)
-                     .attr('stroke-width', 2);
-
-                  d3.selectAll('.line')
-                     .transition()
-                     .duration(200)
-                     .attr('opacity', 1);
-               });
-
-            const points = g
-               .selectAll(`.point-${dataset}`)
-               .data(lineData)
-               .enter()
-               .append('circle')
-               .attr('class', `point point-${dataset}`)
-               .attr(
-                  'cx',
-                  (d) =>
-                     x(d.name)! + x.bandwidth() / 2,
-               )
-               .attr('cy', (d) => y(d.value))
-               .attr('r', 5)
-               .attr(
-                  'fill',
-                  themeColor,
-               )
-               .attr('cursor', 'pointer')
-               .on('mouseover', function (event, d) {
-                  tooltip
-                     .transition()
-                     .duration(200)
-                     .style('opacity', 0.9);
-                  tooltip
-                     .html(
-                        `<div class="tooltip-content">Value: <span class="tooltip-value">${d.value}</span></div>`,
-                     )
-                     .style(
-                        'left',
-                        event.pageX + 'px',
-                     )
-                     .style(
-                        'top',
-                        event.pageY - 28 + 'px',
-                     );
-
-                  d3.select(this)
-                     .transition()
-                     .duration(200)
-                     .attr('r', 7);
-
-                  d3.select(this)
-                     .transition()
-                     .duration(200)
-                     .attr('opacity', 1);
-               })
-               .on('mouseout', function () {
-                  tooltip
-                     .transition()
-                     .duration(500)
-                     .style('opacity', 0);
-
-                  d3.select(this)
-                     .transition()
-                     .duration(200)
-                     .attr('r', 5)
-                     .attr(
-                        'fill',
-                        themeColor,
-                     );
-               });
-            console.log(points)
-         });
-      }
-   };
-
-   useEffect(() => {
-      const container = containerRef.current;
-      const svg = svgRef.current;
-
-      if (container && svg) {
-         const resizeObserver = new ResizeObserver(
-            (entries) => {
-               for (const entry of entries) {
-                  const { width, height } =
-                     entry.contentRect;
-                  createChart(width, height);
-               }
-            },
-         );
-
-         resizeObserver.observe(container);
-
-         return () =>
-            resizeObserver.unobserve(container);
-      }
-   }, [data, datasets, lineColors, themeColor]);
-
-   return (
-      <div
-         ref={containerRef}
-         style={{
-            width: '100%',
-            height: '100%',
-         }}
+  return (
+    <div 
+      ref={containerRef} 
+      style={{ width: '100%', height: '400px' }}
+      role="figure" 
+      aria-label="Line chart visualization"
+    >
+      <svg
+        ref={svgRef}
+        width={dimensions.width}
+        height={dimensions.height}
+        style={{ overflow: 'visible' }}
       >
-         <svg
-            ref={svgRef}
-            style={{ width: '100%', height: '100%' }}
-         ></svg>
-      </div>
-   );
-};
+        <g transform={`translate(${dimensions.margin.left},${dimensions.margin.top})`}>
+          {showGrid && (
+            <ChartGrid
+              dimensions={dimensions}
+              yScale={yScale}
+              gridColor={gridColor}
+            />
+          )}
+
+          <ChartLines
+            data={data}
+            datasets={datasets}
+            colors={colors}
+            xScale={xScale}
+            yScale={yScale}
+            onMouseMove={(e, dataset) => handleMouseMove(e, dataset, data)}
+          />
+
+          {showAxes && (
+            <>
+              <ChartAxis
+                dimensions={dimensions}
+                scale={xScale}
+                type="x"
+                label={xAxisTitle}
+                axisColor={axisColor}
+                labelColor={labelColor}
+                labelSize={labelSize}
+                showLabels={showLabels}
+              />
+              <ChartAxis
+                dimensions={dimensions}
+                scale={yScale}
+                type="y"
+                label={yAxisTitle}
+                axisColor={axisColor}
+                labelColor={labelColor}
+                labelSize={labelSize}
+                showLabels={showLabels}
+              />
+            </>
+          )}
+        </g>
+      </svg>
+
+      {showTooltips && tooltipData && (
+        <ChartTooltip
+          data={tooltipData.data}
+          datasets={datasets}
+          position={tooltipData.position}
+          visible={true}
+          backgroundColor={tooltipBackgroundColor}
+          textColor={tooltipTextColor}
+        />
+      )}
+    </div>
+  );
+});
+
+D3LineChart.displayName = 'D3LineChart';
 
 export default D3LineChart;
