@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Canopy Charts
 
-## Getting Started
+> This is the main project README for Canopy Charts, a beautiful charting library for modern web apps. 
+>
+> **App Developer?** Start with [Quick Start](#quick-start) below  
+> **Library Contributor?** See the [CLI Documentation](cli/README.md) for development setup
 
-First, run the development server:
+Create beautiful D3 charts with zero hassle. Whether you're using React, Next.js, Remix, Astro, Expo, or Electron - we've got you covered.
+
+## Resources
+
+- [GitHub Repository](https://github.com/cbarrett3/canopy-charts)
+- [Issue Tracker](https://github.com/cbarrett3/canopy-charts/issues)
+
+## Quick Start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Install the package
+npm install canopy-charts
+
+# Or use our CLI to scaffold a new project
+npx canopy-charts init my-chart-project
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```typescript
+import { D3LineChart, D3BarChart } from 'canopy-charts';
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+// Create a line chart with multiple datasets
+const SalesChart = () => {
+  const data = [
+    { name: 'Jan', dataset1: 2430, dataset2: 2000 },
+    { name: 'Feb', dataset1: 2800, dataset2: 2400 },
+    { name: 'Mar', dataset1: 3200, dataset2: 2800 },
+    { name: 'Apr', dataset1: 2950, dataset2: 2600 },
+  ];
 
-## Learn More
+  return (
+    <D3LineChart 
+      data={data}
+      datasets={['dataset1', 'dataset2']}
+      xAxisTitle="Month"
+      yAxisTitle="Sales ($)"
+      themeColor="#4f46e5"
+      vibe="evergreen"
+      showGrid={true}
+      showLabels={true}
+    />
+  );
+};
 
-To learn more about Next.js, take a look at the following resources:
+// Create a bar chart with custom styling
+const RevenueChart = () => {
+  const data = [
+    { label: 'Product A', value: 12000 },
+    { label: 'Product B', value: 8000 },
+    { label: 'Product C', value: 15000 },
+    { label: 'Product D', value: 9000 },
+  ];
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  return (
+    <D3BarChart 
+      data={data}
+      width={800}
+      height={400}
+      title="Revenue by Product"
+      themeColor="#4f46e5"
+      vibe="modern"
+    />
+  );
+};
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Available Charts
 
-## Deploy on Vercel
+- **D3LineChart**: Multi-dataset line chart with customizable axes and grid
+- **D3BarChart**: Animated bar chart with multiple style options
+- **D3DonutChart**: Interactive donut chart with labels
+- **D3StackedBarChart**: Stacked bar chart for comparing categories
+- **D3StreamChart**: Stream/Flow chart for time-series data
+- **D3TreeMap**: Hierarchical data visualization
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Each chart supports multiple themes through the `vibe` prop:
+- `evergreen` (default)
+- `palm`
+- `bamboo`
+- `willow`
+- `succulent`
+- `modern`
+- `savanna`
+- `rainforest`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Features
+
+- Six essential D3-based chart components
+- Responsive and interactive by default
+- Built-in animations and transitions
+- Multiple theme options
+- TypeScript support with full type definitions
+- Customizable colors and styles
+- Accessible with ARIA attributes
+- Tree-shakeable for optimized bundle size
+
+## Contributing
+
+We welcome contributions. See our [CLI documentation](cli/README.md) for development setup and guidelines.
+
+## License
+
+MIT Canopy Charts Team
