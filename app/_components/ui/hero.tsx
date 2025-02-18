@@ -234,28 +234,15 @@ export function Hero() {
                     <Button
                       asChild
                       size="lg"
-                      className="relative group/button overflow-hidden bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400"
+                      className="relative group/button overflow-hidden bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-base"
                     >
                       <Link href="/editor">
                         <motion.span
-                          className="relative z-10 flex items-center gap-2 text-base"
+                          className="relative z-10"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
                           {t('create')}
-                          <motion.div
-                            className="w-5 h-5 rounded-full bg-white/20"
-                            animate={{ 
-                              scale: [1, 1.2, 1],
-                              rotate: [0, 180, 360],
-                              opacity: [0.5, 0.8, 0.5]
-                            }}
-                            transition={{ 
-                              duration: 2,
-                              repeat: Infinity,
-                              ease: "easeInOut"
-                            }}
-                          />
                         </motion.span>
                         <motion.div
                           className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-300/20"
@@ -268,19 +255,21 @@ export function Hero() {
                     <Button
                       asChild
                       size="lg"
-                      variant="outline"
-                      className="relative group/button overflow-hidden border-green-500/30"
+                      className="relative group/button overflow-hidden text-base border-0 bg-white/5 dark:bg-white/10 backdrop-blur-sm hover:bg-white/10 dark:hover:bg-white/15"
+                      style={{
+                        boxShadow: "inset 0 0 0 1px rgba(255, 255, 255, 0.1)"
+                      }}
                     >
                       <Link href="/docs">
                         <motion.span
-                          className="relative z-10 text-base"
+                          className="relative z-10 text-zinc-700 dark:text-zinc-200"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
                           {t('learn')}
                         </motion.span>
                         <motion.div
-                          className="absolute inset-0 bg-green-500/10"
+                          className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-green-400/5"
                           initial={{ opacity: 0 }}
                           whileHover={{ opacity: 1 }}
                           transition={{ duration: 0.2 }}
