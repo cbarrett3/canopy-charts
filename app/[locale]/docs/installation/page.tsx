@@ -87,7 +87,7 @@ const InstallationPage = () => {
           <p className="text-lg text-zinc-400">
             Build beautiful, interactive charts with React and D3.js in minutes
           </p>
-        </div>
+        </div>  
 
         {/* Requirements */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">

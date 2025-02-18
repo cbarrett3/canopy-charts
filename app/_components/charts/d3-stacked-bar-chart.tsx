@@ -3,6 +3,9 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import { defaultThemeColor, generateColorVariations } from '@/app/_components/charts/utils/colors';
+import { useChartDimensions } from '@/app/_components/charts/hooks/use-chart-dimensions';
+import { ChartStyle } from './types';
+import { withLoading } from './with-loading';
 
 interface DataPoint {
     category: string;
@@ -189,4 +192,4 @@ const D3StackedBarChart = ({
     );
 };
 
-export default D3StackedBarChart;
+export default withLoading(D3StackedBarChart);

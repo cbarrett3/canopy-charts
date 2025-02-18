@@ -96,12 +96,43 @@ const config: Config = {
 					'0%, 100%': { opacity: '0.2' },
 					'50%': { opacity: '0.3' },
 				},
+				shimmer: {
+					'0%': { backgroundPosition: '200% 0' },
+					'100%': { backgroundPosition: '-200% 0' }
+				},
+				wave: {
+					'0%': { transform: 'translateX(-100%)' },
+					'100%': { transform: 'translateX(100%)' }
+				},
+				grow: {
+					'0%': { transform: 'scaleY(0.3) rotate(var(--tw-rotate))' },
+					'50%': { transform: 'scaleY(1.2) rotate(var(--tw-rotate))' },
+					'100%': { transform: 'scaleY(0.3) rotate(var(--tw-rotate))' }
+				},
+				float: {
+					'0%': { transform: 'translate(0, 0)' },
+					'50%': { transform: 'translate(10px, -10px)' },
+					'100%': { transform: 'translate(0, 0)' }
+				},
+				pulse: {
+					'0%, 100%': { opacity: '0.6' },
+					'50%': { opacity: '1' }
+				},
+				spin: {
+					to: { transform: 'rotate(360deg)' }
+				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'pulse-subtle': 'pulse-subtle 2s ease-in-out infinite',
 				'pulse-slow': 'pulse-slow 3s ease-in-out infinite',
+				shimmer: 'shimmer 2s ease-in-out infinite',
+				wave: 'wave 3s ease-in-out infinite',
+				grow: 'grow 2s ease-in-out infinite',
+				float: 'float 2s ease-in-out infinite',
+				pulse: 'pulse 2s ease-in-out infinite',
+				spin: 'spin 0.8s linear infinite'
 			},
 		},
 	},
