@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { ChartDimensions } from '../types';
 
 interface UseChartDimensionsProps {
@@ -24,6 +24,8 @@ export const useChartDimensions = ({
     boundedHeight: 0,
   });
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
   const updateDimensions = useCallback(
     (width: number, height: number) => {
       // Ensure minimum height
@@ -43,5 +45,22 @@ export const useChartDimensions = ({
     [marginTop, marginRight, marginBottom, marginLeft, minHeight]
   );
 
-  return { dimensions, updateDimensions };
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (!entries.length) return;
+
+      const { width, height } = entries[0].contentRect;
+      updateDimensions(width, height);
+    });
+
+    resizeObserver.observe(containerRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [updateDimensions]);
+
+  return { dimensions, updateDimensions, containerRef };
 };

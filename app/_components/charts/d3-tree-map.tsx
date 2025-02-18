@@ -2,6 +2,9 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import * as d3 from 'd3';
+import { useChartDimensions } from '@/app/_components/charts/hooks/use-chart-dimensions';
+import { ChartStyle } from './types';
+import { withLoading } from './with-loading';
 
 interface DataPoint {
    name: string;
@@ -525,4 +528,4 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
    );
 };
 
-export default D3TreeMap;
+export default withLoading(D3TreeMap);

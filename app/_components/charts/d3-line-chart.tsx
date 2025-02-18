@@ -1,148 +1,175 @@
 "use client"
 
-import React, { useRef, memo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import { defaultThemeColor } from '@/app/_components/charts/utils/colors';
-import { DataPoint, VibeType } from './types';
-import { useChartDimensions } from './hooks/use-chart-dimensions';
-import { useChartScales } from './hooks/use-chart-scales';
-import { useChartColors, getChartColorScheme } from './hooks/use-chart-colors';
-import { useChartAnimation } from './hooks/use-chart-animation';
-import { useChartTooltip } from './hooks/use-chart-tooltip';
-import { ChartAxis } from './components/chart-axis';
-import { ChartGrid } from './components/chart-grid';
-import { ChartTooltip } from './components/chart-tooltip';
-import { ChartLines } from './components/chart-lines';
+import { useChartDimensions } from '@/app/_components/charts/hooks/use-chart-dimensions';
+import { ChartStyle } from './types';
+import { withLoading } from './with-loading';
 
-interface D3LineChartProps {
-  data?: DataPoint[];
-  datasets?: string[];
-  axisColor?: string;
-  tooltipBackgroundColor?: string;
-  tooltipTextColor?: string;
-  gridColor?: string;
-  labelColor?: string;
-  xAxisTitle?: string;
-  yAxisTitle?: string;
-  themeColor?: string;
-  vibe?: VibeType;
-  showAxes?: boolean;
-  showGrid?: boolean;
-  showLabels?: boolean;
-  showTooltips?: boolean;
-  labelSize?: number;
+interface DataPoint {
+   name: string;
+   value: number;
 }
 
-const D3LineChart = memo(({
-  data = [
-    { name: 'oceans', dataset1: 50, dataset2: 40 },
-    { name: 'forests', dataset1: 70, dataset2: 65 },
-    { name: 'deserts', dataset1: 90, dataset2: 80 },
-  ],
-  datasets = ['dataset1', 'dataset2'],
-  axisColor = 'rgba(105, 105, 105, 0.8)',
-  tooltipBackgroundColor = '#1A458E',
-  tooltipTextColor = 'white',
-  gridColor = 'rgba(105, 105, 105, 0.1)',
-  labelColor = 'rgba(105, 105, 105, 0.8)',
-  xAxisTitle,
-  yAxisTitle,
-  themeColor = defaultThemeColor,
-  vibe = 'default',
-  showAxes = true,
-  showGrid = true,
-  showLabels = true,
-  showTooltips = true,
-  labelSize = 12
-}: D3LineChartProps) => {
-  const svgRef = useRef<SVGSVGElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+interface D3LineChartProps {
+   data?: DataPoint[];
+   themeColor?: string;
+   vibe?: ChartStyle;
+   showAxes?: boolean;
+   showGrid?: boolean;
+   showLabels?: boolean;
+   labelSize?: number;
+}
 
-  // Custom hooks
-  const { dimensions, updateDimensions } = useChartDimensions();
-  const { xScale, yScale } = useChartScales({ data, dimensions, datasets });
-  const colors = useChartColors({
-    baseColor: themeColor,
-    count: datasets.length,
-    scheme: getChartColorScheme('line')
-  });
-  const { tooltipData, handleMouseMove, handleMouseLeave } = useChartTooltip(xScale);
+const D3LineChart: React.FC<D3LineChartProps> = ({
+   data = [
+      { name: 'Jan', value: 30 },
+      { name: 'Feb', value: 45 },
+      { name: 'Mar', value: 25 },
+      { name: 'Apr', value: 60 },
+      { name: 'May', value: 35 },
+      { name: 'Jun', value: 50 }
+   ],
+   themeColor = defaultThemeColor,
+   vibe = 'evergreen',
+   showAxes = true,
+   showGrid = true,
+   showLabels = true,
+   labelSize = 12
+}) => {
+   const svgRef = useRef<SVGSVGElement>(null);
+   const { dimensions, containerRef } = useChartDimensions({
+      marginTop: 20,
+      marginRight: 20,
+      marginBottom: 40,
+      marginLeft: 40
+   });
 
-  // Apply animations
-  useChartAnimation(svgRef, datasets, vibe);
+   useEffect(() => {
+      if (!svgRef.current || !dimensions.width || !dimensions.height) return;
 
-  return (
-    <div 
-      ref={containerRef} 
-      style={{ width: '100%', height: '400px' }}
-      role="figure" 
-      aria-label="Line chart visualization"
-    >
-      <svg
-        ref={svgRef}
-        width={dimensions.width}
-        height={dimensions.height}
-        style={{ overflow: 'visible' }}
+      // Clear previous content
+      const svg = d3.select(svgRef.current);
+      svg.selectAll('*').remove();
+
+      // Set up scales
+      const xScale = d3.scaleBand()
+         .domain(data.map(d => d.name))
+         .range([0, dimensions.boundedWidth])
+         .padding(0.3);
+
+      const yScale = d3.scaleLinear()
+         .domain([0, d3.max(data, d => d.value) || 0])
+         .range([dimensions.boundedHeight, 0])
+         .nice();
+
+      // Create the SVG group with margins
+      const g = svg
+         .attr('width', dimensions.width)
+         .attr('height', dimensions.height)
+         .append('g')
+         .attr('transform', `translate(${dimensions.margin.left},${dimensions.margin.top})`);
+
+      // Add grid lines if enabled
+      if (showGrid) {
+         g.append('g')
+            .attr('class', 'grid')
+            .call(d3.axisLeft(yScale)
+               .tickSize(-dimensions.boundedWidth)
+               .tickFormat('')
+            )
+            .style('stroke', 'rgba(255,255,255,0.1)')
+            .style('stroke-dasharray', '2,2');
+      }
+
+      // Create line generator
+      const line = d3.line<DataPoint>()
+         .x(d => (xScale(d.name) || 0) + xScale.bandwidth() / 2)
+         .y(d => yScale(d.value))
+         .curve(d3.curveMonotoneX);
+
+      // Add the line path
+      const path = g.append('path')
+         .datum(data)
+         .attr('class', 'line')
+         .attr('fill', 'none')
+         .attr('stroke', themeColor)
+         .attr('stroke-width', 2)
+         .attr('d', line)
+         .style('opacity', 0);
+
+      // Animate the line
+      const pathLength = path.node()?.getTotalLength() || 0;
+      path
+         .attr('stroke-dasharray', `${pathLength} ${pathLength}`)
+         .attr('stroke-dashoffset', pathLength)
+         .style('opacity', 1)
+         .transition()
+         .duration(1500)
+         .ease(d3.easeQuadOut)
+         .attr('stroke-dashoffset', 0);
+
+      // Add dots at each data point
+      g.selectAll('.dot')
+         .data(data)
+         .join('circle')
+         .attr('class', 'dot')
+         .attr('cx', d => (xScale(d.name) || 0) + xScale.bandwidth() / 2)
+         .attr('cy', d => yScale(d.value))
+         .attr('r', 4)
+         .attr('fill', themeColor)
+         .style('opacity', 0)
+         .transition()
+         .delay((_, i) => i * 100)
+         .duration(500)
+         .style('opacity', 1);
+
+      // Add axes if enabled
+      if (showAxes) {
+         // X Axis
+         const xAxis = g.append('g')
+            .attr('class', 'x-axis')
+            .attr('transform', `translate(0,${dimensions.boundedHeight})`)
+            .call(d3.axisBottom(xScale));
+
+         if (showLabels) {
+            xAxis.selectAll('text')
+               .style('font-size', `${labelSize}px`)
+               .style('fill', 'rgba(255,255,255,0.8)');
+         }
+
+         // Y Axis
+         const yAxis = g.append('g')
+            .attr('class', 'y-axis')
+            .call(d3.axisLeft(yScale));
+
+         if (showLabels) {
+            yAxis.selectAll('text')
+               .style('font-size', `${labelSize}px`)
+               .style('fill', 'rgba(255,255,255,0.8)');
+         }
+
+         // Style axis lines
+         g.selectAll('.domain, .tick line')
+            .style('stroke', 'rgba(255,255,255,0.2)');
+      }
+
+   }, [dimensions, data, themeColor, showAxes, showGrid, showLabels, labelSize]);
+
+   return (
+      <div 
+         ref={containerRef} 
+         style={{ width: '100%', height: '100%' }}
+         role="figure" 
+         aria-label="Line chart visualization"
       >
-        <g transform={`translate(${dimensions.margin.left},${dimensions.margin.top})`}>
-          {showGrid && (
-            <ChartGrid
-              dimensions={dimensions}
-              yScale={yScale}
-              gridColor={gridColor}
-            />
-          )}
+         <svg
+            ref={svgRef}
+            style={{ width: '100%', height: '100%', overflow: 'visible' }}
+         />
+      </div>
+   );
+};
 
-          <ChartLines
-            data={data}
-            datasets={datasets}
-            colors={colors}
-            xScale={xScale}
-            yScale={yScale}
-            onMouseMove={(e, dataset) => handleMouseMove(e, dataset, data)}
-          />
-
-          {showAxes && (
-            <>
-              <ChartAxis
-                dimensions={dimensions}
-                scale={xScale}
-                type="x"
-                label={xAxisTitle}
-                axisColor={axisColor}
-                labelColor={labelColor}
-                labelSize={labelSize}
-                showLabels={showLabels}
-              />
-              <ChartAxis
-                dimensions={dimensions}
-                scale={yScale}
-                type="y"
-                label={yAxisTitle}
-                axisColor={axisColor}
-                labelColor={labelColor}
-                labelSize={labelSize}
-                showLabels={showLabels}
-              />
-            </>
-          )}
-        </g>
-      </svg>
-
-      {showTooltips && tooltipData && (
-        <ChartTooltip
-          data={tooltipData.data}
-          datasets={datasets}
-          position={tooltipData.position}
-          visible={true}
-          backgroundColor={tooltipBackgroundColor}
-          textColor={tooltipTextColor}
-        />
-      )}
-    </div>
-  );
-});
-
-D3LineChart.displayName = 'D3LineChart';
-
-export default D3LineChart;
+export default withLoading(D3LineChart);

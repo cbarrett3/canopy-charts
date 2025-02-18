@@ -24,6 +24,8 @@ import * as d3 from 'd3'
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { useThemeColor } from "@/app/_components/providers/theme-context"
+import React from 'react';
+import { useParams } from 'next/navigation'
 
 type Feature = {
    title: string;
@@ -221,7 +223,7 @@ const features: Feature[] = [
       description:
          "Hierarchical data visualization that uses nested rectangles to represent data structure and values.",
       link: "View TreeMap docs",
-      href: "#",
+      href: "/docs/treemap-chart",
    },
    {
       component: BarChart,
@@ -229,7 +231,7 @@ const features: Feature[] = [
       description:
          "Versatile bar charts with customizable animations, colors, and layouts. Perfect for comparing values across categories.",
       link: "View Bar Chart docs",
-      href: "#",
+      href: "/docs/bar-chart",
    },
    {
       component: LineChart,
@@ -237,7 +239,7 @@ const features: Feature[] = [
       description:
          "Smooth, interactive line charts with customizable curves, points, and animations. Ideal for time series data.",
       link: "View Line Chart docs",
-      href: "#",
+      href: "/docs/line-chart",
    },
    {
       component: DonutChart,
@@ -245,7 +247,7 @@ const features: Feature[] = [
       description:
          "Beautiful donut charts with interactive segments, customizable colors, and smooth transitions.",
       link: "View Donut Chart docs",
-      href: "#",
+      href: "/docs/donut-chart",
    },
    {
       component: StreamChart,
@@ -253,7 +255,7 @@ const features: Feature[] = [
       description:
          "Elegant streamgraph visualization for displaying temporal data with smooth flowing curves and transitions. Perfect for showing evolving trends.",
       link: "View Stream Chart docs",
-      href: "#",
+      href: "/docs/stream-chart",
    },
    {
       component: StackedBarChart,
@@ -261,7 +263,7 @@ const features: Feature[] = [
       description:
          "Horizontal stacked bar charts with smooth animations and customizable colors. Ideal for comparing parts of a whole across categories.",
       link: "View Stacked Bar Chart docs",
-      href: "#",
+      href: "/docs/stacked-bar-chart",
    },
    // {
    //   icon: Wrench,
@@ -283,6 +285,8 @@ const features: Feature[] = [
 
 export function Features() {
    const { themeColor, setThemeColor } = useThemeColor()
+   const params = useParams()
+   const locale = params?.locale || 'en'
    const [currentVibe, setCurrentVibe] = useState('rainforest') // Default rainforest vibe
    const [showAxes, setShowAxes] = useState(true)
    const [showGrid, setShowGrid] = useState(true)
@@ -291,6 +295,57 @@ export function Features() {
    const [showTitle, setShowTitle] = useState(true);
    const [showLegend, setShowLegend] = useState(true);
    const [showTooltips, setShowTooltips] = useState(true);
+
+   const features: Feature[] = [
+      {
+         component: TreeMap,
+         title: "TreeMap",
+         description:
+            "Hierarchical data visualization that uses nested rectangles to represent data structure and values.",
+         link: "View TreeMap docs",
+         href: `/${locale}/docs/treemap-chart`,
+      },
+      {
+         component: BarChart,
+         title: "Bar Chart",
+         description:
+            "Versatile bar charts with customizable animations, colors, and layouts. Perfect for comparing values across categories.",
+         link: "View Bar Chart docs",
+         href: `/${locale}/docs/bar-chart`,
+      },
+      {
+         component: LineChart,
+         title: "Line Chart",
+         description:
+            "Smooth, interactive line charts with customizable curves, points, and animations. Ideal for time series data.",
+         link: "View Line Chart docs",
+         href: `/${locale}/docs/line-chart`,
+      },
+      {
+         component: DonutChart,
+         title: "Donut Chart",
+         description:
+            "Beautiful donut charts with interactive segments, customizable colors, and smooth transitions.",
+         link: "View Donut Chart docs",
+         href: `/${locale}/docs/donut-chart`,
+      },
+      {
+         component: StreamChart,
+         title: "Stream Chart",
+         description:
+            "Elegant streamgraph visualization for displaying temporal data with smooth flowing curves and transitions. Perfect for showing evolving trends.",
+         link: "View Stream Chart docs",
+         href: `/${locale}/docs/stream-chart`,
+      },
+      {
+         component: StackedBarChart,
+         title: "Stacked Bar Chart",
+         description:
+            "Horizontal stacked bar charts with smooth animations and customizable colors. Ideal for comparing parts of a whole across categories.",
+         link: "View Stacked Bar Chart docs",
+         href: `/${locale}/docs/stacked-bar-chart`,
+      },
+   ]
 
    return (
       <section className="relative w-full py-8 sm:py-16 bg-background dark:bg-[#1B1B1B]">
@@ -338,7 +393,7 @@ export function Features() {
                     before:from-white/5 before:to-transparent before:opacity-0 hover:before:opacity-100 
                     before:transition-opacity before:duration-300 before:-z-10">
                   {feature.component ? (
-                     <div className="relative mb-4 h-[200px] w-full overflow-hidden rounded-md 
+                     <div className="relative aspect-[2/1] overflow-hidden rounded-xl 
                         bg-gradient-to-b from-background/50 to-transparent dark:from-[#161616]/50
                         ring-1 ring-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]
                         before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/5 before:to-transparent">
@@ -349,7 +404,12 @@ export function Features() {
                   ) : null}
                   <h3 className="mb-2 text-xl font-semibold text-foreground">{feature.title}</h3>
                   <p className="mb-4 text-muted-foreground">{feature.description}</p>
-                  <Link href={feature.href} className="text-primary hover:text-primary/80 transition-colors">
+                  <Link 
+                    href={feature.href} 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:text-primary/80 transition-colors"
+                  >
                      {feature.link} →
                   </Link>
                </div>
