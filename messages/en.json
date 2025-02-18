@@ -93,31 +93,44 @@
     },
     "installation": {
       "title": "Installation",
-      "description": "Get started with Canopy Charts in your React project.",
-      "intro": "Get started with Canopy Charts by installing D3.js as your foundation.",
+      "intro": "Get started with Canopy Charts in minutes. A modern React charting library built with TypeScript and Tailwind CSS.",
       "tabs": {
         "npm": "npm",
         "pnpm": "pnpm",
-        "yarn": "yarn"
+        "yarn": "yarn",
+        "bun": "bun",
+        "npx": "npx"
       },
       "steps": {
-        "install": {
-          "title": "1. Install D3.js",
-          "description": "Install D3.js using your preferred package manager:"
+        "init": {
+          "title": "Create Project",
+          "description": "Initialize a new Canopy Charts project with all dependencies pre-configured."
         },
-        "copy": {
-          "title": "2. Copy Components",
-          "description": "Copy the components you need from our library:"
-        },
-        "customize": {
-          "title": "3. Customize",
-          "description": "Customize the components to your needs:"
+        "add": {
+          "title": "Add Chart",
+          "description": "Generate a new chart component. Choose from our collection of beautiful, customizable charts."
         }
       },
-      "next": {
-        "title": "Next Step",
-        "description": "Explore our available visualizations",
-        "link": "View Visualizations"
+      "cli": {
+        "title": "CLI Commands",
+        "init": {
+          "title": "Initialize Project",
+          "description": "Start your Canopy Charts project",
+          "features": {
+            "structure": "Sets up project structure",
+            "dependencies": "Installs required dependencies",
+            "types": "Configures TypeScript types"
+          }
+        },
+        "add": {
+          "title": "Add Charts",
+          "description": "Generate chart components",
+          "features": {
+            "selection": "Interactive chart type selection",
+            "boilerplate": "Creates component with boilerplate code",
+            "types": "Supports: line-chart, bar-chart, donut-chart, stacked-bar-chart, stream-chart, and tree-map"
+          }
+        }
       }
     },
     "visualizations": {

@@ -94,31 +94,44 @@
     },
     "installation": {
       "title": "Instalación",
-      "description": "Comienza con Canopy Charts en tu proyecto React.",
-      "intro": "Comienza con Canopy Charts instalando D3.js como tu base.",
+      "intro": "Comienza con Canopy Charts en minutos. Una biblioteca moderna de gráficos React construida con TypeScript y Tailwind CSS.",
       "tabs": {
         "npm": "npm",
         "pnpm": "pnpm",
-        "yarn": "yarn"
+        "yarn": "yarn",
+        "bun": "bun",
+        "npx": "npx"
       },
       "steps": {
-        "install": {
-          "title": "1. Instalar D3.js",
-          "description": "Instala D3.js usando tu gestor de paquetes preferido:"
+        "init": {
+          "title": "Crear Proyecto",
+          "description": "Inicializa un nuevo proyecto de Canopy Charts con todas las dependencias preconfiguradas."
         },
-        "copy": {
-          "title": "2. Copiar Componentes",
-          "description": "Copia los componentes que necesites de nuestra biblioteca:"
-        },
-        "customize": {
-          "title": "3. Personalizar",
-          "description": "Personaliza los componentes según tus necesidades:"
+        "add": {
+          "title": "Añadir Gráfico",
+          "description": "Genera un nuevo componente de gráfico. Elige de nuestra colección de gráficos hermosos y personalizables."
         }
       },
-      "next": {
-        "title": "Siguiente Paso",
-        "description": "Explora nuestras visualizaciones disponibles",
-        "link": "Ver Visualizaciones"
+      "cli": {
+        "title": "Comandos CLI",
+        "init": {
+          "title": "Crear Proyecto",
+          "description": "Inicializa tu proyecto Canopy Charts",
+          "features": {
+            "structure": "Configura la estructura del proyecto",
+            "dependencies": "Instala las dependencias requeridas",
+            "types": "Configura los tipos de TypeScript"
+          }
+        },
+        "add": {
+          "title": "Añadir Gráfico",
+          "description": "Genera componentes de gráficos",
+          "features": {
+            "selection": "Selección interactiva del tipo de gráfico",
+            "boilerplate": "Crea componente con código base",
+            "types": "Soporta: line-chart, bar-chart, donut-chart, stacked-bar-chart, stream-chart, y tree-map"
+          }
+        }
       }
     },
     "visualizations": {
