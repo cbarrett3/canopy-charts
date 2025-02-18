@@ -10,7 +10,7 @@ export default function LanguageSelector() {
   const router = useRouter()
   const pathname = usePathname()
 
-  const handleLocaleChange = (newLocale: string) => {
+  const handleLocaleChange = (newLocale: "en" | "es") => {
     if (newLocale === locale) return;
     
     try {
