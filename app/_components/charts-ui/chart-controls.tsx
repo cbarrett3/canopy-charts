@@ -72,43 +72,50 @@ export function ChartControls({
   return (
     <div className="w-full space-y-3">
       <div className="relative flex items-center justify-center w-full gap-4 my-4">
-        <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-foreground/30 to-transparent dark:via-foreground/40" />
+        <div className="hidden sm:block h-[1px] flex-1 bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
         <Button
-          size="lg"
+          variant="outline"
           onClick={() => setIsExpanded(!isExpanded)}
-          style={{
-            '--theme-color': currentTheme,
-            borderColor: currentTheme
-          } as React.CSSProperties}
           className={clsx(
-            "relative w-full sm:min-w-[250px] sm:max-w-[350px] text-foreground",
-            "bg-background/40 dark:bg-background/20 backdrop-blur-[12px] backdrop-saturate-[180%]",
-            "border border-[var(--theme-color)] dark:border-[var(--theme-color)]/80",
-            "rounded-xl",
-            "shadow-[0_8px_24px_-6px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.25)]",
-            "hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.15),inset_0_2px_3px_rgba(255,255,255,0.3)]",
-            "dark:shadow-[0_8px_24px_-6px_rgba(0,0,0,0.4),inset_0_1px_2px_rgba(255,255,255,0.08)]",
-            "dark:hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.5),inset_0_2px_3px_rgba(255,255,255,0.12)]",
-            "px-4 sm:px-8 py-4 font-semibold text-lg",
-            "transition-all duration-300 ease-out",
-            "hover:scale-[1.01] hover:-translate-y-[1px] active:scale-[0.99] active:translate-y-[0.5px]",
-            "hover:bg-background/50 dark:hover:bg-background/25",
-            "flex items-center justify-center text-center gap-2",
-            "after:absolute after:inset-0 after:rounded-xl after:border after:border-white/10",
-            "after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300"
+            "relative overflow-hidden group/button",
+            "w-full sm:w-[200px] md:w-[240px]",
+            "bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%]",
+            "border-0 transition-all duration-300",
+            "hover:scale-[1.02] hover:-translate-y-[1px]"
           )}
+          style={{
+            boxShadow: `inset 0 0 0 1px ${currentTheme}33`
+          }}
         >
-          <div className="flex items-center gap-4">
-            <span className="flex-1 text-center">{t('customize')}</span>
-            <ChevronUp
+          <div 
+            className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/button:opacity-100"
+            style={{
+              backgroundColor: `${currentTheme}10`
+            }}
+          />
+          <div className="relative flex items-center justify-between gap-2 py-2 px-3">
+            <div className="flex items-center gap-2">
+              <div 
+                className="w-2 h-2 rounded-full transition-all duration-300"
+                style={{ 
+                  backgroundColor: currentTheme,
+                  boxShadow: `0 0 0 1px ${currentTheme}33`
+                }}
+              />
+              <span className="text-sm text-foreground">
+                {t('customize')}
+              </span>
+            </div>
+            <ChevronUp 
               className={clsx(
-                "h-5 w-5 transition-transform duration-200",
-                isExpanded ? "rotate-0" : "rotate-180"
+                "w-4 h-4 text-muted-foreground transition-all duration-300",
+                "group-hover/button:text-foreground",
+                !isExpanded && "rotate-180"
               )}
             />
           </div>
         </Button>
-        <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-foreground/30 to-transparent dark:via-foreground/40" />
+        <div className="hidden sm:block h-[1px] flex-1 bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
       </div>
 
       <div

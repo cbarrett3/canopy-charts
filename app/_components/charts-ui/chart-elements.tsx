@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
 import { useThemeColor } from '@/app/_components/providers/theme-context'
+import { useTranslations } from 'next-intl'
 import clsx from 'clsx';
 
 interface ChartElementsProps {
@@ -42,150 +43,121 @@ export function ChartElements({
   onLabelSizeChange,
 }: ChartElementsProps) {
   const { themeColor = '#22C55E' } = useThemeColor()
+  const t = useTranslations('ChartControls.elements')
 
   const getRgbValues = (color: string) => {
     return color?.replace('#', '').match(/.{2}/g)?.map(x => parseInt(x, 16)).join(',') || '34,197,94'
   }
 
   return (
-    <div className="bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 
-      shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
-      rounded-lg p-4 h-full">
-      <div className="space-y-4">
-        {/* <Label className="text-sm font-medium text-foreground/90">Chart Elements</Label> */}
-        <div className="flex items-center gap-2 mb-2">
-        <div className="h-2 w-2 rounded-sm" style={{ backgroundColor: themeColor }} />
-        <h3 className="text-sm font-medium text-foreground">Element Selector</h3>
+    <div 
+      className="relative bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] 
+        rounded-lg p-4 h-full space-y-4 transition-all duration-300"
+      style={{ 
+        boxShadow: `inset 0 0 0 1px ${themeColor}33`
+      }}
+    >
+      <div className="flex items-center gap-2">
+        <div 
+          className="w-3 h-3 rounded-full"
+          style={{ 
+            backgroundColor: themeColor,
+            boxShadow: `0 0 0 1px ${themeColor}33`
+          }}
+        />
+        <h3 className="text-sm font-medium text-foreground">{t('title')}</h3>
       </div>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-3">
-          <div className="flex items-center justify-between space-x-2">
-            <Label htmlFor="show-axes" className="text-sm">Axes</Label>
-            <Switch
-              id="show-axes"
-              checked={showAxes}
-              onCheckedChange={onAxesChange}
-              className={clsx(
-                "data-[state=checked]:bg-current data-[state=checked]:opacity-90",
-                "data-[state=checked]:shadow-[0_0_8px_rgba(var(--theme-rgb),0.4)]",
-                "transition-all duration-300"
-              )}
-              style={{
-                '--theme-rgb': showAxes ? getRgbValues(themeColor) : undefined,
-                color: showAxes ? themeColor : undefined
-              } as any}
-            />
+
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label className="text-sm text-muted-foreground font-normal">{t('axes')}</Label>
+              <Switch
+                checked={showAxes}
+                onCheckedChange={onAxesChange}
+                className="data-[state=checked]:bg-[var(--theme-color)]"
+                style={{ '--theme-color': themeColor } as React.CSSProperties}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <Label className="text-sm text-muted-foreground font-normal">{t('grid')}</Label>
+              <Switch
+                checked={showGrid}
+                onCheckedChange={onGridChange}
+                className="data-[state=checked]:bg-[var(--theme-color)]"
+                style={{ '--theme-color': themeColor } as React.CSSProperties}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <Label className="text-sm text-muted-foreground font-normal">{t('labels')}</Label>
+              <Switch
+                checked={showLabels}
+                onCheckedChange={onLabelsChange}
+                className="data-[state=checked]:bg-[var(--theme-color)]"
+                style={{ '--theme-color': themeColor } as React.CSSProperties}
+              />
+            </div>
           </div>
-          
-          <div className="flex items-center justify-between space-x-2">
-            <Label htmlFor="show-grid" className="text-sm">Grid</Label>
-            <Switch
-              id="show-grid"
-              checked={showGrid}
-              onCheckedChange={onGridChange}
-              className={clsx(
-                "data-[state=checked]:bg-current data-[state=checked]:opacity-90",
-                "data-[state=checked]:shadow-[0_0_8px_rgba(var(--theme-rgb),0.4)]",
-                "transition-all duration-300"
-              )}
-              style={{
-                '--theme-rgb': showGrid ? getRgbValues(themeColor) : undefined,
-                color: showGrid ? themeColor : undefined
-              } as any}
-            />
-          </div>
-          
-          <div className="flex items-center justify-between space-x-2">
-            <Label htmlFor="show-labels" className="text-sm">Labels</Label>
-            <Switch
-              id="show-labels"
-              checked={showLabels}
-              onCheckedChange={onLabelsChange}
-              className={clsx(
-                "data-[state=checked]:bg-current data-[state=checked]:opacity-90",
-                "data-[state=checked]:shadow-[0_0_8px_rgba(var(--theme-rgb),0.4)]",
-                "transition-all duration-300"
-              )}
-              style={{
-                '--theme-rgb': showLabels ? getRgbValues(themeColor) : undefined,
-                color: showLabels ? themeColor : undefined
-              } as any}
-            />
-          </div>
-          
-          <div className="flex items-center justify-between space-x-2">
-            <Label htmlFor="show-title" className="text-sm">Title</Label>
-            <Switch
-              id="show-title"
-              checked={showTitle}
-              onCheckedChange={onTitleChange}
-              className={clsx(
-                "data-[state=checked]:bg-current data-[state=checked]:opacity-90",
-                "data-[state=checked]:shadow-[0_0_8px_rgba(var(--theme-rgb),0.4)]",
-                "transition-all duration-300"
-              )}
-              style={{
-                '--theme-rgb': showTitle ? getRgbValues(themeColor) : undefined,
-                color: showTitle ? themeColor : undefined
-              } as any}
-            />
-          </div>
-          
-          <div className="flex items-center justify-between space-x-2">
-            <Label htmlFor="show-legend" className="text-sm">Legend</Label>
-            <Switch
-              id="show-legend"
-              checked={showLegend}
-              onCheckedChange={onLegendChange}
-              className={clsx(
-                "data-[state=checked]:bg-current data-[state=checked]:opacity-90",
-                "data-[state=checked]:shadow-[0_0_8px_rgba(var(--theme-rgb),0.4)]",
-                "transition-all duration-300"
-              )}
-              style={{
-                '--theme-rgb': showLegend ? getRgbValues(themeColor) : undefined,
-                color: showLegend ? themeColor : undefined
-              } as any}
-            />
-          </div>
-          
-          <div className="flex items-center justify-between space-x-2">
-            <Label htmlFor="show-tooltips" className="text-sm">Tooltips</Label>
-            <Switch
-              id="show-tooltips"
-              checked={showTooltips}
-              onCheckedChange={onTooltipsChange}
-              className={clsx(
-                "data-[state=checked]:bg-current data-[state=checked]:opacity-90",
-                "data-[state=checked]:shadow-[0_0_8px_rgba(var(--theme-rgb),0.4)]",
-                "transition-all duration-300"
-              )}
-              style={{
-                '--theme-rgb': showTooltips ? getRgbValues(themeColor) : undefined,
-                color: showTooltips ? themeColor : undefined
-              } as any}
-            />
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label className="text-sm text-muted-foreground font-normal">{t('title_element')}</Label>
+              <Switch
+                checked={showTitle}
+                onCheckedChange={onTitleChange}
+                className="data-[state=checked]:bg-[var(--theme-color)]"
+                style={{ '--theme-color': themeColor } as React.CSSProperties}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <Label className="text-sm text-muted-foreground font-normal">{t('legend')}</Label>
+              <Switch
+                checked={showLegend}
+                onCheckedChange={onLegendChange}
+                className="data-[state=checked]:bg-[var(--theme-color)]"
+                style={{ '--theme-color': themeColor } as React.CSSProperties}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <Label className="text-sm text-muted-foreground font-normal">{t('tooltips')}</Label>
+              <Switch
+                checked={showTooltips}
+                onCheckedChange={onTooltipsChange}
+                className="data-[state=checked]:bg-[var(--theme-color)]"
+                style={{ '--theme-color': themeColor } as React.CSSProperties}
+              />
+            </div>
           </div>
         </div>
 
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="label-size" className="text-sm" style={{ color: showLabels ? themeColor : undefined }}>Label Size</Label>
-            <span className="text-sm text-muted-foreground" style={{ color: showLabels ? themeColor : undefined }}>{labelSize}px</span>
+            <Label className="text-sm text-muted-foreground font-normal">{t('label_size')}</Label>
+            <span className="text-xs text-muted-foreground font-mono select-none">{labelSize}px</span>
           </div>
           <Slider
-            id="label-size"
-            min={8}
-            max={24}
-            step={1}
             value={[labelSize]}
+            min={8}
+            max={16}
+            step={1}
             onValueChange={([value]) => onLabelSizeChange(value)}
-            className="w-full"
-            disabled={!showLabels}
+            className={clsx(
+              "relative flex items-center select-none touch-none w-full transition-colors",
+              "[&_[role=slider]]:h-4 [&_[role=slider]]:w-1 [&_[role=slider]]:rounded-sm",
+              "[&_[role=slider]]:border-0 [&_[role=slider]]:bg-[var(--slider-color)]",
+              "[&_[role=slider]]:transition-colors [&_[role=slider]]:focus-visible:outline-none",
+              "[&_[role=track]]:relative [&_[role=track]]:w-full [&_[role=track]]:grow",
+              "[&_[role=track]]:h-1 [&_[role=track]]:bg-secondary/20",
+              "[&_[role=range]]:absolute [&_[role=range]]:h-1 [&_[role=range]]:bg-[var(--slider-color)]"
+            )}
             style={{
-              '--slider-thumb': showLabels ? themeColor : undefined,
-              '--slider-track': showLabels ? `${themeColor}20` : undefined,
-              '--slider-track-focus': showLabels ? `${themeColor}40` : undefined
-            } as any}
+              '--slider-color': themeColor
+            } as React.CSSProperties}
           />
         </div>
       </div>

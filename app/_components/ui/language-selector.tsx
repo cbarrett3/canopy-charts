@@ -22,6 +22,20 @@ export default function LanguageSelector() {
 
   return (
     <div className="relative">
+      <style jsx global>{`
+        .eng-gradient {
+          background: linear-gradient(to right, #0ea5e9, #22c55e);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+        .es-gradient {
+          background: linear-gradient(to right, #eab308, #22c55e);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+      `}</style>
       <div className={cn(
         "relative flex items-center gap-1 p-1",
         "rounded-full",
@@ -47,7 +61,7 @@ export default function LanguageSelector() {
           className={cn(
             "relative z-10 px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200",
             locale === 'en' 
-              ? "text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-red-500 to-white" 
+              ? "eng-gradient font-medium" 
               : "text-foreground/60 hover:text-foreground/80"
           )}
         >
@@ -58,7 +72,7 @@ export default function LanguageSelector() {
           className={cn(
             "relative z-10 px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200",
             locale === 'es' 
-              ? "text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-green-500 to-red-500" 
+              ? "es-gradient font-medium" 
               : "text-foreground/60 hover:text-foreground/80"
           )}
         >

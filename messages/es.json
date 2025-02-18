@@ -21,15 +21,20 @@
   },
   "hero": {
     "title": "Canopy Charts",
-    "subtitle": {
-      "line1": "Visualización de Datos",
-      "line2": "Reimaginada"
+    "tagline": {
+      "part1": "Visualizaciones D3.js",
+      "part2": "hermosas e intuitivas",
+      "part3": "para apps React modernas"
     },
-    "description": "Visualizaciones D3.js hermosas y personalizables para React. Accesible. Ligero. Copia, pega, personaliza.",
-    "buttons": {
-      "getStarted": "Comenzar",
-      "github": "Ver en GitHub"
-    }
+    "features": {
+      "beautiful": "Hermoso",
+      "customizable": "Personalizable",
+      "accessible": "Accesible",
+      "lightweight": "Ligero"
+    },
+    "action": "Copia. Pega. Hazlo tuyo.",
+    "create": "Crear Gráfico",
+    "learn": "Documentación"
   },
   "Docs": {
     "title": "Documentación",
@@ -412,7 +417,7 @@
         "preview": "Vista Previa del Color"
       }
     },
-    "customize": "Personalizar Gráfico",
+    "customize": "Personal",
     "elements": {
       "title": "Elementos",
       "labels": "Etiquetas",
@@ -432,7 +437,7 @@
   },
   "ChartUI": {
     "colors": "Colores",
-    "customizeColors": "Personalizar Colores",
+    "customize": "Personal",
     "themes": {
       "forest": {
         "name": "Bosque",
@@ -515,6 +520,16 @@
         "saturation": "Saturación",
         "lightness": "Luminosidad"
       }
+    },
+    "elements": {
+      "title": "Elementos",
+      "axes": "Ejes",
+      "grid": "Cuadrícula",
+      "labels": "Etiquetas",
+      "title_element": "Título",
+      "legend": "Leyenda",
+      "tooltips": "Tooltips",
+      "label_size": "Tamaño de Etiqueta"
     },
     "vibes": {
       "title": "Ambientes",

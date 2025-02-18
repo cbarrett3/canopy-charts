@@ -247,11 +247,22 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
   }, [currentTheme, setThemeColor])
 
   return (
-    <div className="bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 rounded-lg p-4 space-y-4">
+    <div 
+      className="group/container relative bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] rounded-lg p-4 space-y-4 transition-all duration-300"
+      style={{ 
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: `${currentTheme}33`,
+        boxShadow: `inset 0 0 0 1px ${currentTheme}1a`
+      }}
+    >
       <div className="flex items-center gap-2">
         <div 
           className="w-3 h-3 rounded-full"
-          style={{ backgroundColor: currentTheme }}
+          style={{ 
+            backgroundColor: currentTheme,
+            boxShadow: `0 0 0 1px ${currentTheme}33`
+          }}
         />
         <h3 className="text-sm font-medium">{t('colors')}</h3>
       </div>
@@ -264,18 +275,33 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
                 <Button
                   variant="outline"
                   className={clsx(
-                    "w-full h-10 rounded-md border border-border/40",
-                    "bg-background/40 dark:bg-[#1B1B1B]/30",
-                    "hover:bg-background/60 dark:hover:bg-[#1B1B1B]/50",
-                    "transition-colors duration-200",
-                    currentTheme === theme.color && "ring-2 ring-[var(--theme-color)]"
+                    "relative w-full h-10 rounded-md overflow-hidden group/color",
+                    "transition-all duration-300",
+                    currentTheme === theme.color ? [
+                      "scale-110 z-10",
+                      "shadow-[0_0_20px_-5px_var(--theme-color)]",
+                      theme.color === '#22C55E' && "animate-in fade-in duration-500"
+                    ] : [
+                      "hover:scale-105 hover:z-10",
+                      "opacity-80 hover:opacity-100"
+                    ]
                   )}
                   style={{ 
                     background: `linear-gradient(to right, ${theme.gradient.join(', ')})`,
                     '--theme-color': theme.color
                   } as React.CSSProperties}
                   onClick={() => onThemeChange(theme.color)}
-                />
+                >
+                  <div 
+                    className={clsx(
+                      "absolute inset-0 transition-opacity duration-300",
+                      currentTheme === theme.color 
+                        ? "opacity-0" 
+                        : "opacity-100 group-hover/color:opacity-0",
+                      "bg-background/40 dark:bg-[#1B1B1B]/40 backdrop-blur-[2px]"
+                    )}
+                  />
+                </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p className="font-medium">{t(`themes.${theme.name}.name`)}</p>
@@ -286,44 +312,73 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
         ))}
       </div>
 
-      <Popover open={isOpen} onOpenChange={setIsOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            size="sm"
-            className="color-selector-trigger w-full mt-2 bg-background/40 dark:bg-[#1B1B1B]/30 border-border/40 
-              hover:bg-background/60 dark:hover:bg-[#1B1B1B]/50 
-              hover:border-border/80 
-              hover:shadow-[0_0_12px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_0_12px_rgba(0,0,0,0.15)]
-              transform hover:scale-[1.01] hover:-translate-y-[1px] active:scale-[0.99] active:translate-y-[0.5px]
-              transition-all duration-200 ease-out"
-          >
-            <div className="flex items-center gap-2 w-full">
+      <div className="relative mt-2 group">
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="relative w-full bg-background/40 dark:bg-[#1B1B1B]/30 border-0 
+                hover:bg-background/60 dark:hover:bg-[#1B1B1B]/50 
+                transition-all duration-300 overflow-hidden
+                group/button"
+              style={{
+                boxShadow: `inset 0 0 0 1px ${currentTheme}33`,
+                '--theme-color': currentTheme
+              } as React.CSSProperties}
+            >
               <div 
-                className="w-3 h-3 rounded-full"
-                style={{ backgroundColor: currentTheme }}
+                className="absolute inset-0 opacity-0 group-hover/button:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: `linear-gradient(120deg, transparent, ${currentTheme}0a, transparent)`,
+                  transform: 'translateX(-100%)',
+                  animation: 'shimmer 2s infinite'
+                }}
               />
-              <span className="flex-1 text-sm">{t('customizeColors')}</span>
-            </div>
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          className="p-0 bg-background/95 dark:bg-[#1B1B1B]/95 backdrop-blur-[12px] backdrop-saturate-[180%] border-border/40"
-          side="top"
-          align="end"
-          alignOffset={-8}
-          sideOffset={8}
-          avoidCollisions={true}
-        >
-          <CustomColorPicker
-            currentColor={currentTheme}
-            onChange={(color) => {
-              onThemeChange(color)
-              // Don't close the popup when color changes
-            }}
-          />
-        </PopoverContent>
-      </Popover>
+              <style jsx>{`
+                @keyframes shimmer {
+                  100% {
+                    transform: translateX(100%);
+                  }
+                }
+              `}</style>
+              <div className="relative flex items-center gap-2 w-full">
+                <div 
+                  className="absolute inset-y-0 left-0 w-[2px] bg-[var(--theme-color)]/40 
+                    transition-all duration-300
+                    group-hover/button:bg-[var(--theme-color)] group-hover/button:w-[3px]"
+                />
+                <div 
+                  className="w-2 h-2 rounded-full ml-2 transition-transform duration-300
+                    group-hover/button:scale-110"
+                  style={{ 
+                    backgroundColor: currentTheme,
+                    boxShadow: `0 0 0 1px ${currentTheme}33`
+                  }}
+                />
+                <span className="flex-1 text-xs font-medium uppercase tracking-wider transition-colors duration-300
+                  text-foreground/70 group-hover/button:text-foreground">{t('customize')}</span>
+              </div>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            className="p-0 bg-background/95 dark:bg-[#1B1B1B]/95 backdrop-blur-[12px] backdrop-saturate-[180%] border-border/40"
+            side="top"
+            align="end"
+            alignOffset={-8}
+            sideOffset={8}
+            avoidCollisions={true}
+          >
+            <CustomColorPicker
+              currentColor={currentTheme}
+              onChange={(color) => {
+                onThemeChange(color)
+                // Don't close the popup when color changes
+              }}
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
     </div>
   )
 }

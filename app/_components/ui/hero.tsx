@@ -18,46 +18,79 @@ export function Hero() {
 
    return (
       <div className="relative min-h-screen w-full overflow-hidden bg-background dark:bg-[#1B1B1B]">
-         <style jsx>{`
-        @keyframes floating {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-          100% { transform: translateY(0px); }
-        }
-        .animate-floating {
-          animation: floating 6s ease-in-out infinite;
-        }
-        @keyframes shine {
-          to {
-            background-position: 200% center;
+         <style jsx global>{`
+          @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
           }
-        }
-        .chrome-gradient {
-          background: linear-gradient(
-            to right,
-            #064e3b,
-            #059669,
-            #10b981,
-            #34d399,
-            #6ee7b7,
-            #34d399,
-            #10b981,
-            #059669,
-            #064e3b
-          );
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-          background-size: 200% auto;
-          animation: shine 8s linear infinite;
-          text-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
-        }
-      `}</style>
+          .animate-floating {
+            animation: floating 6s ease-in-out infinite;
+          }
+          @keyframes shine {
+            to {
+              background-position: 200% center;
+            }
+          }
+          .chrome-gradient {
+            background: linear-gradient(
+              to right,
+              #064e3b,
+              #059669,
+              #10b981,
+              #34d399,
+              #6ee7b7,
+              #34d399,
+              #10b981,
+              #059669,
+              #064e3b
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: shine 8s linear infinite;
+            text-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+          }
+          .glow-text {
+            background: linear-gradient(
+              to right,
+              #22c55e,
+              #4ade80,
+              #86efac,
+              #4ade80,
+              #22c55e
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: shine 8s linear infinite;
+            text-shadow: 
+              0 0 20px rgba(34, 197, 94, 0.3),
+              0 0 35px rgba(34, 197, 94, 0.2),
+              0 0 50px rgba(34, 197, 94, 0.1);
+          }
+          .glow-pulse {
+            animation: glow-pulse 2s ease-in-out infinite;
+          }
+          @keyframes glow-pulse {
+            0%, 100% { filter: brightness(1) blur(10px); }
+            50% { filter: brightness(1.2) blur(8px); }
+          }
+        `}</style>
 
          {/* Grid Background */}
-         <div className="absolute inset-0 mt-20">
-            <div className="absolute inset-0 bg-grid-slate-900/[0.04] dark:bg-grid-slate-100/[0.03] bg-[bottom_1px_center] dark:[mask-image:linear-gradient(transparent,black)]" />
-            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-background via-transparent to-transparent dark:from-[#1B1B1B]" />
+         <div className="absolute inset-0">
+            <div 
+              className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_-20%,#000_40%,transparent_100%)]" 
+            />
+            <div 
+              className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-transparent dark:from-[#1B1B1B] dark:via-[#1B1B1B]/90 dark:to-transparent"
+            />
+            <div 
+              className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-transparent dark:from-[#1B1B1B] dark:via-transparent dark:to-transparent h-40"
+            />
          </div>
 
          {/* Main Container */}
@@ -80,122 +113,182 @@ export function Hero() {
                "relative z-10 flex flex-col justify-start px-2 text-center sm:px-6 lg:w-1/2 lg:justify-center lg:px-8 lg:text-left xl:px-12",
                mounted ? "animate-in fade-in-50 duration-1000" : "opacity-0"
             )}>
-               <h1 className="mb-2 relative">
-                  <motion.span
-                    className={cn(
-                      "block text-4xl font-extrabold tracking-tight leading-relaxed pb-4 sm:text-5xl md:text-6xl lg:text-7xl",
-                      "bg-clip-text text-transparent relative z-10"
-                    )}
-                    style={{
-                      WebkitBackgroundClip: "text",
-                      backgroundImage: "linear-gradient(to right, #22c55e, #4ade80, #86efac, #4ade80, #22c55e)",
-                      backgroundSize: "200% auto"
-                    }}
-                    animate={{
-                      backgroundPosition: ["0% center", "200% center"]
-                    }}
-                    transition={{
-                      duration: 8,
-                      ease: "linear",
-                      repeat: Infinity
-                    }}
-                  >
-                    {t('title')}
-                  </motion.span>
-                  <motion.span 
-                    className={cn(
-                      "mt-6 block text-2xl font-bold sm:text-3xl md:text-4xl lg:mt-8 lg:text-5xl",
-                      "bg-clip-text text-transparent relative z-10"
-                    )}
-                    style={{
-                      WebkitBackgroundClip: "text",
-                      backgroundImage: "linear-gradient(to right, hsl(var(--foreground)), hsl(var(--muted-foreground)), hsl(var(--foreground)))",
-                      backgroundSize: "200% auto",
-                      filter: "drop-shadow(0 0 2px rgba(255,255,255,0.1))"
-                    }}
-                    animate={{
-                      backgroundPosition: ["0% center", "200% center"]
-                    }}
-                    transition={{
-                      duration: 12,
-                      ease: "linear",
-                      repeat: Infinity
-                    }}
-                  >
-                    {t('subtitle.line1')}
-                    <br />
-                    {t('subtitle.line2')}
-                  </motion.span>
-                </h1>
-               <motion.p 
-                  className="mb-4 mt-4 text-base text-gray-400 sm:text-lg md:text-xl lg:text-2xl"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+               <motion.div
+                 initial={{ opacity: 0, y: 20 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ duration: 0.5 }}
                >
-                  {t('description')}
-               </motion.p>
-               <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start mb-8">
-                  <Button
-                     size="lg"
-                     asChild
-                     className={cn(
-                       "relative group px-8",
-                       "bg-green-600 dark:bg-green-500",
-                       "text-base sm:text-lg font-semibold text-green-50/90 dark:text-green-50/85",
-                       "border border-green-500/30 dark:border-green-400/30",
-                       "shadow-[0_1px_2px_rgba(0,0,0,0.05),inset_0_1px_2px_rgba(255,255,255,0.1)]",
-                       "dark:shadow-[0_1px_3px_rgba(0,0,0,0.3),inset_0_1px_2px_rgba(255,255,255,0.15)]",
-                       "hover:scale-[1.02] hover:shadow-[0_8px_24px_-4px_rgba(22,163,74,0.2),0_4px_12px_-2px_rgba(22,163,74,0.15),inset_0_1px_2px_rgba(255,255,255,0.1)]",
-                       "dark:hover:shadow-[0_8px_24px_-4px_rgba(22,163,74,0.4),0_4px_12px_-2px_rgba(22,163,74,0.3),inset_0_1px_2px_rgba(255,255,255,0.15)]",
-                       "transition-all duration-300 ease-out"
-                     )}
-                  >
-                    <Link href="/docs">
-                      <div className="absolute inset-0 rounded-lg bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
-                      <motion.span 
-                        className="relative"
-                        whileHover={{ 
-                          scale: 1.05,
-                          textShadow: "0 0 8px rgba(255,255,255,0.3)"
+                 <motion.h1 
+                   className="mb-2 relative"
+                   initial={{ opacity: 0, y: 20 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   transition={{ duration: 0.5, delay: 0.2 }}
+                 >
+                    <motion.span
+                      className={cn(
+                        "block text-4xl font-bold tracking-tight leading-tight sm:text-5xl md:text-6xl lg:text-7xl",
+                        "relative z-10 glow-text"
+                      )}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ 
+                        opacity: 1, 
+                        y: 0,
+                        scale: [1, 1.02, 1],
+                      }}
+                      transition={{
+                        opacity: { duration: 0.5 },
+                        y: { duration: 0.5 },
+                        scale: {
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }
+                      }}
+                    >
+                      {t('title')}
+                      <motion.div
+                        className="absolute -inset-x-6 -inset-y-4 z-0 glow-pulse"
+                        initial={{ opacity: 0 }}
+                        animate={{ 
+                          opacity: [0.3, 0.5, 0.3],
                         }}
-                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                      >
-                        {t('buttons.getStarted')}
-                      </motion.span>
-                    </Link>
-                  </Button>
-                  <Button
-                     size="lg"
-                     variant="secondary"
-                     asChild
-                     className={cn(
-                       "relative group px-8",
-                       "bg-[#2A2A2A] dark:bg-[#1B1B1B]",
-                       "text-base sm:text-lg font-semibold text-gray-300",
-                       "border border-white/5 dark:border-white/10",
-                       "shadow-[0_1px_2px_rgba(0,0,0,0.05),inset_0_1px_2px_rgba(255,255,255,0.075)]",
-                       "dark:shadow-[0_1px_3px_rgba(0,0,0,0.3),inset_0_1px_2px_rgba(255,255,255,0.05)]",
-                       "hover:scale-[1.02] hover:shadow-[0_8px_24px_-4px_rgba(0,0,0,0.12),0_4px_12px_-2px_rgba(0,0,0,0.08),inset_0_1px_2px_rgba(255,255,255,0.075)]",
-                       "dark:hover:shadow-[0_8px_24px_-4px_rgba(0,0,0,0.3),0_4px_12px_-2px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
-                       "hover:bg-[#353535] dark:hover:bg-[#252525]",
-                       "transition-all duration-300 ease-out"
-                     )}
-                  >
-                    <Link href="https://github.com/cbarrett3/canopy-charts">
-                      <div className="absolute inset-0 rounded-lg bg-green-500/0 group-hover:bg-green-500/10 transition-all duration-300 blur-lg" />
-                      <motion.span 
-                        className="relative"
-                        whileHover={{ 
-                          scale: 1.05,
-                          textShadow: "0 0 8px rgba(255,255,255,0.2)"
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
                         }}
-                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                      >
-                        {t('buttons.github')}
-                      </motion.span>
-                    </Link>
-                  </Button>
-               </div>
+                        style={{
+                          background: "radial-gradient(circle, rgba(34, 197, 94, 0.2) 0%, transparent 70%)",
+                        }}
+                      />
+                    </motion.span>
+                    <motion.div
+                      className="absolute -inset-x-4 -inset-y-2 z-0 hidden lg:block"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: [0.1, 0.15, 0.1] }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                      style={{
+                        background: "radial-gradient(circle, rgba(34, 197, 94, 0.15) 0%, transparent 70%)",
+                        filter: "blur(10px)"
+                      }}
+                    />
+                 </motion.h1>
+
+                 <div className="mt-6 max-w-lg mx-auto lg:mx-0 lg:max-w-2xl space-y-4">
+                   <motion.div
+                     className="block text-xl sm:text-2xl md:text-3xl text-zinc-800/90 dark:text-zinc-200/90 leading-relaxed"
+                     initial={{ opacity: 0, y: 20 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.5, delay: 0.6 }}
+                   >
+                     <span className="text-green-600 dark:text-green-400 font-medium">{t('tagline.part1')}</span>
+                     {" "}
+                     <span className="text-green-600/90 dark:text-green-400/90">{t('tagline.part2')}</span>
+                     {" "}
+                     <span className="text-green-600/80 dark:text-green-400/80">{t('tagline.part3')}</span>
+                   </motion.div>
+
+                   <motion.div 
+                     className="flex flex-wrap gap-3 text-base sm:text-lg justify-center lg:justify-start"
+                     initial={{ opacity: 0, y: 10 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.5, delay: 0.8 }}
+                   >
+                     {['beautiful', 'customizable', 'accessible', 'lightweight'].map((feature, index) => (
+                       <motion.span
+                         key={feature}
+                         className="inline-flex items-center bg-green-500/10 px-3 py-1 rounded-full text-green-700 dark:text-green-500"
+                         initial={{ opacity: 0, scale: 0.9 }}
+                         animate={{ opacity: 1, scale: 1 }}
+                         transition={{ 
+                           duration: 0.3,
+                           delay: 1 + (index * 0.1),
+                           ease: "easeOut"
+                         }}
+                       >
+                         {t(`features.${feature}`)}
+                       </motion.span>
+                     ))}
+                   </motion.div>
+
+                   <motion.div
+                     className="text-lg sm:text-xl text-zinc-700/90 dark:text-zinc-300/80 text-center lg:text-left"
+                     initial={{ opacity: 0, y: 10 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.5, delay: 1.4 }}
+                   >
+                     {t('action')}
+                   </motion.div>
+                 </div>
+
+                 <motion.div
+                   className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start"
+                   initial={{ opacity: 0, y: 20 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   transition={{ duration: 0.5, delay: 1.6 }}
+                 >
+                    <Button
+                      asChild
+                      size="lg"
+                      className="relative group/button overflow-hidden bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400"
+                    >
+                      <Link href="/editor">
+                        <motion.span
+                          className="relative z-10 flex items-center gap-2 text-base"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          {t('create')}
+                          <motion.div
+                            className="w-5 h-5 rounded-full bg-white/20"
+                            animate={{ 
+                              scale: [1, 1.2, 1],
+                              rotate: [0, 180, 360],
+                              opacity: [0.5, 0.8, 0.5]
+                            }}
+                            transition={{ 
+                              duration: 2,
+                              repeat: Infinity,
+                              ease: "easeInOut"
+                            }}
+                          />
+                        </motion.span>
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-300/20"
+                          initial={{ x: "100%" }}
+                          whileHover={{ x: "-100%" }}
+                          transition={{ duration: 1, ease: "easeInOut" }}
+                        />
+                      </Link>
+                    </Button>
+                    <Button
+                      asChild
+                      size="lg"
+                      variant="outline"
+                      className="relative group/button overflow-hidden border-green-500/30"
+                    >
+                      <Link href="/docs">
+                        <motion.span
+                          className="relative z-10 text-base"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          {t('learn')}
+                        </motion.span>
+                        <motion.div
+                          className="absolute inset-0 bg-green-500/10"
+                          initial={{ opacity: 0 }}
+                          whileHover={{ opacity: 1 }}
+                          transition={{ duration: 0.2 }}
+                        />
+                      </Link>
+                    </Button>
+                 </motion.div>
+               </motion.div>
             </div>
          </div>
       </div>

@@ -27,8 +27,9 @@ const vibes = [
       transition: { duration: 2, repeat: Infinity, ease: "easeInOut" }
     },
     loadAnimation: {
-      rotate: [-10, 0],
-      scale: [0.5, 1],
+      x: [-10, 0],
+      scale: [0.9, 1],
+      opacity: 0
     }
   },
   {
@@ -41,8 +42,9 @@ const vibes = [
       transition: { duration: 3, repeat: Infinity, ease: "easeInOut" }
     },
     loadAnimation: {
-      scale: [1.5, 1],
-      rotate: [45, 0],
+      y: [-10, 0],
+      scale: [0.9, 1],
+      opacity: 0
     }
   },
   {
@@ -50,13 +52,13 @@ const vibes = [
     Icon: Snowflake,
     baseColor: '#94A3B8',
     hoverAnimation: {
-      rotate: [0, 180],
-      scale: [1, 1.1, 0.9, 1],
-      transition: { duration: 2, repeat: Infinity, ease: "linear" }
+      rotate: [0, 360],
+      transition: { duration: 8, repeat: Infinity, ease: "linear" }
     },
     loadAnimation: {
-      rotate: [-90, 0],
-      scale: [0.5, 1],
+      x: [10, 0],
+      scale: [0.9, 1],
+      opacity: 0
     }
   },
   {
@@ -70,8 +72,9 @@ const vibes = [
       transition: { duration: 2, repeat: Infinity, ease: "easeInOut" }
     },
     loadAnimation: {
-      y: [20, 0],
-      rotate: [15, 0],
+      y: [10, 0],
+      scale: [0.9, 1],
+      opacity: 0
     }
   },
   {
@@ -86,7 +89,8 @@ const vibes = [
     },
     loadAnimation: {
       y: [10, 0],
-      scale: [0.8, 1],
+      scale: [0.9, 1],
+      opacity: 0
     }
   },
   {
@@ -99,8 +103,9 @@ const vibes = [
       transition: { duration: 2, repeat: Infinity, ease: "easeInOut" }
     },
     loadAnimation: {
-      x: [-20, 0],
-      rotate: [-10, 0],
+      x: [-10, 0],
+      scale: [0.9, 1],
+      opacity: 0
     }
   }
 ]
@@ -120,14 +125,24 @@ export function VibeSelector({ selectedVibe = 'rainforest' as VibeType, onVibeCh
   }, [])
 
   return (
-    <div className="bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 
-      shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
-      hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)] 
-      dark:shadow-[0_8px_16px_-6px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] 
-      dark:hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.07)]
-      rounded-lg p-4 h-full transition-all duration-300
-      relative group">
-      <h3 className="text-sm font-medium mb-3">{t('title')}</h3>
+    <div 
+      className="relative bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] 
+        rounded-lg p-4 h-full space-y-3 transition-all duration-300"
+      style={{ 
+        boxShadow: `inset 0 0 0 1px ${themeColor}33`,
+      }}
+    >
+      <div className="flex items-center gap-2">
+        <div 
+          className="w-3 h-3 rounded-full"
+          style={{ 
+            backgroundColor: themeColor,
+            boxShadow: `0 0 0 1px ${themeColor}33`
+          }}
+        />
+        <h3 className="text-sm font-medium">{t('title')}</h3>
+      </div>
+
       <div className="grid grid-cols-3 gap-2">
         {vibes.map((vibe) => {
           const isSelected = selectedVibe === vibe.id
@@ -139,29 +154,36 @@ export function VibeSelector({ selectedVibe = 'rainforest' as VibeType, onVibeCh
                     initial={vibe.loadAnimation as any}
                     animate={{ opacity: 1, scale: 1, rotate: 0, x: 0, y: 0 }}
                     transition={{ 
-                      delay: vibes.indexOf(vibe) * 0.1, 
-                      duration: 0.4, 
+                      delay: vibes.indexOf(vibe) * 0.05, 
+                      duration: 0.3, 
                       type: "spring",
-                      stiffness: 100
+                      stiffness: 400,
+                      damping: 25
                     }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95, y: 2 }}
                     onClick={() => onVibeChange(vibe.id as VibeType)}
                     className={clsx(
-                      "relative flex flex-col items-center justify-center gap-1.5 w-full p-2 rounded-md",
-                      "text-muted-foreground hover:text-foreground transition-colors duration-200",
-                      "group/vibe overflow-hidden shadow-sm hover:shadow-md",
+                      "relative flex flex-col items-center justify-center gap-1 w-full p-1.5 rounded-md",
+                      "text-muted-foreground hover:text-foreground transition-all duration-300",
+                      "group/vibe",
                       "bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%]",
-                      "border border-transparent hover:border-border/40",
-                      isSelected && [
-                        "border-border/40",
-                        "bg-accent/50 dark:bg-accent/20",
-                        "text-foreground"
+                      isSelected ? [
+                        "text-foreground",
+                        "border-[var(--theme-color)]"
+                      ] : [
+                        "border-zinc-400/10 dark:border-zinc-600/10",
+                        "hover:border-[var(--theme-color)]/40"
                       ]
                     )}
+                    style={{ 
+                      '--theme-color': themeColor,
+                      borderWidth: '1px',
+                      borderStyle: 'solid'
+                    } as React.CSSProperties}
                   >
                     <motion.div 
-                      className="relative"
+                      className="relative p-2"
                       style={{ 
                         color: isSelected ? themeColor : vibe.baseColor,
                       }}
@@ -171,15 +193,16 @@ export function VibeSelector({ selectedVibe = 'rainforest' as VibeType, onVibeCh
                       {isSelected && (
                         <>
                           <motion.div
-                            className="absolute inset-[-16px] rounded-full opacity-20"
+                            className="absolute inset-0 rounded-full"
                             style={{ 
-                              background: `radial-gradient(circle, ${themeColor}40 0%, transparent 70%)`,
-                              filter: 'blur(8px)'
+                              background: `radial-gradient(circle at center, ${themeColor} 0%, transparent 70%)`,
+                              filter: 'blur(8px)',
+                              transform: 'scale(2.5)'
                             }}
-                            initial={{ scale: 0.8, opacity: 0 }}
+                            initial={{ scale: 2, opacity: 0 }}
                             animate={{ 
-                              scale: [0.8, 1.1, 0.9, 1],
-                              opacity: [0, 0.3, 0.2, 0.25],
+                              scale: [2, 2.5, 2.2, 2.3],
+                              opacity: [0, 0.4, 0.3, 0.35],
                             }}
                             transition={{
                               duration: 2,
@@ -189,14 +212,15 @@ export function VibeSelector({ selectedVibe = 'rainforest' as VibeType, onVibeCh
                             }}
                           />
                           <motion.div
-                            className="absolute inset-[-12px] rounded-full opacity-20"
+                            className="absolute inset-0 rounded-full"
                             style={{ 
-                              background: `radial-gradient(circle, ${themeColor}60 0%, transparent 60%)`,
-                              filter: 'blur(4px)'
+                              background: `radial-gradient(circle at center, ${themeColor}60 0%, transparent 60%)`,
+                              filter: 'blur(4px)',
+                              transform: 'scale(2)'
                             }}
-                            initial={{ scale: 0.8, opacity: 0 }}
+                            initial={{ scale: 1.8, opacity: 0 }}
                             animate={{ 
-                              scale: [1, 0.9, 1.1, 1],
+                              scale: [1.8, 2, 1.8, 1.9],
                               opacity: [0.2, 0.3, 0.2, 0.25],
                             }}
                             transition={{
@@ -204,12 +228,18 @@ export function VibeSelector({ selectedVibe = 'rainforest' as VibeType, onVibeCh
                               repeat: Infinity,
                               repeatType: "reverse",
                               ease: "easeInOut",
-                              delay: 0.5
+                              delay: 0.1
                             }}
                           />
                         </>
                       )}
-                      <vibe.Icon size={24} strokeWidth={2} />
+                      <vibe.Icon 
+                        size={18}
+                        className={clsx(
+                          "transition-transform duration-300",
+                          isSelected && "scale-110"
+                        )}
+                      />
                     </motion.div>
                     <motion.span 
                       className="text-xs capitalize"
