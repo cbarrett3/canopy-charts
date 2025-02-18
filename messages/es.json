@@ -401,7 +401,16 @@
   },
   "chart": {
     "colorSelector": {
-      "title": "Selector de Color"
+      "title": "Selector de Color",
+      "custom": {
+        "title": "Color Personalizado",
+        "hex": "HEX",
+        "rgb": "RGB",
+        "hue": "Tono",
+        "saturation": "Saturación",
+        "lightness": "Luminosidad",
+        "preview": "Vista Previa del Color"
+      }
     },
     "customize": "Personalizar Gráfico",
     "elements": {
@@ -420,6 +429,48 @@
       "saturation": "Saturación",
       "lightness": "Luminosidad"
     }
+  },
+  "ChartUI": {
+    "colors": "Colores",
+    "customizeColors": "Personalizar Colores",
+    "themes": {
+      "forest": {
+        "name": "Bosque",
+        "description": "Verde fresco y natural"
+      },
+      "ocean": {
+        "name": "Océano",
+        "description": "Azul profundo y calmado"
+      },
+      "sunset": {
+        "name": "Atardecer",
+        "description": "Naranja cálido y energético"
+      },
+      "berry": {
+        "name": "Bayas",
+        "description": "Rosa vibrante y alegre"
+      },
+      "lavender": {
+        "name": "Lavanda",
+        "description": "Púrpura elegante y relajante"
+      },
+      "ruby": {
+        "name": "Rubí",
+        "description": "Rojo audaz y apasionado"
+      },
+      "gold": {
+        "name": "Oro",
+        "description": "Amarillo rico y lujoso"
+      },
+      "slate": {
+        "name": "Pizarra",
+        "description": "Gris profesional y neutral"
+      }
+    },
+    "customColor": "Color Personalizado",
+    "hue": "Tono",
+    "saturation": "Saturación",
+    "lightness": "Luminosidad"
   },
   "ChartControls": {
     "colors": {

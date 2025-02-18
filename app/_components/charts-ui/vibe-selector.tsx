@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import clsx from "clsx"
 import { useThemeColor } from '@/app/_components/providers/theme-context'
 import { useTranslations } from 'next-intl'
+import { VibeType } from '../charts/d3-tree-map'
 import { 
   TreePine, 
   SunMedium, 
@@ -105,11 +106,11 @@ const vibes = [
 ]
 
 interface VibeSelectorProps {
-  selectedVibe?: string;
-  onVibeChange: (vibe: string) => void;
+  selectedVibe?: VibeType
+  onVibeChange: (vibe: VibeType) => void
 }
 
-export function VibeSelector({ selectedVibe = 'rainforest', onVibeChange }: VibeSelectorProps) {
+export function VibeSelector({ selectedVibe = 'rainforest' as VibeType, onVibeChange }: VibeSelectorProps) {
   const t = useTranslations('ChartControls.vibes')
   const { themeColor } = useThemeColor()
   const [mounted, setMounted] = useState(false)
@@ -145,7 +146,7 @@ export function VibeSelector({ selectedVibe = 'rainforest', onVibeChange }: Vibe
                     }}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95, y: 2 }}
-                    onClick={() => onVibeChange(vibe.id)}
+                    onClick={() => onVibeChange(vibe.id as VibeType)}
                     className={clsx(
                       "relative flex flex-col items-center justify-center gap-1.5 w-full p-2 rounded-md",
                       "text-muted-foreground hover:text-foreground transition-colors duration-200",
