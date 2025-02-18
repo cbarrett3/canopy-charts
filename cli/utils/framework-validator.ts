@@ -1,5 +1,4 @@
 import semver from 'semver';
-import chalk from 'chalk';
 import path from 'path';
 import { promises as fs } from 'fs';
 
