@@ -108,11 +108,11 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
   }
 
   return (
-    <div className="space-y-4 p-4 w-[260px]">
+    <div className="space-y-4 p-4 w-[240px]">
       <div className="space-y-3">
         <div className="grid grid-cols-2 gap-2">
           <div className="space-y-1">
-            <label className="text-xs font-medium text-muted-foreground">{t('hex')}</label>
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('hex')}</label>
             <Input
               value={hexValue}
               onChange={(e) => handleHexChange(e.target.value)}
@@ -121,7 +121,7 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
             />
           </div>
           <div className="space-y-1">
-            <label className="text-xs font-medium text-muted-foreground">{t('rgb')}</label>
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('rgb')}</label>
             <Input
               value={rgbValue}
               onChange={(e) => handleRgbChange(e.target.value)}
@@ -131,55 +131,91 @@ function CustomColorPicker({ currentColor, onChange }: { currentColor: string, o
           </div>
         </div>
       </div>
-      <div className="space-y-1.5">
-        <label className="text-xs font-medium text-foreground">{t('hue')}</label>
-        <ColorSpectrum 
-          value={hue} 
-          onChange={(h) => {
-            setHue(h)
-            updateFromHSL(h, saturation, lightness)
-          }} 
-        />
-      </div>
-      <div className="space-y-1.5">
-        <div className="flex items-center justify-between">
-          <label className="text-xs font-medium text-foreground">{t('saturation')}</label>
-          <span className="text-xs text-muted-foreground font-mono">{Math.round(saturation)}%</span>
+
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('hue')}</label>
+            <span className="text-xs text-muted-foreground font-mono select-none">{Math.round(hue)}°</span>
+          </div>
+          <ColorSpectrum 
+            value={hue} 
+            onChange={(h) => {
+              setHue(h)
+              updateFromHSL(h, saturation, lightness)
+            }} 
+          />
         </div>
-        <Slider
-          value={[saturation]}
-          min={0}
-          max={100}
-          step={1}
-          onValueChange={([s]) => {
-            setSaturation(s)
-            updateFromHSL(hue, s, lightness)
-          }}
-          className="py-1.5"
-        />
-      </div>
-      <div className="space-y-1.5">
-        <div className="flex items-center justify-between">
-          <label className="text-xs font-medium text-foreground">{t('lightness')}</label>
-          <span className="text-xs text-muted-foreground font-mono">{Math.round(lightness)}%</span>
+
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('saturation')}</label>
+            <span className="text-xs text-muted-foreground font-mono select-none">{Math.round(saturation)}%</span>
+          </div>
+          <div className="relative group">
+            <Slider
+              value={[saturation]}
+              min={0}
+              max={100}
+              step={1}
+              onValueChange={([s]) => {
+                setSaturation(s)
+                updateFromHSL(hue, s, lightness)
+              }}
+              className="py-1.5 [&>[role=slider]]:h-3 [&>[role=slider]]:w-[2px] 
+                [&>[role=slider]]:border-0
+                [&>[role=slider]]:bg-[var(--theme-color)]
+                [&>[role=slider]]:opacity-70
+                [&>[role=slider]]:hover:opacity-100
+                [&>[role=slider]]:transition-opacity
+                [&>[role=slider]]:duration-150
+                [&_[role=track]]:h-[1px]
+                [&_[role=track]]:bg-[var(--theme-color)]/20
+                [&_[role=track]]:rounded-none
+                [&_[role=range]]:bg-[var(--theme-color)]/40"
+              style={{ '--theme-color': currentColor } as React.CSSProperties}
+            />
+          </div>
         </div>
-        <Slider
-          value={[lightness]}
-          min={0}
-          max={100}
-          step={1}
-          onValueChange={([l]) => {
-            setLightness(l)
-            updateFromHSL(hue, saturation, l)
-          }}
-          className="py-1.5"
-        />
+
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('lightness')}</label>
+            <span className="text-xs text-muted-foreground font-mono select-none">{Math.round(lightness)}%</span>
+          </div>
+          <div className="relative group">
+            <Slider
+              value={[lightness]}
+              min={0}
+              max={100}
+              step={1}
+              onValueChange={([l]) => {
+                setLightness(l)
+                updateFromHSL(hue, saturation, l)
+              }}
+              className="py-1.5 [&>[role=slider]]:h-3 [&>[role=slider]]:w-[2px] 
+                [&>[role=slider]]:border-0
+                [&>[role=slider]]:bg-[var(--theme-color)]
+                [&>[role=slider]]:opacity-70
+                [&>[role=slider]]:hover:opacity-100
+                [&>[role=slider]]:transition-opacity
+                [&>[role=slider]]:duration-150
+                [&_[role=track]]:h-[1px]
+                [&_[role=track]]:bg-[var(--theme-color)]/20
+                [&_[role=track]]:rounded-none
+                [&_[role=range]]:bg-[var(--theme-color)]/40"
+              style={{ '--theme-color': currentColor } as React.CSSProperties}
+            />
+          </div>
+        </div>
       </div>
+
       <div 
-        className="h-8 rounded-md transition-all duration-300"
+        className="h-6 rounded-sm transition-all duration-300"
         style={{ 
           background: `linear-gradient(to right, ${d3.hsl(hue, saturation/100, 0.2).formatHex()}, ${d3.hsl(hue, saturation/100, 0.5).formatHex()}, ${d3.hsl(hue, saturation/100, 0.8).formatHex()})`
         }}
+        aria-label={t('preview')}
       />
     </div>
   )
@@ -191,8 +227,8 @@ interface ColorSelectorProps {
 }
 
 export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: ColorSelectorProps) {
-  const t = useTranslations('ChartControls.colors')
-  const [showCustomPicker, setShowCustomPicker] = useState(false)
+  const t = useTranslations('ChartUI')
+  const [isOpen, setIsOpen] = useState(false)
   const { setThemeColor } = useThemeColor()
   
   // Set default color and propagate to theme context
@@ -201,8 +237,7 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
     if (!currentTheme || currentTheme === '') {
       onThemeChange(defaultColor)
     }
-    setThemeColor(currentTheme || defaultColor)
-  }, [])
+  }, [currentTheme, onThemeChange])
 
   // Keep theme context in sync
   useEffect(() => {
@@ -212,8 +247,15 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
   }, [currentTheme, setThemeColor])
 
   return (
-    <Card className="p-4">
-      <h3 className="text-sm font-medium mb-3">{t('title')}</h3>
+    <div className="bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 rounded-lg p-4 space-y-4">
+      <div className="flex items-center gap-2">
+        <div 
+          className="w-3 h-3 rounded-full"
+          style={{ backgroundColor: currentTheme }}
+        />
+        <h3 className="text-sm font-medium">{t('colors')}</h3>
+      </div>
+
       <div className="grid grid-cols-4 gap-2">
         {themes.map((theme) => (
           <TooltipProvider key={theme.name}>
@@ -222,46 +264,66 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
                 <Button
                   variant="outline"
                   className={clsx(
-                    'w-full h-10 p-0 border-2',
-                    currentTheme === theme.color && 'border-primary/50'
+                    "w-full h-10 rounded-md border border-border/40",
+                    "bg-background/40 dark:bg-[#1B1B1B]/30",
+                    "hover:bg-background/60 dark:hover:bg-[#1B1B1B]/50",
+                    "transition-colors duration-200",
+                    currentTheme === theme.color && "ring-2 ring-[var(--theme-color)]"
                   )}
-                  style={{
-                    background: `linear-gradient(to right, ${theme.gradient.join(',')})`
-                  }}
-                  onClick={() => {
-                    onThemeChange(theme.color)
-                    setThemeColor(theme.color)
-                  }}
-                >
-                  <span className="sr-only">{t(`themes.${theme.name}.name`)}</span>
-                </Button>
+                  style={{ 
+                    background: `linear-gradient(to right, ${theme.gradient.join(', ')})`,
+                    '--theme-color': theme.color
+                  } as React.CSSProperties}
+                  onClick={() => onThemeChange(theme.color)}
+                />
               </TooltipTrigger>
-              <TooltipContent side="bottom">
+              <TooltipContent>
                 <p className="font-medium">{t(`themes.${theme.name}.name`)}</p>
-                <p className="text-xs text-muted-foreground">{t(`themes.${theme.name}.description`)}</p>
+                <p className="text-sm text-muted-foreground">{t(`themes.${theme.name}.description`)}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         ))}
       </div>
 
-      <Popover open={showCustomPicker} onOpenChange={setShowCustomPicker}>
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="w-full mt-2">
-            {t('custom.title')}
+          <Button
+            variant="outline"
+            size="sm"
+            className="color-selector-trigger w-full mt-2 bg-background/40 dark:bg-[#1B1B1B]/30 border-border/40 
+              hover:bg-background/60 dark:hover:bg-[#1B1B1B]/50 
+              hover:border-border/80 
+              hover:shadow-[0_0_12px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_0_12px_rgba(0,0,0,0.15)]
+              transform hover:scale-[1.01] hover:-translate-y-[1px] active:scale-[0.99] active:translate-y-[0.5px]
+              transition-all duration-200 ease-out"
+          >
+            <div className="flex items-center gap-2 w-full">
+              <div 
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: currentTheme }}
+              />
+              <span className="flex-1 text-sm">{t('customizeColors')}</span>
+            </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent>
+        <PopoverContent
+          className="p-0 bg-background/95 dark:bg-[#1B1B1B]/95 backdrop-blur-[12px] backdrop-saturate-[180%] border-border/40"
+          side="top"
+          align="end"
+          alignOffset={-8}
+          sideOffset={8}
+          avoidCollisions={true}
+        >
           <CustomColorPicker
             currentColor={currentTheme}
             onChange={(color) => {
               onThemeChange(color)
-              setThemeColor(color)
-              setShowCustomPicker(false)
+              // Don't close the popup when color changes
             }}
           />
         </PopoverContent>
       </Popover>
-    </Card>
+    </div>
   )
 }

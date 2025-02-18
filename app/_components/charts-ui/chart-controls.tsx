@@ -6,9 +6,6 @@ import { ColorSelector } from "@/app/_components/charts-ui/color-selector"
 import { VibeSelector } from "@/app/_components/charts-ui/vibe-selector"
 import { ChartElements } from "@/app/_components/charts-ui/chart-elements"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { Slider } from "@/components/ui/slider"
 import clsx from "clsx"
 import { useThemeColor } from '@/app/_components/providers/theme-context'
 import { useTranslations } from 'next-intl'
@@ -93,15 +90,16 @@ export function ChartControls({
             "dark:shadow-[0_8px_24px_-6px_rgba(0,0,0,0.4),inset_0_1px_2px_rgba(255,255,255,0.08)]",
             "dark:hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.5),inset_0_2px_3px_rgba(255,255,255,0.12)]",
             "px-4 sm:px-8 py-4 font-semibold text-lg",
-            "transition-all duration-300",
-            "hover:scale-[1.02] active:scale-[0.98]",
-            isExpanded 
-              ? "hover:bg-background/60 dark:hover:bg-background/30" 
-              : "hover:bg-background/60 dark:hover:bg-background/30",
+            "transition-all duration-300 ease-out",
+            "hover:scale-[1.01] hover:-translate-y-[1px] active:scale-[0.99] active:translate-y-[0.5px]",
+            "hover:bg-background/50 dark:hover:bg-background/25",
+            "flex items-center justify-center text-center gap-2",
+            "after:absolute after:inset-0 after:rounded-xl after:border after:border-white/10",
+            "after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-300"
           )}
         >
-          <div className="flex items-center justify-between w-full gap-4">
-            <span>{t('customize')}</span>
+          <div className="flex items-center gap-4">
+            <span className="flex-1 text-center">{t('customize')}</span>
             <ChevronUp
               className={clsx(
                 "h-5 w-5 transition-transform duration-200",

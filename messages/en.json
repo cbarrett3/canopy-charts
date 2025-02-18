@@ -1,6 +1,6 @@
 {
   "Metadata": {
-    "title": "Canopy Charts - Beautiful Data Visualization Library",
+    "title": "Craft D3 Charts for React - Canopy Charts",
     "description": "A fully customizable, low-level visualization library powered by D3 and styled with Tailwind."
   },
   "navigation": {
@@ -395,6 +395,48 @@
       "dev-guide": "Development Guide"
     }
   },
+  "ChartUI": {
+    "colors": "Colors",
+    "customizeColors": "Customize Colors",
+    "themes": {
+      "forest": {
+        "name": "Forest",
+        "description": "Fresh and natural green"
+      },
+      "ocean": {
+        "name": "Ocean",
+        "description": "Deep and calming blue"
+      },
+      "sunset": {
+        "name": "Sunset",
+        "description": "Warm and energetic orange"
+      },
+      "berry": {
+        "name": "Berry",
+        "description": "Vibrant and playful pink"
+      },
+      "lavender": {
+        "name": "Lavender",
+        "description": "Elegant and soothing purple"
+      },
+      "ruby": {
+        "name": "Ruby",
+        "description": "Bold and passionate red"
+      },
+      "gold": {
+        "name": "Gold",
+        "description": "Rich and luxurious yellow"
+      },
+      "slate": {
+        "name": "Slate",
+        "description": "Professional and neutral gray"
+      }
+    },
+    "customColor": "Custom Color",
+    "hue": "Hue",
+    "saturation": "Saturation",
+    "lightness": "Lightness"
+  },
   "ChartControls": {
     "colors": {
       "title": "Colors",
@@ -483,9 +525,18 @@
   },
   "chart": {
     "colorSelector": {
-      "title": "Color Selector"
+      "title": "Color Selector",
+      "custom": {
+        "title": "Custom Color",
+        "hex": "HEX",
+        "rgb": "RGB",
+        "hue": "Hue",
+        "saturation": "Saturation",
+        "lightness": "Lightness",
+        "preview": "Color Preview"
+      }
     },
-    "customize": "Customize Chart",
+    "customize": "Customize",
     "elements": {
     }
   },
