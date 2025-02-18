@@ -91,14 +91,14 @@ export function Navbar() {
             "px-4 py-3",
             "bg-white/[0.03] dark:bg-white/[0.02]",
             "backdrop-blur-[8px] backdrop-saturate-[140%]",
-            "border border-[#00ff9d] dark:border-[#00ff9d]/50",
+            "border-2 border-[#00ff9d]/30 dark:border-[#00ff9d]/20",
             "rounded-xl",
             "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
             "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
             "transition-all duration-300 group/nav",
             "hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
             "dark:hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
-            "hover:bg-white/[0.06] dark:hover:bg-white/[0.04]"
+            "hover:border-[#00ff9d]/70 dark:hover:border-[#00ff9d]/40"
           )}
           whileHover={{ 
             y: 2,

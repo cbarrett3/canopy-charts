@@ -17,7 +17,7 @@ export function Hero() {
    }, [])
 
    return (
-      <div className="relative min-h-screen w-full overflow-hidden bg-background dark:bg-[#1B1B1B]">
+      <div className="relative min-h-screen w-full overflow-visible bg-background dark:bg-[#1B1B1B]">
          <style jsx global>{`
           @keyframes floating {
             0% { transform: translateY(0px); }
@@ -83,9 +83,6 @@ export function Hero() {
          {/* Grid Background */}
          <div className="absolute inset-0">
             <div 
-              className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_-20%,#000_40%,transparent_100%)]" 
-            />
-            <div 
               className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-transparent dark:from-[#1B1B1B] dark:via-[#1B1B1B]/90 dark:to-transparent"
             />
             <div 
@@ -100,11 +97,20 @@ export function Hero() {
                "relative mb-0 flex w-full items-end justify-center overflow-visible px-4 lg:mb-0 lg:w-1/2 lg:items-center",
                mounted ? "animate-in fade-in-50 duration-1000 lg:slide-in-from-right-20" : "opacity-0"
             )}>
-               <div className="relative aspect-square w-[200px] sm:w-[250px] md:w-[300px] lg:w-[95%] lg:max-w-[600px]">
+               <div className="relative aspect-square w-[200px] sm:w-[250px] md:w-[300px] lg:w-[95%] lg:max-w-[600px] overflow-visible">
                   {/* Glow effect */}
-                  <div className="absolute inset-[-20%] md:inset-[-10%] animate-pulse rounded-full bg-green-500/20 blur-3xl" />
+                  <div 
+                    className="absolute inset-[-30%] md:inset-[-25%] animate-pulse rounded-full bg-green-500/10 blur-[60px]" 
+                    style={{ zIndex: 1, transform: 'translate3d(0, 0, 0)' }} 
+                  />
                   {/* Logo Component */}
-                  <Logo className="h-full w-full relative z-10" />
+                  <Logo 
+                    className="h-full w-full relative" 
+                    style={{
+                      zIndex: 2,
+                      transform: 'translate3d(0, 0, 0)'
+                    }} 
+                  />
                </div>
             </div>
 
@@ -234,51 +240,41 @@ export function Hero() {
                    animate={{ opacity: 1, y: 0 }}
                    transition={{ duration: 0.5, delay: 1.6 }}
                  >
-                    <Button
-                      asChild
-                      size="lg"
-                      className="relative group/button overflow-hidden bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-base"
+                    <motion.div
+                      className="relative group"
+                      whileHover={{ scale: 1.02 }}
                     >
-                      <Link href="/editor">
-                        <motion.span
-                          className="relative z-10"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
+                      <div className="absolute -inset-[3px] rounded-lg bg-gradient-to-r from-green-400/40 to-green-500/40 opacity-0 group-hover:opacity-100 blur-md transition-all duration-300" />
+                      <div className="absolute -inset-[2px] rounded-lg border-2 border-green-500/0 group-hover:border-green-500/50 transition-all duration-300" />
+                      <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-500/0 to-green-400/0 group-hover:from-green-500/10 group-hover:to-green-400/10 transition-all duration-300" />
+                      <Button
+                        asChild
+                        size="lg"
+                        className="relative bg-gradient-to-r from-green-800 to-green-700 hover:from-green-700 hover:to-green-600 text-base font-semibold text-white shadow-sm"
+                      >
+                        <Link href="/editor" className="flex items-center gap-2">
                           {t('create')}
-                        </motion.span>
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-300/20"
-                          initial={{ x: "100%" }}
-                          whileHover={{ x: "-100%" }}
-                          transition={{ duration: 1, ease: "easeInOut" }}
-                        />
-                      </Link>
-                    </Button>
-                    <Button
-                      asChild
-                      size="lg"
-                      className="relative group/button overflow-hidden text-base border-0 bg-white/5 dark:bg-white/10 backdrop-blur-sm hover:bg-white/10 dark:hover:bg-white/15"
-                      style={{
-                        boxShadow: "inset 0 0 0 1px rgba(255, 255, 255, 0.1)"
-                      }}
+                        </Link>
+                      </Button>
+                    </motion.div>
+
+                    <motion.div
+                      className="relative group"
+                      whileHover={{ scale: 1.02 }}
                     >
-                      <Link href="/docs">
-                        <motion.span
-                          className="relative z-10 text-zinc-700 dark:text-zinc-200"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
+                      <div className="absolute -inset-[3px] rounded-lg bg-gradient-to-r from-green-400/30 to-green-500/30 opacity-0 group-hover:opacity-100 blur-md transition-all duration-300" />
+                      <div className="absolute -inset-[2px] rounded-lg border-2 border-green-400/0 group-hover:border-green-400/40 transition-all duration-300" />
+                      <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-400/0 to-green-300/0 group-hover:from-green-400/10 group-hover:to-green-300/10 transition-all duration-300" />
+                      <Button
+                        asChild
+                        size="lg"
+                        className="relative bg-gradient-to-r from-[#064e3b] to-[#065f46] hover:from-[#065f46] hover:to-[#047857] text-base font-semibold text-white shadow-sm"
+                      >
+                        <Link href="/docs" className="flex items-center gap-2">
                           {t('learn')}
-                        </motion.span>
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-green-400/5"
-                          initial={{ opacity: 0 }}
-                          whileHover={{ opacity: 1 }}
-                          transition={{ duration: 0.2 }}
-                        />
-                      </Link>
-                    </Button>
+                        </Link>
+                      </Button>
+                    </motion.div>
                  </motion.div>
                </motion.div>
             </div>

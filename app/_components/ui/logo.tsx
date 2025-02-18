@@ -67,9 +67,17 @@ const gridVariants = {
    },
 }
 
-export function Logo({ className, showGrid = true }: { className?: string, showGrid?: boolean }) {
+export function Logo({ 
+   className, 
+   showGrid = true,
+   style
+}: { 
+   className?: string, 
+   showGrid?: boolean,
+   style?: React.CSSProperties 
+}) {
    return (
-      <div className={`relative flex items-center justify-center ${className}`}>
+      <div className={`relative flex items-center justify-center ${className}`} style={style}>
          <motion.svg
             viewBox="0 0 500 500"
             initial="initial"
