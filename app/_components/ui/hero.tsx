@@ -94,7 +94,7 @@ export function Hero() {
          </div>
 
          {/* Main Container */}
-         <div className="relative mx-auto flex min-h-screen w-full flex-col overflow-hidden px-2 py-4 sm:px-4 sm:py-6 lg:max-w-none lg:flex-row lg:items-stretch mt-20">
+         <div className="relative mx-auto flex min-h-screen w-full flex-col overflow-visible px-2 py-4 sm:px-4 sm:py-6 lg:max-w-none lg:flex-row lg:items-stretch mt-28">
             {/* Logo Container - Moved above text for mobile */}
             <div className={cn(
                "relative mb-0 flex w-full items-end justify-center overflow-visible px-4 lg:mb-0 lg:w-1/2 lg:items-center",
@@ -102,9 +102,9 @@ export function Hero() {
             )}>
                <div className="relative aspect-square w-[200px] sm:w-[250px] md:w-[300px] lg:w-[95%] lg:max-w-[600px]">
                   {/* Glow effect */}
-                  <div className="absolute inset-[-10%] md:inset-[10%] animate-pulse rounded-full bg-green-500/20 blur-3xl" />
+                  <div className="absolute inset-[-20%] md:inset-[-10%] animate-pulse rounded-full bg-green-500/20 blur-3xl" />
                   {/* Logo Component */}
-                  <Logo className="h-full w-full" />
+                  <Logo className="h-full w-full relative z-10" />
                </div>
             </div>
 
@@ -201,7 +201,7 @@ export function Hero() {
                      {['beautiful', 'customizable', 'accessible', 'lightweight'].map((feature, index) => (
                        <motion.span
                          key={feature}
-                         className="inline-flex items-center bg-green-500/10 px-3 py-1 rounded-full text-green-700 dark:text-green-500"
+                         className="inline-flex items-center bg-green-500/10 px-3 py-1 rounded-full text-green-700 dark:text-green-500 relative group/tag cursor-default"
                          initial={{ opacity: 0, scale: 0.9 }}
                          animate={{ opacity: 1, scale: 1 }}
                          transition={{ 
@@ -209,8 +209,11 @@ export function Hero() {
                            delay: 1 + (index * 0.1),
                            ease: "easeOut"
                          }}
+                         whileHover={{ scale: 1.05 }}
                        >
-                         {t(`features.${feature}`)}
+                         <div className="absolute -inset-[1px] rounded-full border-[1px] border-green-500/0 transition-all duration-300 group-hover/tag:border-green-500/40" />
+                         <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover/tag:bg-green-500/5 transition-all duration-300" />
+                         <span className="relative z-10">{t(`features.${feature}`)}</span>
                        </motion.span>
                      ))}
                    </motion.div>

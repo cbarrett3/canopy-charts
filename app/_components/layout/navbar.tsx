@@ -85,19 +85,33 @@ export function Navbar() {
         : "left-4 right-4"
     )}>
       <div className={cn(!isDocsPage && "max-w-7xl mx-auto")}>
-        <nav className={cn(
-          "relative flex items-center justify-between",
-          "px-4 py-3",
-          "bg-background/80 dark:bg-[#1B1B1B]/80",
-          "backdrop-blur-[8px] backdrop-saturate-[140%]",
-          "border border-[#00ff9d] dark:border-[#00ff9d]/50",
-          "rounded-xl",
-          "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
-          "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
-          "transition-all duration-300",
-          "hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
-          "dark:hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
-        )}>
+        <motion.nav 
+          className={cn(
+            "relative flex items-center justify-between",
+            "px-4 py-3",
+            "bg-white/[0.03] dark:bg-white/[0.02]",
+            "backdrop-blur-[8px] backdrop-saturate-[140%]",
+            "border border-[#00ff9d] dark:border-[#00ff9d]/50",
+            "rounded-xl",
+            "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
+            "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
+            "transition-all duration-300 group/nav",
+            "hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
+            "dark:hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
+            "hover:bg-white/[0.06] dark:hover:bg-white/[0.04]"
+          )}
+          whileHover={{ 
+            y: 2,
+            scale: 1.005
+          }}
+          transition={{ 
+            type: "spring",
+            stiffness: 400,
+            damping: 25
+          }}
+        >
+          <div className="absolute inset-[-1px] rounded-xl border border-[#00ff9d]/0 dark:border-[#00ff9d]/0 transition-all duration-300 group-hover/nav:border-[#00ff9d]/50 dark:group-hover/nav:border-[#00ff9d]/25 blur-sm" />
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#00ff9d]/0 to-[#00ff9d]/0 group-hover/nav:from-[#00ff9d]/5 group-hover/nav:to-transparent transition-all duration-300" />
           <motion.div 
             className="relative flex items-center gap-4 font-sans"
             variants={containerVariants}
@@ -157,7 +171,7 @@ export function Navbar() {
               </motion.div>
             </motion.div>
           </motion.div>
-        </nav>
+        </motion.nav>
       </div>
     </div>
   )
