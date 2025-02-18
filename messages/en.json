@@ -20,15 +20,20 @@
   },
   "hero": {
     "title": "Canopy Charts",
-    "subtitle": {
-      "line1": "Data Visualization",
-      "line2": "Reimagined"
+    "tagline": {
+      "part1": "Beautiful and intuitive",
+      "part2": "D3.js visualizations",
+      "part3": "for modern React apps"
     },
-    "description": "Beautiful and customizable D3.js visuals for React. Accessible. Lightweight. Copy, paste, customize.",
-    "buttons": {
-      "getStarted": "Get Started",
-      "github": "View on GitHub"
-    }
+    "features": {
+      "beautiful": "Beautiful",
+      "customizable": "Customizable",
+      "accessible": "Accessible",
+      "lightweight": "Lightweight"
+    },
+    "action": "Copy. Paste. Make it yours.",
+    "create": "Create a Chart",
+    "learn": "Documentation"
   },
   "Docs": {
     "title": "Documentation",
@@ -397,7 +402,7 @@
   },
   "ChartUI": {
     "colors": "Colors",
-    "customizeColors": "Customize Colors",
+    "customize": "Custom",
     "themes": {
       "forest": {
         "name": "Forest",
@@ -521,6 +526,16 @@
           "description": "Bold and energetic"
         }
       }
+    },
+    "elements": {
+      "title": "Elements",
+      "axes": "Axes",
+      "grid": "Grid",
+      "labels": "Labels",
+      "title_element": "Title",
+      "legend": "Legend",
+      "tooltips": "Tooltips",
+      "label_size": "Label Size"
     }
   },
   "chart": {
