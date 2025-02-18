@@ -97,7 +97,8 @@ class FrameworkValidator {
             const structureValid = await this.checkProjectStructure(framework);
             return structureValid;
         } catch (error) {
-            this.errors.push(`Error validating project structure: ${error.message}`);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            this.errors.push(`Error validating project structure: ${errorMessage}`);
             return false;
         }
     }
