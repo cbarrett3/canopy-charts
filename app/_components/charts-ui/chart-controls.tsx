@@ -9,13 +9,13 @@ import { Button } from "@/components/ui/button"
 import clsx from "clsx"
 import { useThemeColor } from '@/app/_components/providers/theme-context'
 import { useTranslations } from 'next-intl'
-import { VibeType } from '../charts/d3-tree-map'
+import { ChartStyle } from '../charts/types'
 
 interface ChartControlsProps {
   currentTheme: string
   onThemeChange: (color: string) => void
-  currentVibe: VibeType
-  onVibeChange: (vibe: VibeType) => void
+  currentVibe: ChartStyle
+  onVibeChange: (vibe: ChartStyle) => void
   showAxes: boolean
   onAxesChange: (show: boolean) => void
   showGrid: boolean

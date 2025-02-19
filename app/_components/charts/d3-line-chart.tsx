@@ -14,12 +14,16 @@ interface DataPoint {
 
 interface D3LineChartProps {
    data?: DataPoint[];
+   datasets?: string[]; // Array of dataset keys to plot
    themeColor?: string;
    vibe?: ChartStyle;
    showAxes?: boolean;
    showGrid?: boolean;
    showLabels?: boolean;
    labelSize?: number;
+   showTitle?: boolean;
+   showLegend?: boolean;
+   showTooltips?: boolean;
 }
 
 const D3LineChart: React.FC<D3LineChartProps> = ({
@@ -31,12 +35,16 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       { name: 'May', value: 35 },
       { name: 'Jun', value: 50 }
    ],
+   datasets = ['value'],
    themeColor = defaultThemeColor,
    vibe = 'evergreen',
    showAxes = true,
    showGrid = true,
    showLabels = true,
-   labelSize = 12
+   labelSize = 12,
+   showTitle = true,
+   showLegend = true,
+   showTooltips = true
 }) => {
    const svgRef = useRef<SVGSVGElement>(null);
    const { dimensions, containerRef } = useChartDimensions({
@@ -54,7 +62,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       svg.selectAll('*').remove();
 
       // Get all series keys (excluding 'name')
-      const seriesKeys = Object.keys(data[0]).filter(key => key !== 'name');
+      const seriesKeys = datasets.filter(key => key in data[0]);
 
       // Set up scales
       const xScale = d3.scaleBand()
@@ -149,7 +157,7 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
             .style('color', 'var(--text)')
             .style('font-size', `${labelSize}px`);
       }
-   }, [data, dimensions, themeColor, showAxes, showGrid, showLabels, labelSize]);
+   }, [data, dimensions, themeColor, showAxes, showGrid, showLabels, labelSize, datasets]);
 
    return (
       <div ref={containerRef} className="w-full h-full min-h-[300px]">
