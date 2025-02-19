@@ -1,20 +1,26 @@
 'use client'
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
 import { useThemeColor } from '@/app/_components/providers/theme-context'
 import { useTranslations } from 'next-intl'
-import clsx from 'clsx';
+import { Settings2, Type, Grid, Info, Axis3d, TextCursor } from 'lucide-react'
+import { 
+  Tooltip, 
+  TooltipContent, 
+  TooltipTrigger,
+  TooltipProvider 
+} from "@/components/ui/tooltip"
+import clsx from 'clsx'
 
 interface ChartElementsProps {
-  showAxes: boolean;
+  showAxes?: boolean;
   onAxesChange: (value: boolean) => void;
   showGrid: boolean;
   onGridChange: (value: boolean) => void;
-  showLabels: boolean;
+  showLabels?: boolean;
   onLabelsChange: (value: boolean) => void;
   showTitle: boolean;
   onTitleChange: (value: boolean) => void;
@@ -27,7 +33,7 @@ interface ChartElementsProps {
 }
 
 export function ChartElements({
-  showAxes = true,
+  showAxes = false,
   onAxesChange,
   showGrid = true,
   onGridChange,
@@ -45,14 +51,61 @@ export function ChartElements({
   const { themeColor = '#22C55E' } = useThemeColor()
   const t = useTranslations('ChartControls.elements')
 
-  const getRgbValues = (color: string) => {
-    return color?.replace('#', '').match(/.{2}/g)?.map(x => parseInt(x, 16)).join(',') || '34,197,94'
-  }
+  const controls = [
+    {
+      id: 'axes',
+      label: t('axes'),
+      icon: <Axis3d className="w-4 h-4" />,
+      value: showAxes,
+      onChange: onAxesChange,
+      tooltip: t('axesTooltip')
+    },
+    {
+      id: 'grid',
+      label: t('grid'),
+      icon: <Grid className="w-4 h-4" />,
+      value: showGrid,
+      onChange: onGridChange,
+      tooltip: t('gridTooltip')
+    },
+    {
+      id: 'labels',
+      label: t('labels'),
+      icon: <TextCursor className="w-4 h-4" />,
+      value: showLabels,
+      onChange: onLabelsChange,
+      tooltip: t('labelsTooltip')
+    },
+    {
+      id: 'title',
+      label: t('title'),
+      icon: <Type className="w-4 h-4" />,
+      value: showTitle,
+      onChange: onTitleChange,
+      tooltip: t('titleTooltip')
+    },
+    {
+      id: 'legend',
+      label: t('legend'),
+      icon: <Settings2 className="w-4 h-4" />,
+      value: showLegend,
+      onChange: onLegendChange,
+      tooltip: t('legendTooltip')
+    },
+    {
+      id: 'tooltips',
+      label: t('tooltips'),
+      icon: <Info className="w-4 h-4" />,
+      value: showTooltips,
+      onChange: onTooltipsChange,
+      tooltip: t('tooltipsTooltip')
+    }
+  ]
 
   return (
     <div 
       className="relative bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] 
-        rounded-lg p-4 h-full space-y-4 transition-all duration-300"
+        rounded-lg p-4 h-full space-y-6 transition-all duration-300"
       style={{ 
         boxShadow: `inset 0 0 0 1px ${themeColor}33`
       }}
@@ -68,98 +121,58 @@ export function ChartElements({
         <h3 className="text-sm font-medium text-foreground">{t('title')}</h3>
       </div>
 
-      <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label className="text-sm text-muted-foreground font-normal">{t('axes')}</Label>
-              <Switch
-                checked={showAxes}
-                onCheckedChange={onAxesChange}
-                className="data-[state=checked]:bg-[var(--theme-color)]"
-                style={{ '--theme-color': themeColor } as React.CSSProperties}
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <Label className="text-sm text-muted-foreground font-normal">{t('grid')}</Label>
-              <Switch
-                checked={showGrid}
-                onCheckedChange={onGridChange}
-                className="data-[state=checked]:bg-[var(--theme-color)]"
-                style={{ '--theme-color': themeColor } as React.CSSProperties}
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <Label className="text-sm text-muted-foreground font-normal">{t('labels')}</Label>
-              <Switch
-                checked={showLabels}
-                onCheckedChange={onLabelsChange}
-                className="data-[state=checked]:bg-[var(--theme-color)]"
-                style={{ '--theme-color': themeColor } as React.CSSProperties}
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label className="text-sm text-muted-foreground font-normal">{t('title_element')}</Label>
-              <Switch
-                checked={showTitle}
-                onCheckedChange={onTitleChange}
-                className="data-[state=checked]:bg-[var(--theme-color)]"
-                style={{ '--theme-color': themeColor } as React.CSSProperties}
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <Label className="text-sm text-muted-foreground font-normal">{t('legend')}</Label>
-              <Switch
-                checked={showLegend}
-                onCheckedChange={onLegendChange}
-                className="data-[state=checked]:bg-[var(--theme-color)]"
-                style={{ '--theme-color': themeColor } as React.CSSProperties}
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <Label className="text-sm text-muted-foreground font-normal">{t('tooltips')}</Label>
-              <Switch
-                checked={showTooltips}
-                onCheckedChange={onTooltipsChange}
-                className="data-[state=checked]:bg-[var(--theme-color)]"
-                style={{ '--theme-color': themeColor } as React.CSSProperties}
-              />
-            </div>
-          </div>
+      <TooltipProvider>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {controls.map(({ id, label, icon, value, onChange, tooltip }) => (
+            <Tooltip key={id}>
+              <TooltipTrigger asChild>
+                <div className="flex items-center justify-between group/control min-w-0">
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <div className={clsx(
+                      "flex-shrink-0 w-7 h-7 rounded-md flex items-center justify-center",
+                      "bg-background/60 dark:bg-background/5",
+                      "transition-colors duration-300",
+                      "group-hover/control:bg-background/80 dark:group-hover/control:bg-background/10"
+                    )}>
+                      {icon}
+                    </div>
+                    <Label className="text-sm text-muted-foreground font-normal cursor-pointer truncate">
+                      {label}
+                    </Label>
+                  </div>
+                  <Switch
+                    checked={value}
+                    onCheckedChange={onChange}
+                    className="flex-shrink-0 ml-2 data-[state=checked]:bg-[var(--theme-color)]"
+                    style={{ '--theme-color': themeColor } as React.CSSProperties}
+                  />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="right" align="center" className="max-w-[200px]">
+                <p className="text-xs">{tooltip}</p>
+              </TooltipContent>
+            </Tooltip>
+          ))}
         </div>
+      </TooltipProvider>
 
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label className="text-sm text-muted-foreground font-normal">{t('label_size')}</Label>
-            <span className="text-xs text-muted-foreground font-mono select-none">{labelSize}px</span>
-          </div>
-          <Slider
-            value={[labelSize]}
-            min={8}
-            max={16}
-            step={1}
-            onValueChange={([value]) => onLabelSizeChange(value)}
-            className={clsx(
-              "relative flex items-center select-none touch-none w-full transition-colors",
-              "[&_[role=slider]]:h-4 [&_[role=slider]]:w-1 [&_[role=slider]]:rounded-sm",
-              "[&_[role=slider]]:border-0 [&_[role=slider]]:bg-[var(--slider-color)]",
-              "[&_[role=slider]]:transition-colors [&_[role=slider]]:focus-visible:outline-none",
-              "[&_[role=track]]:relative [&_[role=track]]:w-full [&_[role=track]]:grow",
-              "[&_[role=track]]:h-1 [&_[role=track]]:bg-secondary/20",
-              "[&_[role=range]]:absolute [&_[role=range]]:h-1 [&_[role=range]]:bg-[var(--slider-color)]"
-            )}
-            style={{
-              '--slider-color': themeColor
-            } as React.CSSProperties}
-          />
+      <div className="space-y-2.5">
+        <div className="flex items-center justify-between min-w-0 gap-4">
+          <Label className="text-sm text-muted-foreground font-normal truncate">
+            {t('labelSize')}
+          </Label>
+          <span className="text-xs text-muted-foreground font-mono flex-shrink-0">
+            {labelSize}px
+          </span>
         </div>
+        <Slider
+          value={[labelSize]}
+          onValueChange={([value]) => onLabelSizeChange(value)}
+          min={8}
+          max={24}
+          step={1}
+          className="[&>[role=slider]]:h-3.5 [&>[role=slider]]:w-3.5"
+        />
       </div>
     </div>
   )
