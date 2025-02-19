@@ -12,10 +12,12 @@ import { useSidebar } from "../layout/sidebar-context"
 import { usePathname } from 'next/navigation'
 import { Sun, Moon } from 'lucide-react'
 import { motion } from "framer-motion"
+import { useThemeColor } from "@/app/_components/providers/theme-context"
 
 const NavLink = ({ href, children }: { href: string, children: React.ReactNode }) => {
   const pathname = usePathname()
   const isActive = pathname.includes(href)
+  const { themeColor } = useThemeColor()
   
   return (
     <motion.div
@@ -28,16 +30,23 @@ const NavLink = ({ href, children }: { href: string, children: React.ReactNode }
         className={cn(
           "relative text-sm font-medium transition-colors group",
           isActive 
-            ? "text-green-500" 
-            : "text-muted-foreground hover:text-green-500"
+            ? "text-foreground" 
+            : "text-muted-foreground hover:text-foreground"
         )}
+        style={{
+          color: isActive ? themeColor : undefined
+        }}
       >
         <div className={cn(
           "absolute inset-0 rounded-md -z-10 transition-all duration-300 blur-sm",
           isActive 
-            ? "bg-green-500/10" 
-            : "bg-green-500/0 group-hover:bg-green-500/10"
-        )} />
+            ? "opacity-10" 
+            : "opacity-0 group-hover:opacity-10"
+        )}
+        style={{
+          background: themeColor
+        }}
+        />
         {children}
       </Link>
     </motion.div>
@@ -49,6 +58,7 @@ export function Navbar() {
   const pathname = usePathname()
   const { isExpanded } = useSidebar()
   const isDocsPage = pathname.includes('/docs')
+  const { themeColor } = useThemeColor()
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -91,15 +101,25 @@ export function Navbar() {
             "px-4 py-3",
             "bg-white/[0.03] dark:bg-white/[0.02]",
             "backdrop-blur-[8px] backdrop-saturate-[140%]",
-            "border-2 border-[#00ff9d]/30 dark:border-[#00ff9d]/20",
-            "rounded-xl",
+            "border-2 rounded-xl",
             "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
             "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
             "transition-all duration-300 group/nav",
             "hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
             "dark:hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
-            "hover:border-[#00ff9d]/70 dark:hover:border-[#00ff9d]/40"
           )}
+          style={{
+            borderColor: `${themeColor}33`,
+            '--hover-border-color': `${themeColor}66`
+          } as React.CSSProperties}
+          onMouseEnter={e => {
+            const nav = e.currentTarget;
+            nav.style.borderColor = 'var(--hover-border-color)';
+          }}
+          onMouseLeave={e => {
+            const nav = e.currentTarget;
+            nav.style.borderColor = `${themeColor}33`;
+          }}
           whileHover={{ 
             y: 2,
             scale: 1.005

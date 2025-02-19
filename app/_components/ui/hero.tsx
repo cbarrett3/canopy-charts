@@ -4,20 +4,28 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 import { useTranslations } from 'next-intl'
+import { useLocale } from 'next-intl'
 import Link from 'next/link'
 import { motion } from "framer-motion"
 import { Logo } from "@/app/_components/ui/logo"
+import { useThemeColor } from "@/app/_components/providers/theme-context"
+import * as d3 from 'd3'
 
 export function Hero() {
    const [mounted, setMounted] = useState(false)
    const t = useTranslations('hero')
+   const { themeColor } = useThemeColor()
+   const locale = useLocale()
+   const color = d3.color(themeColor)
+   const lighterColor = d3.hsl(color).brighter(0.5).formatHex()
+   const darkerColor = d3.hsl(color).darker(0.2).formatHex()
 
    useEffect(() => {
       setMounted(true)
    }, [])
 
    return (
-      <div className="relative min-h-screen w-full overflow-visible bg-background dark:bg-[#1B1B1B]">
+      <div className="relative min-h-[calc(100vh-6rem)] lg:min-h-screen w-full overflow-visible bg-background dark:bg-[#1B1B1B]">
          <style jsx global>{`
           @keyframes floating {
             0% { transform: translateY(0px); }
@@ -35,31 +43,25 @@ export function Hero() {
           .chrome-gradient {
             background: linear-gradient(
               to right,
-              #064e3b,
-              #059669,
-              #10b981,
-              #34d399,
-              #6ee7b7,
-              #34d399,
-              #10b981,
-              #059669,
-              #064e3b
+              ${themeColor},
+              ${lighterColor},
+              ${themeColor}
             );
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             background-size: 200% auto;
             animation: shine 8s linear infinite;
-            text-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+            text-shadow: 0 0 30px ${themeColor}4D;
           }
           .glow-text {
             background: linear-gradient(
               to right,
-              #22c55e,
-              #4ade80,
-              #86efac,
-              #4ade80,
-              #22c55e
+              #1E293B,
+              #334155,
+              #475569,
+              #334155,
+              #1E293B
             );
             -webkit-background-clip: text;
             background-clip: text;
@@ -67,9 +69,23 @@ export function Hero() {
             background-size: 200% auto;
             animation: shine 8s linear infinite;
             text-shadow: 
-              0 0 20px rgba(34, 197, 94, 0.3),
-              0 0 35px rgba(34, 197, 94, 0.2),
-              0 0 50px rgba(34, 197, 94, 0.1);
+              0 0 20px rgba(71, 85, 105, 0.3),
+              0 0 35px rgba(71, 85, 105, 0.2),
+              0 0 50px rgba(71, 85, 105, 0.1);
+          }
+          .dark .glow-text {
+            background: linear-gradient(
+              to right,
+              #94A3B8,
+              #CBD5E1,
+              #E2E8F0,
+              #CBD5E1,
+              #94A3B8
+            );
+            text-shadow: 
+              0 0 20px rgba(203, 213, 225, 0.3),
+              0 0 35px rgba(203, 213, 225, 0.2),
+              0 0 50px rgba(203, 213, 225, 0.1);
           }
           .glow-pulse {
             animation: glow-pulse 2s ease-in-out infinite;
@@ -91,17 +107,21 @@ export function Hero() {
          </div>
 
          {/* Main Container */}
-         <div className="relative mx-auto flex min-h-screen w-full flex-col overflow-visible px-2 py-4 sm:px-4 sm:py-6 lg:max-w-none lg:flex-row lg:items-stretch mt-28">
-            {/* Logo Container - Moved above text for mobile */}
+         <div className="relative mx-auto flex min-h-[calc(100vh-8rem)] lg:min-h-screen w-full flex-col overflow-visible px-2 py-4 sm:px-4 sm:py-6 lg:max-w-none lg:flex-row lg:items-stretch mt-20 lg:mt-28">
+            {/* Logo Container */}
             <div className={cn(
                "relative mb-0 flex w-full items-end justify-center overflow-visible px-4 lg:mb-0 lg:w-1/2 lg:items-center",
                mounted ? "animate-in fade-in-50 duration-1000 lg:slide-in-from-right-20" : "opacity-0"
             )}>
-               <div className="relative aspect-square w-[200px] sm:w-[250px] md:w-[300px] lg:w-[95%] lg:max-w-[600px] overflow-visible">
+               <div className="relative aspect-square w-[180px] sm:w-[220px] md:w-[280px] lg:w-[95%] lg:max-w-[600px] overflow-visible">
                   {/* Glow effect */}
                   <div 
-                    className="absolute inset-[-30%] md:inset-[-25%] animate-pulse rounded-full bg-green-500/10 blur-[60px]" 
-                    style={{ zIndex: 1, transform: 'translate3d(0, 0, 0)' }} 
+                    className="absolute inset-[-30%] md:inset-[-25%] animate-pulse rounded-full blur-[60px]" 
+                    style={{ 
+                      zIndex: 1, 
+                      transform: 'translate3d(0, 0, 0)',
+                      background: `${themeColor}33`
+                    }} 
                   />
                   {/* Logo Component */}
                   <Logo 
@@ -133,7 +153,7 @@ export function Hero() {
                     <motion.span
                       className={cn(
                         "block text-4xl font-bold tracking-tight leading-tight sm:text-5xl md:text-6xl lg:text-7xl",
-                        "relative z-10 glow-text"
+                        "relative z-10 chrome-gradient"
                       )}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ 
@@ -164,7 +184,7 @@ export function Hero() {
                           ease: "easeInOut"
                         }}
                         style={{
-                          background: "radial-gradient(circle, rgba(34, 197, 94, 0.2) 0%, transparent 70%)",
+                          background: `radial-gradient(circle, ${themeColor}33 0%, transparent 70%)`,
                         }}
                       />
                     </motion.span>
@@ -178,27 +198,27 @@ export function Hero() {
                         ease: "easeInOut"
                       }}
                       style={{
-                        background: "radial-gradient(circle, rgba(34, 197, 94, 0.15) 0%, transparent 70%)",
+                        background: `radial-gradient(circle, ${themeColor}26 0%, transparent 70%)`,
                         filter: "blur(10px)"
                       }}
                     />
                  </motion.h1>
 
-                 <div className="mt-6 max-w-lg mx-auto lg:mx-0 lg:max-w-2xl space-y-4">
+                 <div className="mt-4 lg:mt-6 max-w-lg mx-auto lg:mx-0 lg:max-w-2xl space-y-3 lg:space-y-4">
                    <motion.div
-                     className="block text-xl sm:text-2xl md:text-3xl text-zinc-800/90 dark:text-zinc-200/90 leading-relaxed"
+                     className="block text-xl sm:text-2xl md:text-3xl leading-relaxed"
                      initial={{ opacity: 0, y: 20 }}
                      animate={{ opacity: 1, y: 0 }}
                      transition={{ duration: 0.5, delay: 0.6 }}
                    >
-                     <span className="text-green-600 dark:text-green-400 font-medium">{t('tagline.part1')}</span>
+                     <span className="font-medium text-slate-800 dark:text-slate-200">{t('tagline.part1')}</span>
                      {" "}
-                     <span className="text-green-600/90 dark:text-green-400/90">{t('tagline.part2')}</span>
+                     <span className="text-slate-700 dark:text-slate-300">{t('tagline.part2')}</span>
                      {" "}
-                     <span className="text-green-600/80 dark:text-green-400/80">{t('tagline.part3')}</span>
+                     <span className="text-slate-600 dark:text-slate-400">{t('tagline.part3')}</span>
                    </motion.div>
 
-                   <motion.div 
+                   <motion.div
                      className="flex flex-wrap gap-3 text-base sm:text-lg justify-center lg:justify-start"
                      initial={{ opacity: 0, y: 10 }}
                      animate={{ opacity: 1, y: 0 }}
@@ -207,7 +227,6 @@ export function Hero() {
                      {['beautiful', 'customizable', 'accessible', 'lightweight'].map((feature, index) => (
                        <motion.span
                          key={feature}
-                         className="inline-flex items-center bg-green-500/10 px-3 py-1 rounded-full text-green-700 dark:text-green-500 relative group/tag cursor-default"
                          initial={{ opacity: 0, scale: 0.9 }}
                          animate={{ opacity: 1, scale: 1 }}
                          transition={{ 
@@ -215,10 +234,27 @@ export function Hero() {
                            delay: 1 + (index * 0.1),
                            ease: "easeOut"
                          }}
-                         whileHover={{ scale: 1.05 }}
+                         className={cn(
+                           "inline-flex items-center px-3 py-1 rounded-full relative cursor-default",
+                           "border-[2px] transform-gpu",
+                           "transition-transform duration-200",
+                           "dark:text-white"
+                         )}
+                         style={{
+                           backgroundColor: `${themeColor}15`,
+                           color: themeColor,
+                           borderColor: `${themeColor}40`
+                         }}
+                         whileHover={{ 
+                           scale: 1.05,
+                           backgroundColor: `${themeColor}20`,
+                           borderColor: themeColor,
+                           transition: { 
+                             duration: 0.1,
+                             ease: "easeOut"
+                           }
+                         }}
                        >
-                         <div className="absolute -inset-[1px] rounded-full border-[1px] border-green-500/0 transition-all duration-300 group-hover/tag:border-green-500/40" />
-                         <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover/tag:bg-green-500/5 transition-all duration-300" />
                          <span className="relative z-10">{t(`features.${feature}`)}</span>
                        </motion.span>
                      ))}
@@ -235,24 +271,35 @@ export function Hero() {
                  </div>
 
                  <motion.div
-                   className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start"
+                   className="mt-6 lg:mt-8 flex flex-wrap gap-3 justify-center lg:justify-start"
                    initial={{ opacity: 0, y: 20 }}
                    animate={{ opacity: 1, y: 0 }}
                    transition={{ duration: 0.5, delay: 1.6 }}
                  >
                     <motion.div
                       className="relative group"
-                      whileHover={{ scale: 1.02 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
                     >
-                      <div className="absolute -inset-[3px] rounded-lg bg-gradient-to-r from-green-400/40 to-green-500/40 opacity-0 group-hover:opacity-100 blur-md transition-all duration-300" />
-                      <div className="absolute -inset-[2px] rounded-lg border-2 border-green-500/0 group-hover:border-green-500/50 transition-all duration-300" />
-                      <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-500/0 to-green-400/0 group-hover:from-green-500/10 group-hover:to-green-400/10 transition-all duration-300" />
+                      <motion.div 
+                        className="absolute -inset-[2px] rounded-lg blur-[3px]"
+                        initial={{ opacity: 0.1 }}
+                        whileHover={{ opacity: 0.3 }}
+                        transition={{ duration: 0.2 }}
+                        style={{
+                          background: themeColor,
+                        }}
+                      />
                       <Button
                         asChild
-                        size="lg"
-                        className="relative bg-gradient-to-r from-green-800 to-green-700 hover:from-green-700 hover:to-green-600 text-base font-semibold text-white shadow-sm"
+                        size="default"
+                        style={{
+                          background: themeColor,
+                        }}
+                        className="relative text-sm font-medium text-white shadow-sm hover:brightness-125 transition-all duration-200"
                       >
-                        <Link href="/editor" className="flex items-center gap-2">
+                        <Link href={`/${locale}/docs/line-chart`} className="flex items-center gap-2">
                           {t('create')}
                         </Link>
                       </Button>
@@ -260,15 +307,28 @@ export function Hero() {
 
                     <motion.div
                       className="relative group"
-                      whileHover={{ scale: 1.02 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
                     >
-                      <div className="absolute -inset-[3px] rounded-lg bg-gradient-to-r from-green-400/30 to-green-500/30 opacity-0 group-hover:opacity-100 blur-md transition-all duration-300" />
-                      <div className="absolute -inset-[2px] rounded-lg border-2 border-green-400/0 group-hover:border-green-400/40 transition-all duration-300" />
-                      <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-green-400/0 to-green-300/0 group-hover:from-green-400/10 group-hover:to-green-300/10 transition-all duration-300" />
+                      <motion.div 
+                        className="absolute -inset-[2px] rounded-lg"
+                        initial={{ opacity: 0.05 }}
+                        whileHover={{ opacity: 0.2 }}
+                        transition={{ duration: 0.2 }}
+                        style={{
+                          background: themeColor,
+                        }}
+                      />
                       <Button
                         asChild
-                        size="lg"
-                        className="relative bg-gradient-to-r from-[#064e3b] to-[#065f46] hover:from-[#065f46] hover:to-[#047857] text-base font-semibold text-white shadow-sm"
+                        variant="outline"
+                        size="default"
+                        className="relative text-sm font-medium border-2 shadow-sm bg-background hover:bg-background/80 transition-all duration-200"
+                        style={{
+                          borderColor: `${themeColor}66`,
+                          color: themeColor
+                        }}
                       >
                         <Link href="/docs" className="flex items-center gap-2">
                           {t('learn')}

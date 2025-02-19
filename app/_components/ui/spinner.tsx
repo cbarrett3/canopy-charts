@@ -1,19 +1,27 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { useThemeColor } from "../providers/theme-context"
 
 const Spinner = ({
   className,
+  style,
 }: {
   className?: string
+  style?: React.CSSProperties
 }) => {
+  const { themeColor } = useThemeColor()
+  
   return (
     <svg
       className={cn(
         "h-6 w-6 animate-[spin_0.6s_linear_infinite]",
-        "from-emerald-500 via-emerald-300 to-emerald-500 fill-emerald-500",
         className
       )}
+      style={{ 
+        ...style,
+        color: style?.color || themeColor
+      }}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

@@ -1,6 +1,8 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useThemeColor } from "@/app/_components/providers/theme-context"
+import * as d3 from 'd3'
 
 const pathVariants = {
    initial: {
@@ -76,6 +78,11 @@ export function Logo({
    showGrid?: boolean,
    style?: React.CSSProperties 
 }) {
+   const { themeColor } = useThemeColor()
+   const color = d3.color(themeColor)
+   const lighterColor = d3.hsl(color).brighter(0.5).formatHex()
+   const darkerColor = d3.hsl(color).darker(0.2).formatHex()
+
    return (
       <div className={`relative flex items-center justify-center ${className}`} style={style}>
          <motion.svg
@@ -95,20 +102,18 @@ export function Logo({
                   <circle cx="250" cy="250" r="250" fill="url(#fade-mask)" />
                </mask>
                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="15" result="blur" />
-                  <feColorMatrix
-                     in="blur"
-                     type="matrix"
-                     values="0 0 0 0 0.133333 0 0 0 0 0.772549 0 0 0 0 0.372549 0 0 0 1 0"
-                  />
+                  <feGaussianBlur stdDeviation="8" result="blur" />
+                  <feFlood floodColor={themeColor} floodOpacity="0.3" result="color"/>
+                  <feComposite in="color" in2="blur" operator="in" result="coloredBlur"/>
+                  <feComposite in="SourceGraphic" in2="coloredBlur" operator="over"/>
                </filter>
                <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feDropShadow dx="0" dy="0" stdDeviation="8" floodColor="#22c55e" />
+                  <feDropShadow dx="0" dy="0" stdDeviation="8" floodColor={themeColor} />
                </filter>
-               <linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#22c55e" />
-                  <stop offset="50%" stopColor="#4ade80" />
-                  <stop offset="100%" stopColor="#22c55e" />
+               <linearGradient id="themeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor={themeColor} />
+                  <stop offset="50%" stopColor={lighterColor} />
+                  <stop offset="100%" stopColor={themeColor} />
                </linearGradient>
             </defs>
 
@@ -155,7 +160,7 @@ export function Logo({
                <motion.path
                   d="M -150 0 A 100 100 0 1 1 100 0 A 50 50 0 1 1 -100 0"
                   variants={glowVariants}
-                  stroke="#10b981"
+                  stroke={themeColor}
                   strokeWidth="35"
                   strokeLinecap="round"
                   fill="none"
@@ -168,7 +173,7 @@ export function Logo({
                <motion.path
                   d="M -150 0 A 100 100 0 1 1 100 0 A 50 50 0 1 1 -100 0"
                   variants={pathVariants}
-                  stroke="url(#greenGradient)"
+                  stroke="url(#themeGradient)"
                   strokeWidth="32"
                   strokeLinecap="round"
                   fill="none"

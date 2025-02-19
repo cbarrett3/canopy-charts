@@ -32,12 +32,12 @@ export default function LineChartPage() {
   const [copiedCode, setCopiedCode] = useState(false);
 
   const sampleData = [
-    { name: 'Jan', A: 30, B: 20, C: 25 },
-    { name: 'Feb', A: 40, B: 25, C: 30 },
-    { name: 'Mar', A: 45, B: 30, C: 35 },
-    { name: 'Apr', A: 50, B: 35, C: 40 },
-    { name: 'May', A: 55, B: 38, C: 42 },
-    { name: 'Jun', A: 60, B: 40, C: 45 },
+    { name: 'Jan', value: 30, series2: 20, series3: 25 },
+    { name: 'Feb', value: 40, series2: 25, series3: 30 },
+    { name: 'Mar', value: 45, series2: 30, series3: 35 },
+    { name: 'Apr', value: 50, series2: 35, series3: 40 },
+    { name: 'May', value: 55, series2: 38, series3: 42 },
+    { name: 'Jun', value: 60, series2: 40, series3: 45 },
   ];
 
   const step3Data = [
@@ -112,7 +112,7 @@ export default function LineChart({ data, width = 600, height = 400 }) {
   const usageCode = `// Interactive Line Chart
 <D3LineChart
   data={sampleData}
-  datasets={['A', 'B', 'C']}
+  datasets={['value', 'series2', 'series3']}
   themeColor="${themeColor}"
   vibe="${currentVibe}"
   showAxes={${showAxes}}
@@ -273,7 +273,7 @@ export default function LineChart({ data, width = 600, height = 400 }) {
               <div className="w-full aspect-[2/1]">
                 <D3LineChart 
                   data={sampleData}
-                  datasets={['A', 'B', 'C']}
+                  datasets={['value', 'series2', 'series3']}
                   themeColor={themeColor}
                   vibe={currentVibe}
                   showAxes={showAxes}
