@@ -38,11 +38,12 @@ const D3StreamChart = ({
     const tooltipRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const updateChart = () => {
-            if (!svgRef.current || !containerRef.current) return;
+        const container = containerRef.current;
+        if (!container) return;
 
+        const updateChart = () => {
             // Get container dimensions
-            const containerRect = containerRef.current.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
             const width = containerRect.width;
             const height = containerRect.height;
 
@@ -200,18 +201,9 @@ const D3StreamChart = ({
         // Initial render
         updateChart();
 
-        // Add resize observer for responsive behavior
-        const resizeObserver = new ResizeObserver(() => {
-            updateChart();
-        });
-
-        if (containerRef.current) {
-            resizeObserver.observe(containerRef.current);
-        }
-
         return () => {
-            if (containerRef.current) {
-                resizeObserver.unobserve(containerRef.current);
+            if (container) {
+                d3.select(container).selectAll('*').remove();
             }
         };
     }, [data, themeColor]);

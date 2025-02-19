@@ -41,5 +41,5 @@ export const useChartAnimation = (
         .ease(config.easing)
         .attr('stroke-dashoffset', 0);
     });
-  }, [datasets, vibe]);
+  }, [datasets, vibe, svgRef]);
 };

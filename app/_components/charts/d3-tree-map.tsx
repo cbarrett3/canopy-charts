@@ -348,6 +348,7 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
    const svgRef = useRef<SVGSVGElement>(null);
    const tooltipRef = useRef<HTMLDivElement>(null);
    const containerRef = useRef<HTMLDivElement>(null);
+   const { dimensions } = useChartDimensions({ width, height });
    const [legendVisible, setLegendVisible] = useState(showLegend);
 
    useEffect(() => {
@@ -677,7 +678,7 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
             .style('opacity', 0.4)
             .text(d => d3.format(',')(Math.round(d)));
       }
-   }, [width, height, data, padding, themeColor, vibe, showTooltips, labelSize]);
+   }, [data, dimensions, themeColor, showAxes, showLegend, showTitle]);
 
    return (
       <div className={`relative ${className}`}>

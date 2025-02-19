@@ -37,11 +37,12 @@ const D3StackedBarChart = ({
     const tooltipRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const updateChart = () => {
-            if (!svgRef.current || !containerRef.current) return;
+        const container = containerRef.current;
+        if (!container) return;
 
+        const updateChart = () => {
             // Get container dimensions
-            const containerRect = containerRef.current.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
             const width = containerRect.width;
             const height = containerRect.height;
 
@@ -139,7 +140,7 @@ const D3StackedBarChart = ({
                         .html(`${key}: ${value}`);
                         
                     // Position tooltip responsively
-                    const [x, y] = d3.pointer(event, containerRef.current);
+                    const [x, y] = d3.pointer(event, container);
                     const tooltipWidth = (tooltip.node() as HTMLElement).offsetWidth;
                     const tooltipHeight = (tooltip.node() as HTMLElement).offsetHeight;
                     
@@ -148,7 +149,7 @@ const D3StackedBarChart = ({
                         .style("top", `${Math.max(0, y - tooltipHeight)}px`);
                 })
                 .on("mousemove", function (event) {
-                    const [x, y] = d3.pointer(event, containerRef.current);
+                    const [x, y] = d3.pointer(event, container);
                     const tooltipWidth = (tooltip.node() as HTMLElement).offsetWidth;
                     const tooltipHeight = (tooltip.node() as HTMLElement).offsetHeight;
                     
@@ -164,18 +165,9 @@ const D3StackedBarChart = ({
         // Initial render
         updateChart();
 
-        // Add resize observer for responsiveness
-        const resizeObserver = new ResizeObserver(() => {
-            updateChart();
-        });
-
-        if (containerRef.current) {
-            resizeObserver.observe(containerRef.current);
-        }
-
         return () => {
-            if (containerRef.current) {
-                resizeObserver.unobserve(containerRef.current);
+            if (container) {
+                d3.select(container).selectAll('*').remove();
             }
         };
     }, [data, themeColor]);

@@ -68,7 +68,7 @@ export const useChartColors = ({
       default:
         return Array(count).fill(baseColor);
     }
-  }, [baseColor, count, scheme, opacity]);
+  }, [baseColor, count, scheme]);
 };
 
 // Helper function to get the best color scheme for different chart types
