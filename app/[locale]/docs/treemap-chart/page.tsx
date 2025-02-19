@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { Copy, Check, ChevronRight } from "lucide-react";
-import D3TreeMap from '@/app/_components/charts/d3-tree-map';
+import D3TreeMap, { VibeType } from '@/app/_components/charts/d3-tree-map';
+import { ChartStyle } from '@/app/_components/charts/types';
 import D3LineChart from '@/app/_components/charts/d3-line-chart';
 import { ChartControls } from "@/app/_components/charts-ui/chart-controls";
 import { useThemeColor } from "@/app/_components/providers/theme-context";
@@ -18,7 +19,7 @@ import { cn } from "@/lib/utils";
 export default function TreemapChartPage() {
   const t = useTranslations('Docs.visualizations.treemapChart');
   const { themeColor, setThemeColor } = useThemeColor();
-  const [currentVibe, setCurrentVibe] = useState('rainforest');
+  const [currentVibe, setCurrentVibe] = useState<VibeType>('evergreen');
   const [showAxes, setShowAxes] = useState(false);
   const [showGrid, setShowGrid] = useState(false);
   const [showLabels, setShowLabels] = useState(false);
@@ -34,6 +35,7 @@ export default function TreemapChartPage() {
 
   const sampleData = {
     name: 'root',
+    value: 600, // Sum of all children values
     children: [
       { name: 'Sample 1', value: 100 },
       { name: 'Sample 2', value: 200 },
@@ -189,6 +191,16 @@ export default function TreemapChart({ data, width = 600, height = 400 }) {
     },
   };
 
+  const handleVibeChange = (vibe: ChartStyle) => {
+    // Convert ChartStyle to VibeType, using only compatible values
+    if (vibe === 'evergreen' || vibe === 'rainforest') {
+      setCurrentVibe(vibe as VibeType);
+    } else {
+      // Default to evergreen for incompatible values
+      setCurrentVibe('evergreen');
+    }
+  };
+
   return (
     <div className="relative max-w-4xl mx-auto py-6 px-4">
       {/* Background Effects */}
@@ -309,9 +321,9 @@ export default function TreemapChart({ data, width = 600, height = 400 }) {
           <div className="border-t border-zinc-900/20 dark:border-green-500/20 p-6">
             <ChartControls
               currentTheme={themeColor}
-              currentVibe={currentVibe}
+              currentVibe={currentVibe as ChartStyle}
               onThemeChange={setThemeColor}
-              onVibeChange={setCurrentVibe}
+              onVibeChange={handleVibeChange}
               showAxes={showAxes}
               onAxesChange={setShowAxes}
               showGrid={showGrid}

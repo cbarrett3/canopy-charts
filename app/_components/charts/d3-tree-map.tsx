@@ -353,46 +353,73 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
    useEffect(() => {
       if (!svgRef.current || !data) return;
 
-      const svg = d3.select(svgRef.current);
-      svg.selectAll('*').remove();
+      // Clear previous SVG content
+      d3.select(svgRef.current).selectAll('*').remove();
 
-      // Calculate dimensions with margins
-      const margin = { top: 16, right: 16, bottom: 16, left: 16 };
+      // Set margins based on whether title and legend are shown
+      const margin = {
+         top: padding,
+         right: padding,
+         bottom: padding,
+         left: padding
+      };
+
+      // Calculate available space for the chart
+      const availableHeight = height - margin.top - margin.bottom;
+      const titleHeight = showTitle ? 40 : 0;
+      const legendHeight = showLegend ? Math.min(30, availableHeight * 0.1) : 0;
+      const legendMargin = showLegend ? 12 : 0;
+
+      // Recalculate margins to account for title and legend
+      margin.top += titleHeight;
+      margin.bottom += legendHeight + legendMargin;
+
+      // Calculate inner dimensions
       const innerWidth = width - margin.left - margin.right;
       const innerHeight = height - margin.top - margin.bottom;
 
-      // Create treemap layout with adjusted dimensions
-      const treemap = d3.treemap<DataPoint>()
-         .size([innerWidth, innerHeight])
-         .paddingOuter(8)
-         .paddingInner(6)
-         .paddingTop(4)
-         .round(true);
-
-      // Create root hierarchy
-      const root = d3.hierarchy(data)
-         .sum(d => d.value)
-         .sort((a, b) => (b.value || 0) - (a.value || 0));
-
-      // Generate treemap layout
-      treemap(root);
+      // Create SVG
+      const svg = d3.select(svgRef.current)
+         .attr('width', width)
+         .attr('height', height)
+         .style('overflow', 'visible'); // Allow overflow for tooltips
 
       // Add title if enabled
       if (showTitle) {
+         // Create gradient for title
+         const titleGradient = svg.append("defs")
+            .append("linearGradient")
+            .attr("id", "titleGradient")
+            .attr("x1", "0%")
+            .attr("y1", "0%")
+            .attr("x2", "100%")
+            .attr("y2", "0%");
+
+         const color = d3.color(themeColor);
+         const brighterColor = color?.brighter(0.5)?.toString() || themeColor;
+
+         titleGradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", themeColor);
+
+         titleGradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", brighterColor);
+
          svg.append('text')
             .attr('class', 'chart-title')
             .attr('x', width / 2)
-            .attr('y', margin.top / 2)
+            .attr('y', titleHeight / 2)
             .attr('text-anchor', 'middle')
             .attr('dominant-baseline', 'middle')
-            .style('font-size', '14px')
-            .style('font-weight', '500')
-            .style('fill', 'currentColor')
-            .style('opacity', 0.9)
-            .text(data.name || 'Tree Map');
-
-         // Adjust top margin to accommodate title
-         margin.top += 20;
+            .style('font-size', `${Math.min(16, innerWidth * 0.03)}px`)
+            .style('font-weight', '600')
+            .style('fill', 'url(#titleGradient)')
+            .style('opacity', 0)
+            .text(data.name || 'Tree Map')
+            .transition()
+            .duration(600)
+            .style('opacity', 1);
       }
 
       // Create container group with margins
@@ -459,6 +486,22 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
             .style('opacity', 0.7)
             .text('Height');
       }
+
+      // Create treemap layout with adjusted dimensions
+      const treemap = d3.treemap<DataPoint>()
+         .size([innerWidth, innerHeight])
+         .paddingOuter(8)
+         .paddingInner(6)
+         .paddingTop(4)
+         .round(true);
+
+      // Create root hierarchy
+      const root = d3.hierarchy(data)
+         .sum(d => d.value)
+         .sort((a, b) => (b.value || 0) - (a.value || 0));
+
+      // Generate treemap layout
+      treemap(root);
 
       const cells = container.selectAll<SVGGElement, TreemapNode>('g')
          .data(root.leaves() as TreemapNode[])
@@ -554,6 +597,86 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
             }
             return null;
          });
+
+      // Add legend if enabled
+      if (showLegend) {
+         const values = root.leaves().map(d => d.value || 0);
+         const minValue = d3.min(values) || 0;
+         const maxValue = d3.max(values) || 0;
+         
+         // Compact legend width
+         const legendWidth = Math.min(innerWidth * 0.4, 140);
+         
+         // Create size scale for legend
+         const minSize = 4;
+         const maxSize = 12;
+         const sizeScale = d3.scaleLinear()
+            .domain([minValue, maxValue])
+            .range([minSize, maxSize]);
+
+         const legendGroup = svg.append('g')
+            .attr('class', 'legend')
+            .attr('transform', `translate(${margin.left + (innerWidth - legendWidth) / 2},${height - legendHeight + 8})`);
+
+         // Create gradient for legend
+         const legendGradient = svg.append("defs")
+            .append("linearGradient")
+            .attr("id", "legendGradient")
+            .attr("x1", "0%")
+            .attr("y1", "0%")
+            .attr("x2", "100%")
+            .attr("y2", "0%");
+
+         const color = d3.color(themeColor);
+         const darkerColor = color?.darker(0.5)?.toString() || themeColor;
+
+         legendGradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", darkerColor);
+
+         legendGradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", themeColor);
+
+         // Create a horizontal line to connect squares
+         legendGroup.append('line')
+            .attr('x1', 0)
+            .attr('x2', legendWidth)
+            .attr('y1', 0)
+            .attr('y2', 0)
+            .style('stroke', themeColor)
+            .style('stroke-width', 0.5)
+            .style('stroke-opacity', 0.2);
+
+         // Add legend squares in a more compact layout
+         const legendRects = legendGroup.selectAll('rect')
+            .data([minValue, (maxValue - minValue) / 2 + minValue, maxValue])
+            .enter()
+            .append('rect')
+            .attr('x', (d, i) => (i * legendWidth) / 2 - sizeScale(d) / 2)
+            .attr('y', d => -sizeScale(d) / 2)
+            .attr('width', d => sizeScale(d))
+            .attr('height', d => sizeScale(d))
+            .attr('rx', 1)
+            .attr('ry', 1)
+            .style('fill', themeColor)
+            .style('opacity', 0.2);
+
+         // Add minimal value labels
+         legendGroup.selectAll('text.value')
+            .data([minValue, (maxValue - minValue) / 2 + minValue, maxValue])
+            .enter()
+            .append('text')
+            .attr('class', 'value')
+            .attr('x', (d, i) => (i * legendWidth) / 2)
+            .attr('y', 14)
+            .attr('text-anchor', 'middle')
+            .style('font-size', '8px')
+            .style('font-weight', '400')
+            .style('fill', 'currentColor')
+            .style('opacity', 0.4)
+            .text(d => d3.format(',')(Math.round(d)));
+      }
    }, [width, height, data, padding, themeColor, vibe, showTooltips, labelSize]);
 
    return (
