@@ -1,14 +1,12 @@
 'use client';
 
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { useTranslations } from 'next-intl';
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
-import { Copy, Check, Keyboard, Eye, Speaker, Code2 } from "lucide-react";
+import { Keyboard, Eye, Speaker, Code2, Copy, Check } from "lucide-react";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { useTheme } from "next-themes";
 
 const features = [
   {
@@ -81,7 +79,6 @@ const features = [
 
 const CodeSnippetDemo = ({ code }: { code: string }) => {
   const [copied, setCopied] = useState(false);
-  const { theme } = useTheme();
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(code);
@@ -106,28 +103,7 @@ const CodeSnippetDemo = ({ code }: { code: string }) => {
         </div>
         <SyntaxHighlighter
           language="typescript"
-          style={theme === 'dark' ? vscDarkPlus : {
-            'code[class*="language-"]': {
-              color: '#24292e',
-              background: '#ffffff',
-            },
-            'pre[class*="language-"]': {
-              color: '#24292e',
-              background: '#ffffff',
-            },
-            'comment': {
-              color: '#6a737d'
-            },
-            'string': {
-              color: '#032f62'
-            },
-            'function': {
-              color: '#6f42c1'
-            },
-            'keyword': {
-              color: '#d73a49'
-            }
-          }}
+          style={vscDarkPlus}
           customStyle={{
             margin: 0,
             padding: '1.25rem',
@@ -135,7 +111,7 @@ const CodeSnippetDemo = ({ code }: { code: string }) => {
             lineHeight: '1.6',
             fontFamily: '"JetBrains Mono", monospace',
             height: '100%',
-            background: theme === 'dark' ? 'rgb(17, 17, 17)' : '#ffffff',
+            background: 'rgb(17, 17, 17)',
           }}
           wrapLongLines={true}
           wrapLines={true}
@@ -176,9 +152,6 @@ const itemVariants = {
 
 export default function AccessibilityPage() {
   const [mounted, setMounted] = useState(false);
-  const t = useTranslations('Docs.features');
-  const { theme } = useTheme();
-  const controls = useAnimation();
 
   useEffect(() => {
     setMounted(true);
@@ -284,7 +257,7 @@ export default function AccessibilityPage() {
                   Continuous Improvement
                 </h2>
                 <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  We're actively working on enhancing our D3-based components with more accessibility features, including:
+                  We&apos;re actively working on enhancing our D3-based components with more accessibility features, including:
                 </p>
                 <ul className="mt-3 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
                   <li className="flex items-center gap-2">

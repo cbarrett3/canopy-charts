@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useTranslations } from 'next-intl';
 import { cn } from "@/lib/utils";
@@ -157,7 +157,7 @@ export default function AnimationsPage() {
   const [activeVibe, setActiveVibe] = useState(vibes[0]);
   const [isPlaying, setIsPlaying] = useState(true);
   const { themeColor } = useThemeColor();
-  const t = useTranslations('Docs.features');
+  useTranslations('Docs.features');
 
   useEffect(() => {
     setMounted(true);

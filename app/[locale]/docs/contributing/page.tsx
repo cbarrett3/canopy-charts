@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 
 export default function ContributingPage() {
   const [mounted, setMounted] = useState(false);
-  const t = useTranslations('Docs.contributing');
+  useTranslations('Docs.features');
 
   useEffect(() => {
     setMounted(true);
@@ -112,8 +112,8 @@ export default function ContributingPage() {
               <Heart className="w-5 h-5 text-green-500" />
               <h3 className="font-medium">Thank You!</h3>
             </div>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
-              Your contributions help make Canopy Charts better for everyone. We appreciate every form of contribution, from code to documentation to bug reports.
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              We&apos;re excited to have you contribute to Canopy Charts!
             </p>
           </div>
         </div>
