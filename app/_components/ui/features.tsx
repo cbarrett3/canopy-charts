@@ -13,10 +13,7 @@ import StackedBarChart from "@/app/_components/charts/d3-stacked-bar-chart"
 import DonutChart from "@/app/_components/charts/d3-donut-chart"
 import { AiChartSuggest } from "@/app/_components/charts-ui/ai-chart-suggest"
 import { ChartControls } from "@/app/_components/charts-ui/chart-controls"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Button } from "@/components/ui/button"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Card } from "@/components/ui/card"
+import { ChartStyle } from "@/app/_components/charts/types"
 import { Input } from "@/components/ui/input"
 import { Slider } from "@/components/ui/slider"
 import { Command } from 'lucide-react'
@@ -26,6 +23,7 @@ import { Label } from "@/components/ui/label"
 import { useThemeColor } from "@/app/_components/providers/theme-context"
 import React from 'react';
 import { useParams } from 'next/navigation'
+import { ChevronRight } from 'lucide-react';
 
 type Feature = {
    title: string;
@@ -287,7 +285,7 @@ export function Features() {
    const { themeColor, setThemeColor } = useThemeColor()
    const params = useParams()
    const locale = params?.locale || 'en'
-   const [currentVibe, setCurrentVibe] = useState('rainforest') // Default rainforest vibe
+   const [currentVibe, setCurrentVibe] = useState<ChartStyle>('rainforest')
    const [showAxes, setShowAxes] = useState(true)
    const [showGrid, setShowGrid] = useState(true)
    const [showLabels, setShowLabels] = useState(true)
@@ -380,38 +378,66 @@ export function Features() {
             {features.map((feature) => (
                <div 
                   key={feature.title} 
-                  className="group rounded-lg bg-background/40 dark:bg-[#181818]/30 hover:bg-muted/20 dark:hover:bg-[#1A1A1A]/20 p-6 
-                    backdrop-blur-[12px] backdrop-saturate-[180%] border border-border/40 transition-all duration-300
-                    shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)] 
-                    hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)] 
-                    dark:shadow-[0_8px_16px_-6px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] 
-                    dark:hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.07)]
-                    hover:translate-y-[-2px] hover:scale-[1.02]
-                    after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 
-                    after:transition-opacity after:duration-300 hover:after:opacity-50 after:opacity-0 after:-z-10
-                    before:absolute before:inset-0 before:rounded-lg before:bg-gradient-to-b 
-                    before:from-white/5 before:to-transparent before:opacity-0 hover:before:opacity-100 
-                    before:transition-opacity before:duration-300 before:-z-10">
-                  {feature.component ? (
-                     <div className="relative aspect-[2/1] overflow-hidden rounded-xl 
-                        bg-gradient-to-b from-background/50 to-transparent dark:from-[#161616]/50
-                        ring-1 ring-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]
-                        before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/5 before:to-transparent">
-                        <feature.component themeColor={themeColor} vibe={currentVibe} showAxes={showAxes} showGrid={showGrid} showLabels={showLabels} labelSize={labelSize} />
-                     </div>
-                  ) : feature.icon ? (
-                     <feature.icon className="mb-4 h-8 w-8 text-muted-foreground group-hover:text-foreground transition-colors" />
-                  ) : null}
-                  <h3 className="mb-2 text-xl font-semibold text-foreground">{feature.title}</h3>
-                  <p className="mb-4 text-muted-foreground">{feature.description}</p>
-                  <Link 
-                    href={feature.href} 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:text-primary/80 transition-colors"
-                  >
-                     {feature.link} →
-                  </Link>
+                  className="group relative overflow-hidden rounded-xl bg-background/40 dark:bg-[#181818]/30 
+                    hover:bg-muted/10 dark:hover:bg-[#1A1A1A]/40
+                    backdrop-blur-[12px] backdrop-saturate-[180%] 
+                    transition-all duration-300
+                    hover:-translate-y-[2px]
+                    hover:shadow-lg
+                    flex flex-col min-h-[420px]"
+                  style={{
+                    boxShadow: `inset 0 0 0 1px ${themeColor}33`
+                  }}
+               >
+                  {feature.component && (
+                    <div className="relative w-full pt-[56.25%]">
+                      <div className="absolute inset-0 p-6">
+                        <div className="relative w-full h-full overflow-hidden">
+                          <div className="absolute inset-0">
+                            <feature.component 
+                              themeColor={themeColor} 
+                              vibe={currentVibe}
+                              showAxes={false}
+                              showGrid={false}
+                              showLabels={false}
+                              labelSize={12}
+                              showLegend={false}
+                              showTitle={false}
+                              showTooltips={true}
+                              padding={4}
+                              className="w-full h-full"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  <div className="relative flex-1 p-6 flex flex-col justify-between">
+                    <div className="space-y-4">
+                      {feature.icon && (
+                        <div>
+                          <feature.icon className="w-8 h-8 text-muted-foreground/80 group-hover:text-foreground transition-colors duration-300" />
+                        </div>
+                      )}
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-semibold tracking-tight text-foreground/90 group-hover:text-foreground transition-colors duration-300">
+                          {feature.title}
+                        </h3>
+                        <p className="text-[15px] leading-relaxed text-muted-foreground/80 group-hover:text-muted-foreground transition-colors duration-300">
+                          {feature.description}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="pt-4 mt-auto">
+                      <Link 
+                        href={feature.href} 
+                        className="inline-flex items-center text-[13px] font-medium text-muted-foreground/70 hover:text-foreground transition-colors duration-300"
+                      >
+                        {feature.link}
+                        <ChevronRight className="w-3.5 h-3.5 ml-1 transition-transform duration-300 group-hover:translate-x-0.5" />
+                      </Link>
+                    </div>
+                  </div>
                </div>
             ))}
          </div>

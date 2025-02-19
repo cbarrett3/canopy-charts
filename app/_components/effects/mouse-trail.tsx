@@ -1,13 +1,25 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { useTheme } from "next-themes"
+import { useThemeColor } from '../providers/theme-context';
 
 interface Point {
    x: number
    y: number
    alpha: number
 }
+
+const hexToRgb = (hex: string) => {
+   // Remove the # if present
+   hex = hex.replace('#', '');
+   
+   // Parse the hex values
+   const r = parseInt(hex.substring(0, 2), 16);
+   const g = parseInt(hex.substring(2, 4), 16);
+   const b = parseInt(hex.substring(4, 6), 16);
+   
+   return `${r}, ${g}, ${b}`;
+};
 
 export function MouseTrail() {
    const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -19,7 +31,7 @@ export function MouseTrail() {
       lastUpdate: 0
    })
    const animationFrameId = useRef<number>()
-   const { theme, systemTheme } = useTheme()
+   const { themeColor } = useThemeColor()
 
    useEffect(() => {
       const canvas = canvasRef.current
@@ -63,11 +75,10 @@ export function MouseTrail() {
                point.x, point.y, 0,
                point.x, point.y, 8
             )
-            const isDarkMode = theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
-            const alpha = isDarkMode ? point.alpha : point.alpha * 3
-            const color = '34, 197, 94' // Same vibrant green for both modes
-            gradient.addColorStop(0, `rgba(${color}, ${alpha})`)
-            gradient.addColorStop(1, `rgba(${color}, 0)`)
+            const rgbColor = themeColor ? hexToRgb(themeColor) : '34, 197, 94' // Convert hex to RGB
+            const alpha = point.alpha
+            gradient.addColorStop(0, `rgba(${rgbColor}, ${alpha})`)
+            gradient.addColorStop(1, `rgba(${rgbColor}, 0)`)
             ctx.fillStyle = gradient
             ctx.arc(point.x, point.y, 8, 0, Math.PI * 2)
             ctx.fill()
@@ -167,7 +178,7 @@ export function MouseTrail() {
             cancelAnimationFrame(animationFrameId.current)
          }
       }
-   }, [])
+   }, [themeColor]) // Add themeColor as dependency
 
    return (
       <canvas
