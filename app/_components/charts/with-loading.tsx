@@ -3,7 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import ChartSkeleton from '../ui/chart-skeleton';
 
-export function withLoading<P extends object>(
+type WithThemeColor = {
+  themeColor?: string;
+};
+
+export function withLoading<P extends WithThemeColor>(
   WrappedComponent: React.ComponentType<P>,
   loadingDelay: number = 1000
 ) {
@@ -19,7 +23,7 @@ export function withLoading<P extends object>(
     }, []);
 
     if (isLoading) {
-      return <ChartSkeleton />;
+      return <ChartSkeleton themeColor={props.themeColor} />;
     }
 
     return <WrappedComponent {...props} />;
