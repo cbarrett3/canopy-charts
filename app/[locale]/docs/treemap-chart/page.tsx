@@ -19,12 +19,12 @@ export default function TreemapChartPage() {
   const t = useTranslations('Docs.visualizations.treemapChart');
   const { themeColor, setThemeColor } = useThemeColor();
   const [currentVibe, setCurrentVibe] = useState('rainforest');
-  const [showAxes, setShowAxes] = useState(true);
-  const [showGrid, setShowGrid] = useState(true);
-  const [showLabels, setShowLabels] = useState(true);
+  const [showAxes, setShowAxes] = useState(false);
+  const [showGrid, setShowGrid] = useState(false);
+  const [showLabels, setShowLabels] = useState(false);
   const [labelSize, setLabelSize] = useState(12);
-  const [showTitle, setShowTitle] = useState(true);
-  const [showLegend, setShowLegend] = useState(true);
+  const [showTitle, setShowTitle] = useState(false);
+  const [showLegend, setShowLegend] = useState(false);
   const [showTooltips, setShowTooltips] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [showPreview, setShowPreview] = useState(true);
@@ -32,14 +32,14 @@ export default function TreemapChartPage() {
   const [copiedCommand, setCopiedCommand] = useState<string | null>(null);
   const [copiedCode, setCopiedCode] = useState(false);
 
-  const sampleData = [
-    { name: 'Jan', A: 30, B: 20, C: 25 },
-    { name: 'Feb', A: 40, B: 25, C: 30 },
-    { name: 'Mar', A: 45, B: 30, C: 35 },
-    { name: 'Apr', A: 50, B: 35, C: 40 },
-    { name: 'May', A: 55, B: 38, C: 42 },
-    { name: 'Jun', A: 60, B: 40, C: 45 },
-  ];
+  const sampleData = {
+    name: 'root',
+    children: [
+      { name: 'Sample 1', value: 100 },
+      { name: 'Sample 2', value: 200 },
+      { name: 'Sample 3', value: 300 },
+    ]
+  };
 
   const step3Data = [
     { date: '2024-01', value: 10 },
@@ -272,8 +272,9 @@ export default function TreemapChart({ data, width = 600, height = 400 }) {
           </div>
           <div className="p-6">
             {showPreview ? (
-              <div className="w-full aspect-[2/1]">
-                <D3TreeMap 
+              <div className="relative w-full aspect-[1.6] min-h-[400px]">
+                <D3TreeMap
+                  data={sampleData}
                   themeColor={themeColor}
                   vibe={currentVibe}
                   showAxes={showAxes}
@@ -283,6 +284,8 @@ export default function TreemapChart({ data, width = 600, height = 400 }) {
                   showTitle={showTitle}
                   showLegend={showLegend}
                   showTooltips={showTooltips}
+                  padding={4}
+                  className="w-full h-full"
                 />
               </div>
             ) : (

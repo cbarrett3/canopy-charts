@@ -377,9 +377,88 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
       // Generate treemap layout
       treemap(root);
 
+      // Add title if enabled
+      if (showTitle) {
+         svg.append('text')
+            .attr('class', 'chart-title')
+            .attr('x', width / 2)
+            .attr('y', margin.top / 2)
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'middle')
+            .style('font-size', '14px')
+            .style('font-weight', '500')
+            .style('fill', 'currentColor')
+            .style('opacity', 0.9)
+            .text(data.name || 'Tree Map');
+
+         // Adjust top margin to accommodate title
+         margin.top += 20;
+      }
+
       // Create container group with margins
       const container = svg.append('g')
          .attr('transform', `translate(${margin.left},${margin.top})`);
+
+      // Add axes if enabled
+      if (showAxes) {
+         // Create scales for axes
+         const xScale = d3.scaleLinear()
+            .domain([0, innerWidth])
+            .range([0, innerWidth]);
+
+         const yScale = d3.scaleLinear()
+            .domain([0, innerHeight])
+            .range([innerHeight, 0]);
+
+         // Create and add x-axis
+         const xAxis = d3.axisBottom(xScale)
+            .ticks(5)
+            .tickSize(6)
+            .tickFormat(d => `${d}px`);
+
+         container.append('g')
+            .attr('class', 'x-axis')
+            .attr('transform', `translate(0,${innerHeight})`)
+            .call(xAxis)
+            .style('color', 'currentColor')
+            .style('opacity', 0.5)
+            .style('font-size', '10px');
+
+         // Create and add y-axis
+         const yAxis = d3.axisLeft(yScale)
+            .ticks(5)
+            .tickSize(6)
+            .tickFormat(d => `${d}px`);
+
+         container.append('g')
+            .attr('class', 'y-axis')
+            .call(yAxis)
+            .style('color', 'currentColor')
+            .style('opacity', 0.5)
+            .style('font-size', '10px');
+
+         // Add axis labels
+         container.append('text')
+            .attr('class', 'x-axis-label')
+            .attr('x', innerWidth / 2)
+            .attr('y', innerHeight + margin.bottom - 2)
+            .attr('text-anchor', 'middle')
+            .style('font-size', '10px')
+            .style('fill', 'currentColor')
+            .style('opacity', 0.7)
+            .text('Width');
+
+         container.append('text')
+            .attr('class', 'y-axis-label')
+            .attr('transform', 'rotate(-90)')
+            .attr('x', -innerHeight / 2)
+            .attr('y', -margin.left + 12)
+            .attr('text-anchor', 'middle')
+            .style('font-size', '10px')
+            .style('fill', 'currentColor')
+            .style('opacity', 0.7)
+            .text('Height');
+      }
 
       const cells = container.selectAll<SVGGElement, TreemapNode>('g')
          .data(root.leaves() as TreemapNode[])
@@ -388,50 +467,57 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
          .attr('transform', d => `translate(${d.x0},${d.y0})`);
 
       // Add rectangles with gradient background
-      cells.append('rect')
+      const rects = cells.append('rect')
          .attr('width', d => Math.max(0, d.x1 - d.x0))
          .attr('height', d => Math.max(0, d.y1 - d.y0))
-         .attr('rx', 6)
-         .attr('ry', 6)
+         .attr('rx', vibeConfigs[vibe].style.cornerRadius)
+         .attr('ry', vibeConfigs[vibe].style.cornerRadius)
          .style('fill', themeColor)
-         .style('opacity', 0.85)
-         .style('filter', 'drop-shadow(0px 2px 4px rgba(0,0,0,0.1))')
+         .style('opacity', 0) // Start with opacity 0 for animation
+         .style('filter', vibeConfigs[vibe].style.glowColor ? 
+            `drop-shadow(0px 2px ${vibeConfigs[vibe].style.glowRadius || 4}px ${vibeConfigs[vibe].style.glowColor})` : 
+            'none')
          .style('cursor', 'pointer')
-         .style('transition', 'all 0.3s ease')
-         .on('mouseover', function(event, d) {
-            d3.select(this)
-               .transition()
-               .duration(300)
+         .style('transition', `all ${vibeConfigs[vibe].animation.duration}ms ${vibeConfigs[vibe].animation.ease}`);
+
+      // Add hover events
+      rects.on('mouseover', function(event, d) {
+         d3.select(this)
+            .transition()
+            .duration(200)
+            .style('opacity', vibeConfigs[vibe].style.hoverOpacity)
+            .style('transform', `scale(${vibeConfigs[vibe].style.hoverScale})`);
+
+         if (showTooltips) {
+            const tooltip = d3.select(tooltipRef.current);
+            tooltip
                .style('opacity', 1)
-               .style('transform', 'scale(1.02) translate(-1px, -1px)')
-               .style('filter', 'drop-shadow(0px 4px 8px rgba(0,0,0,0.15))');
+               .style('left', `${event.pageX + 10}px`)
+               .style('top', `${event.pageY - 10}px`);
 
-            if (showTooltips) {
-               const tooltip = d3.select(tooltipRef.current);
-               tooltip.transition()
-                  .duration(200)
-                  .style('opacity', 1);
-               tooltip
-                  .html(`${d.data.name}<br/>${d.value}`)
-                  .style('left', (event.pageX + 10) + 'px')
-                  .style('top', (event.pageY - 28) + 'px');
-            }
-         })
-         .on('mouseout', function() {
-            d3.select(this)
-               .transition()
-               .duration(300)
-               .style('opacity', 0.85)
-               .style('transform', 'scale(1) translate(0, 0)')
-               .style('filter', 'drop-shadow(0px 2px 4px rgba(0,0,0,0.1))');
+            tooltip.select('.tooltip-title').text(d.data.name);
+            tooltip.select('.tooltip-value').text(d.data.value.toString());
+         }
+      })
+      .on('mouseout', function() {
+         d3.select(this)
+            .transition()
+            .duration(300)
+            .style('opacity', vibeConfigs[vibe].style.opacity)
+            .style('transform', 'scale(1)');
 
-            if (showTooltips) {
-               const tooltip = d3.select(tooltipRef.current);
-               tooltip.transition()
-                  .duration(200)
-                  .style('opacity', 0);
-            }
-         });
+         if (showTooltips) {
+            const tooltip = d3.select(tooltipRef.current)
+               .style('opacity', 0);
+         }
+      });
+
+      // Animate in the rectangles
+      rects.transition()
+         .duration(vibeConfigs[vibe].animation.duration)
+         .delay((_, i) => vibeConfigs[vibe].animation.delay(_, i))
+         .ease(vibeConfigs[vibe].animation.ease)
+         .style('opacity', vibeConfigs[vibe].style.opacity);
 
       // Add text labels
       cells.append('text')
