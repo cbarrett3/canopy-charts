@@ -78,9 +78,10 @@ const D3LineChart: React.FC<D3LineChartProps> = ({
       if (showGrid) {
          g.append('g')
             .attr('class', 'grid')
-            .call(d3.axisLeft(yScale)
-               .tickSize(-dimensions.boundedWidth)
-               .tickFormat('')
+            .call(
+               d3.axisLeft(yScale)
+                  .tickSize(-dimensions.boundedWidth)
+                  .tickFormat(() => '')
             )
             .style('stroke', 'rgba(255,255,255,0.1)')
             .style('stroke-dasharray', '2,2');
