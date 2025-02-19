@@ -16,9 +16,10 @@ export function Hero() {
    const t = useTranslations('hero')
    const { themeColor } = useThemeColor()
    const locale = useLocale()
+   
    const color = d3.color(themeColor)
-   const lighterColor = d3.hsl(color).brighter(0.5).formatHex()
-   const darkerColor = d3.hsl(color).darker(0.2).formatHex()
+   const lighterColor = color ? d3.hsl(color).brighter(0.5).formatHex() : '#000000'
+   const darkerColor = color ? d3.hsl(color).darker(0.2).formatHex() : '#000000'
 
    useEffect(() => {
       setMounted(true)
