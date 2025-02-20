@@ -29,3 +29,19 @@ export const generateOpacityVariations = (baseColor: string, count: number): str
 
 // Default theme color
 export const defaultThemeColor = '#22C55E';
+
+// Color palette for charts
+export const chartColors = [
+  '#22C55E', // Green
+  '#3B82F6', // Blue
+  '#F59E0B', // Yellow
+  '#EF4444', // Red
+  '#8B5CF6', // Purple
+  '#EC4899', // Pink
+  '#14B8A6', // Teal
+  '#F97316', // Orange
+];
+
+export const getColorByIndex = (index: number): string => {
+  return chartColors[index % chartColors.length];
+};

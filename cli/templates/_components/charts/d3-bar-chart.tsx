@@ -2,8 +2,8 @@
 
 import React, { useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
-import { defaultThemeColor } from '@/app/_components/charts/utils/colors';
-import { debounce } from '@/app/_components/charts/utils/debounce';
+import { getColorByIndex } from './utils/colors';
+import { debounce } from './utils/debounce';
 
 // Types
 interface DataPoint {
@@ -261,7 +261,7 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
    height = 300,
    data = [],
    title,
-   themeColor = defaultThemeColor,
+   themeColor = getColorByIndex(0),
    vibe = 'evergreen'
 }) => {
    const svgRef = useRef<SVGSVGElement>(null);
