@@ -338,19 +338,23 @@ export default {
     targetPath = customPath;
   }
 
-  const { selectedCharts } = await inquirer.prompt([
-    {
-      type: 'checkbox',
-      name: 'selectedCharts',
-      message: 'Which beautiful D3 charts would you like to start with?',
-      choices: Object.entries(CHART_REGISTRY).map(([key, chart]) => ({
-        name: `${chalk.cyan(key)}: ${chart.description}`,
-        value: key,
-        short: key
-      })),
-      validate: (input: string[]) => input.length > 0 ? true : 'Please select at least one chart'
-    }
-  ]);
+  interface ChartSelectionAnswers {
+    selectedCharts: string[];
+  }
+
+  const answers = await inquirer.prompt<ChartSelectionAnswers>({
+    type: 'checkbox',
+    name: 'selectedCharts',
+    message: 'Which beautiful D3 charts would you like to start with?',
+    choices: Object.entries(CHART_REGISTRY).map(([key, chart]) => ({
+      name: `${chalk.cyan(key)}: ${chart.description}`,
+      value: key,
+      short: key
+    })),
+    validate: (input: string[]) => input.length > 0 ? true : 'Please select at least one chart'
+  });
+
+  const { selectedCharts } = answers;
 
   const spinner2 = ora({
     text: 'Setting up Canopy Charts...',
