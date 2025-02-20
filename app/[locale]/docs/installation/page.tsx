@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Copy, Check, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
 const InstallationPage = () => {
@@ -142,9 +143,11 @@ const InstallationPage = () => {
                           background: `radial-gradient(circle, ${color}, transparent)`
                         }}
                       />
-                      <img
+                      <Image
                         src={dep.logo}
                         alt={dep.name}
+                        width={40}
+                        height={40}
                         className="w-10 h-10 relative transform transition-transform duration-300 group-hover:scale-110"
                       />
                     </div>
