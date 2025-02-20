@@ -1,44 +1,67 @@
 import inquirer from 'inquirer';
-import type { Question } from 'inquirer';
+
+interface ChartConfigAnswers {
+  title: string;
+  description: string;
+  width: string;
+  height: string;
+}
 
 export async function promptForChartConfig(chartName: string) {
-  const questions: Question[] = [
-    {
-      type: 'input',
-      name: 'title',
-      message: 'Chart title:',
-      default: chartName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-    },
-    {
-      type: 'input',
-      name: 'description',
-      message: 'Chart description:',
-      default: `A ${chartName} visualization`
-    },
-    {
-      type: 'confirm',
-      name: 'responsive',
-      message: 'Make chart responsive?',
-      default: true
-    }
-  ];
+  const questions = {
+    type: 'form',
+    name: 'chartConfig',
+    message: `Configure your ${chartName}`,
+    questions: [
+      {
+        type: 'input',
+        name: 'title',
+        message: 'Chart title:',
+        default: `My ${chartName}`
+      },
+      {
+        type: 'input',
+        name: 'description',
+        message: 'Chart description:',
+        default: `A beautiful ${chartName} created with Canopy Charts`
+      },
+      {
+        type: 'input',
+        name: 'width',
+        message: 'Chart width:',
+        default: '100%'
+      },
+      {
+        type: 'input',
+        name: 'height',
+        message: 'Chart height:',
+        default: '400'
+      }
+    ]
+  };
 
-  return inquirer.prompt(questions);
+  return inquirer.prompt<ChartConfigAnswers>(questions);
+}
+
+interface FrameworkAnswers {
+  framework: string;
 }
 
 export async function promptForFramework(yes?: boolean) {
   if (yes) {
-    return 'react'; // Default to React in non-interactive mode
+    return { framework: 'next' };
   }
 
-  const { framework } = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'framework',
-      message: 'Which framework are you using?',
-      choices: ['react', 'vue', 'svelte', 'vanilla'],
-      default: 'react'
-    }
-  ]);
-  return framework;
+  const question = {
+    type: 'list',
+    name: 'framework',
+    message: 'Which framework are you using?',
+    choices: [
+      { name: 'Next.js', value: 'next' },
+      { name: 'React', value: 'react' },
+      { name: 'Vue', value: 'vue' }
+    ]
+  };
+
+  return inquirer.prompt<FrameworkAnswers>(question);
 }
