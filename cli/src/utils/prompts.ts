@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import inquirer, { ListQuestion } from 'inquirer';
 
 interface ChartConfigAnswers {
   title: string;
@@ -8,37 +8,32 @@ interface ChartConfigAnswers {
 }
 
 export async function promptForChartConfig(chartName: string) {
-  const questions = {
-    type: 'form',
-    name: 'chartConfig',
-    message: `Configure your ${chartName}`,
-    questions: [
-      {
-        type: 'input',
-        name: 'title',
-        message: 'Chart title:',
-        default: `My ${chartName}`
-      },
-      {
-        type: 'input',
-        name: 'description',
-        message: 'Chart description:',
-        default: `A beautiful ${chartName} created with Canopy Charts`
-      },
-      {
-        type: 'input',
-        name: 'width',
-        message: 'Chart width:',
-        default: '100%'
-      },
-      {
-        type: 'input',
-        name: 'height',
-        message: 'Chart height:',
-        default: '400'
-      }
-    ]
-  };
+  const questions = [
+    {
+      type: 'input',
+      name: 'title',
+      message: 'Chart title:',
+      default: `My ${chartName}`
+    },
+    {
+      type: 'input',
+      name: 'description',
+      message: 'Chart description:',
+      default: `A beautiful ${chartName} created with Canopy Charts`
+    },
+    {
+      type: 'input',
+      name: 'width',
+      message: 'Chart width:',
+      default: '100%'
+    },
+    {
+      type: 'input',
+      name: 'height',
+      message: 'Chart height:',
+      default: '400'
+    }
+  ];
 
   return inquirer.prompt<ChartConfigAnswers>(questions);
 }
@@ -52,7 +47,7 @@ export async function promptForFramework(yes?: boolean) {
     return { framework: 'next' };
   }
 
-  const question = {
+  const question: ListQuestion = {
     type: 'list',
     name: 'framework',
     message: 'Which framework are you using?',
