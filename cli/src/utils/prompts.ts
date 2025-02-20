@@ -1,8 +1,8 @@
-import type { QuestionCollection } from 'inquirer';
 import inquirer from 'inquirer';
+import type { Question } from 'inquirer';
 
 export async function promptForChartConfig(chartName: string) {
-  const questions: QuestionCollection = [
+  const questions: Question[] = [
     {
       type: 'input',
       name: 'title',
