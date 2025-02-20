@@ -348,7 +348,7 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
    const svgRef = useRef<SVGSVGElement>(null);
    const tooltipRef = useRef<HTMLDivElement>(null);
    const containerRef = useRef<HTMLDivElement>(null);
-   const { dimensions } = useChartDimensions({ width, height });
+   const { dimensions } = useChartDimensions();
    const [legendVisible, setLegendVisible] = useState(showLegend);
 
    useEffect(() => {

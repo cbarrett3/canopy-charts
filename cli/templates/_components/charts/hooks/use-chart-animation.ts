@@ -28,10 +28,13 @@ export const useChartAnimation = (
     const config = getAnimationConfig(vibe);
 
     datasets.forEach(dataset => {
-      const path = d3.select(svgRef.current)
+      const path = d3
+        .select(svgRef.current)
         .select(`path.line-${dataset}`);
-
-      const totalLength = path.node()?.getTotalLength() || 0;
+      
+      const pathNode = path.node();
+      if (!(pathNode instanceof SVGPathElement)) return;
+      const totalLength = pathNode.getTotalLength();
 
       path
         .attr('stroke-dasharray', `${totalLength} ${totalLength}`)

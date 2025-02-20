@@ -107,7 +107,7 @@ async function detectFramework(projectPath: string = process.cwd()): Promise<Fra
         const d3Dependencies = detectD3Dependencies(dependencies, devDependencies);
         
         // Check versions and get warnings
-        const versionWarnings = checkDependencyVersions(dependencies, devDependencies, framework);
+        const versionWarnings = checkDependencyVersions(dependencies, devDependencies, framework || 'next');
         
         // Get required dependencies
         const requiredDeps = determineDependencies(isTypescript);
@@ -115,7 +115,7 @@ async function detectFramework(projectPath: string = process.cwd()): Promise<Fra
         spinner.succeed('Project analysis complete');
         
         return {
-            framework,
+            framework: framework || 'next',
             isTypescript,
             defaultDir,
             dependencies: requiredDeps,
@@ -220,7 +220,7 @@ function checkDependencyVersions(
     
     for (const [dep, supportedVersion] of Object.entries(SUPPORTED_VERSIONS)) {
         if (dep in allDeps) {
-            const warning = getVersionWarning(dep, allDeps[dep], supportedVersion);
+            const warning = getVersionWarning(dep, allDeps[dep]);
             if (warning) {
                 warnings.push(warning);
             }

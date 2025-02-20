@@ -21,6 +21,11 @@ export interface ChartTheme {
   text: string;
 }
 
+export interface DataPoint {
+  name: string;
+  [key: string]: string | number;
+}
+
 export interface ChartOptions {
   showAxes?: boolean;
   showGrid?: boolean;

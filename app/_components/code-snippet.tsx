@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { FiCopy, FiCheck } from 'react-icons/fi';
 
 interface CodeSnippetProps {
    code: string;
@@ -12,6 +11,19 @@ interface CodeSnippetProps {
    className?: string;
    showCopyButton?: boolean;
 }
+
+const CopyIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+  </svg>
+);
+
+const CheckIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="20 6 9 17 4 12"></polyline>
+  </svg>
+);
 
 const customStyle = {
    ...vscDarkPlus,
@@ -55,12 +67,12 @@ const CodeSnippet: React.FC<CodeSnippetProps> = ({
    className = '',
    showCopyButton = true,
 }) => {
-   const [copied, setCopied] = useState(false);
+   const [isCopied, setIsCopied] = useState(false);
 
    const handleCopy = async () => {
       await navigator.clipboard.writeText(code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
    };
 
    return (
@@ -76,7 +88,7 @@ const CodeSnippet: React.FC<CodeSnippetProps> = ({
                   className="absolute right-4 top-4 p-2 rounded-md bg-slate-700/50 hover:bg-slate-700/70 transition-colors text-slate-300 hover:text-white"
                   title="Copy code"
                >
-                  {copied ? <FiCheck className="w-4 h-4" /> : <FiCopy className="w-4 h-4" />}
+                  {isCopied ? <CheckIcon /> : <CopyIcon />}
                </button>
             )}
             

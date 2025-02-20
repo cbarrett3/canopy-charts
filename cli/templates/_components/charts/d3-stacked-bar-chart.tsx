@@ -9,12 +9,27 @@ interface DataPoint {
     [key: string]: string | number;
 }
 
+interface StackedData {
+    key: string;
+    [key: string]: any;
+}
+
+interface StackedDatum {
+    [0]: number;
+    [1]: number;
+    data: StackedData;
+}
+
 interface D3StackedBarChartProps {
     width?: number;
     height?: number;
     data?: DataPoint[];
     title?: string;
     themeColor?: string;
+}
+
+function isSVGGElement(element: Element | null): element is SVGGElement {
+    return element instanceof SVGGElement;
 }
 
 const D3StackedBarChart = ({
@@ -121,40 +136,35 @@ const D3StackedBarChart = ({
                 .attr("fill", (d, i) => colorScale(i.toString()));
 
             layers.selectAll("rect")
-                .data(d => d)
+                .data<StackedDatum>(d => d)
                 .join("rect")
-                .attr("y", d => yScale(d.data.category) || 0)
-                .attr("height", yScale.bandwidth())
-                .attr("x", d => xScale(d[0]))
-                .attr("width", d => xScale(d[1]) - xScale(d[0]))
-                .on("mouseover", function (event, d) {
-                    const key = d3.select(this.parentNode).datum().key;
+                .attr("x", d => xScale(d[0]) ?? 0)
+                .attr("y", (d, i, nodes) => {
+                    const node = nodes[i] as SVGRectElement;
+                    const parent = node?.parentElement;
+                    if (!parent || !isSVGGElement(parent)) return 0;
+                    const parentData = d3.select(parent).datum() as d3.Series<StackedData, string>;
+                    return yScale(parentData.key) ?? 0;
+                })
+                .attr("height", yScale.bandwidth() ?? 0)
+                .attr("width", d => (xScale(d[1]) ?? 0) - (xScale(d[0]) ?? 0))
+                .on("mouseover", function(event: MouseEvent, d: StackedDatum) {
+                    const target = event.currentTarget;
+                    if (!(target instanceof SVGRectElement)) return;
+                    const parent = target.parentElement;
+                    if (!parent || !isSVGGElement(parent)) return;
+                    const parentData = d3.select(parent).datum() as d3.Series<StackedData, string>;
+                    const key = parentData.key;
                     const value = d[1] - d[0];
-                    
+
                     tooltip
-                        .style("visibility", "visible")
-                        .html(`${key}: ${value}`);
-                        
-                    // Position tooltip responsively
-                    const [x, y] = d3.pointer(event, containerRef.current);
-                    const tooltipWidth = (tooltip.node() as HTMLElement).offsetWidth;
-                    const tooltipHeight = (tooltip.node() as HTMLElement).offsetHeight;
-                    
-                    tooltip
-                        .style("left", `${Math.min(x, width - tooltipWidth)}px`)
-                        .style("top", `${Math.max(0, y - tooltipHeight)}px`);
+                        .style("opacity", 1)
+                        .html(`${key}: ${value}`)
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY - 10) + "px");
                 })
-                .on("mousemove", function (event) {
-                    const [x, y] = d3.pointer(event, containerRef.current);
-                    const tooltipWidth = (tooltip.node() as HTMLElement).offsetWidth;
-                    const tooltipHeight = (tooltip.node() as HTMLElement).offsetHeight;
-                    
-                    tooltip
-                        .style("left", `${Math.min(x, width - tooltipWidth)}px`)
-                        .style("top", `${Math.max(0, y - tooltipHeight)}px`);
-                })
-                .on("mouseout", function () {
-                    tooltip.style("visibility", "hidden");
+                .on("mouseout", () => {
+                    tooltip.style("opacity", 0);
                 });
         };
 

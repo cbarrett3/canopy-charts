@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import { defaultThemeColor } from '@/app/_components/charts/utils/colors';
 import { useChartDimensions } from '@/app/_components/charts/hooks/use-chart-dimensions';
-import { ChartStyle } from './types';
+import { ChartStyle, ChartOptions } from './types';
 import { withLoading } from './with-loading';
 
 interface DataPoint {
@@ -12,17 +12,12 @@ interface DataPoint {
    value: number;
 }
 
-interface D3BarChartProps {
+interface D3BarChartProps extends ChartOptions {
    width?: number;
    height?: number;
    data?: DataPoint[];
-   title?: string;
    themeColor?: string;
    vibe?: ChartStyle;
-   showAxes?: boolean;
-   showGrid?: boolean;
-   showLabels?: boolean;
-   labelSize?: number;
 }
 
 const D3BarChart: React.FC<D3BarChartProps> = ({
@@ -75,12 +70,13 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
 
       // Add grid lines if enabled
       if (showGrid) {
+         const yAxis = d3.axisLeft(yScale)
+            .tickSize(-dimensions.boundedWidth)
+            .tickFormat(null);
+            
          g.append('g')
             .attr('class', 'grid')
-            .call(d3.axisLeft(yScale)
-               .tickSize(-dimensions.boundedWidth)
-               .tickFormat('')
-            )
+            .call(yAxis)
             .style('stroke', 'rgba(255,255,255,0.1)')
             .style('stroke-dasharray', '2,2');
       }

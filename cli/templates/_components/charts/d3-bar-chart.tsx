@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import * as d3 from 'd3';
 import { defaultThemeColor } from '@/app/_components/charts/utils/colors';
-import { debounce } from 'lodash';
+import { debounce } from '@/app/_components/charts/utils/debounce';
 
 // Types
 interface DataPoint {
@@ -17,6 +17,8 @@ interface ChartDimensions {
    margin: { top: number; right: number; bottom: number; left: number };
    innerWidth: number;
    innerHeight: number;
+   boundedWidth: number;
+   boundedHeight: number;
 }
 
 interface ChartConfig {
@@ -27,7 +29,7 @@ interface ChartConfig {
    animation: {
       duration: number;
       delay: (d: any, i: number) => number;
-      easing: d3.EaseFunction;
+      easing: (normalizedTime: number) => number;
       initialScale: number;
       finalScale: number;
    };
@@ -51,11 +53,23 @@ interface D3BarChartProps {
    vibe?: ChartStyle;
 }
 
-interface ChartState {
-   svg: d3.Selection<SVGSVGElement | null, unknown, null, undefined>;
+interface ChartRef {
+   svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
    g: d3.Selection<SVGGElement, unknown, null, undefined>;
-   xScale: d3.ScaleBand<string>;
-   yScale: d3.ScaleLinear<number, number>;
+   xScale: d3.ScaleLinear<number, number>;
+   yScale: d3.ScaleBand<string>;
+}
+
+interface ChartState {
+   svg: d3.Selection<SVGSVGElement, unknown, null, undefined>;
+   g: d3.Selection<SVGGElement, unknown, null, undefined>;
+   xScale: d3.ScaleLinear<number, number>;
+   yScale: d3.ScaleBand<string>;
+}
+
+interface DebouncedFunction<T extends (...args: any[]) => any> {
+   (...args: Parameters<T>): ReturnType<T>;
+   cancel: () => void;
 }
 
 // Constants
@@ -251,13 +265,16 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
    vibe = 'evergreen'
 }) => {
    const svgRef = useRef<SVGSVGElement>(null);
-   const chartRef = useRef<ChartState | null>(null);
+   const chartRef = useRef<ChartRef | null>(null);
+   const debouncedUpdateRef = useRef<DebouncedFunction<typeof updateChart>>();
 
    // Utility functions
    const getChartDimensions = useCallback((): ChartDimensions => ({
       margin: { top: 20, right: 20, bottom: 40, left: 60 },
       innerWidth: width - 80,
-      innerHeight: height - 60
+      innerHeight: height - 60,
+      boundedWidth: width - 80,
+      boundedHeight: height - 60
    }), [width, height]);
 
    const initializeChart = useCallback(() => {
@@ -277,23 +294,23 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
       return { svg, g };
    }, [getChartDimensions, width, height]);
 
-   const createScales = useCallback((chartDimensions: ChartDimensions, chartData: DataPoint[]) => {
-      const xScale = d3.scaleBand()
-         .domain(chartData.map(d => d.label))
-         .range([0, chartDimensions.innerWidth])
-         .padding(0.3);
+   const createScales = useCallback((dimensions: ChartDimensions, data: DataPoint[]) => {
+      const xScale = d3.scaleLinear()
+         .domain([0, d3.max(data, d => d.value) || 0])
+         .range([0, dimensions.boundedWidth]);
 
-      const yScale = d3.scaleLinear()
-         .domain([0, d3.max(chartData, d => d.value) ?? 0])
-         .range([chartDimensions.innerHeight, 0]);
+      const yScale = d3.scaleBand()
+         .domain(data.map(d => d.label))
+         .range([0, dimensions.boundedHeight])
+         .padding(0.1);
 
       return { xScale, yScale };
    }, []);
 
    const drawAxes = useCallback((
       g: d3.Selection<SVGGElement, unknown, null, undefined>,
-      xScale: d3.ScaleBand<string>,
-      yScale: d3.ScaleLinear<number, number>,
+      xScale: d3.ScaleLinear<number, number>,
+      yScale: d3.ScaleBand<string>,
       chartDimensions: ChartDimensions
    ) => {
       // Remove existing axes
@@ -311,50 +328,23 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
          .call(d3.axisLeft(yScale));
    }, []);
 
-   const createGradient = useCallback((
-      svg: d3.Selection<SVGSVGElement | null, unknown, null, undefined>,
-      chartDimensions: ChartDimensions
-   ) => {
-      const gradientId = `bar-gradient-${Math.random().toString(36).substr(2, 9)}`;
-      
-      // Remove any existing gradients
-      svg.selectAll('defs').remove();
-      
-      const gradient = svg.append('defs')
-         .append('linearGradient')
-         .attr('id', gradientId)
-         .attr('gradientUnits', 'userSpaceOnUse')
-         .attr('x1', '0')
-         .attr('y1', chartDimensions.innerHeight)
-         .attr('x2', '0')
-         .attr('y2', '0');
-
-      const color = d3.color(themeColor)!;
-      gradient.append('stop')
-         .attr('offset', '0%')
-         .attr('stop-color', color.copy({ opacity: 0.3 }).toString());
-
-      gradient.append('stop')
-         .attr('offset', '100%')
-         .attr('stop-color', color.copy({ opacity: 0.8 }).toString());
-
-      return gradientId;
-   }, [themeColor]);
-
    const handleHover = useCallback((
-      bar: d3.Selection<SVGRectElement, DataPoint, SVGGElement, unknown>,
+      selection: d3.Selection<SVGRectElement, DataPoint, null, undefined>,
       style: ChartConfig,
       dimensions: ChartDimensions,
       isEnter: boolean
    ) => {
       const duration = style.interactivity.hoverDuration;
-      const parent = d3.select(bar.node()?.parentNode);
+      const node = selection.node();
+      if (!node) return;
+       
+      const parent = d3.select<SVGGElement, unknown>(node.parentNode as SVGGElement);
 
       if (isEnter) {
          switch(vibe) {
             case 'rainforest':
                // Organic growth with leaves
-               bar.transition()
+               selection.transition()
                   .duration(duration)
                   .ease(d3.easeElasticOut.amplitude(1.2))
                   .style('transform', `scale(${style.interactivity.activeScale}) translateY(-8px)`)
@@ -362,8 +352,8 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
 
                // Add floating leaves
                const addLeaf = () => {
-                  const x = parseFloat(bar.attr('x')) + Math.random() * parseFloat(bar.attr('width'));
-                  const startY = parseFloat(bar.attr('y'));
+                  const x = parseFloat(selection.attr('x')) + Math.random() * parseFloat(selection.attr('width'));
+                  const startY = parseFloat(selection.attr('y'));
                   
                   parent.append('path')
                      .attr('class', 'leaf-effect')
@@ -384,15 +374,15 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
 
                // Add multiple leaves with intervals
                const leafInterval = setInterval(addLeaf, 300);
-               bar.property('leafInterval', leafInterval);
+               selection.property('leafInterval', leafInterval);
                break;
 
             case 'savanna':
                // Create a dynamic, shimmering heat effect
-               const barWidth = parseFloat(bar.attr('width'));
-               const barHeight = parseFloat(bar.attr('height'));
-               const barX = parseFloat(bar.attr('x'));
-               const barY = parseFloat(bar.attr('y'));
+               const barWidth = parseFloat(selection.attr('width'));
+               const barHeight = parseFloat(selection.attr('height'));
+               const barX = parseFloat(selection.attr('x'));
+               const barY = parseFloat(selection.attr('y'));
 
                // Add shimmering heat waves
                for (let i = 0; i < 3; i++) {
@@ -419,24 +409,24 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
                }
 
                // Warm glow and rise effect
-               bar.transition()
+               selection.transition()
                   .duration(duration)
                   .ease(d3.easeBackOut.overshoot(1.2))
                   .style('transform', `scale(${style.interactivity.activeScale}) translateY(-5px)`)
-                  .style('fill', d3.color(bar.attr('fill'))!.brighter(0.3).toString());
+                  .style('fill', d3.color(selection.attr('fill'))!.brighter(0.3).toString());
                break;
 
             case 'evergreen':
                // Pine needle scatter effect
-               bar.transition()
+               selection.transition()
                   .duration(duration)
                   .ease(d3.easeElasticOut.amplitude(1))
                   .style('transform', `scale(${style.interactivity.activeScale})`);
 
                const addNeedle = () => {
-                  const x = parseFloat(bar.attr('x'));
-                  const y = parseFloat(bar.attr('y'));
-                  const width = parseFloat(bar.attr('width'));
+                  const x = parseFloat(selection.attr('x'));
+                  const y = parseFloat(selection.attr('y'));
+                  const width = parseFloat(selection.attr('width'));
                   
                   parent.append('line')
                      .attr('class', 'needle-effect')
@@ -457,21 +447,21 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
                };
 
                const needleInterval = setInterval(addNeedle, 100);
-               bar.property('needleInterval', needleInterval);
+               selection.property('needleInterval', needleInterval);
                break;
 
             case 'bamboo':
                // Segmented growth effect
                const segments = 5;
-               const segmentHeight = parseFloat(bar.attr('height')) / segments;
-               const baseX = parseFloat(bar.attr('x'));
-               const baseWidth = parseFloat(bar.attr('width'));
+               const segmentHeight = parseFloat(selection.attr('height')) / segments;
+               const baseX = parseFloat(selection.attr('x'));
+               const baseWidth = parseFloat(selection.attr('width'));
 
                for (let i = 0; i < segments; i++) {
                   parent.append('rect')
                      .attr('class', 'segment-effect')
                      .attr('x', baseX)
-                     .attr('y', parseFloat(bar.attr('y')) + i * segmentHeight)
+                     .attr('y', parseFloat(selection.attr('y')) + i * segmentHeight)
                      .attr('width', baseWidth)
                      .attr('height', segmentHeight * 0.9)
                      .attr('fill', style.interactivity.glowColor)
@@ -485,7 +475,7 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
                      .style('opacity', 0);
                }
 
-               bar.transition()
+               selection.transition()
                   .duration(duration)
                   .ease(d3.easeElasticOut)
                   .style('transform', `scale(${style.interactivity.activeScale}) translateX(${Math.sin(Date.now() / 1000) * 5}px)`);
@@ -504,7 +494,7 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
                   .attr('flood-color', style.interactivity.glowColor)
                   .attr('flood-opacity', '0.3');
 
-               bar.style('filter', `url(#${shadowId})`)
+               selection.style('filter', `url(#${shadowId})`)
                   .transition()
                   .duration(duration)
                   .ease(d3.easeElasticOut.amplitude(1.5))
@@ -536,8 +526,8 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
 
                // Bubble effect
                const addBubble = () => {
-                  const x = parseFloat(bar.attr('x')) + Math.random() * parseFloat(bar.attr('width'));
-                  const startY = parseFloat(bar.attr('y')) + parseFloat(bar.attr('height'));
+                  const x = parseFloat(selection.attr('x')) + Math.random() * parseFloat(selection.attr('width'));
+                  const startY = parseFloat(selection.attr('y')) + parseFloat(selection.attr('height'));
                   
                   parent.append('circle')
                      .attr('class', 'bubble-effect')
@@ -559,10 +549,10 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
 
                // Start bubble animation
                const bubbleInterval = setInterval(addBubble, 200);
-               bar.property('bubbleInterval', bubbleInterval);
+               selection.property('bubbleInterval', bubbleInterval);
 
                // Animate bar
-               bar.style('filter', 'url(#wave-distort)')
+               selection.style('filter', 'url(#wave-distort)')
                   .transition()
                   .duration(duration)
                   .ease(d3.easeElasticOut.amplitude(0.5))
@@ -570,12 +560,12 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
                break;
 
             case 'succulent': // Tundra
-               const tundraBar = bar.node();
+               const tundraBar = selection.node();
                if (!tundraBar) break;
 
                const tundraRect = tundraBar.getBoundingClientRect();
-               const centerX = parseFloat(bar.attr('x')) + parseFloat(bar.attr('width')) / 2;
-               const startY = parseFloat(bar.attr('y'));
+               const centerX = parseFloat(selection.attr('x')) + parseFloat(selection.attr('width')) / 2;
+               const startY = parseFloat(selection.attr('y'));
 
                // Frost sparkle effect
                const sparkleCount = 6;
@@ -604,10 +594,10 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
                // Frost outline effect
                parent.append('rect')
                   .attr('class', 'frost-outline')
-                  .attr('x', bar.attr('x'))
-                  .attr('y', bar.attr('y'))
-                  .attr('width', bar.attr('width'))
-                  .attr('height', bar.attr('height'))
+                  .attr('x', selection.attr('x'))
+                  .attr('y', selection.attr('y'))
+                  .attr('width', selection.attr('width'))
+                  .attr('height', selection.attr('height'))
                   .attr('rx', style.shapes.cornerRadius)
                   .attr('fill', 'none')
                   .attr('stroke', style.interactivity.glowColor)
@@ -621,7 +611,7 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
                   .style('opacity', 0);
 
                // Cool shimmer effect
-               bar.transition()
+               selection.transition()
                   .duration(duration)
                   .ease(d3.easeElasticOut.amplitude(0.8))
                   .style('transform', `scale(${style.interactivity.activeScale})`)
@@ -630,17 +620,17 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
 
             case 'modern':
                // Sleek, modern effect with clean lines
-               bar.transition()
+               selection.transition()
                   .duration(duration)
                   .ease(d3.easeCubicInOut)
                   .style('transform', `scale(${style.interactivity.activeScale})`)
                   .style('filter', 'brightness(1.2)');
 
                const addLine = () => {
-                  const x = parseFloat(bar.attr('x'));
-                  const y = parseFloat(bar.attr('y'));
-                  const width = parseFloat(bar.attr('width'));
-                  const height = parseFloat(bar.attr('height'));
+                  const x = parseFloat(selection.attr('x'));
+                  const y = parseFloat(selection.attr('y'));
+                  const width = parseFloat(selection.attr('width'));
+                  const height = parseFloat(selection.attr('height'));
 
                   parent.append('line')
                      .attr('class', 'modern-effect')
@@ -667,15 +657,15 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
          }
       } else {
          // Cleanup and reset
-         clearInterval(bar.property('leafInterval'));
-         clearInterval(bar.property('needleInterval'));
-         clearInterval(bar.property('droopInterval'));
-         clearInterval(bar.property('bubbleInterval'));
+         clearInterval(selection.property('leafInterval'));
+         clearInterval(selection.property('needleInterval'));
+         clearInterval(selection.property('droopInterval'));
+         clearInterval(selection.property('bubbleInterval'));
          
          parent.selectAll('.leaf-effect, .needle-effect, .segment-effect, .droop-effect, .bloom-effect, .modern-effect, .frost-effect, .bubble-effect').remove();
          parent.selectAll('defs').remove();
 
-         bar.transition()
+         selection.transition()
             .duration(duration)
             .ease(d3.easeCubicOut)
             .style('transform', `scale(${style.animation.finalScale})`)
@@ -684,14 +674,14 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
    }, [vibe]);
 
    const animateBar = useCallback((
-      bar: d3.Selection<SVGRectElement, DataPoint, SVGGElement, unknown>,
+      bar: d3.Selection<SVGRectElement, DataPoint, null, undefined>,
       style: ChartConfig,
       dimensions: ChartDimensions,
-      yScale: d3.ScaleLinear<number, number>
+      yScale: d3.ScaleBand<string>
    ) => {
       const initialY = dimensions.innerHeight;
-      const finalY = (d: DataPoint) => yScale(d.value);
-      const finalHeight = (d: DataPoint) => dimensions.innerHeight - yScale(d.value);
+      const finalY = (d: DataPoint) => yScale(d.label) ?? dimensions.innerHeight;
+      const finalHeight = (d: DataPoint) => dimensions.innerHeight - (yScale(d.label) ?? 0);
 
       if (vibe === 'rainforest') {
          // Rainforest-specific growing animation
@@ -704,13 +694,16 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
             .duration(style.animation.duration)
             .delay(style.animation.delay)
             .ease(style.animation.easing)
-            .attr('y', finalY)
-            .attr('height', finalHeight)
+            .attr('y', d => finalY(d))
+            .attr('height', d => finalHeight(d))
             .style('transform', `scale(${style.animation.finalScale}) translateY(0)`)
             .style('opacity', 1);
 
          // Add growing leaves effect
-         const parent = d3.select(bar.node()?.parentNode);
+         const node = bar.node();
+         if (!node || !(node.parentNode instanceof SVGGElement)) return;
+         
+         const parent = d3.select<SVGGElement, unknown>(node.parentNode as SVGGElement);
          const leaf = parent
             .append('path')
             .attr('class', 'leaf-effect')
@@ -737,18 +730,20 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
             .duration(style.animation.duration)
             .delay(style.animation.delay)
             .ease(style.animation.easing)
-            .attr('y', finalY)
-            .attr('height', finalHeight)
+            .attr('y', d => finalY(d))
+            .attr('height', d => finalHeight(d))
             .style('transform', `scale(${style.animation.finalScale})`);
       }
 
       // Add hover handlers
       bar
-         .on('mouseenter', function() {
-            handleHover(d3.select(this), style, dimensions, true);
+         .on('mouseenter', function(this: SVGRectElement, d: DataPoint) {
+            const selection = d3.select<SVGRectElement, DataPoint>(this).datum(d);
+            handleHover(selection, style, dimensions, true);
          })
-         .on('mouseleave', function() {
-            handleHover(d3.select(this), style, dimensions, false);
+         .on('mouseleave', function(this: SVGRectElement, d: DataPoint) {
+            const selection = d3.select<SVGRectElement, DataPoint>(this).datum(d);
+            handleHover(selection, style, dimensions, false);
          });
    }, [vibe, handleHover]);
 
@@ -769,10 +764,33 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
 
       // Create scales with current data
       const { xScale, yScale } = createScales(dimensions, data);
-      chartRef.current = { svg, g, xScale, yScale };
-
+      
       // Create gradient
-      const gradientId = createGradient(svg, dimensions);
+      const defs = svg.append('defs');
+      const gradientId = `bar-gradient-${Math.random().toString(36).substr(2, 9)}`;
+      
+      const gradient = defs
+         .append('linearGradient')
+         .attr('id', gradientId)
+         .attr('gradientUnits', 'userSpaceOnUse')
+         .attr('x1', '0')
+         .attr('y1', dimensions.innerHeight)
+         .attr('x2', '0')
+         .attr('y2', '0');
+
+      gradient
+         .append('stop')
+         .attr('offset', '0%')
+         .attr('stop-color', themeColor)
+         .attr('stop-opacity', 0.8);
+
+      gradient
+         .append('stop')
+         .attr('offset', '100%')
+         .attr('stop-color', themeColor)
+         .attr('stop-opacity', 0.4);
+
+      chartRef.current = { svg, g, xScale, yScale };
 
       // Draw axes
       drawAxes(g, xScale, yScale, dimensions);
@@ -784,38 +802,34 @@ const D3BarChart: React.FC<D3BarChartProps> = ({
       const bars = g
          .selectAll<SVGRectElement, DataPoint>('.bar')
          .data(data)
-         .enter()
-         .append('rect')
+         .join('rect')
          .attr('class', 'bar')
-         .attr('x', d => xScale(d.label) ?? 0)
-         .attr('width', xScale.bandwidth() * currentStyle.shapes.barWidth)
+         .attr('x', d => xScale(d.value) ?? 0)
+         .attr('width', 20)
          .attr('rx', currentStyle.shapes.cornerRadius)
          .attr('fill', `url(#${gradientId})`)
          .style('transform-origin', d => 
-            `${(xScale(d.label) ?? 0) + xScale.bandwidth() / 2}px ${dimensions.innerHeight}px`
+            `${(xScale(d.value) ?? 0) + 10}px ${dimensions.innerHeight}px`
          );
 
       // Animate bars
-      bars.each(function(d) {
-         const bar = d3.select(this);
+      bars.each(function(this: SVGRectElement, d: DataPoint) {
+         const bar = d3.select<SVGRectElement, DataPoint>(this).datum(d);
          animateBar(bar, currentStyle, dimensions, yScale);
       });
 
    }, [data, vibe, getChartDimensions, initializeChart, createScales, 
-       drawAxes, createGradient, animateBar]);
+       drawAxes, animateBar]);
 
    // Effect for chart initialization and updates
    useEffect(() => {
-      const debouncedUpdate = debounce(() => {
-         if (data.length > 0) {
-            updateChart();
-         }
-      }, DEBOUNCE_DELAY);
+      const debouncedUpdate = debounce(updateChart, DEBOUNCE_DELAY);
+      debouncedUpdateRef.current = debouncedUpdate as DebouncedFunction<typeof updateChart>;
 
       debouncedUpdate();
 
       return () => {
-         debouncedUpdate.cancel();
+         debouncedUpdateRef.current?.cancel();
          if (chartRef.current) {
             chartRef.current.svg.selectAll('*').remove();
          }

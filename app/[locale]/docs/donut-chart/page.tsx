@@ -14,11 +14,12 @@ import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { ChartStyle } from '@/app/_components/charts/types';
 
 export default function DonutChartPage() {
   const t = useTranslations('Docs.visualizations.donutChart');
   const { themeColor, setThemeColor } = useThemeColor();
-  const [currentVibe, setCurrentVibe] = useState('rainforest');
+  const [currentVibe, setCurrentVibe] = useState<ChartStyle>('rainforest');
   const [showAxes, setShowAxes] = useState(true);
   const [showGrid, setShowGrid] = useState(true);
   const [showLabels, setShowLabels] = useState(true);

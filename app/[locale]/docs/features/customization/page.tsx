@@ -55,18 +55,17 @@ export default function CustomizationPage() {
             Every aspect of your charts can be customized through our theming system. From colors to fonts, spacing to animations, you have complete control over the visual appearance.
           </p>
 
-          <CodeBlock language="tsx">{`// Example of theme customization
+          <CodeBlock 
+            code={`// Example of theme customization
 const theme = {
   colors: {
     primary: '#22c55e',
-    secondary: '#4ade80',
-    accent: '#86efac',
-  },
-  typography: {
-    fontFamily: 'Inter, sans-serif',
-    fontSize: '14px',
+    secondary: '#16a34a',
+    accent: '#15803d'
   }
-}`}</CodeBlock>
+}`} 
+            language="tsx" 
+          />
 
           <h2>Component-Level Styling</h2>
           <p>

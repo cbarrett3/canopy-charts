@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import { defaultThemeColor, generateColorVariations } from '@/app/_components/charts/utils/colors';
 import { useChartDimensions } from '@/app/_components/charts/hooks/use-chart-dimensions';
-import { ChartStyle } from './types';
+import { ChartStyle, ChartOptions } from './types';
 import { withLoading } from './with-loading';
 
 interface DataPoint {
@@ -12,12 +12,12 @@ interface DataPoint {
    value: number;
 }
 
-interface D3DonutChartProps {
+interface D3DonutChartProps extends ChartOptions {
    width?: number;
    height?: number;
    data?: DataPoint[];
-   title?: string;
    themeColor?: string;
+   vibe?: ChartStyle;
 }
 
 const D3DonutChart: React.FC<D3DonutChartProps> = ({

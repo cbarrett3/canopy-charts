@@ -223,7 +223,7 @@ export default function ResponsivenessPage() {
                       whileHover={{ scale: 1.02 }}
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                      <D3BarChart data={sampleData} themeColor="#6366f1" vibe="modern" />
+                      <D3BarChart data={sampleData} themeColor="#6366f1" vibe="sunset" />
                     </motion.div>
                     
                     {/* Lower side container */}
@@ -232,7 +232,7 @@ export default function ResponsivenessPage() {
                       whileHover={{ scale: 1.02 }}
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                      <D3BarChart data={sampleData} themeColor="#ec4899" vibe="palm" />
+                      <D3BarChart data={sampleData} themeColor="#ec4899" vibe="ocean" />
                     </motion.div>
                   </div>
                   
@@ -244,7 +244,7 @@ export default function ResponsivenessPage() {
                       whileHover={{ scale: 1.02 }}
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
-                      <D3BarChart data={sampleData} themeColor="#f59e0b" vibe="bamboo" />
+                      <D3BarChart data={sampleData} themeColor="#f59e0b" vibe="midnight" />
                     </motion.div>
                   ))}
                 </div>
