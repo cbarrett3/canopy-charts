@@ -678,7 +678,7 @@ const D3TreeMap: React.FC<D3TreeMapProps> = ({
             .style('opacity', 0.4)
             .text(d => d3.format(',')(Math.round(d)));
       }
-   }, [data, dimensions, themeColor, showAxes, showLegend, showTitle]);
+   }, [data, dimensions, themeColor, showAxes, showLegend, showTitle, height, labelSize, padding, showTooltips, vibe, width]);
 
    return (
       <div className={`relative ${className}`}>
