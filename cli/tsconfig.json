@@ -10,10 +10,18 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*", "templates/*"]
+    },
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
+    "jsxFragmentFactory": "React.Fragment"
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "templates/**/*"
   ],
   "exclude": [
     "node_modules",
