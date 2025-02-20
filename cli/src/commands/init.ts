@@ -351,7 +351,10 @@ export default {
       value: key,
       short: key
     })),
-    validate: (input: string[]) => input.length > 0 ? true : 'Please select at least one chart'
+    validate: (input: any) => {
+      const selections = Array.isArray(input) ? input : [];
+      return selections.length > 0 ? true : 'Please select at least one chart';
+    }
   });
 
   const { selectedCharts } = answers;
