@@ -13,12 +13,12 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // Map our vibes to chart styles
 const vibeToChartStyle = {
-  'rainforest': 'evergreen',
-  'savanna': 'modern',
-  'tundra': 'succulent',
-  'coral': 'willow',
-  'volcanic': 'palm',
-  'dunes': 'bamboo'
+  'rainforest': 'rainforest',
+  'savanna': 'sunset',
+  'tundra': 'ocean',
+  'coral': 'midnight',
+  'volcanic': 'evergreen',
+  'dunes': 'rainforest'
 } as const;
 
 const sampleData = [
@@ -301,7 +301,6 @@ export default function AnimationsPage() {
                   data={sampleData}
                   themeColor={themeColor}
                   vibe={vibeToChartStyle[activeVibe.id as keyof typeof vibeToChartStyle]}
-                  animate={isPlaying}
                 />
               </div>
             </div>

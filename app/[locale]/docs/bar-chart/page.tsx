@@ -10,11 +10,12 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { ChartStyle } from '@/app/_components/charts/types';
 
 export default function BarChartPage() {
   const t = useTranslations('Docs.visualizations.barChart');
   const { themeColor, setThemeColor } = useThemeColor();
-  const [currentVibe, setCurrentVibe] = useState('rainforest');
+  const [currentVibe, setCurrentVibe] = useState<ChartStyle>('rainforest');
   const [showAxes, setShowAxes] = useState(true);
   const [showGrid, setShowGrid] = useState(true);
   const [showLabels, setShowLabels] = useState(true);

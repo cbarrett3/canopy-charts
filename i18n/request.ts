@@ -15,9 +15,12 @@ export default async function request() {
     };
   }
 
-  return getRequestConfig({
-    messages: (await import(`../messages/${locale}.json`)).default,
-    timeZone: 'America/Chicago',
-    now: new Date(),
+  return getRequestConfig(async ({ requestLocale }) => {
+    return {
+      defaultLocale: locale,
+      messages: (await import(`../messages/${locale}.json`)).default,
+      timeZone: 'America/Chicago',
+      now: new Date(),
+    };
   });
 }

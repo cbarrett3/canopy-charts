@@ -1,15 +1,15 @@
 import React, { useRef, memo } from 'react';
 import * as d3 from 'd3';
-import { useChartDimensions } from '../../hooks/use-chart-dimensions';
-import { useChartScales } from '../../hooks/use-chart-scales';
-import { useChartColors } from '../../hooks/use-chart-colors';
-import { useChartAnimation } from '../../hooks/use-chart-animation';
-import { useChartTooltip } from '../../hooks/use-chart-tooltip';
-import { ChartAxis } from '../common/chart-axis';
-import { ChartGrid } from '../common/chart-grid';
-import { ChartTooltip } from '../common/chart-tooltip';
-import { ChartLines } from '../common/chart-lines';
-import { DataPoint, VibeType } from '../../types';
+import { useChartDimensions } from '../../_components/charts/hooks/use-chart-dimensions';
+import { useChartScales } from '../../_components/charts/hooks/use-chart-scales';
+import { useChartColors } from '../../_components/charts/hooks/use-chart-colors';
+import { useChartAnimation } from '../../_components/charts/hooks/use-chart-animation';
+import { useChartTooltip } from '../../_components/charts/hooks/use-chart-tooltip';
+import { ChartAxis } from '../../_components/charts/components/chart-axis';
+import { ChartGrid } from '../../_components/charts/components/chart-grid';
+import { ChartTooltip } from '../../_components/charts/components/chart-tooltip';
+import { ChartLines } from '../../_components/charts/components/chart-lines';
+import { DataPoint, VibeType } from '../../_components/charts/types';
 
 interface LineChartProps {
   data?: DataPoint[];
@@ -89,12 +89,18 @@ export const LineChart = memo(({
                 scale={xScale}
                 type="x"
                 axisColor="rgba(105, 105, 105, 0.8)"
+                labelColor="rgba(105, 105, 105, 0.8)"
+                labelSize={12}
+                showLabels={true}
               />
               <ChartAxis
                 dimensions={dimensions}
                 scale={yScale}
                 type="y"
                 axisColor="rgba(105, 105, 105, 0.8)"
+                labelColor="rgba(105, 105, 105, 0.8)"
+                labelSize={12}
+                showLabels={true}
               />
             </>
           )}

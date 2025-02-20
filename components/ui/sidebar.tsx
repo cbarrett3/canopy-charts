@@ -743,7 +743,7 @@ const SidebarMenuSubButton = React.forwardRef<
 })
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
 
-export function Sidebar() {
+function SidebarVisualizationMenu() {
   const t = useTranslations('Sidebar');
   const { locale } = useParams();
 
@@ -835,5 +835,6 @@ export {
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
+  SidebarVisualizationMenu,
   useSidebar,
 }

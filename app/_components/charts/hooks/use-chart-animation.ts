@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import * as d3 from 'd3';
-import { VibeType } from '../types';
+import { ChartStyle } from '../types';
 
 interface AnimationConfig {
   duration: number;
@@ -10,36 +10,38 @@ interface AnimationConfig {
 export const useChartAnimation = (
   svgRef: React.RefObject<SVGSVGElement>,
   datasets: string[],
-  vibe: VibeType = 'default'
+  style: ChartStyle = 'evergreen'
 ) => {
   useEffect(() => {
     if (!svgRef.current) return;
 
-    const getAnimationConfig = (vibe: VibeType): AnimationConfig => {
-      const configs: Record<VibeType, AnimationConfig> = {
-        default: { duration: 2000, easing: d3.easeLinear },
-        energetic: { duration: 1000, easing: d3.easeElastic },
-        calm: { duration: 3000, easing: d3.easeCubicInOut },
-        professional: { duration: 1500, easing: d3.easeQuadOut }
+    const getAnimationConfig = (style: ChartStyle): AnimationConfig => {
+      const configs: Record<ChartStyle, AnimationConfig> = {
+        evergreen: { duration: 2000, easing: d3.easeLinear },
+        rainforest: { duration: 1000, easing: d3.easeElastic },
+        ocean: { duration: 3000, easing: d3.easeCubicInOut },
+        sunset: { duration: 1500, easing: d3.easeQuadOut },
+        midnight: { duration: 2500, easing: d3.easeBounceOut }
       };
-      return configs[vibe] || configs.default;
+      return configs[style];
     };
 
-    const config = getAnimationConfig(vibe);
+    const config = getAnimationConfig(style);
 
     datasets.forEach(dataset => {
       const path = d3.select(svgRef.current)
-        .select(`path.line-${dataset}`);
+        .selectAll(`.line-${dataset}`)
+        .attr('stroke-dasharray', function() {
+          return (this as SVGPathElement).getTotalLength();
+        })
+        .attr('stroke-dashoffset', function() {
+          return (this as SVGPathElement).getTotalLength();
+        });
 
-      const totalLength = path.node()?.getTotalLength() || 0;
-
-      path
-        .attr('stroke-dasharray', `${totalLength} ${totalLength}`)
-        .attr('stroke-dashoffset', totalLength)
-        .transition()
+      path.transition()
         .duration(config.duration)
         .ease(config.easing)
         .attr('stroke-dashoffset', 0);
     });
-  }, [datasets, vibe, svgRef]);
+  }, [datasets, style, svgRef]);
 };

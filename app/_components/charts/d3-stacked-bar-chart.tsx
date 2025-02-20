@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import { defaultThemeColor, generateColorVariations } from '@/app/_components/charts/utils/colors';
 import { useChartDimensions } from '@/app/_components/charts/hooks/use-chart-dimensions';
-import { ChartStyle } from './types';
+import { ChartStyle, ChartOptions } from './types';
 import { withLoading } from './with-loading';
 
 interface DataPoint {
@@ -12,12 +12,25 @@ interface DataPoint {
     [key: string]: string | number;
 }
 
-interface D3StackedBarChartProps {
+interface StackedDataPoint {
+  [key: string]: string | number;
+  category: string;
+}
+
+type SeriesPoint = d3.SeriesPoint<StackedDataPoint>;
+
+interface Series extends d3.Series<StackedDataPoint, string> {
+  key: string;
+  index: number;
+}
+
+interface D3StackedBarChartProps extends ChartOptions {
     width?: number;
     height?: number;
     data?: DataPoint[];
     title?: string;
     themeColor?: string;
+    vibe?: ChartStyle;
 }
 
 const D3StackedBarChart = ({
@@ -30,7 +43,8 @@ const D3StackedBarChart = ({
         { category: 'D', value1: 35, value2: 25, value3: 20 },
     ],
     title,
-    themeColor = defaultThemeColor
+    themeColor = defaultThemeColor,
+    vibe
 }: D3StackedBarChartProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const svgRef = useRef<SVGSVGElement>(null);
@@ -131,10 +145,15 @@ const D3StackedBarChart = ({
                 .attr("height", yScale.bandwidth())
                 .attr("x", d => xScale(d[0]))
                 .attr("width", d => xScale(d[1]) - xScale(d[0]))
-                .on("mouseover", function (event, d) {
-                    const key = d3.select(this.parentNode).datum().key;
-                    const value = d[1] - d[0];
+                .on("mouseover", function(this: SVGRectElement | d3.BaseType, event: MouseEvent, d: SeriesPoint) {
+                    if (!(this instanceof SVGRectElement)) return;
+                    const node = this.parentNode;
+                    if (!(node instanceof SVGGElement)) return;
                     
+                    const parent = d3.select(node).datum() as Series;
+                    const key = parent.key;
+                    const value = d[1] - d[0];
+
                     tooltip
                         .style("visibility", "visible")
                         .html(`${key}: ${value}`);

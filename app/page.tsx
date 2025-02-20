@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
+import { RedirectType, redirect } from 'next/navigation';
 
-export default function RootPage() {
-  redirect('/en');
+export default async function RootPage() {
+  redirect('/en', RedirectType.replace);
 }
