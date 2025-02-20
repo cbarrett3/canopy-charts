@@ -34,7 +34,7 @@ ${chalk.bold("Examples:")}
   ${chalk.dim("$")} npx canopy-charts@latest add bar-chart --overwrite
 `)
 
-  await program.parseAsync()
+  await program.parseAsync(process.argv)
 }
 
 main().catch((error) => {
