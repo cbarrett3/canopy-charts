@@ -232,6 +232,7 @@ export function ColorSelector({
 }: ColorSelectorProps) {
   const t = useTranslations('ChartControls.colors')
   const { themeColor } = useThemeColor()
+  const [isCustomOpen, setIsCustomOpen] = useState(false)
   
   return (
     <div 
@@ -298,7 +299,7 @@ export function ColorSelector({
       </div>
 
       <div className="relative mt-2 group">
-        <Popover open={false} onOpenChange={() => {}}>
+        <Popover open={isCustomOpen} onOpenChange={setIsCustomOpen}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
@@ -356,10 +357,7 @@ export function ColorSelector({
           >
             <CustomColorPicker
               currentColor={currentTheme}
-              onChange={(color) => {
-                onThemeChange(color)
-                // Don't close the popup when color changes
-              }}
+              onChange={onThemeChange}
             />
           </PopoverContent>
         </Popover>
