@@ -26,7 +26,7 @@ export function Hero() {
    }, [])
 
    return (
-      <div className="relative min-h-[calc(100vh-6rem)] lg:min-h-screen w-full overflow-visible bg-background dark:bg-[#1B1B1B]">
+      <div className="relative min-h-[calc(100vh-10rem)] lg:min-h-[calc(100vh-6rem)] w-full overflow-visible bg-background dark:bg-[#1B1B1B]">
          <style jsx global>{`
           @keyframes floating {
             0% { transform: translateY(0px); }
@@ -108,7 +108,7 @@ export function Hero() {
          </div>
 
          {/* Main Container */}
-         <div className="relative mx-auto flex min-h-[calc(100vh-8rem)] lg:min-h-screen w-full flex-col overflow-visible px-2 py-4 sm:px-4 sm:py-6 lg:max-w-none lg:flex-row lg:items-stretch mt-20 lg:mt-28">
+         <div className="relative mx-auto flex min-h-[calc(100vh-10rem)] lg:min-h-[calc(100vh-6rem)] w-full flex-col overflow-visible px-2 py-4 sm:px-4 sm:py-6 lg:max-w-none lg:flex-row lg:items-stretch mt-16 lg:mt-20">
             {/* Logo Container */}
             <div className={cn(
                "relative mb-0 flex w-full items-end justify-center overflow-visible px-4 lg:mb-0 lg:w-1/2 lg:items-center",

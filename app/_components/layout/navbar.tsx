@@ -99,17 +99,10 @@ export function Navbar() {
           className={cn(
             "relative flex items-center justify-between",
             "px-4 py-3",
-            "bg-white/[0.03] dark:bg-white/[0.02]",
-            "backdrop-blur-[8px] backdrop-saturate-[140%]",
-            "border-2 rounded-xl",
-            "shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_4px_8px_-4px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.2)]",
-            "dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.3),0_4px_8px_-4px_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.05)]",
-            "transition-all duration-300 group/nav",
-            "hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.15),0_6px_12px_-4px_rgba(0,0,0,0.12),inset_0_1px_3px_rgba(255,255,255,0.25)]",
-            "dark:hover:shadow-[0_12px_36px_-8px_rgba(0,0,0,0.4),0_6px_12px_-4px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.07)]",
+            "rounded-lg bg-white/[0.03] dark:bg-black/[0.03] backdrop-blur-[6px] border border-transparent",
+            "transition-all duration-300 group/nav hover:border-white/10 dark:hover:border-white/5",
           )}
           style={{
-            borderColor: `${themeColor}33`,
             '--hover-border-color': `${themeColor}66`
           } as React.CSSProperties}
           onMouseEnter={e => {
@@ -130,8 +123,8 @@ export function Navbar() {
             damping: 25
           }}
         >
-          <div className="absolute inset-[-1px] rounded-xl border border-[#00ff9d]/0 dark:border-[#00ff9d]/0 transition-all duration-300 group-hover/nav:border-[#00ff9d]/50 dark:group-hover/nav:border-[#00ff9d]/25 blur-sm" />
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#00ff9d]/0 to-[#00ff9d]/0 group-hover/nav:from-[#00ff9d]/5 group-hover/nav:to-transparent transition-all duration-300" />
+          <div className="absolute inset-[-1px] rounded-lg border-2 border-[#00ff9d]/0 dark:border-[#00ff9d]/0 transition-all duration-300 group-hover/nav:border-[#00ff9d]/20 dark:group-hover/nav:border-[#00ff9d]/10 blur-sm" />
+          <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent to-transparent" />
           <motion.div 
             className="relative flex items-center gap-4 font-sans"
             variants={containerVariants}
@@ -140,7 +133,7 @@ export function Navbar() {
           >
             <motion.div variants={itemVariants}>
               <Link href="/" className="flex items-center gap-3 mr-8 group relative">
-                <div className="absolute inset-[-4px] rounded-xl bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
+                <div className="absolute inset-[-4px] rounded-lg bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
                 <div className="h-10 w-10 relative">
                   <Logo className="absolute inset-0" />
                 </div>

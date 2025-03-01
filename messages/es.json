@@ -542,7 +542,13 @@
       "title_element": "Título",
       "legend": "Leyenda",
       "tooltips": "Tooltips",
-      "label_size": "Tamaño de Etiqueta"
+      "label_size": "Tamaño de Etiqueta",
+      "axesTooltip": "Alternar visibilidad de ejes",
+      "gridTooltip": "Alternar líneas de cuadrícula",
+      "labelsTooltip": "Alternar etiquetas de datos",
+      "titleTooltip": "Alternar título del gráfico",
+      "legendTooltip": "Alternar visibilidad de la leyenda",
+      "tooltipsTooltip": "Alternar tooltips de datos"
     },
     "vibes": {
       "title": "Ambientes",
