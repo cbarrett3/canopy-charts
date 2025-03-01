@@ -72,50 +72,68 @@ export function ChartControls({
   return (
     <div className="w-full space-y-3">
       <div className="relative flex items-center justify-center w-full gap-4 my-4">
-        <div className="hidden sm:block h-[1px] flex-1 bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
-        <Button
-          variant="outline"
-          onClick={() => setIsExpanded(!isExpanded)}
-          className={clsx(
-            "relative overflow-hidden group/button",
-            "w-full sm:w-[200px] md:w-[240px]",
-            "bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%]",
-            "border-0 transition-all duration-300",
-            "hover:scale-[1.02] hover:-translate-y-[1px]"
-          )}
+        <div 
+          className="hidden sm:block h-[2px] flex-1"
           style={{
-            boxShadow: `inset 0 0 0 1px ${currentTheme}33`
+            background: `repeating-linear-gradient(to right, transparent, transparent 4px, ${currentTheme}80 4px, ${currentTheme}80 12px)`,
+            opacity: 0.7,
+            filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.05))'
           }}
-        >
-          <div 
-            className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/button:opacity-100"
+        />
+        <div className="relative group">
+          <div
+            className="absolute inset-0 rounded-lg blur-lg opacity-10 transition-opacity duration-300 group-hover:opacity-20"
             style={{
-              backgroundColor: `${currentTheme}10`
+              background: currentTheme,
             }}
           />
-          <div className="relative flex items-center justify-between gap-2 py-2 px-3">
-            <div className="flex items-center gap-2">
-              <div 
-                className="w-2 h-2 rounded-full transition-all duration-300"
-                style={{ 
-                  backgroundColor: currentTheme,
-                  boxShadow: `0 0 0 1px ${currentTheme}33`
-                }}
+          <Button
+            variant="outline"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className={clsx(
+              "relative text-base font-medium border-2 shadow-sm transition-all duration-300",
+              "w-full sm:w-[200px] md:w-[240px]",
+              "bg-transparent hover:bg-[var(--hover-bg)] active:bg-[var(--active-bg)]",
+              "text-[var(--theme-color)] hover:text-white active:text-white",
+              "active:scale-[0.98] active:shadow-inner"
+            )}
+            style={{
+              borderColor: `${currentTheme}66`,
+              '--theme-color': currentTheme,
+              '--hover-bg': currentTheme,
+              '--active-bg': `${currentTheme}dd`,
+            } as React.CSSProperties}
+          >
+            <div className="relative flex items-center justify-between gap-2 py-2 px-3">
+              <div className="flex items-center gap-2">
+                <div 
+                  className="w-2 h-2 rounded-full transition-all duration-300"
+                  style={{ 
+                    backgroundColor: currentTheme,
+                    boxShadow: `0 0 0 1px ${currentTheme}33`
+                  }}
+                />
+                <span>
+                  {t('customize')}
+                </span>
+              </div>
+              <ChevronUp 
+                className={clsx(
+                  "w-4 h-4 transition-all duration-300",
+                  !isExpanded && "rotate-180"
+                )}
               />
-              <span className="text-sm text-foreground">
-                {t('customize')}
-              </span>
             </div>
-            <ChevronUp 
-              className={clsx(
-                "w-4 h-4 text-muted-foreground transition-all duration-300",
-                "group-hover/button:text-foreground",
-                !isExpanded && "rotate-180"
-              )}
-            />
-          </div>
-        </Button>
-        <div className="hidden sm:block h-[1px] flex-1 bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
+          </Button>
+        </div>
+        <div 
+          className="hidden sm:block h-[2px] flex-1"
+          style={{
+            background: `repeating-linear-gradient(to right, transparent, transparent 4px, ${currentTheme}80 4px, ${currentTheme}80 12px)`,
+            opacity: 0.7,
+            filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.05))'
+          }}
+        />
       </div>
 
       <div

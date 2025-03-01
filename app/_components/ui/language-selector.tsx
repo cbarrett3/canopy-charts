@@ -4,11 +4,13 @@ import { useLocale } from 'next-intl'
 import { useRouter, usePathname } from '@/navigation'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
+import { useThemeColor } from '@/app/_components/providers/theme-context'
 
 export default function LanguageSelector() {
   const locale = useLocale()
   const router = useRouter()
   const pathname = usePathname()
+  const { themeColor } = useThemeColor()
 
   const handleLocaleChange = (newLocale: "en" | "es") => {
     if (newLocale === locale) return;
@@ -22,58 +24,52 @@ export default function LanguageSelector() {
 
   return (
     <div className="relative">
-      <style jsx global>{`
-        .eng-gradient {
-          background: linear-gradient(to right, #0ea5e9, #22c55e);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-        }
-        .es-gradient {
-          background: linear-gradient(to right, #eab308, #22c55e);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-        }
-      `}</style>
       <div className={cn(
-        "relative flex items-center gap-1 p-1",
+        "relative flex items-center gap-0",
+        "h-8 px-1",
         "rounded-full",
-        "bg-background/60 dark:bg-[#1B1B1B]/60",
-        "backdrop-blur-[8px] backdrop-saturate-[140%]",
-        "border border-border/30",
-        "shadow-[0_2px_8px_-2px_rgba(0,0,0,0.1)]",
-        "dark:shadow-[0_2px_8px_-2px_rgba(0,0,0,0.3)]"
+        "bg-background/40 dark:bg-black/40",
+        "backdrop-blur-md",
+        "border border-border/20",
+        "transition-all duration-200"
       )}>
         <motion.div
-          className="absolute h-[calc(100%-4px)] w-[calc(50%-2px)] rounded-full bg-white/10"
+          className="absolute inset-[2px] w-[calc(50%-2px)] rounded-full"
+          style={{ 
+            background: `${themeColor}15`,
+            boxShadow: `0 0 10px 0 ${themeColor}10`
+          }}
           animate={{
-            x: locale === 'en' ? '2px' : 'calc(100% + 2px)',
+            x: locale === 'en' ? 0 : '100%',
           }}
           transition={{
             type: "spring",
-            stiffness: 300,
+            stiffness: 400,
             damping: 30
           }}
         />
         <button
           onClick={() => handleLocaleChange('en')}
           className={cn(
-            "relative z-10 px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200",
+            "relative z-10 w-10 h-full",
+            "text-sm font-medium",
+            "transition-colors duration-200",
             locale === 'en' 
-              ? "eng-gradient font-medium" 
-              : "text-foreground/60 hover:text-foreground/80"
+              ? "text-foreground" 
+              : "text-muted-foreground/50 hover:text-muted-foreground"
           )}
         >
-          ENG
+          EN
         </button>
         <button
           onClick={() => handleLocaleChange('es')}
           className={cn(
-            "relative z-10 px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200",
-            locale === 'es' 
-              ? "es-gradient font-medium" 
-              : "text-foreground/60 hover:text-foreground/80"
+            "relative z-10 w-10 h-full",
+            "text-sm font-medium",
+            "transition-colors duration-200",
+            locale === 'es'
+              ? "text-foreground"
+              : "text-muted-foreground/50 hover:text-muted-foreground"
           )}
         >
           ES

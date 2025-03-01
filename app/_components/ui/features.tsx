@@ -346,10 +346,9 @@ export function Features() {
    ]
 
    return (
-      <section className="relative w-full py-8 sm:py-16 bg-background dark:bg-[#1B1B1B] mt-[-1px] pt-32">
-         {/* Gradient fade effect */}
+      <section className="relative mt-[-1px] pt-32 pb-16 bg-white dark:bg-[#1B1B1B]">
          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-transparent dark:from-[#1B1B1B] dark:via-[#1B1B1B] dark:to-[#1A1A1A] opacity-90" />
+            <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-white dark:from-[#1B1B1B] dark:via-[#1B1B1B] dark:to-[#1A1A1A] opacity-90" />
          </div>
          
          <div className="relative px-4 mb-16 max-w-7xl mx-auto">
@@ -375,19 +374,78 @@ export function Features() {
             />
          </div>
          <div className="relative grid grid-cols-1 gap-8 px-4 max-w-7xl mx-auto md:grid-cols-2 lg:grid-cols-3">
+            {/* Vertical Dashed Lines */}
+            <div 
+               className="absolute hidden md:block w-[2px] pointer-events-none"
+               style={{
+                  left: 'calc(33.333% + 2px)',  
+                  top: '0',
+                  bottom: '0',
+                  background: `repeating-linear-gradient(to bottom, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
+                  opacity: 0.9,
+                  filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+               }}
+            />
+            <div 
+               className="absolute hidden lg:block w-[2px] pointer-events-none"
+               style={{
+                  right: 'calc(33.333% - 2px)',  
+                  top: '0',
+                  bottom: '0',
+                  background: `repeating-linear-gradient(to bottom, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
+                  opacity: 0.9,
+                  filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+               }}
+            />
+            
+            {/* Horizontal Dashed Lines */}
+            <div 
+               className="absolute hidden md:block pointer-events-none"
+               style={{
+                  left: '0',
+                  right: '0',
+                  top: '-5px',  
+                  height: '2px',
+                  background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
+                  opacity: 0.9,
+                  filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+               }}
+            />
+            <div 
+               className="absolute hidden md:block pointer-events-none"
+               style={{
+                  left: '0',
+                  right: '0',
+                  top: '50%',
+                  height: '2px',
+                  background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
+                  opacity: 0.9,
+                  filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+               }}
+            />
+            <div 
+               className="absolute hidden md:block pointer-events-none"
+               style={{
+                  left: '0',
+                  right: '0',
+                  bottom: '-2px',  
+                  height: '2px',
+                  background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
+                  opacity: 0.9,
+                  filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+               }}
+            />
+
             {features.map((feature) => (
                <div 
                   key={feature.title} 
-                  className="group relative overflow-hidden rounded-xl bg-background/40 dark:bg-[#181818]/30 
-                    hover:bg-muted/10 dark:hover:bg-[#1A1A1A]/40
+                  className="group relative overflow-hidden rounded-xl bg-white/60 dark:bg-[#181818]/30 
+                    hover:bg-white/80 dark:hover:bg-[#1A1A1A]/40
                     backdrop-blur-[12px] backdrop-saturate-[180%] 
                     transition-all duration-300
                     hover:-translate-y-[2px]
                     hover:shadow-lg
                     flex flex-col min-h-[420px]"
-                  style={{
-                    boxShadow: `inset 0 0 0 1px ${themeColor}33`
-                  }}
                >
                   {feature.component && (
                     <div className="relative w-full pt-[56.25%]">

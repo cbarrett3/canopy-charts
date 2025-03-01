@@ -29,7 +29,7 @@ export function Hero() {
   }, [])
 
   return (
-    <div className="relative h-[calc(100vh-4rem)] w-full overflow-visible bg-zinc-950/[0.02] dark:bg-[#1B1B1B]">
+    <div className="relative h-[calc(100vh-4rem)] w-full overflow-visible bg-white dark:bg-[#1B1B1B]">
       <style jsx global>{`
         .chrome-gradient {
           background: linear-gradient(
@@ -56,18 +56,15 @@ export function Hero() {
       {/* Grid Background */}
       <div className="absolute inset-0">
         <div 
-          className="absolute inset-0 bg-gradient-to-t from-zinc-950/[0.02] via-zinc-950/[0.01] to-transparent dark:from-[#1B1B1B] dark:via-[#1B1B1B]/90 dark:to-transparent"
-        />
-        <div 
-          className="absolute inset-0 bg-gradient-to-b from-zinc-950/[0.02] via-transparent to-transparent dark:from-[#1B1B1B] dark:via-transparent dark:to-transparent h-40"
+          className="absolute inset-0 bg-gradient-to-b from-white via-white to-white dark:from-[#1B1B1B] dark:via-[#1B1B1B] dark:to-[#1A1A1A] opacity-90"
         />
       </div>
 
       {/* Main Container */}
-      <div className="relative mx-auto flex h-full w-full flex-col overflow-visible px-2 py-4 sm:px-4 sm:py-6 lg:max-w-none lg:flex-row lg:items-center pt-24 lg:pt-28">
+      <div className="relative pt-16 md:pt-32 px-4 h-full flex flex-col lg:flex-row items-center justify-center max-w-7xl mx-auto">
         {/* Logo Container */}
         <div className={cn(
-          "relative flex w-full items-center justify-center overflow-visible px-4 lg:mb-0 lg:w-1/2 lg:items-center",
+          "relative flex w-full lg:w-1/2 items-center justify-center overflow-visible",
           mounted ? "animate-in fade-in-50 duration-1000 lg:slide-in-from-right-20" : "opacity-0"
         )}>
           <div className="relative aspect-square w-[220px] sm:w-[280px] md:w-[320px] lg:w-[95%] lg:max-w-[600px] overflow-visible">
@@ -93,7 +90,7 @@ export function Hero() {
 
         {/* Text Content */}
         <div className={cn(
-          "relative z-10 flex flex-col px-2 text-center sm:px-6 lg:w-1/2 lg:justify-center lg:px-8 lg:text-left xl:px-12",
+          "relative z-10 flex flex-col text-center lg:text-left sm:px-6 lg:w-1/2 lg:justify-center lg:px-8 xl:px-12",
           mounted ? "animate-in fade-in-50 duration-1000" : "opacity-0"
         )}>
           <motion.div
@@ -138,23 +135,28 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 1.6 }}
             >
-              <div className="relative">
+              <div className="relative group">
                 <motion.div
-                  className="absolute inset-0 rounded-lg blur-lg"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.2 }}
-                  whileHover={{ opacity: 0.3 }}
-                  transition={{ duration: 0.2 }}
+                  className="absolute inset-0 rounded-lg blur-lg opacity-20 transition-opacity duration-300 group-hover:opacity-10"
                   style={{
                     background: themeColor,
                   }}
                 />
                 <Button
                   size="lg"
+                  className={cn(
+                    "relative text-base font-medium border-2 shadow-sm",
+                    "transition-all duration-300",
+                    "bg-[var(--button-bg)] hover:bg-transparent active:bg-[var(--button-bg)]",
+                    "border-transparent hover:border-[var(--theme-40)] active:border-transparent",
+                    "text-white hover:text-[var(--theme-color)] active:text-white",
+                    "active:scale-[0.98] active:shadow-inner"
+                  )}
                   style={{
-                    background: themeColor,
-                  }}
-                  className="relative text-base font-medium text-white shadow-sm hover:brightness-125 transition-all duration-200"
+                    '--button-bg': themeColor,
+                    '--theme-color': themeColor,
+                    '--theme-40': `${themeColor}66`,
+                  } as React.CSSProperties}
                 >
                   <Link href={`/${locale}/docs/line-chart`} className="flex items-center gap-2">
                     {t('create')}
@@ -162,13 +164,9 @@ export function Hero() {
                 </Button>
               </div>
 
-              <div className="relative">
+              <div className="relative group">
                 <motion.div
-                  className="absolute inset-0 rounded-lg blur-lg"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.1 }}
-                  whileHover={{ opacity: 0.2 }}
-                  transition={{ duration: 0.2 }}
+                  className="absolute inset-0 rounded-lg blur-lg opacity-10 transition-opacity duration-300 group-hover:opacity-20"
                   style={{
                     background: themeColor,
                   }}
@@ -176,11 +174,18 @@ export function Hero() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="relative text-base font-medium border-2 shadow-sm bg-background hover:bg-background/80 transition-all duration-200"
+                  className={cn(
+                    "relative text-base font-medium border-2 shadow-sm transition-all duration-300",
+                    "bg-transparent hover:bg-[var(--hover-bg)] active:bg-[var(--active-bg)]",
+                    "text-[var(--theme-color)] hover:text-white active:text-white",
+                    "active:scale-[0.98] active:shadow-inner"
+                  )}
                   style={{
                     borderColor: `${themeColor}66`,
-                    color: themeColor
-                  }}
+                    '--theme-color': themeColor,
+                    '--hover-bg': themeColor,
+                    '--active-bg': `${themeColor}dd`,
+                  } as React.CSSProperties}
                 >
                   <Link href="/docs" className="flex items-center gap-2">
                     {t('learn')}

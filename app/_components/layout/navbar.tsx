@@ -95,96 +95,139 @@ export function Navbar() {
         : "left-4 right-4"
     )}>
       <div className={cn(!isDocsPage && "max-w-7xl mx-auto")}>
-        <motion.nav 
-          className={cn(
-            "relative flex items-center justify-between",
-            "px-4 py-3",
-            "rounded-lg bg-white/[0.03] dark:bg-black/[0.03] backdrop-blur-[6px] border border-transparent",
-            "transition-all duration-300 group/nav",
-          )}
-          style={{
-            '--hover-border-color': `${themeColor}66`
-          } as React.CSSProperties}
-          onMouseEnter={e => {
-            const nav = e.currentTarget;
-            nav.style.borderColor = 'var(--hover-border-color)';
-          }}
-          onMouseLeave={e => {
-            const nav = e.currentTarget;
-            nav.style.borderColor = 'transparent';
-          }}
-          whileHover={{ 
-            y: 2,
-            scale: 1.005
-          }}
-          transition={{ 
-            type: "spring",
-            stiffness: 400,
-            damping: 25
-          }}
-        >
-          <div className="absolute inset-[-1px] rounded-lg border-2 border-[#00ff9d]/0 dark:border-[#00ff9d]/0 transition-all duration-300 group-hover/nav:border-[#00ff9d]/20 dark:group-hover/nav:border-[#00ff9d]/10 blur-sm" />
-          <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent to-transparent" />
-          <motion.div 
-            className="relative flex items-center gap-4 font-sans"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+        <div className="relative">
+          {/* Dashed Border Container */}
+          <div className="absolute inset-[-8px] pointer-events-none rounded-lg">
+            {/* Top line */}
+            <div 
+              className="absolute left-0 right-0 h-[2px]"
+              style={{
+                background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
+                opacity: 0.4
+              }}
+            />
+            {/* Bottom line */}
+            <div 
+              className="absolute left-0 right-0 bottom-0 h-[2px]"
+              style={{
+                background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
+                opacity: 0.4
+              }}
+            />
+            {/* Left line */}
+            <div 
+              className="absolute top-0 bottom-0 left-0 w-[2px]"
+              style={{
+                background: `repeating-linear-gradient(to bottom, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
+                opacity: 0.4
+              }}
+            />
+            {/* Right line */}
+            <div 
+              className="absolute top-0 bottom-0 right-0 w-[2px]"
+              style={{
+                background: `repeating-linear-gradient(to bottom, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
+                opacity: 0.4
+              }}
+            />
+          </div>
+
+          <motion.nav 
+            className={cn(
+              "relative flex items-center justify-between",
+              "px-4 py-3",
+              "rounded-lg bg-white/[0.03] dark:bg-black/[0.03] backdrop-blur-[16px]",
+              "transition-all duration-300 group/nav",
+            )}
+            whileHover={{ 
+              y: 2,
+              scale: 1.005
+            }}
+            transition={{ 
+              type: "spring",
+              stiffness: 400,
+              damping: 25
+            }}
           >
-            <motion.div variants={itemVariants}>
-              <Link href="/" className="flex items-center gap-3 mr-8 group relative">
-                <div className="absolute inset-[-4px] rounded-lg bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
-                <div className="h-10 w-10 relative">
-                  <Logo className="absolute inset-0" />
-                </div>
-                <span className="hidden md:inline text-xl font-semibold tracking-tight text-foreground font-sans transition-all duration-300 group-hover:text-green-500">
-                  Canopy Charts
-                </span>
-              </Link>
+            <div className="absolute inset-0 rounded-lg bg-white/[0.03] dark:bg-black/[0.03] backdrop-blur-[16px]" />
+            <motion.div 
+              className="relative flex items-center gap-4 font-sans"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.div variants={itemVariants}>
+                <Link href="/" className="flex items-center gap-3 mr-8 group relative">
+                  <div 
+                    className="absolute inset-[-4px] rounded-lg opacity-0 group-hover:opacity-20 transition-all duration-300 blur-lg"
+                    style={{ backgroundColor: themeColor }}
+                  />
+                  <div className="h-10 w-10 relative">
+                    <Logo className="absolute inset-0" />
+                  </div>
+                  <span 
+                    className="hidden md:inline text-xl font-semibold tracking-tight text-foreground font-sans transition-all duration-300"
+                    style={{
+                      '--hover-color': themeColor
+                    } as React.CSSProperties}
+                  >
+                    Canopy Charts
+                  </span>
+                </Link>
+              </motion.div>
+
+              <motion.div 
+                className="hidden md:flex items-center gap-8 font-sans"
+                variants={containerVariants}
+              >
+                <motion.div variants={itemVariants}>
+                  <NavLink href="/docs">{t('docs')}</NavLink>
+                </motion.div>
+              </motion.div>
             </motion.div>
 
             <motion.div 
-              className="hidden md:flex items-center gap-8 font-sans"
+              className="flex items-center gap-4 font-sans"
               variants={containerVariants}
+              initial="hidden"
+              animate="visible"
             >
-              <motion.div variants={itemVariants}>
-                <NavLink href="/docs">{t('docs')}</NavLink>
+              <motion.div 
+                className="flex items-center gap-4"
+                variants={containerVariants}
+              >
+                <motion.div variants={itemVariants}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    asChild
+                    className="relative hover:bg-transparent group"
+                  >
+                    <Link href="https://github.com/cbarrett3/canopy-charts">
+                      <div 
+                        className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-20 transition-all duration-300 blur-lg" 
+                        style={{ backgroundColor: themeColor }}
+                      />
+                      <Github 
+                        className="h-5 w-5 transition-colors duration-300" 
+                        style={{ 
+                          color: 'currentColor',
+                          '--hover-color': themeColor
+                        } as React.CSSProperties}
+                      />
+                    </Link>
+                  </Button>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <ThemeToggle />
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <LanguageSelector />
+                </motion.div>
               </motion.div>
             </motion.div>
-          </motion.div>
-
-          <motion.div 
-            className="flex items-center gap-4 font-sans"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div 
-              className="flex items-center gap-4"
-              variants={containerVariants}
-            >
-              <motion.div variants={itemVariants}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  asChild
-                  className="relative hover:bg-transparent group"
-                >
-                  <Link href="https://github.com/cbarrett3/canopy-charts">
-                    <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 transition-all duration-300 blur-lg" />
-                    <Github className="h-5 w-5 transition-colors duration-300 group-hover:text-green-500" />
-                  </Link>
-                </Button>
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <ThemeToggle />
-              </motion.div>
-              <motion.div variants={itemVariants}>
-                <LanguageSelector />
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </motion.nav>
+          </motion.nav>
+        </div>
       </div>
     </div>
   )
