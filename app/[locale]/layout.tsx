@@ -25,7 +25,10 @@ export async function generateMetadata({ params: { locale } }: { params: { local
   const t = await getTranslations({ locale, namespace: 'Metadata' });
 
   return {
-    title: t('title'),
+    title: {
+      template: '%s | Canopy Charts',
+      default: 'Canopy Charts'
+    },
     description: t('description'),
     icons: {
       icon: [

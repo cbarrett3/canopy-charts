@@ -548,7 +548,13 @@
       "title_element": "Title",
       "legend": "Legend",
       "tooltips": "Tooltips",
-      "label_size": "Label Size"
+      "label_size": "Label Size",
+      "axesTooltip": "Toggle axes visibility",
+      "gridTooltip": "Toggle grid lines",
+      "labelsTooltip": "Toggle data labels",
+      "titleTooltip": "Toggle chart title",
+      "legendTooltip": "Toggle legend visibility",
+      "tooltipsTooltip": "Toggle data tooltips"
     }
   },
   "chart": {
