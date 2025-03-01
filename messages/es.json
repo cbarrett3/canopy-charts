@@ -417,40 +417,9 @@
   "Index": {
     "title": "Bienvenido a Canopy Charts"
   },
-  "chart": {
-    "colorSelector": {
-      "title": "Selector de Color",
-      "custom": {
-        "title": "Color Personalizado",
-        "hex": "HEX",
-        "rgb": "RGB",
-        "hue": "Tono",
-        "saturation": "Saturación",
-        "lightness": "Luminosidad",
-        "preview": "Vista Previa del Color"
-      }
-    },
-    "customize": "Personal",
-    "elements": {
-      "title": "Elementos",
-      "labels": "Etiquetas",
-      "legend": "Leyenda",
-      "grid": "Cuadrícula",
-      "axis": "Ejes"
-    },
-    "colors": {
-      "title": "Colores",
-      "theme": "Tema",
-      "custom": "Personalizado",
-      "presets": "Preestablecidos",
-      "hue": "Tono",
-      "saturation": "Saturación",
-      "lightness": "Luminosidad"
-    }
-  },
   "ChartUI": {
     "colors": "Colores",
-    "customize": "Personal",
+    "customize": "Personalizar",
     "themes": {
       "forest": {
         "name": "Bosque",
@@ -493,114 +462,72 @@
   "ChartControls": {
     "colors": {
       "title": "Colores",
-      "themes": {
-        "forest": {
-          "name": "Bosque",
-          "description": "Verde fresco y natural"
-        },
-        "ocean": {
-          "name": "Océano",
-          "description": "Azul profundo y calmado"
-        },
-        "sunset": {
-          "name": "Atardecer",
-          "description": "Naranja cálido y energético"
-        },
-        "berry": {
-          "name": "Bayas",
-          "description": "Rosa vibrante y juguetón"
-        },
-        "lavender": {
-          "name": "Lavanda",
-          "description": "Púrpura elegante y relajante"
-        },
-        "ruby": {
-          "name": "Rubí",
-          "description": "Rojo audaz y apasionado"
-        },
-        "gold": {
-          "name": "Oro",
-          "description": "Amarillo rico y lujoso"
-        },
-        "slate": {
-          "name": "Pizarra",
-          "description": "Gris profesional y neutral"
-        }
-      },
+      "customization": "Personalización",
       "custom": {
-        "title": "Color Personalizado",
-        "hue": "Matiz",
+        "hex": "HEX",
+        "rgb": "RGB",
+        "hue": "Tono",
         "saturation": "Saturación",
-        "lightness": "Luminosidad"
+        "lightness": "Brillo"
+      }
+    },
+    "vibes": {
+      "title": "Ambiente",
+      "Types": {
+        "rainforest": "Selva",
+        "savanna": "Sabana",
+        "tundra": "Tundra",
+        "coral": "Arrecife",
+        "volcanic": "Volcánico",
+        "dunes": "Dunas"
       }
     },
     "elements": {
       "title": "Elementos",
       "axes": "Ejes",
+      "axesTooltip": "Mostrar u ocultar los ejes del gráfico",
       "grid": "Cuadrícula",
+      "gridTooltip": "Mostrar u ocultar la cuadrícula de fondo",
       "labels": "Etiquetas",
-      "title_element": "Título",
+      "labelsTooltip": "Mostrar u ocultar las etiquetas de datos",
+      "title": "Título",
+      "titleTooltip": "Mostrar u ocultar el título del gráfico",
       "legend": "Leyenda",
-      "tooltips": "Tooltips",
-      "label_size": "Tamaño de Etiqueta",
-      "axesTooltip": "Alternar visibilidad de ejes",
-      "gridTooltip": "Alternar líneas de cuadrícula",
-      "labelsTooltip": "Alternar etiquetas de datos",
-      "titleTooltip": "Alternar título del gráfico",
-      "legendTooltip": "Alternar visibilidad de la leyenda",
-      "tooltipsTooltip": "Alternar tooltips de datos"
-    },
-    "vibes": {
-      "title": "Ambientes",
-      "types": {
-        "rainforest": {
-          "name": "Selva",
-          "description": "Exuberante y vibrante"
-        },
-        "savanna": {
-          "name": "Sabana",
-          "description": "Cálido y expansivo"
-        },
-        "tundra": {
-          "name": "Tundra",
-          "description": "Fresco y nítido"
-        },
-        "ocean": {
-          "name": "Océano",
-          "description": "Fluido y dinámico"
-        },
-        "coral": {
-          "name": "Arrecife de Coral",
-          "description": "Colorido y diverso"
-        },
-        "volcanic": {
-          "name": "Volcánico",
-          "description": "Intenso y dramático"
-        },
-        "dunes": {
-          "name": "Dunas",
-          "description": "Suave y fluido"
-        }
-      }
+      "legendTooltip": "Mostrar u ocultar la leyenda del gráfico",
+      "tooltips": "Información",
+      "tooltipsTooltip": "Mostrar u ocultar la información al pasar el mouse",
+      "labelSize": "Tamaño de etiqueta"
     }
   },
-  "VibeSelector": {
-    "title": "Selector de Ambiente",
-    "vibes": {
-      "rainforest": "Selva",
-      "savanna": "Sabana",
-      "tundra": "Tundra",
-      "coral": "Arrecife de coral",
-      "volcanic": "Volcánico",
-      "dunes": "Dunas"
+  "chart": {
+    "colorSelector": {
+      "title": "Selector de Color",
+      "custom": {
+        "title": "Color Personalizado",
+        "hex": "HEX",
+        "rgb": "RGB",
+        "hue": "Tono",
+        "saturation": "Saturación",
+        "lightness": "Luminosidad",
+        "preview": "Vista Previa del Color"
+      }
     },
-    "descriptions": {
-      "rainforest": "Ecosistema exuberante y vibrante",
-      "savanna": "Pastizales salvajes y abiertos",
-      "tundra": "Naturaleza fría y prístina",
-      "coral": "Mundo submarino colorido",
-      "volcanic": "Paisaje audaz y poderoso",
-      "dunes": "Desierto suave y sereno"
+    "customize": "Personalizar",
+    "elements": {
+      "title": "Elementos",
+      "labels": "Etiquetas",
+      "legend": "Leyenda",
+      "grid": "Cuadrícula",
+      "axis": "Ejes"
+    },
+    "colors": {
+      "title": "Colores",
+      "theme": "Tema",
+      "custom": "Personalizado",
+      "presets": "Preestablecidos",
+      "hue": "Tono",
+      "saturation": "Saturación",
+      "lightness": "Luminosidad"
     }
   },
   "Sidebar": {

@@ -24,6 +24,9 @@ import { useThemeColor } from "@/app/_components/providers/theme-context"
 import React from 'react';
 import { useParams } from 'next/navigation'
 import { ChevronRight } from 'lucide-react';
+import { cn } from "@/lib/utils"
+import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button"
 
 type Feature = {
    title: string;
@@ -487,13 +490,36 @@ export function Features() {
                       </div>
                     </div>
                     <div className="pt-4 mt-auto">
-                      <Link 
-                        href={feature.href} 
-                        className="inline-flex items-center text-[13px] font-medium text-muted-foreground/70 hover:text-foreground transition-colors duration-300"
-                      >
-                        {feature.link}
-                        <ChevronRight className="w-3.5 h-3.5 ml-1 transition-transform duration-300 group-hover:translate-x-0.5" />
-                      </Link>
+                      <div className="relative group">
+                        <motion.div
+                          className="absolute inset-0 rounded-lg blur-lg opacity-10 transition-opacity duration-300 group-hover:opacity-20"
+                          style={{
+                            background: themeColor,
+                          }}
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className={cn(
+                            "relative text-sm font-medium border-2 shadow-sm transition-all duration-300",
+                            "bg-transparent hover:bg-[var(--hover-bg)] active:bg-[var(--active-bg)]",
+                            "text-[var(--theme-color)] hover:text-white active:text-white",
+                            "active:scale-[0.98] active:shadow-inner",
+                            "flex items-center gap-1.5"
+                          )}
+                          style={{
+                            borderColor: `${themeColor}66`,
+                            '--theme-color': themeColor,
+                            '--hover-bg': themeColor,
+                            '--active-bg': `${themeColor}dd`,
+                          } as React.CSSProperties}
+                        >
+                          <Link href={feature.href} className="flex items-center gap-1.5">
+                            {feature.link}
+                            <ChevronRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                          </Link>
+                        </Button>
+                      </div>
                     </div>
                   </div>
                </div>

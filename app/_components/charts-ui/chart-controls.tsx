@@ -155,14 +155,14 @@ export function ChartControls({
             "transition-all duration-700 ease-out",
             isExpanded ? "translate-y-0" : "translate-y-8"
           )}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              <div className="h-full group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 h-full">
+              <div className="flex flex-col group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
                 <ColorSelector currentTheme={currentTheme} onThemeChange={onThemeChange} />
               </div>
-              <div className="h-full group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
+              <div className="flex flex-col group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
                 <VibeSelector selectedVibe={currentVibe} onVibeChange={onVibeChange} />
               </div>
-              <div className="h-full sm:col-span-2 lg:col-span-1 group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
+              <div className="flex flex-col sm:col-span-2 lg:col-span-1 group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
                 <ChartElements
                   showAxes={showAxes}
                   onAxesChange={onAxesChange}

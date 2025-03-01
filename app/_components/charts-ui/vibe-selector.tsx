@@ -132,7 +132,7 @@ export function VibeSelector({
       className="relative bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] 
         rounded-lg p-4 h-full space-y-3 transition-all duration-300"
       style={{ 
-        boxShadow: `inset 0 0 0 1px ${themeColor}33`,
+        boxShadow: `inset 0 0 0 1px ${themeColor}33`
       }}
     >
       <div className="flex items-center gap-2">
@@ -250,7 +250,7 @@ export function VibeSelector({
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: vibes.indexOf(vibe) * 0.1 + 0.2 }}
                     >
-                      {t(`types.${vibe.id}.name`)}
+                      {t(`Types.${vibe.id}`)}
                     </motion.span>
                   </motion.button>
                 </TooltipTrigger>
@@ -261,7 +261,7 @@ export function VibeSelector({
                   className="bg-background/95 dark:bg-[#1B1B1B]/95 backdrop-blur-[12px] backdrop-saturate-[180%] 
                     border border-border/40 shadow-lg rounded-lg px-3 py-2"
                 >
-                  <p className="text-sm text-muted-foreground">{t(`types.${vibe.id}.description`)}</p>
+                  <p className="text-xs capitalize">{t(`Types.${vibe.id}`)}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

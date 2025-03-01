@@ -158,9 +158,7 @@ export function ChartElements({
 
       <div className="space-y-2.5">
         <div className="flex items-center justify-between min-w-0 gap-4">
-          <Label className="text-sm text-muted-foreground font-normal truncate">
-            {t('labelSize')}
-          </Label>
+          <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t('labelSize')}</label>
           <span className="text-xs text-muted-foreground font-mono flex-shrink-0">
             {labelSize}px
           </span>

@@ -226,45 +226,30 @@ interface ColorSelectorProps {
   onThemeChange: (color: string) => void;
 }
 
-export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: ColorSelectorProps) {
-  const t = useTranslations('ChartUI')
-  const [isOpen, setIsOpen] = useState(false)
-  const { setThemeColor } = useThemeColor()
+export function ColorSelector({ 
+  currentTheme = '#22C55E', 
+  onThemeChange 
+}: ColorSelectorProps) {
+  const t = useTranslations('ChartControls.colors')
+  const { themeColor } = useThemeColor()
   
-  // Set default color and propagate to theme context
-  useEffect(() => {
-    const defaultColor = '#22C55E'  // Forest theme
-    if (!currentTheme || currentTheme === '') {
-      onThemeChange(defaultColor)
-    }
-  }, [currentTheme, onThemeChange])
-
-  // Keep theme context in sync
-  useEffect(() => {
-    if (currentTheme) {
-      setThemeColor(currentTheme)
-    }
-  }, [currentTheme, setThemeColor])
-
   return (
     <div 
-      className="group/container relative bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] rounded-lg p-4 space-y-4 transition-all duration-300"
+      className="relative bg-background/40 dark:bg-[#1B1B1B]/30 backdrop-blur-[12px] backdrop-saturate-[180%] 
+        rounded-lg p-4 h-full space-y-3 transition-all duration-300"
       style={{ 
-        borderWidth: '1px',
-        borderStyle: 'solid',
-        borderColor: `${currentTheme}33`,
-        boxShadow: `inset 0 0 0 1px ${currentTheme}1a`
+        boxShadow: `inset 0 0 0 1px ${themeColor}33`
       }}
     >
       <div className="flex items-center gap-2">
         <div 
           className="w-3 h-3 rounded-full"
           style={{ 
-            backgroundColor: currentTheme,
-            boxShadow: `0 0 0 1px ${currentTheme}33`
+            backgroundColor: themeColor,
+            boxShadow: `0 0 0 1px ${themeColor}33`
           }}
         />
-        <h3 className="text-sm font-medium">{t('colors')}</h3>
+        <h3 className="text-sm font-medium">{t('title')}</h3>
       </div>
 
       <div className="grid grid-cols-4 gap-2">
@@ -313,7 +298,7 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
       </div>
 
       <div className="relative mt-2 group">
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
+        <Popover open={false} onOpenChange={() => {}}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
@@ -323,14 +308,14 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
                 transition-all duration-300 overflow-hidden
                 group/button"
               style={{
-                boxShadow: `inset 0 0 0 1px ${currentTheme}33`,
-                '--theme-color': currentTheme
+                boxShadow: `inset 0 0 0 1px ${themeColor}33`,
+                '--theme-color': themeColor
               } as React.CSSProperties}
             >
               <div 
                 className="absolute inset-0 opacity-0 group-hover/button:opacity-100 transition-opacity duration-300"
                 style={{
-                  background: `linear-gradient(120deg, transparent, ${currentTheme}0a, transparent)`,
+                  background: `linear-gradient(120deg, transparent, ${themeColor}0a, transparent)`,
                   transform: 'translateX(-100%)',
                   animation: 'shimmer 2s infinite'
                 }}
@@ -352,12 +337,12 @@ export function ColorSelector({ currentTheme = '#22C55E', onThemeChange }: Color
                   className="w-2 h-2 rounded-full ml-2 transition-transform duration-300
                     group-hover/button:scale-110"
                   style={{ 
-                    backgroundColor: currentTheme,
-                    boxShadow: `0 0 0 1px ${currentTheme}33`
+                    backgroundColor: themeColor,
+                    boxShadow: `0 0 0 1px ${themeColor}33`
                   }}
                 />
                 <span className="flex-1 text-xs font-medium uppercase tracking-wider transition-colors duration-300
-                  text-foreground/70 group-hover/button:text-foreground">{t('customize')}</span>
+                  text-foreground/70 group-hover/button:text-foreground">{t('customization')}</span>
               </div>
             </Button>
           </PopoverTrigger>
