@@ -379,7 +379,7 @@ export function Features() {
          <div className="relative grid grid-cols-1 gap-8 px-4 max-w-7xl mx-auto md:grid-cols-2 lg:grid-cols-3">
             {/* Vertical Dashed Lines */}
             <div 
-               className="absolute hidden md:block w-[2px] pointer-events-none"
+               className="absolute hidden lg:block w-[1px] pointer-events-none"
                style={{
                   left: 'calc(33.333% + 2px)',  
                   top: '0',
@@ -390,7 +390,7 @@ export function Features() {
                }}
             />
             <div 
-               className="absolute hidden lg:block w-[2px] pointer-events-none"
+               className="absolute hidden lg:block w-[1px] pointer-events-none"
                style={{
                   right: 'calc(33.333% - 2px)',  
                   top: '0',
@@ -408,7 +408,7 @@ export function Features() {
                   left: '0',
                   right: '0',
                   top: '-5px',  
-                  height: '2px',
+                  height: '1px',
                   background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
                   opacity: 0.9,
                   filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
@@ -420,7 +420,7 @@ export function Features() {
                   left: '0',
                   right: '0',
                   top: '50%',
-                  height: '2px',
+                  height: '1px',
                   background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
                   opacity: 0.9,
                   filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
@@ -432,7 +432,7 @@ export function Features() {
                   left: '0',
                   right: '0',
                   bottom: '-2px',  
-                  height: '2px',
+                  height: '1px',
                   background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
                   opacity: 0.9,
                   filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'

@@ -70,120 +70,122 @@ export function ChartControls({
   }, [currentTheme, setThemeColor])
 
   return (
-    <div className="w-full space-y-3">
-      <div className="relative flex items-center justify-center w-full gap-4 my-4">
-        <div 
-          className="hidden sm:block h-[2px] flex-1"
-          style={{
-            background: `repeating-linear-gradient(to right, transparent, transparent 4px, ${currentTheme}80 4px, ${currentTheme}80 12px)`,
-            opacity: 0.7,
-            filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.05))'
-          }}
-        />
-        <div className="relative group">
-          <div
-            className="absolute inset-0 rounded-lg blur-lg opacity-10 transition-opacity duration-300 group-hover:opacity-20"
+    <section className="relative w-full">
+      <div className="w-full space-y-3">
+        <div className="relative flex items-center justify-center w-full max-w-7xl mx-auto px-4 gap-2 sm:gap-4 my-4">
+          <div 
+            className="hidden sm:block h-[1px] pointer-events-none flex-1"
             style={{
-              background: currentTheme,
+              background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${currentTheme}CC 6px, ${currentTheme}CC 16px)`,
+              opacity: 0.9,
+              filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
             }}
           />
-          <Button
-            variant="outline"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className={clsx(
-              "relative text-base font-medium border-2 shadow-sm transition-all duration-300",
-              "w-full sm:w-[200px] md:w-[240px]",
-              "bg-transparent hover:bg-[var(--hover-bg)] active:bg-[var(--active-bg)]",
-              "text-[var(--theme-color)] hover:text-white active:text-white",
-              "active:scale-[0.98] active:shadow-inner"
-            )}
+          <div className="relative group flex-shrink-0">
+            <div
+              className="absolute inset-0 rounded-lg blur-lg opacity-10 transition-opacity duration-300 group-hover:opacity-20"
+              style={{
+                background: currentTheme,
+              }}
+            />
+            <Button
+              variant="outline"
+              onClick={() => setIsExpanded(!isExpanded)}
+              className={clsx(
+                "relative text-base font-medium border-2 shadow-sm transition-all duration-300",
+                "w-full sm:w-[200px] md:w-[240px]",
+                "bg-transparent hover:bg-[var(--hover-bg)] active:bg-[var(--active-bg)]",
+                "text-[var(--theme-color)] hover:text-white active:text-white",
+                "active:scale-[0.98] active:shadow-inner"
+              )}
+              style={{
+                borderColor: `${currentTheme}66`,
+                '--theme-color': currentTheme,
+                '--hover-bg': currentTheme,
+                '--active-bg': `${currentTheme}dd`,
+              } as React.CSSProperties}
+            >
+              <div className="relative flex items-center justify-between gap-2 py-2 px-3">
+                <div className="flex items-center gap-2">
+                  <div 
+                    className="w-2 h-2 rounded-full transition-all duration-300"
+                    style={{ 
+                      backgroundColor: currentTheme,
+                      boxShadow: `0 0 0 1px ${currentTheme}33`
+                    }}
+                  />
+                  <span>
+                    {t('customize')}
+                  </span>
+                </div>
+                <ChevronUp 
+                  className={clsx(
+                    "w-4 h-4 transition-all duration-300",
+                    !isExpanded && "rotate-180"
+                  )}
+                />
+              </div>
+            </Button>
+          </div>
+          <div 
+            className="hidden sm:block h-[1px] pointer-events-none flex-1"
             style={{
-              borderColor: `${currentTheme}66`,
-              '--theme-color': currentTheme,
-              '--hover-bg': currentTheme,
-              '--active-bg': `${currentTheme}dd`,
-            } as React.CSSProperties}
-          >
-            <div className="relative flex items-center justify-between gap-2 py-2 px-3">
-              <div className="flex items-center gap-2">
-                <div 
-                  className="w-2 h-2 rounded-full transition-all duration-300"
-                  style={{ 
-                    backgroundColor: currentTheme,
-                    boxShadow: `0 0 0 1px ${currentTheme}33`
-                  }}
-                />
-                <span>
-                  {t('customize')}
-                </span>
-              </div>
-              <ChevronUp 
-                className={clsx(
-                  "w-4 h-4 transition-all duration-300",
-                  !isExpanded && "rotate-180"
-                )}
-              />
-            </div>
-          </Button>
+              background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${currentTheme}CC 6px, ${currentTheme}CC 16px)`,
+              opacity: 0.9,
+              filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+            }}
+          />
         </div>
-        <div 
-          className="hidden sm:block h-[2px] flex-1"
-          style={{
-            background: `repeating-linear-gradient(to right, transparent, transparent 4px, ${currentTheme}80 4px, ${currentTheme}80 12px)`,
-            opacity: 0.7,
-            filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.05))'
-          }}
-        />
-      </div>
 
-      <div
-        className={clsx(
-          "grid transition-[grid-template-rows,opacity] duration-300",
-          isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-        )}
-      >
-        <div className="overflow-hidden">
-          <div className={clsx(
-            "bg-background/60 dark:bg-[#1B1B1B]/50 backdrop-blur-[12px] backdrop-saturate-[180%]",
-            "border border-border/40",
-            "rounded-lg",
-            "shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)]",
-            "hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)]",
-            "dark:shadow-[0_8px_16px_-6px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)]",
-            "dark:hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.07)]",
-            "p-6",
-            "transition-all duration-700 ease-out",
-            isExpanded ? "translate-y-0" : "translate-y-8"
-          )}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 h-full">
-              <div className="flex flex-col group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
-                <ColorSelector currentTheme={currentTheme} onThemeChange={onThemeChange} />
-              </div>
-              <div className="flex flex-col group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
-                <VibeSelector selectedVibe={currentVibe} onVibeChange={onVibeChange} />
-              </div>
-              <div className="flex flex-col sm:col-span-2 lg:col-span-1 group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
-                <ChartElements
-                  showAxes={showAxes}
-                  onAxesChange={onAxesChange}
-                  showGrid={showGrid}
-                  onGridChange={onGridChange}
-                  showLabels={showLabels}
-                  onLabelsChange={onLabelsChange}
-                  showTitle={showTitle}
-                  onTitleChange={onTitleChange}
-                  showLegend={showLegend}
-                  onLegendChange={onLegendChange}
-                  showTooltips={showTooltips}
-                  onTooltipsChange={onTooltipsChange}
-                  labelSize={labelSize}
-                  onLabelSizeChange={onLabelSizeChange}
-                />
+        <div
+          className={clsx(
+            "grid transition-[grid-template-rows,opacity] duration-300",
+            isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          )}
+        >
+          <div className="overflow-hidden">
+            <div className={clsx(
+              "bg-background/60 dark:bg-[#1B1B1B]/50 backdrop-blur-[12px] backdrop-saturate-[180%]",
+              "border border-border/40",
+              "rounded-lg",
+              "shadow-[0_8px_16px_-6px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.1)]",
+              "hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.2),inset_0_2px_2px_rgba(255,255,255,0.15)]",
+              "dark:shadow-[0_8px_16px_-6px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)]",
+              "dark:hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.5),inset_0_2px_2px_rgba(255,255,255,0.07)]",
+              "p-6",
+              "transition-all duration-700 ease-out",
+              isExpanded ? "translate-y-0" : "translate-y-8"
+            )}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 h-full">
+                <div className="flex flex-col group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
+                  <ColorSelector currentTheme={currentTheme} onThemeChange={onThemeChange} />
+                </div>
+                <div className="flex flex-col group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
+                  <VibeSelector selectedVibe={currentVibe} onVibeChange={onVibeChange} />
+                </div>
+                <div className="flex flex-col sm:col-span-2 lg:col-span-1 group/item transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01]">
+                  <ChartElements
+                    showAxes={showAxes}
+                    onAxesChange={onAxesChange}
+                    showGrid={showGrid}
+                    onGridChange={onGridChange}
+                    showLabels={showLabels}
+                    onLabelsChange={onLabelsChange}
+                    showTitle={showTitle}
+                    onTitleChange={onTitleChange}
+                    showLegend={showLegend}
+                    onLegendChange={onLegendChange}
+                    showTooltips={showTooltips}
+                    onTooltipsChange={onTooltipsChange}
+                    labelSize={labelSize}
+                    onLabelSizeChange={onLabelSizeChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
