@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Sparkles, Palette, Smartphone, Waves, Code2 } from "lucide-react";
 import { useTranslations } from 'next-intl';
-import { MouseTrail } from "@/app/_components/effects/mouse-trail";
 import { useParams } from 'next/navigation';
 
 export default function DocsPage() {
@@ -14,7 +13,6 @@ export default function DocsPage() {
 
   return (
     <div className="min-h-screen">
-      <MouseTrail />
       <section id="introduction" className="relative max-w-4xl mx-auto pt-6 px-4">
         <div className="relative inline-block mb-6">
           <motion.h1 

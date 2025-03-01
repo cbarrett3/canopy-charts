@@ -346,7 +346,7 @@ export function Features() {
    ]
 
    return (
-      <section className="relative w-full py-8 sm:py-16 bg-background dark:bg-[#1B1B1B]">
+      <section className="relative w-full py-8 sm:py-16 bg-background dark:bg-[#1B1B1B] mt-[-1px] pt-32">
          {/* Gradient fade effect */}
          <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-transparent dark:from-[#1B1B1B] dark:via-[#1B1B1B] dark:to-[#1A1A1A] opacity-90" />

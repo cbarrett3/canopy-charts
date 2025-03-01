@@ -100,7 +100,7 @@ export function Navbar() {
             "relative flex items-center justify-between",
             "px-4 py-3",
             "rounded-lg bg-white/[0.03] dark:bg-black/[0.03] backdrop-blur-[6px] border border-transparent",
-            "transition-all duration-300 group/nav hover:border-white/10 dark:hover:border-white/5",
+            "transition-all duration-300 group/nav",
           )}
           style={{
             '--hover-border-color': `${themeColor}66`
@@ -111,7 +111,7 @@ export function Navbar() {
           }}
           onMouseLeave={e => {
             const nav = e.currentTarget;
-            nav.style.borderColor = `${themeColor}33`;
+            nav.style.borderColor = 'transparent';
           }}
           whileHover={{ 
             y: 2,
