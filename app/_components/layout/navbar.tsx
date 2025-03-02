@@ -94,6 +94,8 @@ export function Navbar() {
           : "left-[calc(4rem+1rem)] right-4 w-[calc(100%-5rem-1rem)]"
         : "left-4 right-4"
     )}>
+      {/* Add backdrop blur layer that extends above navbar */}
+      <div className="absolute top-[-100vh] left-[-100vw] right-[-100vw] bottom-0 backdrop-blur-[32px] pointer-events-none" />
       <div className={cn(!isDocsPage && "max-w-7xl mx-auto")}>
         <div className="relative">
           {/* Dashed Border Container */}
@@ -136,7 +138,7 @@ export function Navbar() {
             className={cn(
               "relative flex items-center justify-between",
               "px-4 py-3",
-              "rounded-lg bg-white/[0.03] dark:bg-black/[0.03] backdrop-blur-[16px]",
+              "rounded-lg bg-white/[0.08] dark:bg-black/[0.08] backdrop-blur-[32px]",
               "transition-all duration-300 group/nav",
             )}
             whileHover={{ 
@@ -149,7 +151,7 @@ export function Navbar() {
               damping: 25
             }}
           >
-            <div className="absolute inset-0 rounded-lg bg-white/[0.03] dark:bg-black/[0.03] backdrop-blur-[16px]" />
+            <div className="absolute inset-0 rounded-lg bg-white/[0.08] dark:bg-black/[0.08] backdrop-blur-[32px]" />
             <motion.div 
               className="relative flex items-center gap-4 font-sans"
               variants={containerVariants}

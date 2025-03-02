@@ -99,10 +99,14 @@ export function Hero() {
             transition={{ duration: 0.5 }}
           >
             <motion.h1 
-              className="block text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight chrome-gradient mb-6"
+              className="block text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight bg-gradient-to-r from-[var(--theme-color)] via-[var(--theme-color-cc)] to-[var(--theme-color)] bg-clip-text text-transparent chrome-gradient mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
+              style={{
+                '--theme-color': themeColor,
+                '--theme-color-cc': `${themeColor}CC`,
+              } as React.CSSProperties}
             >
               {t('title')}
             </motion.h1>
