@@ -377,6 +377,16 @@ export function Features() {
             />
          </div>
          <div className="relative grid grid-cols-1 gap-8 px-4 max-w-7xl mx-auto md:grid-cols-2 lg:grid-cols-3">
+            <style jsx>{`
+              @keyframes moveRight {
+                from { background-position: 0 0; }
+                to { background-position: 44px 0; }
+              }
+              @keyframes moveDown {
+                from { background-position: 0 0; }
+                to { background-position: 0 44px; }
+              }
+            `}</style>
             {/* Vertical Dashed Lines */}
             <div 
                className="absolute hidden lg:block w-[1px] pointer-events-none"
@@ -384,9 +394,9 @@ export function Features() {
                   left: 'calc(33.333% + 2px)',  
                   top: '0',
                   bottom: '0',
-                  background: `repeating-linear-gradient(to bottom, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
-                  opacity: 0.9,
-                  filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+                  background: `repeating-linear-gradient(to bottom, transparent, transparent 4px, ${themeColor}CC 4px, ${themeColor}CC 8px)`,
+                  opacity: 0.4,
+                  animation: 'moveDown 5s linear infinite'
                }}
             />
             <div 
@@ -395,9 +405,9 @@ export function Features() {
                   right: 'calc(33.333% - 2px)',  
                   top: '0',
                   bottom: '0',
-                  background: `repeating-linear-gradient(to bottom, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
-                  opacity: 0.9,
-                  filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+                  background: `repeating-linear-gradient(to bottom, transparent, transparent 4px, ${themeColor}CC 4px, ${themeColor}CC 8px)`,
+                  opacity: 0.4,
+                  animation: 'moveDown 5s linear infinite'
                }}
             />
             
@@ -409,9 +419,9 @@ export function Features() {
                   right: '0',
                   top: '-5px',  
                   height: '1px',
-                  background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
-                  opacity: 0.9,
-                  filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+                  background: `repeating-linear-gradient(to right, transparent, transparent 4px, ${themeColor}CC 4px, ${themeColor}CC 8px)`,
+                  opacity: 0.4,
+                  animation: 'moveRight 5s linear infinite'
                }}
             />
             <div 
@@ -421,9 +431,9 @@ export function Features() {
                   right: '0',
                   top: '50%',
                   height: '1px',
-                  background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
-                  opacity: 0.9,
-                  filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+                  background: `repeating-linear-gradient(to right, transparent, transparent 4px, ${themeColor}CC 4px, ${themeColor}CC 8px)`,
+                  opacity: 0.4,
+                  animation: 'moveRight 5s linear infinite'
                }}
             />
             <div 
@@ -433,9 +443,9 @@ export function Features() {
                   right: '0',
                   bottom: '-2px',  
                   height: '1px',
-                  background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
-                  opacity: 0.9,
-                  filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+                  background: `repeating-linear-gradient(to right, transparent, transparent 4px, ${themeColor}CC 4px, ${themeColor}CC 8px)`,
+                  opacity: 0.4,
+                  animation: 'moveRight 5s linear infinite'
                }}
             />
 

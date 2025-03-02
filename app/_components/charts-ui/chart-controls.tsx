@@ -73,12 +73,18 @@ export function ChartControls({
     <section className="relative w-full">
       <div className="w-full space-y-3">
         <div className="relative flex items-center justify-center w-full max-w-7xl mx-auto px-4 gap-2 sm:gap-4 my-4">
+          <style jsx>{`
+            @keyframes moveRight {
+              from { background-position: 0 0; }
+              to { background-position: 44px 0; }
+            }
+          `}</style>
           <div 
             className="hidden sm:block h-[1px] pointer-events-none flex-1"
             style={{
-              background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${currentTheme}CC 6px, ${currentTheme}CC 16px)`,
-              opacity: 0.9,
-              filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+              background: `repeating-linear-gradient(to right, transparent, transparent 4px, ${currentTheme}CC 4px, ${currentTheme}CC 8px)`,
+              opacity: 0.4,
+              animation: 'moveRight 5s linear infinite'
             }}
           />
           <div className="relative group flex-shrink-0">
@@ -130,9 +136,9 @@ export function ChartControls({
           <div 
             className="hidden sm:block h-[1px] pointer-events-none flex-1"
             style={{
-              background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${currentTheme}CC 6px, ${currentTheme}CC 16px)`,
-              opacity: 0.9,
-              filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.1))'
+              background: `repeating-linear-gradient(to right, transparent, transparent 4px, ${currentTheme}CC 4px, ${currentTheme}CC 8px)`,
+              opacity: 0.4,
+              animation: 'moveRight 5s linear infinite'
             }}
           />
         </div>

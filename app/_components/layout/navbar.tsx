@@ -100,36 +100,52 @@ export function Navbar() {
         <div className="relative">
           {/* Dashed Border Container */}
           <div className="absolute inset-[-8px] pointer-events-none rounded-lg">
+            <style jsx>{`
+              @keyframes moveRight {
+                from { background-position: 0 0; }
+                to { background-position: 44px 0; }
+              }
+              @keyframes moveDown {
+                from { background-position: 0 0; }
+                to { background-position: 0 44px; }
+              }
+            `}</style>
+            {/* Backdrop blur for entire container */}
+            <div className="absolute inset-0 bg-white/[0.08] dark:bg-black/[0.08] backdrop-blur-[32px] rounded-lg" />
             {/* Top line */}
             <div 
-              className="absolute left-0 right-0 h-[2px]"
+              className="absolute left-0 right-0 h-[1px]"
               style={{
-                background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
-                opacity: 0.4
+                background: `repeating-linear-gradient(to right, transparent, transparent 4px, ${themeColor}CC 4px, ${themeColor}CC 8px)`,
+                opacity: 0.4,
+                animation: 'moveRight 3s linear infinite'
               }}
             />
             {/* Bottom line */}
             <div 
-              className="absolute left-0 right-0 bottom-0 h-[2px]"
+              className="absolute left-0 right-0 bottom-0 h-[1px]"
               style={{
-                background: `repeating-linear-gradient(to right, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
-                opacity: 0.4
+                background: `repeating-linear-gradient(to right, transparent, transparent 4px, ${themeColor}CC 4px, ${themeColor}CC 8px)`,
+                opacity: 0.4,
+                animation: 'moveRight 3s linear infinite'
               }}
             />
             {/* Left line */}
             <div 
-              className="absolute top-0 bottom-0 left-0 w-[2px]"
+              className="absolute top-0 bottom-0 left-0 w-[1px]"
               style={{
-                background: `repeating-linear-gradient(to bottom, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
-                opacity: 0.4
+                background: `repeating-linear-gradient(to bottom, transparent, transparent 4px, ${themeColor}CC 4px, ${themeColor}CC 8px)`,
+                opacity: 0.4,
+                animation: 'moveDown 3s linear infinite'
               }}
             />
             {/* Right line */}
             <div 
-              className="absolute top-0 bottom-0 right-0 w-[2px]"
+              className="absolute top-0 bottom-0 right-0 w-[1px]"
               style={{
-                background: `repeating-linear-gradient(to bottom, transparent, transparent 6px, ${themeColor}CC 6px, ${themeColor}CC 16px)`,
-                opacity: 0.4
+                background: `repeating-linear-gradient(to bottom, transparent, transparent 4px, ${themeColor}CC 4px, ${themeColor}CC 8px)`,
+                opacity: 0.4,
+                animation: 'moveDown 3s linear infinite'
               }}
             />
           </div>
@@ -138,7 +154,7 @@ export function Navbar() {
             className={cn(
               "relative flex items-center justify-between",
               "px-4 py-3",
-              "rounded-lg bg-white/[0.08] dark:bg-black/[0.08] backdrop-blur-[32px]",
+              "rounded-lg",
               "transition-all duration-300 group/nav",
             )}
             whileHover={{ 
