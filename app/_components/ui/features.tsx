@@ -391,6 +391,17 @@ export function Features() {
             <div 
                className="absolute hidden lg:block w-[1px] pointer-events-none"
                style={{
+                  left: '0',  
+                  top: '0',
+                  bottom: '0',
+                  background: `repeating-linear-gradient(to bottom, transparent, transparent 4px, ${themeColor}CC 4px, ${themeColor}CC 8px)`,
+                  opacity: 0.4,
+                  animation: 'moveDown 5s linear infinite'
+               }}
+            />
+            <div 
+               className="absolute hidden lg:block w-[1px] pointer-events-none"
+               style={{
                   left: 'calc(33.333% + 2px)',  
                   top: '0',
                   bottom: '0',
@@ -403,6 +414,17 @@ export function Features() {
                className="absolute hidden lg:block w-[1px] pointer-events-none"
                style={{
                   right: 'calc(33.333% - 2px)',  
+                  top: '0',
+                  bottom: '0',
+                  background: `repeating-linear-gradient(to bottom, transparent, transparent 4px, ${themeColor}CC 4px, ${themeColor}CC 8px)`,
+                  opacity: 0.4,
+                  animation: 'moveDown 5s linear infinite'
+               }}
+            />
+            <div 
+               className="absolute hidden lg:block w-[1px] pointer-events-none"
+               style={{
+                  right: '0',  
                   top: '0',
                   bottom: '0',
                   background: `repeating-linear-gradient(to bottom, transparent, transparent 4px, ${themeColor}CC 4px, ${themeColor}CC 8px)`,
