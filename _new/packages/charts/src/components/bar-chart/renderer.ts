@@ -6,57 +6,66 @@
 import * as d3 from 'd3';
 import { RenderConfig, DataPoint } from './types';
 import { vibeStyles } from './vibes';
-import { ValueFn } from 'd3';
+
+type EasingFn = (normalizedTime: number) => number;
 
 // map vibe to d3 easing function
 const getEasing = (vibe: string) => {
-	switch (vibe) {
-		case 'rainforest':
-			return d3.easeElasticOut.amplitude(1.2).period(0.5); // bouncy tree growth
-		case 'savanna':
-			return d3.easeBackOut.overshoot(2.5); // radiant burst
-		case 'tundra':
-			return d3.easeBounceOut; // crystalline bounce
-		case 'coral':
-			return d3.easeSinInOut; // smooth wave
-		case 'volcanic':
-			return d3.easeExpInOut; // explosive force
-		case 'dunes':
-			return d3.easeCubicInOut; // smooth sand drift
-		default:
-			return d3.easeCubicOut;
-	}
+	const easings: Record<string, EasingFn> = {
+		rainforest: d3.easeElasticOut.amplitude(1.2).period(0.5),
+		savanna: d3.easeBackOut.overshoot(2.5),
+		tundra: d3.easeBounceOut,
+		coral: d3.easeSinInOut,
+		volcanic: d3.easeExpInOut,
+		dunes: d3.easeCubicInOut,
+	};
+	return easings[vibe] || d3.easeCubicOut;
 };
 
 // get delay based on vibe and index
 const getDelay = (vibe: string, index: number, total: number) => {
-	const baseDelay = 50; // reduced from 100 to 50ms
-	switch (vibe) {
-		case 'rainforest':
-			return index * baseDelay * 0.8; // sequential growth
-		case 'savanna':
-			return index * baseDelay * 0.3 + Math.random() * 100; // radial with randomness
-		case 'tundra':
-			return (total - index - 1) * baseDelay * 0.5; // reverse for snowfall
-		case 'coral':
-			return index * baseDelay; // wave sequence
-		case 'volcanic':
-			return index * baseDelay * 0.2; // rapid sequence
-		case 'dunes':
-			return index * baseDelay * 0.6; // wind-blown sequence
-		default:
-			return index * baseDelay;
-	}
+	const baseDelay = 50;
+	const delays: Record<string, number> = {
+		rainforest: index * baseDelay * 0.8,
+		savanna: index * baseDelay * 0.3 + Math.random() * 100,
+		tundra: (total - index - 1) * baseDelay * 0.5,
+		coral: index * baseDelay,
+		volcanic: index * baseDelay * 0.2,
+		dunes: index * baseDelay * 0.6,
+	};
+	return delays[vibe] || index * baseDelay;
 };
 
 // debounce function to prevent excessive tooltip updates
-const debounce = (fn: Function, ms = 50) => {
+const debounce = <T extends (...args: any[]) => void>(
+	fn: T,
+	ms = 50
+) => {
 	let timeoutId: ReturnType<typeof setTimeout>;
-	return function (this: any, ...args: any[]) {
+	return function (this: any, ...args: Parameters<T>) {
 		clearTimeout(timeoutId);
 		timeoutId = setTimeout(() => fn.apply(this, args), ms);
 	};
 };
+
+// handle tooltip update with debouncing
+const updateTooltip = debounce(
+	(tooltip: HTMLDivElement, event: MouseEvent, content: string) => {
+		if (tooltip instanceof HTMLDivElement) {
+			const tooltipContent = tooltip.querySelector(
+				'.tooltip-content'
+			) as HTMLDivElement;
+			if (tooltipContent) {
+				tooltipContent.textContent = content;
+			}
+			tooltip.style.visibility = 'visible';
+			tooltip.style.transform = 'translate(-50%, 0)';
+			tooltip.style.left = `${event.pageX}px`;
+			tooltip.style.top = `${event.pageY - 5}px`;
+		}
+	},
+	16
+); // Debounce at 60fps
 
 // render and animate bars
 export const renderBars = ({
@@ -70,26 +79,36 @@ export const renderBars = ({
 	config,
 	tooltip,
 }: RenderConfig) => {
-	// get vibe styles
 	const style = vibeStyles[vibe];
-
-	// Create bars with hover effects
-	const bars = g
+	const barSelection = g
 		.selectAll<SVGRectElement, DataPoint>('.bar')
-		.data<DataPoint>(data)
-		.join('rect')
+		.data<DataPoint>(data, (d: DataPoint) => d.label); // Key function for stable updates
+
+	// Remove old bars with animation
+	barSelection
+		.exit()
+		.transition()
+		.duration(200)
+		.style('opacity', 0)
+		.remove();
+
+	// Update existing bars and add new ones
+	const bars = barSelection
+		.enter()
+		.append('rect')
 		.attr('class', 'bar')
+		.merge(barSelection)
 		.attr('x', (d: DataPoint) => xScale(d.label) || 0)
-		.attr('y', height) // Start from bottom
+		.attr('y', height)
 		.attr('width', xScale.bandwidth())
-		.attr('height', 0) // Start with 0 height
+		.attr('height', 0)
 		.attr('fill', color)
 		.attr('rx', style.cornerRadius)
 		.attr('ry', style.cornerRadius)
 		.style('opacity', 0)
 		.style('cursor', 'pointer');
 
-	// Single unified animation for each bar
+	// Animate bars
 	bars.each((d: DataPoint, i, nodes) => {
 		const delay = getDelay(vibe, i, data.length);
 		const node = d3.select<SVGRectElement, DataPoint>(nodes[i]);
@@ -106,15 +125,12 @@ export const renderBars = ({
 
 	// Handle hover effects and tooltip
 	if (config.showTooltip && tooltip) {
-		const tooltipDiv = d3.select(tooltip);
-
 		bars
 			.on('mouseenter', (event: MouseEvent, d: DataPoint) => {
 				const bar = d3.select<SVGRectElement, DataPoint>(
 					event.target as SVGRectElement
 				);
 
-				// Smooth hover animation
 				bar
 					.transition()
 					.duration(150)
@@ -126,33 +142,16 @@ export const renderBars = ({
 						(d: DataPoint) => height - yScale(d.value) + 2
 					);
 
-				// Show tooltip with enhanced styling
-				if (tooltip instanceof HTMLDivElement) {
-					const content = tooltip.querySelector(
-						'.tooltip-content'
-					) as HTMLDivElement;
-					if (content) {
-						content.textContent = `${d.label}: ${d.value}`;
-					}
-					tooltip.style.visibility = 'visible';
-					tooltip.style.transform = 'translate(-50%, 0)';
-					tooltip.style.left = `${event.pageX}px`;
-					tooltip.style.top = `${event.pageY - 45}px`; // Reduced offset
-				}
+				updateTooltip(tooltip, event, `${d.label}: ${d.value}`);
 			})
-			.on('mousemove', (event: MouseEvent) => {
-				if (tooltip instanceof HTMLDivElement) {
-					tooltip.style.transform = 'translate(-50%, 0)';
-					tooltip.style.left = `${event.pageX}px`;
-					tooltip.style.top = `${event.pageY - 45}px`; // Reduced offset
-				}
+			.on('mousemove', (event: MouseEvent, d: DataPoint) => {
+				updateTooltip(tooltip, event, `${d.label}: ${d.value}`);
 			})
-			.on('mouseleave', (event: MouseEvent, d: DataPoint) => {
+			.on('mouseleave', (event: MouseEvent) => {
 				const bar = d3.select<SVGRectElement, DataPoint>(
 					event.target as SVGRectElement
 				);
 
-				// Smooth exit animation
 				bar
 					.transition()
 					.duration(150)
@@ -161,7 +160,6 @@ export const renderBars = ({
 					.attr('y', (d: DataPoint) => yScale(d.value))
 					.attr('height', (d: DataPoint) => height - yScale(d.value));
 
-				// Hide tooltip
 				if (tooltip instanceof HTMLDivElement) {
 					tooltip.style.visibility = 'hidden';
 				}

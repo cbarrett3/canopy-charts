@@ -1,0 +1,126 @@
+---
+description: Charts Package Design Rules
+globs: 
+alwaysApply: false
+---
+# Charts Package Design Rules
+
+## Directory Structure
+```
+packages/charts/
+├── src/
+│   ├── components/        # Chart components
+│   │   ├── bar-chart/    # Each chart type in its own directory
+│   │   │   ├── component.tsx    # React component
+│   │   │   ├── renderer.ts      # D3 rendering logic
+│   │   │   ├── types.ts         # Component-specific types
+│   │   │   ├── vibes.ts         # Animation styles
+│   │   │   └── index.ts         # Public exports
+│   ├── types/            # Shared type definitions
+│   ├── hooks/            # Shared hooks
+│   └── utils/            # Shared utilities
+```
+
+## Component Architecture
+Each chart component follows a strict separation of concerns:
+
+1. **Component Layer (`component.tsx`)**
+   - Handles React lifecycle and state
+   - Manages refs and dimensions
+   - Provides configuration and theming
+   - Delegates D3 rendering to renderer
+
+2. **Renderer Layer (`renderer.ts`)**
+   - Contains all D3 manipulation logic
+   - Handles animations and transitions
+   - Manages SVG element creation/updates
+   - Pure function approach with config objects
+
+3. **Types Layer (`types.ts`)**
+   - Defines component-specific interfaces
+   - Extends shared type definitions
+   - Documents prop shapes and configurations
+
+4. **Animation Layer (`vibes.ts`)**
+   - Defines animation presets
+   - Configures timing and easing
+   - Manages transition styles
+
+## Design Patterns
+
+### Configuration
+- Use a `config` prop object for all chart customization
+- Provide sensible defaults in `defaultConfig`
+- Support partial configuration overrides
+- Use TypeScript interfaces for type safety
+
+### Theming
+- Support light/dark mode via CSS variables
+- Use `themeColor` prop for primary color
+- Generate color variations for multi-series
+- Support custom color schemes
+
+### Animations
+- Use "vibes" for predefined animation styles
+- Support custom animation configurations
+- Implement smooth transitions for updates
+- Handle enter/update/exit animations
+
+### Accessibility
+- Include ARIA labels and roles
+- Support keyboard navigation
+- Provide text alternatives
+- Handle color contrast
+
+### Responsiveness
+- Use SVG viewBox for scaling
+- Calculate dimensions from container
+- Support dynamic resizing
+- Maintain aspect ratios
+
+## Code Conventions
+
+### File Naming
+- Use kebab-case for filenames
+- Group related files in feature directories
+- Use consistent suffixes (.tsx, .ts)
+- Include type definitions in separate files
+
+### Component Props
+- Prefix boolean props with 'show' or 'is'
+- Use consistent callback naming (onChange, onUpdate)
+- Document all props with JSDoc comments
+- Provide sensible default values
+
+### Type Definitions
+- Export shared types from central location
+- Use descriptive interface names
+- Prefer interfaces over type aliases
+- Document complex type definitions
+
+### D3 Integration
+- Isolate D3 code in renderer files
+- Use refs for DOM manipulation
+- Clean up subscriptions and selections
+- Handle edge cases and errors
+
+## Testing Guidelines
+- Test component rendering
+- Test D3 integration
+- Test animations and transitions
+- Test accessibility features
+- Test responsive behavior
+
+## Performance Considerations
+- Memoize expensive calculations
+- Debounce frequent updates
+- Clean up event listeners
+- Optimize re-renders
+
+## Extension Guidelines
+When adding new chart types:
+1. Follow the existing directory structure
+2. Implement all required layers
+3. Maintain consistent API patterns
+4. Include documentation and examples
+5. Add necessary test coverage

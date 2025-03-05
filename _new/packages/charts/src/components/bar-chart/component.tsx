@@ -6,12 +6,11 @@
  * ---------------------------------------- */
 
 import React from 'react';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
 import * as d3 from 'd3';
 import { BarChartProps, DataPoint } from './types';
 import { renderBars } from './renderer';
 import { defaultBarChartConfig } from '../../types/chart-config';
-import { Tooltip } from '../shared/tooltip';
 import { useChartDimensions } from '../../hooks/use-chart-dimensions';
 
 // Default sample data for out-of-the-box experience
@@ -31,7 +30,7 @@ export function BarChart({
    className = '',
 }: BarChartProps) {
    // merge default config with user config, ensuring all elements are ON by default
-   const config = {
+   const config = useMemo(() => ({
       ...defaultBarChartConfig,
       showXAxis: true,
       showYAxis: true,
@@ -51,26 +50,30 @@ export function BarChart({
       xAxisLabel: userConfig?.xAxisLabel || 'Categories',
       yAxisLabel: userConfig?.yAxisLabel || 'Values',
       ...userConfig
-   };
+   }), [userConfig]);
 
    // refs for d3
    const svgRef = useRef<SVGSVGElement>(null);
    const gRef = useRef<SVGGElement>(null);
    const containerRef = useRef<HTMLDivElement>(null);
    const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-   const isDarkMode = typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)').matches : false;
+   const isDarkMode = useMemo(() =>
+      typeof window !== 'undefined' ? window.matchMedia('(prefers-color-scheme: dark)').matches : false
+      , []);
 
    // calculate legend dimensions
-   const legendWidth = config.showLegend ? 120 : 0;
-   const legendPadding = config.showLegend ? 20 : 0;
+   const { legendWidth, legendPadding, margin } = useMemo(() => {
+      const legendWidth = config.showLegend ? 120 : 0;
+      const legendPadding = config.showLegend ? 20 : 0;
+      const margin = {
+         top: config.chartTitle ? 48 : 24,
+         right: config.legendPosition === 'right' ? legendWidth + 24 : 24,
+         bottom: config.xAxisLabel ? 64 : 48,
+         left: config.legendPosition === 'left' ? legendWidth + 64 : 64
+      };
+      return { legendWidth, legendPadding, margin };
+   }, [config.showLegend, config.chartTitle, config.legendPosition, config.xAxisLabel]);
 
-   // chart margins with more padding for labels
-   const margin = {
-      top: config.chartTitle ? 48 : 24, // More space for title
-      right: config.legendPosition === 'right' ? legendWidth + 24 : 24,
-      bottom: config.xAxisLabel ? 64 : 48, // More space for x-axis label
-      left: config.legendPosition === 'left' ? legendWidth + 64 : 64 // More space for y-axis label
-   };
    const innerWidth = Math.max(0, dimensions.width - margin.left - margin.right);
    const innerHeight = Math.max(0, dimensions.height - margin.top - margin.bottom);
 
@@ -294,7 +297,9 @@ export function BarChart({
          color: themeColor,
          vibe,
          config,
-         tooltip: tooltipDiv,
+         tooltip: tooltipDiv || undefined,
+         onMouseEnter: () => { },
+         onMouseLeave: () => { }
       });
 
       // render legend if enabled

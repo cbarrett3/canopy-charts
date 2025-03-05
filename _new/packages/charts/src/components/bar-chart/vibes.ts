@@ -8,59 +8,47 @@ import { VibeStyle } from './types';
 
 // bar chart visual styles
 export const vibeStyles: Record<ChartStyle, VibeStyle> = {
-	// organic growth like a tropical tree reaching for sunlight
+	// gentle swaying motion
 	rainforest: {
-		barOpacity: 0.85,
+		barOpacity: 0.8,
 		barHoverOpacity: 1,
-		transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-		cornerRadius: 8,
+		transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+		cornerRadius: 4,
 		animationDuration: 800,
 		transformOrigin: 'bottom',
 		hoverTransform: 'scale(1.02)',
-		initialTransform: 'scaleY(0)',
-		finalTransform: 'scaleY(1)',
-		easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)', // organic spring
 	},
-	// radiant burst like a savanna sunrise
+	// radiant expanding
 	savanna: {
-		barOpacity: 0.9,
+		barOpacity: 0.85,
 		barHoverOpacity: 1,
 		transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-		cornerRadius: 4,
+		cornerRadius: 2,
 		animationDuration: 600,
-		transformOrigin: 'center',
-		hoverTransform: 'scale(1.1)',
-		initialTransform: 'scale(0)',
-		finalTransform: 'scale(1)',
-		easing: 'cubic-bezier(0.33, 1, 0.68, 1)', // radiant burst
+		transformOrigin: 'bottom',
+		hoverTransform: 'scale(1.03) translateY(-2px)',
 	},
-	// crystalline formation descending like snowfall
+	// crystalline rotation
 	tundra: {
 		barOpacity: 0.75,
 		barHoverOpacity: 0.95,
-		transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-		cornerRadius: 0,
-		animationDuration: 700,
-		transformOrigin: 'top',
-		hoverTransform: 'scaleY(0.98)',
-		initialTransform: 'scaleY(0)',
-		finalTransform: 'scaleY(1)',
-		easing: 'cubic-bezier(0.23, 1, 0.32, 1)', // icy descent
+		transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+		cornerRadius: 1,
+		animationDuration: 400,
+		transformOrigin: 'bottom',
+		hoverTransform: 'scale(1.01)',
 	},
-	// fluid wave-like motion from the ocean depths
+	// wave-like motion
 	coral: {
 		barOpacity: 0.9,
 		barHoverOpacity: 1,
-		transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-		cornerRadius: 12,
-		animationDuration: 1000,
+		transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+		cornerRadius: 6,
+		animationDuration: 700,
 		transformOrigin: 'bottom',
-		hoverTransform: 'scaleY(1.03)',
-		initialTransform: 'scaleY(0)',
-		finalTransform: 'scaleY(1)',
-		easing: 'cubic-bezier(0.4, 0, 0.2, 1)', // fluid wave
+		hoverTransform: 'scale(1.04) translateY(-4px)',
 	},
-	// explosive eruption from below
+	// rising effect
 	volcanic: {
 		barOpacity: 0.95,
 		barHoverOpacity: 1,
@@ -68,22 +56,16 @@ export const vibeStyles: Record<ChartStyle, VibeStyle> = {
 		cornerRadius: 0,
 		animationDuration: 500,
 		transformOrigin: 'bottom',
-		hoverTransform: 'scale(1.15)',
-		initialTransform: 'scaleY(0)',
-		finalTransform: 'scaleY(1)',
-		easing: 'cubic-bezier(0.22, 1, 0.36, 1)', // explosive
+		hoverTransform: 'scale(1.05) translateY(-6px)',
 	},
-	// windswept motion like desert sands
+	// drifting motion
 	dunes: {
-		barOpacity: 0.8,
+		barOpacity: 0.7,
 		barHoverOpacity: 0.9,
-		transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-		cornerRadius: 16,
-		animationDuration: 800,
-		transformOrigin: 'left',
-		hoverTransform: 'scaleX(1.02)',
-		initialTransform: 'scaleX(0)',
-		finalTransform: 'scaleX(1)',
-		easing: 'cubic-bezier(0.25, 0.8, 0.25, 1)', // windswept
+		transition: 'all 0.45s cubic-bezier(0.4, 0, 0.2, 1)',
+		cornerRadius: 8,
+		animationDuration: 900,
+		transformOrigin: 'bottom',
+		hoverTransform: 'scale(1.02) translateY(-2px)',
 	},
 };

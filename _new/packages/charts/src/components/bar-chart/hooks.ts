@@ -30,12 +30,13 @@ export const useTooltip = () => {
 	// show tooltip with data
 	const handleMouseEnter = useCallback(
 		(event: MouseEvent, data: DataPoint) => {
-			const svgElement = (event.target as Element).closest('svg');
-			if (!svgElement) return;
+			const rect = (event.target as Element)
+				?.closest('svg')
+				?.getBoundingClientRect();
+			if (!rect) return;
 
-			const rect = svgElement.getBoundingClientRect();
 			const x = event.clientX - rect.left;
-			const y = event.clientY - rect.top - 15; // Offset slightly above cursor
+			const y = event.clientY - rect.top;
 
 			setTooltip({
 				show: true,

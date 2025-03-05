@@ -22,9 +22,6 @@ export interface VibeStyle {
 	animationDuration: number;
 	transformOrigin: string;
 	hoverTransform: string;
-	initialTransform: string;
-	finalTransform: string;
-	easing: string;
 }
 
 // d3 rendering config
@@ -36,8 +33,10 @@ export interface RenderConfig {
 	height: number;
 	color: string;
 	vibe: ChartStyle;
-	config: BarChartConfig;
-	tooltip?: HTMLDivElement | null;
+	config: { showTooltip?: boolean };
+	tooltip?: HTMLDivElement;
+	onMouseEnter: (event: MouseEvent, d: DataPoint) => void;
+	onMouseLeave: () => void;
 }
 
 // tooltip state
@@ -53,7 +52,7 @@ export interface BarChartProps {
 	data?: DataPoint[];
 	themeColor?: string;
 	vibe?: ChartStyle;
-	config?: Partial<BarChartConfig>;
+	config?: BarChartConfig;
 	showAxes?: boolean;
 	showGrid?: boolean;
 	showLabels?: boolean;
