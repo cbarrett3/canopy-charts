@@ -1,0 +1,40 @@
+---
+description: Core UI Development Rules
+globs: **/*.(ts|tsx|css)
+alwaysApply: false
+---
+---
+description: Core UI Development Rules
+globs: app/**/*.(ts|tsx), app/_components/**/*.(ts|tsx), components/**/*.(ts|tsx)
+---
+
+# Internationalization
+- All text must be in messages/en.json and es.json
+- Use useTranslations hook with namespaced keys
+- Never hardcode text strings
+
+# Theme Support
+- Use next-themes for light/dark mode switching
+- Use useThemeColor hook for dynamic color access
+- Apply theme colors through CSS variables and React style objects
+- Support both modes with Tailwind classes:
+  ```css
+  bg-white dark:bg-[#1B1B1B]
+  text-foreground dark:text-slate-200
+  ```
+
+# Animations
+- Use Framer Motion for component animations
+- Keep transitions smooth and consistent
+- Respect reduced-motion preferences
+
+# Responsive Design
+- Mobile-first with sm, md, lg, xl breakpoints
+- Test on all viewport sizes
+- Use flex and grid layouts appropriately
+
+# Accessibility
+- Support keyboard navigation
+- Include ARIA attributes
+- Ensure screen reader compatibility
+- Test contrast in both themes
