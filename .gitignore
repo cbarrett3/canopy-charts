@@ -9,6 +9,10 @@
 /cli/node_modules
 /cli/dist
 
+# packages
+/_new/packages/*/dist
+/_new/packages/*/node_modules
+
 # testing
 /coverage
 
