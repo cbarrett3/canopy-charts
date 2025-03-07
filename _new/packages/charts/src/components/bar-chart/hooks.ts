@@ -3,59 +3,41 @@
  * logic and other interactive state management.
  * ---------------------------------------- */
 
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import { DataPoint, TooltipState } from './types';
 
-// tooltip management hook
-
-// manage tooltip state and interactions
+// hook for managing tooltip state
 export const useTooltip = () => {
-	const [tooltip, setTooltip] = useState<{
-		show: boolean;
-		x: number;
-		y: number;
-		content: string;
-	}>({
-		show: false,
+	const [tooltip, setTooltip] = useState<TooltipState>({
 		x: 0,
 		y: 0,
-		content: '',
+		visible: false,
+		title: '',
+		items: [],
 	});
 
-	// Debug effect to monitor tooltip state changes
-	useEffect(() => {
-		console.log('Tooltip state changed:', tooltip);
-	}, [tooltip]);
-
-	// show tooltip with data
-	const handleMouseEnter = useCallback(
-		(event: MouseEvent, data: DataPoint) => {
-			const rect = (event.target as Element)
-				?.closest('svg')
-				?.getBoundingClientRect();
-			if (!rect) return;
-
-			const x = event.clientX - rect.left;
-			const y = event.clientY - rect.top;
-
+	const showTooltip = useCallback(
+		(event: MouseEvent, d: DataPoint) => {
 			setTooltip({
-				show: true,
-				x,
-				y,
-				content: `${data.label}: ${data.value}`,
+				x: event.pageX,
+				y: event.pageY,
+				visible: true,
+				title: d.label,
+				items: [
+					{
+						label: 'Value',
+						value: d.value,
+						color: event.target?.getAttribute('fill') || undefined,
+					},
+				],
 			});
 		},
 		[]
 	);
 
-	// hide tooltip
-	const handleMouseLeave = useCallback(() => {
-		setTooltip((prev) => ({ ...prev, show: false }));
+	const hideTooltip = useCallback(() => {
+		setTooltip((prev) => ({ ...prev, visible: false }));
 	}, []);
 
-	return {
-		tooltip,
-		handleMouseEnter,
-		handleMouseLeave,
-	};
+	return { tooltip, showTooltip, hideTooltip };
 };

@@ -1,31 +1,33 @@
-'use client'
+'use client';
 
 /* ----------------------------------------
- * Bar chart component implementation. Handles the React component layer
+ * Line chart component implementation. Handles the React component layer
  * and delegates D3 rendering to the renderer.
  * ---------------------------------------- */
 
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import { BarChartProps, defaultBarChartConfig, DataPoint } from './types';
+import { LineChartProps, defaultLineChartConfig, DataPoint } from './types';
 import { useChartDimensions } from '../../hooks/use-chart-dimensions';
 import { render } from './renderer';
 import { defaultThemeColor } from '../../utils/colors';
-import { BarTooltip } from './tooltip';
+import { LineTooltip } from './tooltip';
 import { Legend } from '../shared/legend';
 import { ChartStyle } from '../../types';
 
-export const BarChart: React.FC<BarChartProps> = ({
+export const LineChart: React.FC<LineChartProps> = ({
    data = [
-      { label: 'A', value: 30 },
-      { label: 'B', value: 45 },
-      { label: 'C', value: 25 },
-      { label: 'D', value: 60 },
-      { label: 'E', value: 35 }
+      { name: 'Jan', value: 30 },
+      { name: 'Feb', value: 45 },
+      { name: 'Mar', value: 25 },
+      { name: 'Apr', value: 60 },
+      { name: 'May', value: 35 },
+      { name: 'Jun', value: 50 }
    ],
+   datasets = ['value'],
    themeColor = defaultThemeColor,
-   vibe = 'evergreen' as ChartStyle,
-   config = { ...defaultBarChartConfig, enableZoom: true },
+   vibe = 'evergreen' as ChartStyle, // Type assertion to fix type issue
+   config = { ...defaultLineChartConfig, enableZoom: true },
    className = '',
 }) => {
    // refs
@@ -35,10 +37,12 @@ export const BarChart: React.FC<BarChartProps> = ({
    // state
    const [tooltipData, setTooltipData] = useState<{
       data: DataPoint;
+      series: string;
       position: { x: number; y: number };
       visible: boolean;
    }>({
       data: data[0],
+      series: datasets[0],
       position: { x: 0, y: 0 },
       visible: false
    });
@@ -104,12 +108,13 @@ export const BarChart: React.FC<BarChartProps> = ({
       render({
          g,
          data,
+         datasets,
          xScale: d3.scaleBand()
-            .domain(data.map(d => d.label))
+            .domain(data.map(d => d.name))
             .range([0, dimensions.boundedWidth])
             .padding(0.3),
          yScale: d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.value) || 0])
+            .domain([0, d3.max(data, d => Math.max(...datasets.map(key => Number(d[key])))) || 0])
             .range([dimensions.boundedHeight, 0])
             .nice(),
          width: dimensions.boundedWidth,
@@ -120,9 +125,10 @@ export const BarChart: React.FC<BarChartProps> = ({
             ...config,
             enableZoom: true // Always enable zoom
          },
-         onMouseEnter: (event: MouseEvent, d: DataPoint) => {
+         onMouseEnter: (event: MouseEvent, d: DataPoint, series: string) => {
             setTooltipData({
                data: d,
+               series,
                position: {
                   x: event.clientX,
                   y: event.clientY
@@ -134,23 +140,22 @@ export const BarChart: React.FC<BarChartProps> = ({
             setTooltipData(prev => ({ ...prev, visible: false }));
          },
       });
-   }, [dimensions, data, themeColor, vibe, config]);
+   }, [dimensions, data, themeColor, vibe, config, datasets]);
 
    return (
       <div
          ref={containerRef}
          className={`relative w-full h-full ${className}`}
          role="figure"
-         aria-label="Bar chart visualization"
+         aria-label="Line chart visualization"
          style={{ minHeight: '300px' }}
       >
          <div className="flex items-start w-full h-full">
             {config.showLegend && config.legendPosition === 'left' && (
                <Legend
-                  items={data.map(d => ({
-                     label: d.label,
-                     value: d.value,
-                     color: themeColor
+                  items={datasets.map((dataset, index) => ({
+                     label: dataset,
+                     color: index === 0 ? themeColor : `${themeColor}${Math.round(80 - index * 20).toString(16)}`
                   }))}
                   position="left"
                />
@@ -164,17 +169,17 @@ export const BarChart: React.FC<BarChartProps> = ({
             </div>
             {config.showLegend && config.legendPosition === 'right' && (
                <Legend
-                  items={data.map(d => ({
-                     label: d.label,
-                     value: d.value,
-                     color: themeColor
+                  items={datasets.map((dataset, index) => ({
+                     label: dataset,
+                     color: index === 0 ? themeColor : `${themeColor}${Math.round(80 - index * 20).toString(16)}`
                   }))}
                   position="right"
                />
             )}
          </div>
-         <BarTooltip
+         <LineTooltip
             data={tooltipData.data}
+            series={tooltipData.series}
             position={tooltipData.position}
             visible={tooltipData.visible}
             color={themeColor}
@@ -183,4 +188,4 @@ export const BarChart: React.FC<BarChartProps> = ({
    );
 };
 
-export default BarChart; 
+export default LineChart; 

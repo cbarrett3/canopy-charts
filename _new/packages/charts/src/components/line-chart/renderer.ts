@@ -1,5 +1,5 @@
 /* ----------------------------------------
- * Core D3 implementation for bar rendering and animations. Handles all
+ * Core D3 implementation for line chart rendering and animations. Handles all
  * direct SVG manipulations separate from React concerns.
  * ---------------------------------------- */
 
@@ -11,12 +11,14 @@ import { getVibeStyle } from './vibes';
 const defaultConfig = {
 	margin: { top: 20, right: 20, bottom: 30, left: 40 },
 	animationDuration: 750,
-	barPadding: 0.1,
-	cornerRadius: 4,
-	gridOpacity: 0.15,
-	axisOpacity: 0.2,
+	gridOpacity: 0.25,
+	axisOpacity: 0.5,
 	tickSize: 6,
 	fontSize: 12,
+	lineWidth: 2,
+	pointSize: 4,
+	pointOpacity: 0.8,
+	lineOpacity: 0.8,
 };
 
 // utility to merge configs with defaults
@@ -67,43 +69,11 @@ const theme = {
 		);
 	},
 	colors: {
-		grid: 'rgb(71, 85, 105)', // slate-600
+		grid: 'rgb(71, 85, 105)', // slate-600 for better visibility
 		axis: 'rgb(71, 85, 105)', // slate-600
 		text: 'rgb(51, 65, 85)', // slate-700
 	},
 };
-
-// tooltip handling with debouncing
-const tooltip = {
-	debounce: <T extends (...args: any[]) => void>(fn: T, ms = 50) => {
-		let timeoutId: ReturnType<typeof setTimeout>;
-		return function (this: any, ...args: Parameters<T>) {
-			clearTimeout(timeoutId);
-			timeoutId = setTimeout(() => fn.apply(this, args), ms);
-		};
-	},
-	update: (
-		tooltip: HTMLDivElement,
-		event: MouseEvent,
-		content: string
-	) => {
-		if (!(tooltip instanceof HTMLDivElement)) return;
-
-		const tooltipContent = tooltip.querySelector(
-			'.tooltip-content'
-		) as HTMLDivElement;
-		if (!tooltipContent) return;
-
-		tooltipContent.textContent = content;
-		tooltip.style.visibility = 'visible';
-		tooltip.style.transform = 'translate(-50%, 0)';
-		tooltip.style.left = `${event.pageX}px`;
-		tooltip.style.top = `${event.pageY - 5}px`;
-	},
-};
-
-// debounced tooltip update
-const updateTooltip = tooltip.debounce(tooltip.update, 16);
 
 // component renderers
 const components = {
@@ -130,7 +100,7 @@ const components = {
 			.attr('y2', (d) => yScale(d))
 			.style('stroke', theme.colors.grid)
 			.style('stroke-width', 1)
-			.style('opacity', 0.25)
+			.style('opacity', defaultConfig.gridOpacity)
 			.style(
 				'stroke-dasharray',
 				chartConfig.gridStyle === 'dashed' ? '3,3' : 'none'
@@ -161,7 +131,7 @@ const components = {
 						`${chartConfig.labelSize || defaultConfig.fontSize}px`
 					)
 					.style('fill', theme.colors.text)
-					.style('opacity', 1);
+					.style('opacity', defaultConfig.axisOpacity);
 			}
 
 			xAxis
@@ -195,7 +165,7 @@ const components = {
 						`${chartConfig.labelSize || defaultConfig.fontSize}px`
 					)
 					.style('fill', theme.colors.text)
-					.style('opacity', 1);
+					.style('opacity', defaultConfig.axisOpacity);
 			}
 
 			yAxis
@@ -210,51 +180,121 @@ const components = {
 		}
 	},
 
-	bars: (config: RenderConfig) => {
+	lines: (config: RenderConfig) => {
+		const { g, datasets } = config;
+
+		// Render each dataset as a separate line
+		datasets.forEach((seriesKey, index) => {
+			components.singleLine(config, seriesKey, index);
+		});
+	},
+
+	singleLine: (
+		config: RenderConfig,
+		seriesKey: string,
+		index: number
+	) => {
 		const {
 			g,
 			data,
 			xScale,
 			yScale,
-			height,
 			color,
 			vibe,
+			config: chartConfig,
 			onMouseEnter,
 			onMouseLeave,
 		} = config;
 
 		const vibeStyle = getVibeStyle(vibe);
-		const easing = transitions.getEasing(vibe);
+		const seriesColor =
+			index === 0
+				? color
+				: `${color}${Math.round(80 - index * 20).toString(16)}`;
+		const lineWidth =
+			chartConfig.lineWidth || defaultConfig.lineWidth;
+		const lineOpacity =
+			chartConfig.lineOpacity || defaultConfig.lineOpacity;
+		const pointSize =
+			chartConfig.pointSize || defaultConfig.pointSize;
+		const pointOpacity =
+			chartConfig.pointOpacity || defaultConfig.pointOpacity;
 
-		const bars = g
-			.selectAll('rect.bar')
-			.data(data)
-			.join('rect')
-			.attr('class', 'bar')
-			.attr('x', (d) => xScale(d.label) || 0)
-			.attr('width', xScale.bandwidth())
-			.attr('fill', color)
-			.attr('rx', defaultConfig.cornerRadius)
-			.attr('ry', defaultConfig.cornerRadius)
-			.attr('opacity', vibeStyle.barOpacity);
+		// create line generator
+		const line = d3
+			.line<DataPoint>()
+			.x((d) => (xScale(d.name) || 0) + xScale.bandwidth() / 2)
+			.y((d) => yScale(Number(d[seriesKey])))
+			.curve(
+				chartConfig.lineCurve === 'linear'
+					? d3.curveLinear
+					: chartConfig.lineCurve === 'monotone'
+					? d3.curveMonotoneX
+					: d3.curveCardinal.tension(0.4)
+			);
 
-		// animate bars on initial render
-		bars
-			.attr('y', height)
-			.attr('height', 0)
+		// add the line path
+		const path = g
+			.append('path')
+			.datum(data)
+			.attr('class', `line-${seriesKey}`)
+			.attr('fill', 'none')
+			.attr('stroke', seriesColor)
+			.attr('stroke-width', lineWidth)
+			.attr('opacity', lineOpacity)
+			.attr('d', line);
+
+		// animate the line
+		const pathLength = path.node()?.getTotalLength() || 0;
+		path
+			.attr('stroke-dasharray', `${pathLength} ${pathLength}`)
+			.attr('stroke-dashoffset', pathLength)
 			.transition()
-			.duration(defaultConfig.animationDuration)
-			.delay((_, i) => transitions.getDelay(vibe, i, data.length))
-			.ease(easing)
-			.attr('y', (d) => yScale(d.value))
-			.attr('height', (d) => height - yScale(d.value));
+			.duration(
+				chartConfig.animationDuration ||
+					defaultConfig.animationDuration
+			)
+			.ease(d3.easeQuadOut)
+			.attr('stroke-dashoffset', 0);
 
-		// add interactivity
-		bars
-			.on('mouseenter', onMouseEnter)
-			.on('mousemove', onMouseEnter)
-			.on('mouseleave', onMouseLeave)
-			.style('transition', vibeStyle.transition);
+		// add points if enabled
+		if (chartConfig.showPoints) {
+			g.selectAll(`.point-${seriesKey}`)
+				.data(data)
+				.join('circle')
+				.attr('class', `point-${seriesKey}`)
+				.attr(
+					'cx',
+					(d) => (xScale(d.name) || 0) + xScale.bandwidth() / 2
+				)
+				.attr('cy', (d) => yScale(Number(d[seriesKey])))
+				.attr('r', 0)
+				.attr('fill', seriesColor)
+				.attr('opacity', pointOpacity)
+				.on('mouseenter', (event, d) => {
+					d3.select(event.target)
+						.transition()
+						.duration(200)
+						.attr('r', pointSize * 1.5)
+						.attr('opacity', vibeStyle.pointHoverOpacity);
+					onMouseEnter(event, d, seriesKey);
+				})
+				.on('mouseleave', (event) => {
+					d3.select(event.target)
+						.transition()
+						.duration(200)
+						.attr('r', pointSize)
+						.attr('opacity', pointOpacity);
+					onMouseLeave();
+				})
+				.transition()
+				.delay((_, i) => i * 50)
+				.duration(
+					chartConfig.animationDuration ||
+						defaultConfig.animationDuration
+				)
+				.attr('r', pointSize);
+		}
 	},
 
 	title: (config: RenderConfig) => {
@@ -266,12 +306,6 @@ const components = {
 			g.node()?.ownerSVGElement?.getBoundingClientRect().width || 0;
 		const centerX = svgWidth / 2 + 20;
 
-		const textColor = theme.getColor(
-			g.node()?.ownerSVGElement || null,
-			'--foreground',
-			'currentColor'
-		);
-
 		g.append('text')
 			.attr('class', 'chart-title')
 			.attr('x', centerX)
@@ -281,7 +315,7 @@ const components = {
 			.style('font-weight', '500')
 			.style('font-family', 'system-ui, -apple-system, sans-serif')
 			.style('letter-spacing', '0.05em')
-			.style('fill', textColor)
+			.style('fill', theme.colors.grid)
 			.style('opacity', 0)
 			.text(chartConfig.chartTitle.toUpperCase())
 			.transition()
@@ -319,7 +353,7 @@ export const render = (config: RenderConfig) => {
 	Object.entries({
 		grid: components.grid,
 		axes: components.axes,
-		bars: components.bars,
+		lines: components.lines,
 		title: components.title,
 	}).forEach(([name, renderer]) => {
 		try {

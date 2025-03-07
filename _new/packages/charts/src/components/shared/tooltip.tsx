@@ -3,52 +3,72 @@
  * styling and positioning across different visualizations.
  * ---------------------------------------- */
 
+'use client';
+
 import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export interface TooltipProps {
    x: number;
    y: number;
-   content: React.ReactNode;
    visible: boolean;
-   className?: string;
+   title?: string;
+   items?: {
+      label: string;
+      value: string | number;
+      color?: string;
+   }[];
 }
 
-export const Tooltip: React.FC<TooltipProps> = ({ x, y, content, visible, className = '' }) => {
-   if (!visible) return null;
-
+export const Tooltip: React.FC<TooltipProps> = ({
+   x,
+   y,
+   visible,
+   title,
+   items = []
+}) => {
    return (
-      <div
-         className={`pointer-events-none absolute z-50 ${className}`}
-         style={{
-            left: `${x}px`,
-            top: `${y}px`,
-            transform: 'translate(-50%, -100%)',
-         }}
-      >
-         <div
-            className="
-               animate-in fade-in zoom-in-95 
-               duration-200 ease-out
-               rounded-lg bg-gray-900/95 
-               px-3 py-2 
-               text-sm font-medium text-white 
-               shadow-lg shadow-black/10
-               backdrop-blur-sm
-               border border-white/10
-            "
-         >
-            {content}
-            <div className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 overflow-hidden">
-               <div
-                  className="
-                     h-0 w-0 
-                     border-l-[6px] border-r-[6px] border-t-[6px] 
-                     border-transparent border-t-gray-900/95
-                     shadow-lg
-                  "
-               />
-            </div>
-         </div>
-      </div>
+      <AnimatePresence>
+         {visible && (
+            <motion.div
+               initial={{ opacity: 0, scale: 0.95 }}
+               animate={{ opacity: 1, scale: 1 }}
+               exit={{ opacity: 0, scale: 0.95 }}
+               transition={{ duration: 0.15, ease: 'easeOut' }}
+               className="absolute pointer-events-none z-50 min-w-[120px] max-w-[200px]"
+               style={{
+                  left: x,
+                  top: y,
+                  transform: 'translate(-50%, -100%)',
+               }}
+            >
+               <div className="bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-xl px-3 py-2">
+                  {title && (
+                     <div className="text-gray-300 text-sm font-medium border-b border-gray-700/50 pb-1 mb-1">
+                        {title}
+                     </div>
+                  )}
+                  <div className="space-y-1">
+                     {items.map((item, i) => (
+                        <div key={i} className="flex items-center justify-between gap-4">
+                           <div className="flex items-center gap-1.5">
+                              {item.color && (
+                                 <div
+                                    className="w-2 h-2 rounded-full"
+                                    style={{ backgroundColor: item.color }}
+                                 />
+                              )}
+                              <span className="text-gray-400 text-sm">{item.label}:</span>
+                           </div>
+                           <span className="text-white text-sm font-medium">
+                              {item.value}
+                           </span>
+                        </div>
+                     ))}
+                  </div>
+               </div>
+            </motion.div>
+         )}
+      </AnimatePresence>
    );
 }; 

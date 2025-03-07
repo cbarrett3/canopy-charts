@@ -1,21 +1,12 @@
-// Components
-export { default as BarChart } from './components/bar';
-export { default as LineChart } from './components/line';
-export { default as DonutChart } from './components/donut';
-export { default as StreamChart } from './components/stream';
-export { default as StackedBarChart } from './components/stacked-bar';
-export { default as TreemapChart } from './components/treemap';
+// Export components
+export * from './components/bar-chart';
+export * from './components/line-chart';
 
-// Shared Components
-export { Tooltip } from './components/shared/tooltip';
-
-// Hooks
-export { useChartDimensions } from './hooks/use-chart-dimensions';
-
-// Utils
-export { useBarScales } from './utils/scales';
-export { renderAxes, renderGrid } from './utils/axes';
-export { defaultThemeColor } from './utils/colors';
-
-// Types
+// Export shared types
 export * from './types';
+
+// Export shared utilities
+export * from './utils/colors';
+
+// Export shared hooks
+export * from './hooks/use-chart-dimensions';

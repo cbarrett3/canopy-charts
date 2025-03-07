@@ -4,7 +4,10 @@
  * ---------------------------------------- */
 
 import { ChartStyle } from '../../types';
-import { BarChartConfig } from '../../types/chart-config';
+import {
+	BarChartConfig,
+	defaultBarChartConfig as baseDefaultBarChartConfig,
+} from '../../types/chart-config';
 import * as d3 from 'd3';
 
 // basic bar data structure
@@ -30,10 +33,11 @@ export interface RenderConfig {
 	data: DataPoint[];
 	xScale: d3.ScaleBand<string>;
 	yScale: d3.ScaleLinear<number, number>;
+	width: number;
 	height: number;
 	color: string;
 	vibe: ChartStyle;
-	config: { showTooltip?: boolean };
+	config: BarChartConfig;
 	tooltip?: HTMLDivElement;
 	onMouseEnter: (event: MouseEvent, d: DataPoint) => void;
 	onMouseLeave: () => void;
@@ -43,8 +47,13 @@ export interface RenderConfig {
 export interface TooltipState {
 	x: number;
 	y: number;
-	content: string;
 	visible: boolean;
+	title: string;
+	items: {
+		label: string;
+		value: string | number;
+		color?: string;
+	}[];
 }
 
 // main component props
@@ -60,3 +69,6 @@ export interface BarChartProps {
 	labelSize?: number;
 	className?: string;
 }
+
+// Export the default config
+export const defaultBarChartConfig = baseDefaultBarChartConfig;

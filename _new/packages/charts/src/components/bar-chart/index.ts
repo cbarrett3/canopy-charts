@@ -1,2 +1,3 @@
-export { BarChart } from './component';
-export type { BarChartProps, DataPoint } from './types';
+export { default as BarChart } from './component';
+export * from './types';
+export * from './hooks';
