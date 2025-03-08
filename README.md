@@ -12,7 +12,7 @@
 
 ---
 
-## The Foundation
+## Vision
 
 Canopy Charts is a **foundation for building custom visualizations**, not a traditional charting library. Instead of installing a package with predefined constraints, you own and extend the code directly.
 
@@ -30,30 +30,21 @@ Unlike traditional npm packages, Canopy Charts embraces a code-ownership approac
 ```bash
 # Clone the repository
 git clone https://github.com/cbarrett3/canopy-charts.git
-
-# Or use our minimal CLI to scaffold a project
-npx create-canopy-chart@latest my-visualization
 ```
 
 ## Developer Workflow
 
-<div align="center">
-  <img src="docs/assets/workflow.png" width="600" alt="Developer Workflow" style="max-width: 100%;">
-</div>
-
 1. **Explore** — Browse this repository to understand the architecture
-2. **Experiment** — Try examples in our [interactive playground](https://canopy-charts.vercel.app)
+2. **Experiment** — Try examples in our playground (coming soon)
 3. **Extend** — Work with your favorite LLM to customize the code
 4. **Own** — Ship your unique visualization with complete ownership
 
 ## Documentation
 
 - [**LLM Guide**](LLM-GUIDE.md) — How to use AI assistants with Canopy Charts
-- [**Examples**](examples/README.md) — Sample implementations from basic to advanced
-- [**Customization Guides**](guides/customization/styling-guide.md) — Detailed customization techniques
-- [**Architecture**](docs/ARCHITECTURE.md) — Core concepts and design decisions
+- [**Philosophy**](docs/PHILOSOPHY.md) — Our design principles and approach
 
-## Example Implementation
+## Example (Coming Soon)
 
 ```tsx
 import { BarChart } from './components';
@@ -72,20 +63,14 @@ export default () => (
 );
 ```
 
-## Core Visualization Types
+## Planned Visualization Types
 
 - **Line** — Time series with custom interpolations
 - **Bar** — Categorical data with transitions and interactions
-- **Donut** — Proportional visualization _(coming soon)_
-- **Stacked Bar** — Multi-dimensional data _(coming soon)_
-- **Stream** — Flowing time series _(coming soon)_
-- **TreeMap** — Hierarchical visualization _(coming soon)_
-
-## Learn More
-
-- [Design Philosophy](docs/PHILOSOPHY.md)
-- [Performance Optimization](docs/PERFORMANCE.md)
-- [Contributing](CONTRIBUTING.md)
+- **Donut** — Proportional visualization
+- **Stacked Bar** — Multi-dimensional data
+- **Stream** — Flowing time series
+- **TreeMap** — Hierarchical visualization
 
 ---
 

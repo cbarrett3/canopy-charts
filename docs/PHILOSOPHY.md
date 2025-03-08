@@ -33,15 +33,6 @@ Instead of restricting what you can do, we provide guidance on how to achieve co
 
 The codebase is structured to be easily understood and modified with the assistance of LLMs, making customization faster and more accessible.
 
-## Practical Implementation
-
-These principles manifest in several ways:
-
-1. **Clear Component Structure** - Components are organized for easy comprehension
-2. **Explicit Extension Points** - Code includes clear markers for where to extend
-3. **Comprehensive Examples** - Examples demonstrate common customization patterns
-4. **LLM-Optimized Documentation** - Documentation designed for both humans and AI
-
 ## The Development Workflow
 
 The Canopy Charts workflow embraces modern development practices:

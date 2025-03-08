@@ -1,9 +1,0 @@
-This is a placeholder for the workflow.png image. 
-You'll need to create an actual image file showing the developer workflow:
-
-1. Explore - Browse repository to understand architecture
-2. Experiment - Try examples in interactive playground
-3. Extend - Work with LLMs to customize code
-4. Own - Ship with complete ownership
-
-The image should be placed at docs/assets/workflow.png 

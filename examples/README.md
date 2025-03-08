@@ -1,6 +1,14 @@
 # Canopy Charts Examples
 
-This directory contains examples demonstrating how to use and extend Canopy Charts through the **code-ownership model**. These examples serve as starting points that you can copy, modify, and extend for your own visualizations.
+This directory will contain examples demonstrating how to use and extend Canopy Charts through the **code-ownership model**.
+
+## Coming Soon
+
+- Basic chart implementations
+- Advanced customization examples
+- Custom chart type demonstrations
+
+Check back as we develop the codebase.
 
 ## Code Ownership Approach
 

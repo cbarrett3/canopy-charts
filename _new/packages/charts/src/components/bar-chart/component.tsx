@@ -156,8 +156,8 @@ export const BarChart: React.FC<BarChartProps> = ({
                />
             )}
             <div className="flex-1">
-               <svg
-                  ref={svgRef}
+            <svg
+               ref={svgRef}
                   className="w-full h-full overflow-visible touch-none"
                   style={{ touchAction: 'none' }}
                />
