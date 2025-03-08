@@ -1,80 +1,162 @@
 # Canopy Charts
 
 <div align="center">
-  <img src="public/favicon.svg" width="180" height="180" alt="Canopy Charts Logo">
-  
-  <h2>Unlimited data visualization for the AI-native era</h2>
-  
-  <p>
-    <strong>React</strong> • <strong>D3</strong> • <strong>TypeScript</strong> • <strong>Agent-Ready</strong> • <em>v0.1.0</em>
-  </p>
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/D3.js-F9A03C?style=for-the-badge&logo=d3.js&logoColor=white" alt="D3.js" />
+  <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License" />
 </div>
+
+<p align="center">
+  A modern charting library for data-driven applications
+</p>
+
+<p align="center">
+  <a href="#features">Features</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#charts">Charts</a> •
+  <a href="#themes">Themes</a> •
+  <a href="#contributing">Contributing</a>
+</p>
 
 ---
 
-## Vision
+## Features
 
-Canopy Charts is a **foundation for building custom visualizations**, not a traditional charting library. Instead of installing a package with predefined constraints, you own and extend the code directly.
+- Six chart types: Line, Bar, Donut, Stacked Bar, Stream, and TreeMap
+- Responsive design with interactive elements
+- Smooth transitions and animations
+- Nature-inspired themes
+- Full TypeScript support
+- Accessibility-focused
+- Framework-agnostic
+- Tree-shakeable
 
-### Code Ownership Model
-
-Unlike traditional npm packages, Canopy Charts embraces a code-ownership approach:
-
-- **Fork & Own** — Start with our foundation and make it truly yours
-- **Unlimited Extension** — No black boxes or limitations on what you can modify
-- **Direct D3 Access** — Full control over the underlying visualization engine
-- **AI-Assisted Customization** — Structure designed for easy extension via LLMs
-
-## Getting Started
+## Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/cbarrett3/canopy-charts.git
+npm install canopy-charts
+
+# Or with CLI
+npx canopy-charts init my-project
 ```
 
-## Developer Workflow
+## Usage
 
-1. **Explore** — Browse this repository to understand the architecture
-2. **Experiment** — Try examples in our playground (coming soon)
-3. **Extend** — Work with your favorite LLM to customize the code
-4. **Own** — Ship your unique visualization with complete ownership
-
-## Documentation
-
-- [**LLM Guide**](LLM-GUIDE.md) — How to use AI assistants with Canopy Charts
-- [**Philosophy**](docs/PHILOSOPHY.md) — Our design principles and approach
-
-## Example (Coming Soon)
+### Line Chart
 
 ```tsx
-import { BarChart } from './components';
+import { D3LineChart } from 'canopy-charts';
 
-// Simple implementation
-export default () => (
-	<BarChart
+const SalesChart = () => (
+	<D3LineChart
 		data={[
-			{ label: 'Q1', value: 12000 },
-			{ label: 'Q2', value: 8000 },
-			{ label: 'Q3', value: 15000 },
-			{ label: 'Q4', value: 9000 },
+			{ name: 'Jan', dataset1: 2430, dataset2: 2000 },
+			{ name: 'Feb', dataset1: 2800, dataset2: 2400 },
+			{ name: 'Mar', dataset1: 3200, dataset2: 2800 },
+			{ name: 'Apr', dataset1: 2950, dataset2: 2600 },
 		]}
+		datasets={['dataset1', 'dataset2']}
+		xAxisTitle='Month'
+		yAxisTitle='Sales ($)'
+		themeColor='#4f46e5'
 		vibe='evergreen'
+		showGrid={true}
 	/>
 );
 ```
 
-## Planned Visualization Types
+### Bar Chart
 
-- **Line** — Time series with custom interpolations
-- **Bar** — Categorical data with transitions and interactions
-- **Donut** — Proportional visualization
-- **Stacked Bar** — Multi-dimensional data
-- **Stream** — Flowing time series
-- **TreeMap** — Hierarchical visualization
+```tsx
+import { D3BarChart } from 'canopy-charts';
+
+const RevenueChart = () => (
+	<D3BarChart
+		data={[
+			{ label: 'Product A', value: 12000 },
+			{ label: 'Product B', value: 8000 },
+			{ label: 'Product C', value: 15000 },
+			{ label: 'Product D', value: 9000 },
+		]}
+		width={800}
+		height={400}
+		title='Revenue by Product'
+		themeColor='#4f46e5'
+		vibe='modern'
+	/>
+);
+```
+
+## Charts
+
+| Chart                 | Description                | Key Features                              |
+| --------------------- | -------------------------- | ----------------------------------------- |
+| **D3LineChart**       | Multi-dataset line chart   | Multiple datasets, customizable axes      |
+| **D3BarChart**        | Animated bar chart         | Vertical/horizontal orientation, tooltips |
+| **D3DonutChart**      | Interactive donut chart    | Customizable labels, interactive segments |
+| **D3StackedBarChart** | Stacked bar chart          | Multiple categories, legend               |
+| **D3StreamChart**     | Stream/Flow chart          | Time-series visualization                 |
+| **D3TreeMap**         | Hierarchical visualization | Nested data, drill-down capability        |
+
+## Themes
+
+Available themes through the `vibe` prop:
+
+- `evergreen` (default) - Fresh and professional
+- `palm` - Tropical and vibrant
+- `bamboo` - Calm and balanced
+- `willow` - Soft and elegant
+- `succulent` - Bold and modern
+- `modern` - Clean and minimal
+- `savanna` - Warm and earthy
+- `rainforest` - Rich and diverse
+
+## Configuration
+
+```tsx
+<D3BarChart
+	// Core
+	data={data}
+	width={800}
+	height={400}
+	// Style
+	themeColor='#4f46e5'
+	vibe='modern'
+	// Layout
+	marginTop={20}
+	marginRight={20}
+	marginBottom={40}
+	marginLeft={40}
+	// Features
+	showGrid={true}
+	showLabels={true}
+	showLegend={true}
+	legendPosition='right'
+	// Interaction
+	enableZoom={true}
+	enableTooltip={true}
+/>
+```
+
+## Contributing
+
+1. Fork the repository
+2. Clone your fork
+3. Install dependencies: `npm install`
+4. Create a branch: `git checkout -b feature/your-feature`
+5. Make your changes
+6. Submit a pull request
+
+See our [CLI documentation](cli/README.md) for development setup.
+
+## License
+
+MIT © Canopy Charts Team
 
 ---
 
-<div align="center">
-  <a href="https://github.com/cbarrett3/canopy-charts/issues">Issues</a> •
-  <a href="https://github.com/cbarrett3/canopy-charts/blob/main/LICENSE">License</a>
-</div>
+<p align="center">
+  Made with 💚 by the Canopy Charts Team
+</p>
