@@ -1,26 +1,18 @@
 # Canopy Charts
 
 <div align="center">
-  <img src="public/favicon.svg" width="150" height="150" alt="Canopy Charts Logo">
+  <img src="public/favicon.svg" width="180" height="180" alt="Canopy Charts Logo">
   
-  <p><strong>Note:</strong> The Canopy Charts logo is a React component located at <code>app/_components/ui/logo.tsx</code></p>
-  <p>To use the animated logo in your application:</p>
-  <pre><code>import { Logo } from '@/app/_components/ui/logo';
-
-export default function MyComponent() {
-return (
-&lt;Logo className="w-32 h-32" /&gt;
-);
-}</code></pre>
-
+  <h2>Unlimited data visualization for the AI-native era</h2>
+  
+  <p>
+    <strong>React</strong> • <strong>D3</strong> • <strong>TypeScript</strong> • <strong>Agent-Ready</strong> • <em>v0.1.0</em>
+  </p>
+  
+  <h4>
+    The foundation for infinitely customizable, AI-extensible data visualization
+  </h4>
 </div>
-
-```
-Unlimited data visualization for the AI-native era
-React • D3 • TypeScript • Agent-Ready • v0.1.0
-```
-
-**The foundation for infinitely customizable, AI-extensible data visualization**
 
 ---
 
@@ -70,7 +62,7 @@ export const CustomizedChart = () => (
 
 ## Installation
 
-```
+```bash
 npm install @canopy/charts
 ```
 
