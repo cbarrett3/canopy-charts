@@ -92,7 +92,6 @@ npx canopy-charts add time-series
 ```
 canopy-charts/
 ├── packages/
-│   ├── cli/                  # Command-line installation tool
 │   ├── components/           # Chart component library
 │   ├── mcp-server/           # Model Context Protocol server
 │   └── ide-extensions/       # VS Code and other IDE integrations
@@ -101,8 +100,25 @@ canopy-charts/
 │   └── playground/           # Interactive testing environment
 └── tools/
     ├── model-training/       # Visualization model fine-tuning
-    └── templates/            # Scaffolding templates
+    └── templates/            # Component templates and scaffolding
 ```
+
+### How It All Works Together
+
+1. **Component Installation** — Use npx to add pre-built components:
+
+   ```bash
+   npx canopy-charts add time-series
+   ```
+
+2. **Custom Chart Generation** — Use the `/chart` command in your IDE:
+
+   ```
+   /chart Create a bar chart showing monthly revenue with a trend line
+   ```
+
+3. **MCP Server Processing** — Your request is analyzed along with your data
+4. **Code Delivery** — Tailored visualization code is inserted into your project
 
 ### Business Model
 
