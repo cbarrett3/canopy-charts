@@ -14,29 +14,27 @@
 
 Canopy Charts is a paradigm shift in data visualization. Instead of importing libraries with limited customization, you describe what you need and get complete, customizable code directly in your project.
 
-<div align="center">
-  <pre>
-  ┌─────────────────────┐      ┌─────────────────────┐      ┌─────────────────────┐
-  │                     │      │                     │      │                     │
-  │   <b>1. DESCRIBE</b>      │      │   <b>2. GENERATE</b>     │      │   <b>3. OWN</b>          │
-  │                     │      │                     │      │                     │
-  │   "/chart create a  │      │   AI analyzes and   │      │   Customizable     │
-  │   time series with  │ ──►  │   builds tailored   │ ──►  │   visualization     │
-  │   annotations..."   │      │   visualization     │      │   code in project   │
-  │                     │      │                     │      │                     │
-  └─────────────────────┘      └─────────────────────┘      └─────────────────────┘
-  </pre>
-</div>
-
 ---
 
 ## How It Works
 
 <table>
 <tr>
-<td width="33%" align="center"><h3>📝 Describe</h3><p>Use the <code>/chart</code> command in your IDE and describe your visualization needs in plain English.</p></td>
-<td width="33%" align="center"><h3>✨ Generate</h3><p>Our Model Context Protocol (MCP) creates tailored visualization code based on best practices.</p></td>
-<td width="33%" align="center"><h3>🔧 Own</h3><p>The code is yours—modify, extend, and integrate it without dependencies or limitations.</p></td>
+<td width="33%" align="center">
+  <h3>📝 Describe</h3>
+  <p style="font-size: 18px;">Use the <code>/chart</code> command in your IDE</p>
+  <p><em>"Create a time series with annotations for key events"</em></p>
+</td>
+<td width="33%" align="center">
+  <h3>✨ Generate</h3>
+  <p style="font-size: 18px;">Model Context Protocol (MCP)</p>
+  <p><em>Tailored visualization code based on best practices</em></p>
+</td>
+<td width="33%" align="center">
+  <h3>🔧 Own</h3>
+  <p style="font-size: 18px;">Your code, your way</p>
+  <p><em>Modify, extend, and integrate without limitations</em></p>
+</td>
 </tr>
 </table>
 
