@@ -108,27 +108,23 @@ npx canopy-charts add time-series
 ## Ecosystem
 
 <div align="center">
-  <h3>Free Tier → Professional → Enterprise</h3>
-  <p>From individual projects to organization-wide visualization systems</p>
+  <h3>Reimagining Developer Productivity</h3>
 </div>
 
-### For Developers
+### Core Value Proposition
 
-- **Curated Visualization Library** — High-quality chart patterns and components
+- **AI-Powered Chart Generation** — Create custom visualizations from natural language descriptions
+- **Data-Aware Design** — Intelligent chart selection based on your actual data structure
+- **Code You Own** — No dependencies or black boxes, just clean code you control
 - **IDE Integration** — Seamless workflow in VS Code, Cursor, and other environments
-- **Data Adapters** — Connect to any data source with built-in transformations
 
-### For Teams
+### How the MCP Server Works
 
-- **Shared Components** — Team-wide access to visualization components
-- **Style Guide Integration** — Enforce brand consistency across all visualizations
-- **Collaboration Tools** — Review and iterate on visualizations together
-
-### For Enterprise
-
-- **Custom Solutions** — Tailored visualization systems for specific domains
-- **Priority Support** — Direct access to visualization experts
-- **Training & Workshops** — Upskill your team with expert guidance
+1. **Analyze Your Request** — Understand what visualization you need
+2. **Examine Your Data** — Determine the optimal chart type and configuration
+3. **Generate Custom Code** — Create a tailored visualization component
+4. **Deliver Ready-to-Use** — Provide complete, production-ready code
+5. **Learn From Feedback** — Continuously improve based on your interactions
 
 ---
 
@@ -146,15 +142,12 @@ canopy-charts/
 │   ├── cli/                  # Command-line installation tool
 │   ├── components/           # Chart component library
 │   ├── mcp-server/           # Model Context Protocol server
-│   ├── vscode-extension/     # VS Code integration
-│   └── devtools/             # Browser developer tools
+│   └── ide-extensions/       # VS Code and other IDE integrations
 ├── apps/
 │   ├── website/              # Documentation and showcase
-│   ├── playground/           # Interactive testing environment
-│   └── dashboard/            # Customer analytics and management
+│   └── playground/           # Interactive testing environment
 └── tools/
     ├── model-training/       # Visualization model fine-tuning
-    ├── quality-checks/       # Automated component validation
     └── templates/            # Scaffolding templates
 ```
 
@@ -170,32 +163,13 @@ The Model Context Protocol server is the AI brain powering chart generation:
 
 ### Business Model
 
-**Phase 1: Controlled Growth**
+**Simple, Developer-Focused Pricing**
 
-- Direct licensing model for premium components
-- Subscription-based access to MCP server
-- Free tier with limited generations
-- Focus on quality over quantity
+- **Free Tier** — Limited generations per month, basic chart types
+- **Pro Tier** — Unlimited generations, all chart types, priority processing
+- **Team Tier** — Shared dashboard, collaboration features, higher rate limits
 
-**Phase 2: Expansion**
-
-- Enterprise licensing for teams
-- Custom visualization development services
-- Training and certification programs
-- Advanced analytics and insights
-
-**Phase 3: Platform Evolution**
-
-- Selective partner program for specialized visualizations
-- Industry-specific visualization solutions
-- Advanced integration with design tools
-- Expanded enterprise features
-
-**Future Considerations**
-
-- Potential marketplace with revenue sharing (long-term)
-- Developer certification program
-- Visualization standards consortium
+The value is clear: dramatically increased productivity for data visualization tasks. What might take hours of configuration, trial and error, and debugging can be accomplished in seconds with a natural language command.
 
 ---
 
