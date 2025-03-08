@@ -15,7 +15,17 @@
 Canopy Charts is a paradigm shift in data visualization. Instead of importing libraries with limited customization, you describe what you need and get complete, customizable code directly in your project.
 
 <div align="center">
-  <img src="https://i.imgur.com/JZhMXQf.png" width="600" alt="Canopy Charts Workflow">
+  <pre>
+  ┌─────────────────────┐      ┌─────────────────────┐      ┌─────────────────────┐
+  │                     │      │                     │      │                     │
+  │   <b>1. DESCRIBE</b>      │      │   <b>2. GENERATE</b>     │      │   <b>3. OWN</b>          │
+  │                     │      │                     │      │                     │
+  │   "/chart create a  │      │   AI analyzes and   │      │   Customizable     │
+  │   time series with  │ ──►  │   builds tailored   │ ──►  │   visualization     │
+  │   annotations..."   │      │   visualization     │      │   code in project   │
+  │                     │      │                     │      │                     │
+  └─────────────────────┘      └─────────────────────┘      └─────────────────────┘
+  </pre>
 </div>
 
 ---
