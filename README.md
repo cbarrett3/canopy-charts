@@ -1,11 +1,11 @@
 # Canopy Charts
 
-<div align="center">
-  <img src="public/favicon.svg" width="180" height="180" alt="Canopy Charts Logo">
+<div align=\"center\">
+  <img src=\"public/favicon.svg\" width=\"180\" height=\"180\" alt=\"Canopy Charts Logo\">
   
-  <h2>Unlimited data visualization for the AI-native era</h2>
+  <h2>Reimagining data visualization for the next decade</h2>
   
-  <p align="center">
+  <p align=\"center\">
     <code>TypeScript</code> •
     <code>React</code> •
     <code>D3.js</code> •
@@ -13,137 +13,101 @@
   </p>
 </div>
 
-<p align="center">
-  <a href="#vision">Vision</a> •
-  <a href="#features">Features</a> •
-  <a href="#installation">Installation</a> •
-  <a href="#usage">Usage</a> •
-  <a href="#planned-charts">Planned Charts</a> •
-  <a href="#future-directions">Future Directions</a> •
-  <a href="#contributing">Contributing</a>
+<p align=\"center\">
+  <a href=\"#vision\">Vision</a> •
+  <a href=\"#core-principles\">Core Principles</a> •
+  <a href=\"#getting-started\">Getting Started</a> •
+  <a href=\"#development\">Development</a> •
+  <a href=\"#future-directions\">Future Directions</a>
 </p>
 
 <br />
 
 ## Vision
 
-Canopy Charts is a **foundation for building custom visualizations**, not a traditional charting library. Instead of installing a package with predefined constraints, you own and extend the code directly.
+Canopy Charts represents a fundamental shift in how developers approach data visualization. In a world increasingly shaped by AI, the traditional package-based approach is becoming obsolete. Instead, we offer a **foundation for building custom visualizations** that you own and extend directly.
 
-### Code Ownership Model
+This isn't just another charting library—it's a new paradigm designed for how developers will work over the next decade.
+
+## Core Principles
+
+**Code Ownership Model**
 
 Unlike traditional npm packages, Canopy Charts embraces a code-ownership approach:
 
-- **Fork & Own** — Start with our foundation and make it truly yours
-- **Unlimited Extension** — No black boxes or limitations on what you can modify
+- **Fork & Own** — The codebase becomes yours, eliminating dependency concerns
+- **Unlimited Extension** — No black boxes or artificial limitations on customization
 - **Direct D3 Access** — Full control over the underlying visualization engine
-- **AI-Assisted Customization** — Structure designed for easy extension via LLMs
+- **AI-Assisted Customization** — Structure designed for seamless extension via LLMs
 
 <br />
 
-## Features
+## Getting Started
 
-- ⚛️ React components with D3.js integration
-- 🔒 TypeScript for type safety and better developer experience
-- 📱 Responsive design architecture
-- 🧩 Extensible foundation for custom visualizations
-- 🤖 Designed for AI-assisted customization
-
-<br />
-
-## Installation
+The Canopy Charts CLI streamlines the integration process:
 
 ```bash
-# Clone the repository
-git clone https://github.com/cbarrett3/canopy-charts.git
+# Install the CLI tool
+npm install -g @canopy-charts/cli
 
-# Install dependencies
-cd canopy-charts
-npm install
+# Initialize in your project
+canopy init
+
+# Add the charts you need
+canopy add line-chart
 ```
 
-<br />
+This approach gives you full ownership of the visualization code in your project, while maintaining a clean, efficient workflow.
 
-## Usage
+## Development
 
-### Basic Chart Example (Coming Soon)
+Once installed, you own the code. Customize it to your exact needs:
 
 ```tsx
-import { BarChart } from './components';
+import { LineChart } from './canopy/charts';
 
-// Simple implementation
-export default () => (
-  <BarChart
-    data={[
-      { label: 'Q1', value: 12000 },
-      { label: 'Q2', value: 8000 },
-      { label: 'Q3', value: 15000 },
-      { label: 'Q4', value: 9000 },
-    ]}
-    vibe='evergreen'
-  />
-);
+export default function Dashboard() {
+  return (
+    <LineChart
+      data={salesData}
+      theme="modern"
+      interactive={true}
+      annotations={insights}
+    />
+  );
+}
 ```
 
-<br />
-
-## Planned Charts
-
-We're actively developing these chart types:
-
-- 📈 **Line** — Time series with custom interpolations
-- 📊 **Bar** — Categorical data with transitions and interactions
-- 🍩 **Donut** — Proportional visualization
-- 📚 **Stacked Bar** — Multi-dimensional data
-- 🌊 **Stream** — Flowing time series
-- 🗂️ **TreeMap** — Hierarchical visualization
-
-<br />
-
-## Planned Themes
-
-Our nature-inspired theme system is under development:
-
-- 🌲 `evergreen` (default) - Fresh and professional
-- 🌴 `palm` - Tropical and vibrant
-- 🎋 `bamboo` - Calm and balanced
-- 🌿 `willow` - Soft and elegant
-- 🌵 `succulent` - Bold and modern
-- ✨ `modern` - Clean and minimal
-
-<br />
-
-## Contributing
-
-1. Fork the repository
-2. Clone your fork
-3. Install dependencies: `npm install`
-4. Create a branch: `git checkout -b feature/your-feature`
-5. Make your changes
-6. Submit a pull request
+The structure is designed for both human developers and AI assistants to easily extend and modify.
 
 <br />
 
 ## Future Directions
 
-### Voice-Enabled Visualizations
+Canopy Charts is designed for the future of development, with several key innovations on our roadmap:
 
-We're exploring innovative ways to integrate voice capabilities with data visualization:
+### AI-Native Visualization
 
-- 🔊 **Accessible Data Narration** — Charts that can explain themselves through natural speech
-- 🎙️ **Voice-Controlled Customization** — Modify charts using voice commands like "Make the bars blue" or "Show me the trend line"
-- 🧠 **AI-Generated Insights with Voice** — Hear intelligent observations about your data patterns
-- 🎓 **Interactive Voice Tutorials** — Learn how to use advanced features through guided voice explanations
-- 🎵 **Data Sonification** — Experience data through audio patterns and voice modulation
-- 🌐 **Multilingual Chart Experiences** — Make visualizations accessible globally with multiple language support
+We're building for a world where AI is a core part of the development process:
+
+- **Intelligent Customization** — LLMs that understand and can modify visualization code
+- **Context-Aware Rendering** — Charts that adapt to the data they're displaying
+- **Natural Language Configuration** — Describe what you want in plain English
+
+### Voice Integration
+
+Voice represents the next frontier in data interaction:
+
+- **Voice-Controlled Customization** — Modify charts using natural speech
+- **Data Narration** — Charts that explain themselves and their insights
+- **Multimodal Experiences** — Combining visual, voice, and interactive elements
 
 <br />
 
 ## License
 
-MIT © Canopy Charts Team
+MIT © Canopy Charts
 
-<br />
-
-<p align="center">
-  <sub>Made with 💚 by the Canopy Charts Team</sub>
+<p align=\"center\">
+  <sub>Building the future of data visualization</sub>
 </p>
