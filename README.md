@@ -4,17 +4,9 @@
   <img src="public/favicon.svg" width="180" height="180" alt="Canopy Charts Logo">
   
   <h1>Data Visualization for the AI Era</h1>
+  
+  <p><strong>Describe the chart you want. Get production-ready code you own.</strong></p>
 </div>
-
----
-
-## Vision
-
-**Describe the chart you want. Get production-ready code you own.**
-
-Canopy Charts is a paradigm shift in data visualization. Instead of importing libraries with limited customization, you describe what you need and get complete, customizable code directly in your project.
-
----
 
 ## How It Works
 
@@ -22,142 +14,47 @@ Canopy Charts is a paradigm shift in data visualization. Instead of importing li
 <tr>
 <td width="33%" align="center">
   <h3>📝 Describe</h3>
-  <p style="font-size: 18px;">Use the <code>/chart</code> command in your IDE</p>
+  <p>Use the <code>/chart</code> command in your IDE</p>
   <p><em>"Create a time series with annotations for key events"</em></p>
 </td>
 <td width="33%" align="center">
   <h3>✨ Generate</h3>
-  <p style="font-size: 18px;">Model Context Protocol (MCP)</p>
-  <p><em>Tailored visualization code based on best practices</em></p>
+  <p>AI-powered visualization code</p>
+  <p><em>Tailored to your data and requirements</em></p>
 </td>
 <td width="33%" align="center">
   <h3>🔧 Own</h3>
-  <p style="font-size: 18px;">Your code, your way</p>
-  <p><em>Modify, extend, and integrate without limitations</em></p>
+  <p>Your code, your way</p>
+  <p><em>No dependencies, unlimited customization</em></p>
 </td>
 </tr>
 </table>
 
----
+## Features
 
-## Core Value Proposition
+- **AI-Powered Generation** — From simple charts to complete dashboards
+- **Data-Aware Design** — Intelligent visualization based on your actual data
+- **Complete Ownership** — No dependencies or black boxes, just clean code
+- **One Command Setup** — `/chart init` handles all dependencies and configuration
 
-- **AI-Powered Generation** — Create custom visualizations from natural language descriptions
-- **Data-Aware Design** — Intelligent chart selection based on your actual data structure
-- **Complete Ownership** — No dependencies or black boxes, just clean code you control
-- **Unlimited Customization** — Full access to modify any aspect of your visualizations
-- **Seamless Workflow** — Integration with your IDE for maximum productivity
-
----
-
-## The Canopy Charts System
-
-Canopy Charts consists of two complementary parts:
-
-### 1. MCP Server
-
-The AI brain that powers chart generation:
-
-1. **Analyze Your Request** — Understand what visualization you need
-2. **Examine Your Data** — Determine the optimal chart type and configuration
-3. **Generate Custom Code** — Create a tailored visualization component
-4. **Deliver Ready-to-Use** — Provide complete, production-ready code
-5. **Learn From Feedback** — Continuously improve based on your interactions
-
-### 2. Component Library
-
-A collection of high-quality visualization components:
-
-- **Pre-built Options** — Install existing chart types with a single command
-- **Consistent Structure** — All components follow the same architecture
-- **Separation of Concerns** — React components with D3 rendering logic
-- **Comprehensive Features** — Scales, animations, accessibility, and more
-
-Install and use with a single command:
-
-```bash
-npx canopy-charts add time-series
-```
-
----
-
-## Implementation Strategy
-
-<div align="center">
-  <h3>Building for the AI-Native Development Era</h3>
-</div>
-
-### Core Infrastructure
+## Examples
 
 ```
-canopy-charts/
-├── packages/
-│   ├── components/           # Chart component library
-│   ├── mcp-server/           # Model Context Protocol server
-│   ├── ide-extensions/       # VS Code and other IDE integrations
-│   └── cli/                  # Lightweight CLI for non-IDE users
-├── apps/
-│   ├── website/              # Documentation and showcase
-│   └── playground/           # Interactive testing environment
-└── tools/
-    ├── model-training/       # Visualization model fine-tuning
-    └── templates/            # Component templates and scaffolding
+# Initialize in your project
+/chart init
+
+# Create a basic chart
+/chart "Line chart showing monthly revenue"
+
+# Create a complex visualization
+/chart "Dashboard showing user acquisition by channel with annotations for marketing campaigns, using our brand colors"
 ```
 
-### Seamless Developer Experience
+## Pricing
 
-#### IDE-First Workflow (Primary)
-
-1. **Project Setup** — Initialize your environment with a single command:
-
-   ```
-   /chart init
-   ```
-
-   The MCP analyzes your project, installs necessary dependencies (D3, TypeScript, etc.), and configures your environment automatically.
-
-2. **Add Pre-built Components** — Install existing chart types:
-
-   ```
-   /chart add time-series
-   ```
-
-3. **Generate Custom Charts** — Create tailored visualizations:
-
-   ```
-   /chart create "Line chart showing revenue by quarter with annotations for product launches"
-   ```
-
-4. **End-to-End Solutions** — Build complete data visualization features:
-   ```
-   /chart "Get data from our API endpoint, transform it to show monthly trends, and create a dashboard with our company colors"
-   ```
-   The MCP handles data fetching, transformation, and visualization in one seamless operation.
-
-#### CLI Fallback (For non-IDE users)
-
-```bash
-# Initialize project
-npx canopy-charts init
-
-# Add pre-built component
-npx canopy-charts add time-series
-
-# Generate custom chart (launches web interface)
-npx canopy-charts create
-```
-
-### Business Model
-
-**Simple, Developer-Focused Pricing**
-
-- **Free Tier** — Limited generations per month, basic chart types
-- **Pro Tier** — Unlimited generations, all chart types, priority processing
-- **Team Tier** — Shared dashboard, collaboration features, higher rate limits
-
-The value is clear: dramatically increased productivity for data visualization tasks. What might take hours of configuration, trial and error, and debugging can be accomplished in seconds with a natural language command.
-
----
+- **Free** — Try it out with limited generations
+- **Pro** — Unlimited generations, all chart types
+- **Team** — Collaboration features, higher rate limits
 
 <div align="center">
   <h2>The Future of Data Visualization is Here</h2>
