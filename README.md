@@ -18,8 +18,7 @@
   <a href="#features">Features</a> •
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
-  <a href="#charts">Charts</a> •
-  <a href="#themes">Themes</a> •
+  <a href="#planned-charts">Planned Charts</a> •
   <a href="#contributing">Contributing</a>
 </p>
 
@@ -40,14 +39,11 @@ Unlike traditional npm packages, Canopy Charts embraces a code-ownership approac
 
 ## Features
 
-- Six chart types: Line, Bar, Donut, Stacked Bar, Stream, and TreeMap
-- Responsive design with interactive elements
-- Smooth transitions and animations
-- Nature-inspired themes
-- Full TypeScript support
-- Accessibility-focused
-- Framework-agnostic
-- Tree-shakeable
+- React components with D3.js integration
+- TypeScript for type safety and better developer experience
+- Responsive design architecture
+- Extensible foundation for custom visualizations
+- Designed for AI-assisted customization
 
 ## Installation
 
@@ -55,74 +51,46 @@ Unlike traditional npm packages, Canopy Charts embraces a code-ownership approac
 # Clone the repository
 git clone https://github.com/cbarrett3/canopy-charts.git
 
-# Or install as a package (coming soon)
-npm install canopy-charts
-
-# Or with CLI (coming soon)
-npx canopy-charts init my-project
+# Install dependencies
+cd canopy-charts
+npm install
 ```
 
 ## Usage
 
-### Line Chart
+### Basic Chart Example (Coming Soon)
 
 ```tsx
-import { D3LineChart } from 'canopy-charts';
+import { BarChart } from './components';
 
-const SalesChart = () => (
-	<D3LineChart
+// Simple implementation
+export default () => (
+	<BarChart
 		data={[
-			{ name: 'Jan', dataset1: 2430, dataset2: 2000 },
-			{ name: 'Feb', dataset1: 2800, dataset2: 2400 },
-			{ name: 'Mar', dataset1: 3200, dataset2: 2800 },
-			{ name: 'Apr', dataset1: 2950, dataset2: 2600 },
+			{ label: 'Q1', value: 12000 },
+			{ label: 'Q2', value: 8000 },
+			{ label: 'Q3', value: 15000 },
+			{ label: 'Q4', value: 9000 },
 		]}
-		datasets={['dataset1', 'dataset2']}
-		xAxisTitle='Month'
-		yAxisTitle='Sales ($)'
-		themeColor='#4f46e5'
 		vibe='evergreen'
-		showGrid={true}
 	/>
 );
 ```
 
-### Bar Chart
+## Planned Charts
 
-```tsx
-import { D3BarChart } from 'canopy-charts';
+We're actively developing these chart types:
 
-const RevenueChart = () => (
-	<D3BarChart
-		data={[
-			{ label: 'Product A', value: 12000 },
-			{ label: 'Product B', value: 8000 },
-			{ label: 'Product C', value: 15000 },
-			{ label: 'Product D', value: 9000 },
-		]}
-		width={800}
-		height={400}
-		title='Revenue by Product'
-		themeColor='#4f46e5'
-		vibe='modern'
-	/>
-);
-```
+- **Line** — Time series with custom interpolations
+- **Bar** — Categorical data with transitions and interactions
+- **Donut** — Proportional visualization
+- **Stacked Bar** — Multi-dimensional data
+- **Stream** — Flowing time series
+- **TreeMap** — Hierarchical visualization
 
-## Charts
+## Planned Themes
 
-| Chart                 | Description                | Key Features                              |
-| --------------------- | -------------------------- | ----------------------------------------- |
-| **D3LineChart**       | Multi-dataset line chart   | Multiple datasets, customizable axes      |
-| **D3BarChart**        | Animated bar chart         | Vertical/horizontal orientation, tooltips |
-| **D3DonutChart**      | Interactive donut chart    | Customizable labels, interactive segments |
-| **D3StackedBarChart** | Stacked bar chart          | Multiple categories, legend               |
-| **D3StreamChart**     | Stream/Flow chart          | Time-series visualization                 |
-| **D3TreeMap**         | Hierarchical visualization | Nested data, drill-down capability        |
-
-## Themes
-
-Available themes through the `vibe` prop:
+Our nature-inspired theme system is under development:
 
 - `evergreen` (default) - Fresh and professional
 - `palm` - Tropical and vibrant
@@ -130,35 +98,6 @@ Available themes through the `vibe` prop:
 - `willow` - Soft and elegant
 - `succulent` - Bold and modern
 - `modern` - Clean and minimal
-- `savanna` - Warm and earthy
-- `rainforest` - Rich and diverse
-
-## Configuration
-
-```tsx
-<D3BarChart
-	// Core
-	data={data}
-	width={800}
-	height={400}
-	// Style
-	themeColor='#4f46e5'
-	vibe='modern'
-	// Layout
-	marginTop={20}
-	marginRight={20}
-	marginBottom={40}
-	marginLeft={40}
-	// Features
-	showGrid={true}
-	showLabels={true}
-	showLegend={true}
-	legendPosition='right'
-	// Interaction
-	enableZoom={true}
-	enableTooltip={true}
-/>
-```
 
 ## Contributing
 
@@ -168,8 +107,6 @@ Available themes through the `vibe` prop:
 4. Create a branch: `git checkout -b feature/your-feature`
 5. Make your changes
 6. Submit a pull request
-
-See our [CLI documentation](cli/README.md) for development setup.
 
 ## License
 
