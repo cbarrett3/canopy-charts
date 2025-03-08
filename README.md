@@ -1,7 +1,16 @@
 # Canopy Charts
 
 <div align="center">
-  <img src="https://github.com/cbarrett3/canopy-charts/raw/main/public/logo.png" alt="Canopy Charts Logo" width="120" height="120" />
+  <p><strong>Note:</strong> The Canopy Charts logo is a React component located at <code>app/_components/ui/logo.tsx</code></p>
+  <p>To use the logo in your application:</p>
+  <pre><code>import { Logo } from '@/app/_components/ui/logo';
+
+export default function MyComponent() {
+return (
+&lt;Logo className="w-32 h-32" /&gt;
+);
+}</code></pre>
+
 </div>
 
 ```
