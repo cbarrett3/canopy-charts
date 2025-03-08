@@ -1,7 +1,7 @@
 # Canopy Charts
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/cbarrett3/canopy-charts/main/public/logo.svg" alt="Canopy Charts Logo" width="120" height="120" />
+  <img src="https://github.com/cbarrett3/canopy-charts/raw/main/public/logo.png" alt="Canopy Charts Logo" width="120" height="120" />
 </div>
 
 ```
@@ -25,7 +25,7 @@ Canopy Charts provides the structure for building beautiful visualizations witho
 ## Quick implementation
 
 ```tsx
-import { BarChart } from 'canopy-charts';
+import { BarChart } from '@canopy/charts';
 
 // Simple implementation
 export default () => (
@@ -60,7 +60,7 @@ export const CustomizedChart = () => (
 ## Installation
 
 ```
-npm install canopy-charts
+npm install @canopy/charts
 ```
 
 ## Agent-ready architecture
@@ -81,10 +81,10 @@ Each visualization provides both high-level abstractions and unlimited low-level
 
 - **Line** — Time series with support for unlimited datasets and custom interpolations
 - **Bar** — Categorical data with extensible transitions and interactions
-- **Donut** — Proportional visualization with customizable segmentation and animations
-- **Stacked Bar** — Multi-dimensional categorical data with flexible stacking strategies
-- **Stream** — Flowing time series with dynamic area generation and custom path definitions
-- **TreeMap** — Hierarchical visualization with programmable nesting and sizing algorithms
+- **Donut** — Proportional visualization with customizable segmentation and animations _(coming soon)_
+- **Stacked Bar** — Multi-dimensional categorical data with flexible stacking strategies _(coming soon)_
+- **Stream** — Flowing time series with dynamic area generation and custom path definitions _(coming soon)_
+- **TreeMap** — Hierarchical visualization with programmable nesting and sizing algorithms _(coming soon)_
 
 ## Unlimited customization
 
@@ -148,6 +148,20 @@ Built for modern data-intensive applications:
 - **WebGL acceleration** for complex visualizations
 - **Worker thread support** for computation-heavy transformations
 - **Optimized bundle size** with tree-shakeable imports
+
+## Project Structure
+
+The Canopy Charts library is organized as a monorepo with the following structure:
+
+```
+packages/
+  charts/           # Core visualization library
+    src/
+      components/   # Chart components (Bar, Line, etc.)
+      hooks/        # Shared React hooks
+      types/        # TypeScript type definitions
+      utils/        # Utility functions
+```
 
 ## Development
 
