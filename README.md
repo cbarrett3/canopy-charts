@@ -5,12 +5,12 @@
   
   <h2>Unlimited data visualization for the AI-native era</h2>
   
-  <div>
-    <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
-    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
-    <img src="https://img.shields.io/badge/D3.js-F9A03C?style=for-the-badge&logo=d3.js&logoColor=white" alt="D3.js" />
-    <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License" />
-  </div>
+  <p align="center">
+    <code>TypeScript</code> •
+    <code>React</code> •
+    <code>D3.js</code> •
+    <code>MIT License</code>
+  </p>
 </div>
 
 <p align="center">
@@ -19,10 +19,11 @@
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
   <a href="#planned-charts">Planned Charts</a> •
+  <a href="#future-directions">Future Directions</a> •
   <a href="#contributing">Contributing</a>
 </p>
 
----
+<br />
 
 ## Vision
 
@@ -37,13 +38,17 @@ Unlike traditional npm packages, Canopy Charts embraces a code-ownership approac
 - **Direct D3 Access** — Full control over the underlying visualization engine
 - **AI-Assisted Customization** — Structure designed for easy extension via LLMs
 
+<br />
+
 ## Features
 
-- React components with D3.js integration
-- TypeScript for type safety and better developer experience
-- Responsive design architecture
-- Extensible foundation for custom visualizations
-- Designed for AI-assisted customization
+- ⚛️ React components with D3.js integration
+- 🔒 TypeScript for type safety and better developer experience
+- 📱 Responsive design architecture
+- 🧩 Extensible foundation for custom visualizations
+- 🤖 Designed for AI-assisted customization
+
+<br />
 
 ## Installation
 
@@ -56,6 +61,8 @@ cd canopy-charts
 npm install
 ```
 
+<br />
+
 ## Usage
 
 ### Basic Chart Example (Coming Soon)
@@ -65,39 +72,45 @@ import { BarChart } from './components';
 
 // Simple implementation
 export default () => (
-	<BarChart
-		data={[
-			{ label: 'Q1', value: 12000 },
-			{ label: 'Q2', value: 8000 },
-			{ label: 'Q3', value: 15000 },
-			{ label: 'Q4', value: 9000 },
-		]}
-		vibe='evergreen'
-	/>
+  <BarChart
+    data={[
+      { label: 'Q1', value: 12000 },
+      { label: 'Q2', value: 8000 },
+      { label: 'Q3', value: 15000 },
+      { label: 'Q4', value: 9000 },
+    ]}
+    vibe='evergreen'
+  />
 );
 ```
+
+<br />
 
 ## Planned Charts
 
 We're actively developing these chart types:
 
-- **Line** — Time series with custom interpolations
-- **Bar** — Categorical data with transitions and interactions
-- **Donut** — Proportional visualization
-- **Stacked Bar** — Multi-dimensional data
-- **Stream** — Flowing time series
-- **TreeMap** — Hierarchical visualization
+- 📈 **Line** — Time series with custom interpolations
+- 📊 **Bar** — Categorical data with transitions and interactions
+- 🍩 **Donut** — Proportional visualization
+- 📚 **Stacked Bar** — Multi-dimensional data
+- 🌊 **Stream** — Flowing time series
+- 🗂️ **TreeMap** — Hierarchical visualization
+
+<br />
 
 ## Planned Themes
 
 Our nature-inspired theme system is under development:
 
-- `evergreen` (default) - Fresh and professional
-- `palm` - Tropical and vibrant
-- `bamboo` - Calm and balanced
-- `willow` - Soft and elegant
-- `succulent` - Bold and modern
-- `modern` - Clean and minimal
+- 🌲 `evergreen` (default) - Fresh and professional
+- 🌴 `palm` - Tropical and vibrant
+- 🎋 `bamboo` - Calm and balanced
+- 🌿 `willow` - Soft and elegant
+- 🌵 `succulent` - Bold and modern
+- ✨ `modern` - Clean and minimal
+
+<br />
 
 ## Contributing
 
@@ -108,25 +121,29 @@ Our nature-inspired theme system is under development:
 5. Make your changes
 6. Submit a pull request
 
+<br />
+
 ## Future Directions
 
 ### Voice-Enabled Visualizations
 
 We're exploring innovative ways to integrate voice capabilities with data visualization:
 
-- **Accessible Data Narration** — Charts that can explain themselves through natural speech
-- **Voice-Controlled Customization** — Modify charts using voice commands like "Make the bars blue" or "Show me the trend line"
-- **AI-Generated Insights with Voice** — Hear intelligent observations about your data patterns
-- **Interactive Voice Tutorials** — Learn how to use advanced features through guided voice explanations
-- **Data Sonification** — Experience data through audio patterns and voice modulation
-- **Multilingual Chart Experiences** — Make visualizations accessible globally with multiple language support
+- 🔊 **Accessible Data Narration** — Charts that can explain themselves through natural speech
+- 🎙️ **Voice-Controlled Customization** — Modify charts using voice commands like "Make the bars blue" or "Show me the trend line"
+- 🧠 **AI-Generated Insights with Voice** — Hear intelligent observations about your data patterns
+- 🎓 **Interactive Voice Tutorials** — Learn how to use advanced features through guided voice explanations
+- 🎵 **Data Sonification** — Experience data through audio patterns and voice modulation
+- 🌐 **Multilingual Chart Experiences** — Make visualizations accessible globally with multiple language support
+
+<br />
 
 ## License
 
 MIT © Canopy Charts Team
 
----
+<br />
 
 <p align="center">
-  Made with 💚 by the Canopy Charts Team
+  <sub>Made with 💚 by the Canopy Charts Team</sub>
 </p>
