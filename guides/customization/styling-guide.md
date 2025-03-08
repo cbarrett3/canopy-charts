@@ -1,16 +1,22 @@
 # Styling and Customization Guide
 
-This guide explains the various ways to customize the visual appearance of Canopy Charts. From simple theme selection to advanced D3 styling, you'll learn how to make your charts match your application's design system.
+This guide explains how to customize the visual appearance of Canopy Charts using the **code-ownership model**. Unlike traditional libraries where you're limited to API options, you can modify any aspect of the styling directly.
 
-## Table of Contents
+## Code Ownership Approach
+
+With Canopy Charts:
+
+- You own the code and can modify any styling aspect
+- The examples below show both API options and direct code modifications
+- You can extend the styling system itself if needed
+
+## Quick Reference
 
 1. [Using Predefined Themes](#using-predefined-themes)
 2. [Style Override System](#style-override-system)
-3. [Custom Color Palettes](#custom-color-palettes)
-4. [Typography Customization](#typography-customization)
+3. [Direct Code Modification](#direct-code-modification)
+4. [Custom Color Palettes](#custom-color-palettes)
 5. [Advanced D3 Styling](#advanced-d3-styling)
-6. [Creating Custom Themes](#creating-custom-themes)
-7. [Responsive Design](#responsive-design)
 
 ## Using Predefined Themes
 
@@ -81,6 +87,27 @@ For more specific customization, use the `styleOverrides` prop to target specifi
 
 The style override system uses a hierarchical approach, allowing you to override specific elements while keeping the rest of the theme intact.
 
+## Direct Code Modification
+
+Since you own the code, you can modify the theme definitions directly:
+
+```tsx
+// In themes/modern.ts
+export const modernTheme = {
+	colors: {
+		primary: '#3b82f6',
+		secondary: '#60a5fa',
+		// Modify or add colors
+	},
+	elements: {
+		bar: {
+			cornerRadius: 4,
+			// Modify default styling
+		},
+	},
+};
+```
+
 ## Custom Color Palettes
 
 You can define custom color palettes for your data series:
@@ -107,39 +134,6 @@ For more control, you can map specific categories to colors:
 		Revenue: '#3b82f6',
 		Expenses: '#f87171',
 		Profit: '#4ade80',
-	}}
-/>
-```
-
-## Typography Customization
-
-Control the typography of your charts with the `typography` prop:
-
-```tsx
-<LineChart
-	data={data}
-	typography={{
-		fontFamily: '"Inter", sans-serif',
-		title: {
-			fontSize: 18,
-			fontWeight: 600,
-			color: '#1e293b',
-		},
-		axis: {
-			fontSize: 12,
-			fontWeight: 400,
-			color: '#64748b',
-		},
-		label: {
-			fontSize: 10,
-			fontWeight: 500,
-			color: '#94a3b8',
-		},
-		tooltip: {
-			fontSize: 12,
-			fontWeight: 400,
-			color: '#1e293b',
-		},
 	}}
 />
 ```
@@ -223,11 +217,11 @@ For unlimited styling control, use the `onD3Instance` prop to access the D3 inst
 
 ## Creating Custom Themes
 
-You can create your own themes by defining a complete theme object:
+You can create entirely new themes by adding a file to the themes directory:
 
 ```tsx
-// Define a custom theme
-const customTheme = {
+// In themes/corporate.ts
+export const corporateTheme = {
 	name: 'corporate',
 	colors: {
 		primary: '#0f172a',
@@ -240,129 +234,19 @@ const customTheme = {
 	},
 	typography: {
 		fontFamily: '"Roboto", sans-serif',
-		title: {
-			fontSize: 18,
-			fontWeight: 600,
-			color: '#0f172a',
-		},
-		axis: {
-			fontSize: 12,
-			fontWeight: 400,
-			color: '#64748b',
-		},
-		label: {
-			fontSize: 10,
-			fontWeight: 500,
-			color: '#94a3b8',
-		},
-		tooltip: {
-			fontSize: 12,
-			fontWeight: 400,
-			color: '#1e293b',
-		},
+		// Typography settings
 	},
 	elements: {
-		bar: {
-			cornerRadius: 4,
-			fillOpacity: 0.8,
-			stroke: 'none',
-		},
-		line: {
-			strokeWidth: 2,
-			strokeLinecap: 'round',
-			fillOpacity: 0.1,
-		},
-		point: {
-			radius: 4,
-			fillOpacity: 1,
-			stroke: 'white',
-			strokeWidth: 2,
-		},
-		axis: {
-			stroke: '#94a3b8',
-			tickLength: 5,
-		},
-		grid: {
-			stroke: '#e2e8f0',
-			strokeDasharray: 'none',
-		},
+		// Element styling
 	},
 };
 
-// Register the custom theme
-import { registerTheme } from '@canopy/charts';
-registerTheme(customTheme);
-
-// Use the custom theme
-<BarChart
-	data={data}
-	vibe='corporate'
-/>;
+// In themes/index.ts
+export { corporateTheme } from './corporate';
 ```
-
-## Responsive Design
-
-Canopy Charts is designed to be responsive by default. You can control the responsiveness with these props:
-
-```tsx
-<BarChart
-	data={data}
-	// Fixed dimensions
-	width={800}
-	height={400}
-	// Or responsive with aspect ratio
-	responsive={true}
-	aspectRatio={16 / 9}
-	// Control responsiveness behavior
-	responsiveConfig={{
-		breakpoints: {
-			sm: 640,
-			md: 768,
-			lg: 1024,
-			xl: 1280,
-		},
-		behavior: {
-			// Below sm breakpoint
-			sm: {
-				hideAxis: true,
-				hideLabels: true,
-				simplifyTooltip: true,
-			},
-			// Below md breakpoint
-			md: {
-				hideGridLines: true,
-				reduceFontSize: true,
-			},
-		},
-	}}
-/>
-```
-
-## Combining Approaches
-
-For the most control, you can combine these approaches:
-
-```tsx
-<BarChart
-	data={data}
-	vibe='modern'
-	colorPalette={['#3b82f6', '#4ade80', '#f472b6']}
-	styleOverrides={{
-		bar: {
-			cornerRadius: 4,
-			fillOpacity: 0.8,
-		},
-	}}
-	onD3Instance={(d3, svg, data) => {
-		// Add custom D3 styling
-	}}
-/>
-```
-
-This layered approach gives you both convenience and unlimited customization potential.
 
 ## Next Steps
 
 - Explore the [examples directory](../../examples/) for styling examples
 - Check out the [custom theme example](../../examples/customization/custom-theme.tsx)
-- Learn about [animations and transitions](../animations/animation-guide.md)
+- See how to [create custom chart types](../../examples/customization/custom-chart-type.tsx)

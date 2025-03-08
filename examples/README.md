@@ -1,56 +1,50 @@
 # Canopy Charts Examples
 
-This directory contains examples demonstrating how to use and extend Canopy Charts for various visualization needs. These examples are designed to be both educational and practical, serving as starting points for your own visualizations.
+This directory contains examples demonstrating how to use and extend Canopy Charts through the **code-ownership model**. These examples serve as starting points that you can copy, modify, and extend for your own visualizations.
+
+## Code Ownership Approach
+
+Unlike traditional libraries where you're limited to the provided API, with Canopy Charts:
+
+- You **own and modify** the code directly
+- These examples are meant to be **copied and customized**
+- You have **complete freedom** to change any aspect of the implementation
+- The structure is designed for **easy extension**
 
 ## Directory Structure
 
-- **basic/** - Simple implementations with minimal configuration
-- **advanced/** - More complex examples with multiple features
-- **customization/** - Examples showing how to extend and customize charts
+- **basic/** - Simple implementations to get started
+- **advanced/** - More complex examples showing multiple features
+- **customization/** - Examples showing how to extend and create custom charts
 
-## Basic Examples
+## Key Examples
 
-These examples demonstrate the simplest implementations of each chart type:
+### Basic Examples
 
-- **bar-chart.tsx** - Basic bar chart with minimal configuration
-- **line-chart.tsx** - Simple line chart for time series data
-- **donut-chart.tsx** - Basic donut chart for proportional data
+- [**bar-chart.tsx**](basic/bar-chart.tsx) - Simple bar chart implementation
+- [**line-chart.tsx**](basic/line-chart.tsx) - Basic line chart for time series
 
-## Advanced Examples
+### Advanced Examples
 
-These examples show more complex implementations with multiple features:
+- [**interactive-line-chart.tsx**](advanced/interactive-line-chart.tsx) - Chart with tooltips and interactions
+- [**dashboard-example.tsx**](advanced/dashboard-example.tsx) - Multiple charts in a dashboard
 
-- **interactive-line-chart.tsx** - Line chart with custom tooltips and interactions
-- **multi-series-bar.tsx** - Bar chart with multiple data series and animations
-- **dashboard-example.tsx** - Multiple charts combined in a dashboard layout
+### Customization Examples
 
-## Customization Examples
-
-These examples demonstrate how to extend and customize Canopy Charts:
-
-- **custom-chart-type.tsx** - Creating a custom chart type (bubble chart)
-- **custom-theme.tsx** - Implementing a custom theme for consistent styling
-- **d3-extensions.tsx** - Using direct D3 access for advanced customization
-
-## How to Use These Examples
-
-1. **Browse the code** - Each example is heavily commented to explain what's happening
-2. **Copy and adapt** - Use these examples as starting points for your own visualizations
-3. **Experiment** - Try modifying the examples to see how different configurations work
+- [**custom-chart-type.tsx**](customization/custom-chart-type.tsx) - Creating a custom bubble chart
+- [**custom-theme.tsx**](customization/custom-theme.tsx) - Implementing a custom theme
 
 ## Working with LLMs
 
-These examples are designed to be LLM-friendly. When asking an LLM to help you customize a chart, you can:
+When using an LLM to help customize these examples:
 
 1. Share the relevant example code
-2. Describe your specific customization needs
-3. Ask the LLM to adapt the example for your use case
+2. Explain what you want to modify or extend
+3. Ask for specific code changes you can implement
 
-For more guidance on working with LLMs, see the [LLM-GUIDE.md](../LLM-GUIDE.md) in the root directory.
+For more guidance, see the [LLM Guide](../LLM-GUIDE.md).
 
 ## Running the Examples
-
-To run these examples locally:
 
 ```bash
 # Clone the repository
@@ -64,4 +58,4 @@ npm install
 npm run dev
 ```
 
-Then navigate to the examples in your browser at `http://localhost:3000/examples`.
+Then navigate to `http://localhost:3000/examples`.
