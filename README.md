@@ -1,17 +1,20 @@
 # Canopy Charts
 
 <div align="center">
-  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
-  <img src="https://img.shields.io/badge/D3.js-F9A03C?style=for-the-badge&logo=d3.js&logoColor=white" alt="D3.js" />
-  <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License" />
+  <img src="public/favicon.svg" width="180" height="180" alt="Canopy Charts Logo">
+  
+  <h2>Unlimited data visualization for the AI-native era</h2>
+  
+  <div>
+    <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/D3.js-F9A03C?style=for-the-badge&logo=d3.js&logoColor=white" alt="D3.js" />
+    <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License" />
+  </div>
 </div>
 
 <p align="center">
-  A modern charting library for data-driven applications
-</p>
-
-<p align="center">
+  <a href="#vision">Vision</a> •
   <a href="#features">Features</a> •
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
@@ -21,6 +24,19 @@
 </p>
 
 ---
+
+## Vision
+
+Canopy Charts is a **foundation for building custom visualizations**, not a traditional charting library. Instead of installing a package with predefined constraints, you own and extend the code directly.
+
+### Code Ownership Model
+
+Unlike traditional npm packages, Canopy Charts embraces a code-ownership approach:
+
+- **Fork & Own** — Start with our foundation and make it truly yours
+- **Unlimited Extension** — No black boxes or limitations on what you can modify
+- **Direct D3 Access** — Full control over the underlying visualization engine
+- **AI-Assisted Customization** — Structure designed for easy extension via LLMs
 
 ## Features
 
@@ -36,9 +52,13 @@
 ## Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/cbarrett3/canopy-charts.git
+
+# Or install as a package (coming soon)
 npm install canopy-charts
 
-# Or with CLI
+# Or with CLI (coming soon)
 npx canopy-charts init my-project
 ```
 
