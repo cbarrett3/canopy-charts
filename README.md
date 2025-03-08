@@ -108,6 +108,19 @@ Our nature-inspired theme system is under development:
 5. Make your changes
 6. Submit a pull request
 
+## Future Directions
+
+### Voice-Enabled Visualizations
+
+We're exploring innovative ways to integrate voice capabilities with data visualization:
+
+- **Accessible Data Narration** — Charts that can explain themselves through natural speech
+- **Voice-Controlled Customization** — Modify charts using voice commands like "Make the bars blue" or "Show me the trend line"
+- **AI-Generated Insights with Voice** — Hear intelligent observations about your data patterns
+- **Interactive Voice Tutorials** — Learn how to use advanced features through guided voice explanations
+- **Data Sonification** — Experience data through audio patterns and voice modulation
+- **Multilingual Chart Experiences** — Make visualizations accessible globally with multiple language support
+
 ## License
 
 MIT © Canopy Charts Team
