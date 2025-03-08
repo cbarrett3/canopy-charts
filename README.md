@@ -49,6 +49,30 @@ Canopy Charts is a paradigm shift in data visualization. Instead of importing li
 
 ---
 
+## Component Structure
+
+```
+visualization/
+├── chart.tsx               # Core visualization component
+├── data-adapter.ts         # Data transformation logic
+├── theme.config.js         # Theming options
+└── demos/                  # Example implementations
+    ├── default/            # Primary use case
+    │   ├── demo.tsx        # Implementation code
+    │   └── preview.png     # Visual preview
+    └── advanced/           # Complex scenarios
+        ├── demo.tsx
+        └── preview.png
+```
+
+Each visualization follows this structure, making it easy to understand, customize, and extend. Install with a single command:
+
+```bash
+npx canopy-charts add time-series
+```
+
+---
+
 ## Ecosystem
 
 <div align="center">
@@ -56,9 +80,20 @@ Canopy Charts is a paradigm shift in data visualization. Instead of importing li
   <p>From individual projects to organization-wide visualization systems</p>
 </div>
 
-- **Component Library** — Growing collection of visualization patterns
-- **Community Contributions** — Revenue sharing for component authors
-- **IDE Integration** — Seamless workflow in your development environment
+### For Developers
+- **Visualization Library** — Growing collection of chart patterns and components
+- **IDE Integration** — Seamless workflow in VS Code, Cursor, and other environments
+- **Data Adapters** — Connect to any data source with built-in transformations
+
+### For Teams
+- **Shared Components** — Team-wide access to custom visualization components
+- **Style Guide Integration** — Enforce brand consistency across all visualizations
+- **Collaboration Tools** — Review and iterate on visualizations together
+
+### For Contributors
+- **Component Marketplace** — Share your visualization components with the community
+- **Revenue Sharing** — Earn from your visualization expertise
+- **Recognition** — Build your reputation as a data visualization expert
 
 ---
 
