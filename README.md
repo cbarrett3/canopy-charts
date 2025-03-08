@@ -1,162 +1,152 @@
 # Canopy Charts
 
 <div align="center">
-  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
-  <img src="https://img.shields.io/badge/D3.js-F9A03C?style=for-the-badge&logo=d3.js&logoColor=white" alt="D3.js" />
-  <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License" />
+  <img src="https://raw.githubusercontent.com/cbarrett3/canopy-charts/main/public/logo.svg" alt="Canopy Charts Logo" width="120" height="120" />
 </div>
 
-<p align="center">
-  A modern charting library for data-driven applications
-</p>
+```
+A modern data visualization library built with D3 and React
+TypeScript • MIT License • v0.1.0
+```
 
-<p align="center">
-  <a href="#features">Features</a> •
-  <a href="#installation">Installation</a> •
-  <a href="#usage">Usage</a> •
-  <a href="#charts">Charts</a> •
-  <a href="#themes">Themes</a> •
-  <a href="#contributing">Contributing</a>
-</p>
+**Create beautiful, interactive charts with minimal effort**
 
 ---
 
-## Features
+## At a glance
 
-- Six chart types: Line, Bar, Donut, Stacked Bar, Stream, and TreeMap
-- Responsive design with interactive elements
-- Smooth transitions and animations
-- Nature-inspired themes
-- Full TypeScript support
-- Accessibility-focused
-- Framework-agnostic
-- Tree-shakeable
+```tsx
+import { BarChart } from 'canopy-charts';
+
+export default () => (
+	<BarChart
+		data={[
+			{ label: 'Q1', value: 12000 },
+			{ label: 'Q2', value: 8000 },
+			{ label: 'Q3', value: 15000 },
+			{ label: 'Q4', value: 9000 },
+		]}
+		vibe='evergreen'
+	/>
+);
+```
 
 ## Installation
 
-```bash
+```
 npm install canopy-charts
-
-# Or with CLI
-npx canopy-charts init my-project
 ```
 
-## Usage
+## Core concepts
+
+| Concept            | Description                                                              |
+| :----------------- | :----------------------------------------------------------------------- |
+| **Vibes**          | Predefined visual themes that control colors, typography, and animations |
+| **Responsiveness** | All charts automatically adapt to their container dimensions             |
+| **Accessibility**  | ARIA attributes and keyboard navigation included by default              |
+| **Interactivity**  | Tooltips, zooming, and hover states with minimal configuration           |
+
+## Available charts
+
+- **Line** — Time series, trends, and continuous data
+- **Bar** — Categorical comparisons and distributions
+- **Donut** — Part-to-whole relationships and proportions
+- **Stacked Bar** — Nested categories and compositions
+- **Stream** — Flowing time series and evolving distributions
+- **TreeMap** — Hierarchical data and nested structures
+
+## Configuration
+
+Charts accept common props for consistent configuration:
+
+```tsx
+// Common props across all chart types
+interface ChartProps {
+	// Data
+	data: DataPoint[];
+
+	// Appearance
+	vibe?:
+		| 'evergreen'
+		| 'palm'
+		| 'bamboo'
+		| 'willow'
+		| 'succulent'
+		| 'modern'
+		| 'savanna'
+		| 'rainforest';
+	themeColor?: string;
+
+	// Layout
+	width?: number;
+	height?: number;
+	margin?: {
+		top: number;
+		right: number;
+		bottom: number;
+		left: number;
+	};
+
+	// Features
+	showGrid?: boolean;
+	showLabels?: boolean;
+	showLegend?: boolean;
+	enableZoom?: boolean;
+	enableTooltip?: boolean;
+
+	// Accessibility
+	ariaLabel?: string;
+	ariaDescription?: string;
+}
+```
+
+## Examples
 
 ### Line Chart
 
 ```tsx
-import { D3LineChart } from 'canopy-charts';
-
-const SalesChart = () => (
-	<D3LineChart
-		data={[
-			{ name: 'Jan', dataset1: 2430, dataset2: 2000 },
-			{ name: 'Feb', dataset1: 2800, dataset2: 2400 },
-			{ name: 'Mar', dataset1: 3200, dataset2: 2800 },
-			{ name: 'Apr', dataset1: 2950, dataset2: 2600 },
-		]}
-		datasets={['dataset1', 'dataset2']}
-		xAxisTitle='Month'
-		yAxisTitle='Sales ($)'
-		themeColor='#4f46e5'
-		vibe='evergreen'
-		showGrid={true}
-	/>
-);
-```
-
-### Bar Chart
-
-```tsx
-import { D3BarChart } from 'canopy-charts';
-
-const RevenueChart = () => (
-	<D3BarChart
-		data={[
-			{ label: 'Product A', value: 12000 },
-			{ label: 'Product B', value: 8000 },
-			{ label: 'Product C', value: 15000 },
-			{ label: 'Product D', value: 9000 },
-		]}
-		width={800}
-		height={400}
-		title='Revenue by Product'
-		themeColor='#4f46e5'
-		vibe='modern'
-	/>
-);
-```
-
-## Charts
-
-| Chart                 | Description                | Key Features                              |
-| --------------------- | -------------------------- | ----------------------------------------- |
-| **D3LineChart**       | Multi-dataset line chart   | Multiple datasets, customizable axes      |
-| **D3BarChart**        | Animated bar chart         | Vertical/horizontal orientation, tooltips |
-| **D3DonutChart**      | Interactive donut chart    | Customizable labels, interactive segments |
-| **D3StackedBarChart** | Stacked bar chart          | Multiple categories, legend               |
-| **D3StreamChart**     | Stream/Flow chart          | Time-series visualization                 |
-| **D3TreeMap**         | Hierarchical visualization | Nested data, drill-down capability        |
-
-## Themes
-
-Available themes through the `vibe` prop:
-
-- `evergreen` (default) - Fresh and professional
-- `palm` - Tropical and vibrant
-- `bamboo` - Calm and balanced
-- `willow` - Soft and elegant
-- `succulent` - Bold and modern
-- `modern` - Clean and minimal
-- `savanna` - Warm and earthy
-- `rainforest` - Rich and diverse
-
-## Configuration
-
-```tsx
-<D3BarChart
-	// Core
-	data={data}
-	width={800}
-	height={400}
-	// Style
-	themeColor='#4f46e5'
-	vibe='modern'
-	// Layout
-	marginTop={20}
-	marginRight={20}
-	marginBottom={40}
-	marginLeft={40}
-	// Features
-	showGrid={true}
-	showLabels={true}
-	showLegend={true}
-	legendPosition='right'
-	// Interaction
-	enableZoom={true}
-	enableTooltip={true}
+<LineChart
+	data={[
+		{ date: '2023-01', value: 2430 },
+		{ date: '2023-02', value: 2800 },
+		{ date: '2023-03', value: 3200 },
+		{ date: '2023-04', value: 2950 },
+	]}
+	xKey='date'
+	yKey='value'
+	vibe='bamboo'
 />
 ```
 
-## Contributing
+### Donut Chart
 
-1. Fork the repository
-2. Clone your fork
-3. Install dependencies: `npm install`
-4. Create a branch: `git checkout -b feature/your-feature`
-5. Make your changes
-6. Submit a pull request
+```tsx
+<DonutChart
+	data={[
+		{ label: 'Category A', value: 35 },
+		{ label: 'Category B', value: 25 },
+		{ label: 'Category C', value: 20 },
+		{ label: 'Category D', value: 20 },
+	]}
+	innerRadius={0.6}
+	vibe='palm'
+/>
+```
 
-See our [CLI documentation](cli/README.md) for development setup.
+## Development
 
-## License
+```bash
+git clone https://github.com/cbarrett3/canopy-charts.git
+cd canopy-charts
+npm install
+npm run dev
+```
 
-MIT © Canopy Charts Team
+See [CLI documentation](cli/README.md) for additional development options.
 
 ---
 
-<p align="center">
-  Made with 💚 by the Canopy Charts Team
-</p>
+<div align="center">
+  <a href="https://github.com/cbarrett3/canopy-charts/issues">Issues</a> •
+  <a href="https://github.com/cbarrett3/canopy-charts/blob/main/LICENSE">License</a>
+</div>
