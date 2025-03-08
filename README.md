@@ -99,7 +99,7 @@ Creating beautiful data visualizations with Canopy Charts is a seamless three-st
 
 ### 1. Describe What You Need
 
-In your IDE's AI assistant, use the `/chart` command and describe the visualization you need—whether it's a complex dashboard, an interactive time series, or a custom chart with specific features. This works through our Machine Comprehension and Planning (MCP) integration.
+In your IDE's AI assistant, use the `/chart` command and describe the visualization you need—whether it's a complex dashboard, an interactive time series, or a custom chart with specific features. This works through our Model Context Protocol (MCP) integration.
 
 ### 2. Let Canopy Create It
 
@@ -131,7 +131,7 @@ We're creating a sustainable ecosystem for data visualization:
 - **Tiered Access Model** — Free tier for hobbyists, paid tiers for professional use
 - **Revenue Sharing** — Supporting visualization component authors
 - **Component Marketplace** — Community-driven library of visualization components
-- **MCP Integration** — Modern AI agent integration using Machine Comprehension and Planning (MCP) technology for enhanced workflow and intelligent chart generation
+- **MCP Integration** — Modern AI agent integration using Model Context Protocol (MCP) technology for enhanced workflow and intelligent chart generation
 
 ### Voice Integration
 
