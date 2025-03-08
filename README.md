@@ -94,7 +94,8 @@ canopy-charts/
 ├── packages/
 │   ├── components/           # Chart component library
 │   ├── mcp-server/           # Model Context Protocol server
-│   └── ide-extensions/       # VS Code and other IDE integrations
+│   ├── ide-extensions/       # VS Code and other IDE integrations
+│   └── cli/                  # Lightweight CLI for non-IDE users
 ├── apps/
 │   ├── website/              # Documentation and showcase
 │   └── playground/           # Interactive testing environment
@@ -103,22 +104,48 @@ canopy-charts/
     └── templates/            # Component templates and scaffolding
 ```
 
-### How It All Works Together
+### Seamless Developer Experience
 
-1. **Component Installation** — Use npx to add pre-built components:
+#### IDE-First Workflow (Primary)
 
-   ```bash
-   npx canopy-charts add time-series
-   ```
-
-2. **Custom Chart Generation** — Use the `/chart` command in your IDE:
+1. **Project Setup** — Initialize your environment with a single command:
 
    ```
-   /chart Create a bar chart showing monthly revenue with a trend line
+   /chart init
    ```
 
-3. **MCP Server Processing** — Your request is analyzed along with your data
-4. **Code Delivery** — Tailored visualization code is inserted into your project
+   The MCP analyzes your project, installs necessary dependencies (D3, TypeScript, etc.), and configures your environment automatically.
+
+2. **Add Pre-built Components** — Install existing chart types:
+
+   ```
+   /chart add time-series
+   ```
+
+3. **Generate Custom Charts** — Create tailored visualizations:
+
+   ```
+   /chart create "Line chart showing revenue by quarter with annotations for product launches"
+   ```
+
+4. **End-to-End Solutions** — Build complete data visualization features:
+   ```
+   /chart "Get data from our API endpoint, transform it to show monthly trends, and create a dashboard with our company colors"
+   ```
+   The MCP handles data fetching, transformation, and visualization in one seamless operation.
+
+#### CLI Fallback (For non-IDE users)
+
+```bash
+# Initialize project
+npx canopy-charts init
+
+# Add pre-built component
+npx canopy-charts add time-series
+
+# Generate custom chart (launches web interface)
+npx canopy-charts create
+```
 
 ### Business Model
 
