@@ -16,6 +16,21 @@
 
 ---
 
+## Developer Experience
+
+Canopy Charts is designed for a modern, AI-assisted workflow:
+
+1. **Explore** - Browse this repository to understand the architecture and capabilities
+2. **Experiment** - Try examples in our [interactive playground](https://canopy-charts.vercel.app)
+3. **Implement** - Use our minimal CLI to scaffold your project:
+   ```bash
+   npx create-canopy-chart@latest my-visualization
+   ```
+4. **Customize** - Work with your favorite LLM to extend and customize your visualization
+5. **Deploy** - Ship your unique data visualization with confidence
+
+This approach combines the flexibility of custom development with the efficiency of AI assistance.
+
 ## Design philosophy
 
 Canopy Charts provides the structure for building beautiful visualizations without imposing limitations. It's designed for:
