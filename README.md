@@ -1,8 +1,34 @@
 # Canopy Charts
 
 <div align="center">
+  <svg viewBox="0 0 500 500" width="150" height="150">
+    <defs>
+      <linearGradient id="themeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#3b82f6" />
+        <stop offset="50%" stop-color="#60a5fa" />
+        <stop offset="100%" stop-color="#3b82f6" />
+      </linearGradient>
+      <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+        <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#3b82f6" />
+      </filter>
+    </defs>
+    
+    <!-- Logo Group - centered -->
+    <g transform="translate(250, 250)">
+      <!-- Main path -->
+      <path
+        d="M -150 0 A 100 100 0 1 1 100 0 A 50 50 0 1 1 -100 0"
+        stroke="url(#themeGradient)"
+        stroke-width="32"
+        stroke-linecap="round"
+        fill="none"
+        filter="url(#shadow)"
+      />
+    </g>
+  </svg>
+  
   <p><strong>Note:</strong> The Canopy Charts logo is a React component located at <code>app/_components/ui/logo.tsx</code></p>
-  <p>To use the logo in your application:</p>
+  <p>To use the animated logo in your application:</p>
   <pre><code>import { Logo } from '@/app/_components/ui/logo';
 
 export default function MyComponent() {
